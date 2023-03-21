@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <head>
-    <title>EN VIVO 0</title>
+    <title>EN VIVO 2</title>
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
@@ -151,7 +151,7 @@
         };
 
         firebase.initializeApp(config);
-        var database = firebase.database().ref('liveviews/POS0');
+        var database = firebase.database().ref('liveviews/POS2');
         var globalName;
 
         var shortenedUnits = {
@@ -392,7 +392,7 @@
                                 $("#thankyouMessage").html("GRACIAS<br>" + globalName + "<br><br><br><br>" + totalMessage);
 
                             $("#thankyouMessage").show();
-                            database.child('/POS0').remove();
+                            database.child('/POS2').remove();
                             
                             setTimeout(function(){
                                 removeOrderProducts();
@@ -408,7 +408,7 @@
         }
 
         function removeOrderProducts() {
-            firebase.database().ref("liveviews/" + "POS0").remove();
+            firebase.database().ref("liveviews/" + "POS2").remove();
         }
 
 
@@ -425,7 +425,7 @@
         function reloadOnUpdate() {
             database.child("/updates").on('value', function(snapshot) {
                 if(snapshot.val()) {
-                    database.child("/updates/POS0").set(false).then(function() {
+                    database.child("/updates/POS2").set(false).then(function() {
                         location.reload();
                     });
                 }
