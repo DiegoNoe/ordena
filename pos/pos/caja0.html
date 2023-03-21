@@ -904,8 +904,9 @@
                 orderMinutes = orderDate.getMinutes();
 
                 clientItem = '<button class="list-group-item client-options-item row btn-default" onclick="searchOrderById(&#39;' + searchResult[i].qr + '&#39;)">' +
-                    '<div id="clientNameResult" class="col-sm-10">' + searchResult[i].name + '</div>' + 
-                    '<div class="col-sm-2 no-horizontal-padding">' + orderHours + ':' + orderMinutes.toString().padStart(2, '0') + '</div>';
+                    '<div id="clientNameResult" class="col-sm-8">' + searchResult[i].name + '</div>' + 
+                    '<div class="col-sm-2 no-horizontal-padding">$' + searchResult[i].subtotal + '</div>' + 
+                    '<div class="col-sm-2 no-horizontal-padding" style="padding-left: 7px;">' + orderHours + ':' + orderMinutes.toString().padStart(2, '0') + '</div>';
 
                 /*
                 clientItem = clientItem + 
@@ -2550,7 +2551,7 @@
             else if(orderMethod == "WHATSAPP")
                 doc.text(111 + xOffset, 30  + yOffset, getCodeFormat(globalCode2), 'center');
             */
-           
+
             doc.text(84 + xOffset, 30  + yOffset, orderMethod, 'center');
 
             //special counter if the order was made by phone
