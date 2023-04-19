@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>PUNTO 0</title>
+    <title>PUNTO 1</title>
     <meta charset="utf-8">
     <meta name="viewport">
 
@@ -31,7 +31,8 @@
         var orderRefID = "";
 
         firebase.initializeApp(firebaseConfig);
-       
+        var secondaryApp = firebase.initializeApp(firebaseConfig2, "secondary");
+
         var dbProducts = firebase.database().ref('products/');
         dbProducts.on('value', function (snapshot) {
             defiantProducts = Defiant.getSnapshot(snapshot.val());
@@ -317,6 +318,15 @@
         function isNumeric(str) {
             return /^\d+$/.test(str);
         }
+
+        //update prices
+        if(globalComputer == "POS2") {
+            var dbProducts2 = secondaryApp.database().ref('productos/');
+            dbProducts2.on('child_changed', function (snapshot) {
+                firebase.database().ref('products/' + snapshot.key).set(snapshot.val());
+            });
+            
+        }
         
         //addClient modal enter sequence
         $("#formNameInput").on('keyup', function (e) {
@@ -594,7 +604,7 @@
             $('#dynamic-list').prepend(productListItem);
             updateTotal();
 
-            //(product.clave);
+            //deleteSuggestedProduct(product.clave);
             var inputQuantity = $('#dynamic-list').find('input').first();
             inputQuantity.val(notesAndQuantity.uc);
             
@@ -2644,8 +2654,6 @@
             $("#greenCheckWN").css("visibility", "hidden");
 
             firebase.database().ref("liveviews/" + globalComputer + '/sorder').remove();
-            //removeOrderProducts();
-
             clientName = "";
             clientWhatsapp = "";
 

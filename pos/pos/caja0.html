@@ -379,6 +379,11 @@
                 $("#clientOptions").empty();
         });
 
+        $(document).on('keyup', function (e) {
+            if (e.keyCode == 187) 
+                prepareToScan();
+        });
+
         //update live view
         $("#inputName").focusout(function () {
             updateName($("#inputName").val());
@@ -555,6 +560,11 @@
                 };
             }
         };
+
+        function prepareToScan() {
+            $('#inputName').val("");
+            $('#inputName').focus();
+        }
 
         function updateGlobalCodes() {
             firebase.database().ref('extras/code1').on('value', function (snapshot) {
@@ -2545,13 +2555,13 @@
                 //doc.text(27 + xOffset, 209  + yOffset, "CASILLERO: ");
             }
 
-            /*
+            
             if(orderMethod == "MOSTRADOR" || orderMethod == "TELEFONO")
                 doc.text(111 + xOffset, 30  + yOffset, getCodeFormat(globalCode1), 'center');
             else if(orderMethod == "WHATSAPP")
                 doc.text(111 + xOffset, 30  + yOffset, getCodeFormat(globalCode2), 'center');
-            */
-
+            
+            
             doc.text(84 + xOffset, 30  + yOffset, orderMethod, 'center');
 
             //special counter if the order was made by phone

@@ -182,6 +182,24 @@ body {
     font-size: 23px !important;
 }
 
+#paymentMethodSelect, #paymentFormSelect {
+    background-color: #111111; 
+    border-color: #555555; 
+    -webkit-appearance: none; 
+    font-family: GillSansMTCondensedBold !important;
+    font-size: 17px !important;
+    line-height: 18px;
+}
+
+#addClientModal select {
+    background-color: #222222; 
+    border-color: #555555; 
+    -webkit-appearance: none; 
+    font-family: GillSansMTCondensedBold !important;
+    font-size: 17px !important;
+    line-height: 18px;
+}
+
 #printButton {
     float: right; 
     font-weight: bold; 
@@ -457,7 +475,14 @@ body {
     color: #BABABA; 
 }
 
-#unitSelect, #stockSelect, #typeSelect {
+#unitSelect, #stockSelect, #typeSelect, #descriptionInputModal, #priceInputModal {
+    background-color: #222222; 
+    border-color: #555555;
+    color: #BABABA; 
+    -webkit-appearance:none;
+}
+
+#addClientModal input {
     background-color: #222222; 
     border-color: #555555;
     color: #BABABA; 
@@ -552,7 +577,17 @@ body {
     padding-bottom: 0px;
     font-size: 23px !important;
     line-height: 22px;
+    background-color: #111111;
+    border-color: #555555;
+    height: 40px;
 }
+
+.product-row input {
+    background-color: #111111;
+    border-color: #555555;
+    margin-top: 2px;
+}
+
 
 .product-info {
     padding-top:7px;
@@ -584,6 +619,8 @@ body {
 #inputFirst {
     width: 150px;
     margin: 0px auto;
+    background-color: #111111;
+    border-color: #555555;
 }
 
 ::placeholder {
@@ -681,7 +718,7 @@ body {
     right: 0px;
     z-index: 10;
     text-align: center;
-    background-color: white;
+    background-color: #111111;
     font-family: GillSansMTCondensedBold;
     font-size: 30px;
     color: black;
@@ -694,10 +731,23 @@ body {
     align-self: center;
 }
 
+#logoImage2 {
+    width: 300px;
+    height: auto;
+    margin-top: 15%;
+    margin-left: 50px;
+    margin-bottom: 20px;
+    align-self: center;
+
+}
+
 input, button:not(.cross), label, span:not(.cross) {
     font-size: 23px !important;
 }
 
 .cross {
     font-size: 13px !important;
+    background-color: #111111;
+    border-color: #555555;
+    margin-top: 2px;
 }
