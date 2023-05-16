@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>PUNTO 1</title>
+    <title>PUNTO DE VENTA</title>
     <meta charset="utf-8">
     <meta name="viewport">
 
@@ -62,6 +62,7 @@
         var qrid = "";
 
         var lastOrderID = "";
+        var retrievedLastOrder = false;
     </script>
 
 </head>
@@ -77,7 +78,7 @@
         <div class="form-group row first-row">
             <div id="inputNameContainer" class="col-md-5">
                 <input id="inputName" class="form-control" type="input" oninput="this.value = this.value.toUpperCase()" maxlength="20" placeholder="NOMBRE"> </input>
-                <button id="showAddClientButton" class="btn btn-danger interface-button glyphicon glyphicon-plus-sign" type="button" onclick="showAddClientModal()"> </button>
+                <button id="showAddClientButton" class="btn btn-danger interface-button glyphicon glyphicon-plus-sign" style="display: none;" type="button" onclick="showAddClientModal()"> </button>
                 <ul id="clientOptions" class="list-group client-options"></ul>
                 <span id="greenCheck" class="glyphicon glyphicon-ok"></span>
                 <span id="greenCheckW" class="glyphicon glyphicon-ok"></span>
@@ -176,8 +177,12 @@
 
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <label for="priceInput">COSTO</label>
+                                    <label for="priceInput">COSTO/UNIDAD</label>
                                     <input id="costInput" class="form-control" type="number" min="0" placeholder="8.50" required>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="weightInput">CANTIDAD/UNIDAD</label>
+                                    <input id="costInput" class="form-control" type="number" min="0" placeholder="UNIDADES" required>
                                 </div>
                                 <div class="col-sm-2">
                                    <div class="form-group">
@@ -191,7 +196,7 @@
                                        </select>
                                    </div>
                                </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-2">
                                     <div class="form-group">
                                         <label for="stockSelect">EXISTENCIA</label>
                                         <select id="stockSelect" class="form-control">
@@ -201,7 +206,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-2">
                                     <div class="form-group">
                                         <label for="typeSelect">TIPO</label>
                                         <select id="typeSelect" class="form-control">
@@ -304,28 +309,28 @@
         if(globalComputer == "POS0" || globalComputer == "POS1")
             callClientsToReadyPOS();
 
+        /*
         //inputName on enter sequence
         $("#inputName").on('keyup', function (e) {
             if (e.keyCode == 13) {
                 if(!isNumeric($("#inputName").val().slice(-1)) && isNumeric($("#inputName").val().charAt($("#inputName").val().length - 2)))
-                    searchOrderById($("#inputName").val());
+                searchOrderById($("#inputName").val());
                 else {
                     $("#quantityInput").focus();
                 } 
             } 
         });
+        */
+
+        //inputName on enter sequence
+        $("#inputName").on('keyup', function (e) {
+            if (e.keyCode == 13) {
+                $("#quantityInput").focus();
+            } 
+        });
 
         function isNumeric(str) {
             return /^\d+$/.test(str);
-        }
-
-        //update prices
-        if(globalComputer == "POS2") {
-            var dbProducts2 = secondaryApp.database().ref('productos/');
-            dbProducts2.on('child_changed', function (snapshot) {
-                firebase.database().ref('products/' + snapshot.key).set(snapshot.val());
-            });
-            
         }
         
         //addClient modal enter sequence
@@ -337,10 +342,12 @@
             if (e.keyCode == 13) verifyNewClient();
         });
 
+        /*
         $(document).on('click', function(e) {
             if (e.target.id != 'inputName' && e.target.id != 'clientOptions')
                 $("#clientOptions").empty();
         });
+        */
 
         //update live view
         $("#inputName").focusout(function () {
@@ -367,6 +374,7 @@
             }
         });
         
+        /*
         //clients live search action
         $("#inputName").on('keyup', function (e) {
             clientName = "";
@@ -411,6 +419,8 @@
             }// else
                 //$("#dynamic-list").css("opacity", "1");
         });
+
+        */
 
         //products live search
         $("#inputSearch").on('keyup', function (e) {
@@ -524,6 +534,7 @@
             $("#addNewProductDBFormWrapper").append(fields);
         }
 
+        //looks for id in code0
         function searchOrderById(id) {
             id = id.replaceAll(".", "").replaceAll(" ", "");
             firebase.database().ref("orders/code0/" + id).once('value', function (snapshot) {
@@ -582,10 +593,12 @@
             }
 
             var totalCost = notesAndQuantity.uc * product.costo;
-            totalCost = "$" + Math.round(totalCost * 10) / 10
+            totalCost = "$" + Math.round(totalCost * 10) / 10;
+
+            var localTotal = round(notesAndQuantity.uc * product.costo);
                
             var productListItem =
-                '<li class="list-group-item row product-row product-total" style= "background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;" data-id="' + product.clave + '" data-date="' + date + '" data-total="' + round(notesAndQuantity.uc * product.costo) + '">' +
+                '<li class="list-group-item row product-row product-total" style= "background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;" data-id="' + product.clave + '" data-date="' + date + '" data-total="' + localTotal + '">' +
                     '<div class="col-sm-1 product-quantity">' +
                         '<input class="form-control" type="number" min="0" style= "color: ' + color + '; background-color: ' + backgroundColor + '; border-color: #555555; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;"></input>' +
                     '</div>' +
@@ -619,6 +632,7 @@
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
                 thisRow.data("total", (round($(this).val() * product.costo)));
                 thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
+              
                 updateTotal();
                 //updateWT();
             })
@@ -628,8 +642,9 @@
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
                 thisRow.data("total", (round($(this).val() * product.costo)));
                 thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
+
                 updateTotal();
-                updateWT();
+                //updateWT();
                 if (e.keyCode == 13)
                     $(this).parent().nextAll().eq(3).children().focus();
             });
@@ -900,6 +915,8 @@
             if(lastOrderID != "")
                 searchOrderById(lastOrderID);
 
+            retrievedLastOrder = true;
+
             /*
             firebase.database().ref('lastOrder').once('value', function (snapshot) {
                 if(snapshot.val() != null) {
@@ -1099,12 +1116,14 @@
                     backgroundColor = "#111111";
                 }
 
+                var localTotal = searchResult[i].costo;
+
                 searchItem =
                     '<button class="list-group-item row btn-default search-options-item" onclick="addProductObjectGetter(&#39;' + searchResult[i].clave + '&#39;)" style="background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;">' +
                         '<div class="col-sm-2">' + searchResult[i].clave + '</div>' +
                         '<div class="col-sm-1">' + searchResult[i].unidad + '</div>' +
                         '<div class="col-sm-7">' + searchResult[i].descripcion + '</div>' +
-                        '<div class="col-sm-1">' + searchResult[i].costo + '</div>' +
+                        '<div class="col-sm-1">' + localTotal + '</div>' +
                         '<div class="btn btn-sm col-sm-1 edit-button" type="button" onclick="editProductModal(&#39;' + searchResult[i].clave + '&#39;)">' +
                         '<span id="editButton" style="color:' + buttonColor + ';"> EDITAR </span>' +
                         '</div>' +
@@ -1129,6 +1148,10 @@
             form.elements[1].value = productToEdit.clave;
             form.elements[2].value = productToEdit.xpcode;
             form.elements[3].value = productToEdit.costo;
+            //aqui 00
+            if(productToEdit.pesoN != undefined && productToEdit.pesoN != "")
+                form.elements[3].value = (productToEdit.costo / productToEdit.pesoN).toString();
+            form.elements[4].value = productToEdit.pesoN;
             $("#unitSelect").val(productToEdit.unidad);
             $("#stockSelect").val(productToEdit.existencia);
             $("#typeSelect").val(productToEdit.tipo);
@@ -1142,7 +1165,7 @@
                     
                     //relation is child type
                     if(Object.values(relationsSnapshot[id])[0] <= 1)
-                    disableRelationInput();
+                        disableRelationInput();
                 }
                 
                 //relationn is parent type
@@ -1208,7 +1231,6 @@
             firebase.database().ref('inventory/' + id).remove();
             firebase.database().ref('relations/' + id).remove();
             
-            //aqui
             //remove embeded relations
             firebase.database().ref("relations").once('value', function(snapshot) {
                 if(snapshot.val() != undefined) {
@@ -1222,7 +1244,7 @@
                 }
             });
         }
-
+        
         //verifies input of modal form
         function verifyNewProduct() {
             var messageLabel = document.getElementById("verificationMessage");
@@ -1230,9 +1252,10 @@
             var verified = true;
 
             //checks for blanks
-            var inputs = new Array(10);
+            //aqui 00
+            var inputs = new Array(11);
             
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < 11; i++)
                 inputs[i] = form.elements[i].value;
 
             if (inputs[0] == "") {
@@ -1247,13 +1270,13 @@
             } else if (inputs[3] == "") {
                 messageLabel.innerHTML = "FALTA COSTO.";
                 verified = false;
-            } else if (inputs[4] == "") {
+            } else if (inputs[5] == "") {
                 messageLabel.innerHTML = "FALTA UNIDAD.";
                 verified = false;
-            } else if (inputs[5] == "") {
+            } else if (inputs[6] == "") {
                 messageLabel.innerHTML = "FALTA EXISTENCIA.";
                 verified = false;
-            } else if (inputs[6] == "") {
+            } else if (inputs[7] == "") {
                 messageLabel.innerHTML = "FALTA TIPO.";
                 verified = false;
             }
@@ -1327,28 +1350,29 @@
             }
         }
 
+        //aqui 00
         function uploadRelations(elements) {
-            if (elements[7].value != undefined && elements[7].value != "") {
-                firebase.database().ref("relations/" + elements[1].value + "/" + elements[7].value).set(elements[8].value);
-                firebase.database().ref("relations/" + elements[7].value + "/" + elements[1].value).set(1 / elements[8].value);
-            } if (elements[10] != undefined && elements[10].value != "") {
+            if (elements[8].value != undefined && elements[8].value != "") {
+                firebase.database().ref("relations/" + elements[1].value + "/" + elements[8].value).set(elements[9].value);
+                firebase.database().ref("relations/" + elements[8].value + "/" + elements[1].value).set(1 / elements[9].value);
+            } if (elements[11] != undefined && elements[11].value != "") {
                 firebase.database().ref("relations/" + elements[1].value + "/" + elements[10].value).set(elements[11].value);
                 firebase.database().ref("relations/" + elements[10].value + "/" + elements[1].value).set(1 / elements[11].value);
-            } if (elements[12] != undefined && elements[12].value != "") {
-                firebase.database().ref("relations/" + elements[1].value + "/" + elements[12].value).set(elements[13].value);
-                firebase.database().ref("relations/" + elements[12].value + "/" + elements[1].value).set(1 / elements[13].value);
-            } if (elements[14] != undefined && elements[14].value != "") {
-                firebase.database().ref("relations/" + elements[1].value + "/" + elements[14].value).set(elements[15].value);
-                firebase.database().ref("relations/" + elements[14].value + "/" + elements[1].value).set(1 / elements[15].value);
-            } if (elements[16] != undefined && elements[16].value != "") {
-                firebase.database().ref("relations/" + elements[1].value + "/" + elements[16].value).set(elements[17].value);
-                firebase.database().ref("relations/" + elements[16].value + "/" + elements[1].value).set(1 / elements[17].value);
-            } if (elements[18] != undefined && elements[18].value != "") {
-                firebase.database().ref("relations/" + elements[1].value + "/" + elements[18].value).set(elements[19].value);
-                firebase.database().ref("relations/" + elements[18].value + "/" + elements[1].value).set(1 / elements[19].value);
-            } if (elements[20] != undefined && elements[20].value != "") {
-                firebase.database().ref("relations/" + elements[1].value + "/" + elements[20].value).set(elements[21].value);
-                firebase.database().ref("relations/" + elements[20].value + "/" + elements[1].value).set(1 / elements[21].value);
+            } if (elements[13] != undefined && elements[13].value != "") {
+                firebase.database().ref("relations/" + elements[1].value + "/" + elements[13].value).set(elements[13].value);
+                firebase.database().ref("relations/" + elements[13].value + "/" + elements[1].value).set(1 / elements[14].value);
+            } if (elements[15] != undefined && elements[15].value != "") {
+                firebase.database().ref("relations/" + elements[1].value + "/" + elements[15].value).set(elements[16].value);
+                firebase.database().ref("relations/" + elements[15].value + "/" + elements[1].value).set(1 / elements[16].value);
+            } if (elements[17] != undefined && elements[17].value != "") {
+                firebase.database().ref("relations/" + elements[1].value + "/" + elements[17].value).set(elements[18].value);
+                firebase.database().ref("relations/" + elements[17].value + "/" + elements[1].value).set(1 / elements[18].value);
+            } if (elements[19] != undefined && elements[19].value != "") {
+                firebase.database().ref("relations/" + elements[1].value + "/" + elements[19].value).set(elements[20].value);
+                firebase.database().ref("relations/" + elements[19].value + "/" + elements[1].value).set(1 / elements[20].value);
+            } if (elements[21] != undefined && elements[21].value != "") {
+                firebase.database().ref("relations/" + elements[1].value + "/" + elements[21].value).set(elements[22].value);
+                firebase.database().ref("relations/" + elements[21].value + "/" + elements[1].value).set(1 / elements[22].value);
             }
         }
 
@@ -1359,13 +1383,19 @@
 
         //adds or updates a product to firebase
         function addNewProductDB(inputs) {
+            //aqui 00
+            var costoLocal = inputs[3];
+            if(inputs[4] != undefined && inputs[4] != "")
+                costoLocal = (inputs[3] * inputs[4]).toString();
+
             firebase.database().ref('products/' + inputs[1]).set({
                 clave: inputs[1],
-                costo: inputs[3],
+                costo: costoLocal,
                 descripcion: inputs[0],
-                existencia: inputs[5],
-                tipo: inputs[6],
-                unidad: inputs[4],
+                existencia: inputs[6],
+                pesoN: inputs[4],
+                tipo: inputs[7],
+                unidad: inputs[5],
                 xpcode: inputs[2],
                 categoria: 1
             }).then(function () {
@@ -1422,11 +1452,13 @@
             var totalCost = "";
             if($("#quantityInput").val() != "") {
                 totalCost = $("#quantityInput").val() * product.costo;
-                totalCost = "$" + Math.round(totalCost * 10) / 10
+                totalCost = "$" + Math.round(totalCost * 10) / 10;
             }
+
+            var localTotal = round($("#quantityInput").val() * product.costo);
                 
             var productListItem =
-                '<li class="list-group-item row product-row product-total" style= "background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;" data-id="' + product.clave + '" data-date="' + date + '" data-total="' + round($("#quantityInput").val() * product.costo) + '">' +
+                '<li class="list-group-item row product-row product-total" style= "background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;" data-id="' + product.clave + '" data-date="' + date + '" data-total="' + localTotal + '">' +
                     '<div class="col-sm-1 product-quantity">' +
                         '<input class="form-control" type="number" min="0" style= "color: ' + color + '; background-color: ' + backgroundColor + '; border-color: #555555; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;"></input>' +
                     '</div>' +
@@ -1465,8 +1497,9 @@
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
                 thisRow.data("total", (round($(this).val() * product.costo)));
                 thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
+
                 updateTotal();
-                updateWT();
+                //updateWT();
             })
 
             //inputQuantity enter sequence (to notes)
@@ -1474,8 +1507,9 @@
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
                 thisRow.data("total", (round($(this).val() * product.costo)));
                 thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
+
                 updateTotal();
-                updateWT();
+                //updateWT();
                 if (e.keyCode == 13)
                     $(this).parent().nextAll().eq(3).children().focus();
             });
@@ -1536,7 +1570,8 @@
                 var orderTypeSection = [];
                 //iterates over order list items
                 $("#dynamic-list").children().each(function (index) {
-                    if (JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0].tipo == typesSequence[sequenceIndex]) {
+                    var JSONsearchedProduct = JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0];
+                    if (JSONsearchedProduct.tipo == typesSequence[sequenceIndex]) {
                         var productItem = $(this).children();
 
                         var orderTypeUnit = [];
@@ -1545,13 +1580,14 @@
                         orderTypeUnit.push(productItem.eq(1).text());
                         orderTypeUnit.push(productItem.eq(2).text());
                         orderTypeUnit.push(productItem.eq(4).children().val());
-                        orderTypeUnit.push(JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0].tipo);
-                        orderTypeUnit.push(JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0].xpcode);
-                        orderTypeUnit.push(JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0].costo);
+                        orderTypeUnit.push(JSONsearchedProduct.tipo);
+                        orderTypeUnit.push(JSONsearchedProduct.xpcode);
+                        orderTypeUnit.push(JSONsearchedProduct.costo);
 
                         orderTypeSection.push(orderTypeUnit);
-
-                        orderTypeUnit.push(JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0].categoria);
+                        orderTypeUnit.push(JSONsearchedProduct.categoria);
+                    
+                        //orderTypeUnit.push(JSONsearchedProduct.peso);
 
                         //verificating quantity
                         if (orderTypeUnit[1] == "" || orderTypeUnit[1] == "0") {
@@ -1714,7 +1750,6 @@
                         currentLine = 0;
                     }
 
-                    //aqui3
                     sOrderProducts[i.toString().padStart(3, '0') + order[i][0]] = {
                         uc: Number(order[i][1]),
                         n: order[i][4]
@@ -1783,35 +1818,48 @@
                     doc.setFont("Gill Sans MT Condensed Negrita");
                     doc.setFontSize(12.5);
                     product = JSON.search(defiantProducts, '//*[clave="' + order[i][0] + '"]');
-                    var totalProduct = roundDecimals(Math.round(product[0].costo * order[i][1] * 10) / 10);
-                    //if (order[i][5] != "porPesarCamara" && order[i][5] != "porPesarAfuera") {
+                    var totalProduct;
+
+                    if(order[i][9] == undefined) {
+                        var totalProduct = roundDecimals(Math.round(product[0].costo * order[i][1] * 10) / 10);
+                    } else {
+                        var totalProduct = roundDecimals(Math.round(order[i][9] * product[0].costo * order[i][1] * 10) / 10);
+                    }
+
+                    if (order[i][5] != "porPesarCamara" && order[i][5] != "porPesarAfuera") {
                         //doc.setPage(pagesQuantity * 2 - 1);
-                        //doc.text(115 + xOffset, firstLineYPosition + (currentLine * lineHeight), totalProduct.toLocaleString('en-US'), null, null, "left");
+                        doc.text(115 + xOffset, firstLineYPosition + (currentLine * lineHeight), totalProduct.toLocaleString('en-US'), null, null, "left");
                         //doc.setPage(pagesQuantity * 2);
                         //doc.text(115 + xOffset, firstLineYPosition + (currentLine * lineHeight), totalProduct.toLocaleString('en-US'), null, null, "left");
-                    //} else {
+                    } else {
                         //doc.setPage(pagesQuantity * 2 - 1);
-                        //doc.text(115 + xOffset, firstLineYPosition + (currentLine * lineHeight), totalProduct.toLocaleString('en-US'));
-                        //doc.setDrawColor(255, 0, 0);
-                        //doc.line(128 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8, 135  + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8);
-                        //doc.setDrawColor(0, 0, 0);
+                        doc.text(115 + xOffset, firstLineYPosition + (currentLine * lineHeight), totalProduct.toLocaleString('en-US'));
+                        doc.setDrawColor(255, 0, 0);
+                        doc.line(128 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8, 135  + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8);
+                        doc.setDrawColor(0, 0, 0);
 
                         //doc.setPage(pagesQuantity * 2);
                         //doc.text(115 + xOffset, firstLineYPosition + (currentLine * lineHeight), totalProduct.toLocaleString('en-US'));
                         //doc.setDrawColor(255, 0, 0);
                         //doc.line(128 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8, 135 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8);
                         //doc.setDrawColor(0, 0, 0);
-                    //}
+                    }
                     
                     //calculating current total
                     var productTotal;
-                    if (order[i][1] < 0)
-                        productTotal = product[0].costo * order[i][1] * (-1);
-                    else
-                        productTotal = product[0].costo * order[i][1];
 
-
-                    
+                    if(order[i][9] == undefined) {
+                        if (order[i][1] < 0)
+                            productTotal = product[0].costo * order[i][1] * (-1);
+                        else
+                            productTotal = product[0].costo * order[i][1];
+                    } else {
+                        if (order[i][1] < 0)
+                            productTotal = order[i][9] * product[0].costo * order[i][1] * (-1);
+                        else
+                            productTotal = order[i][9] * product[0].costo * order[i][1];
+                    }
+                        
                     total += productTotal;
                     category += (productTotal * categories[order[i][8]]);
 
@@ -1829,6 +1877,7 @@
                         //doc.setPage(pagesQuantity * 2 - 1);
 
                         doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) + 1.5, product[0].costo + " - " + replaceAEIOUN(order[i][4]));
+
                         //doc.setPage(pagesQuantity * 2);
                         //doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) + 1.5, replaceAEIOUN(order[i][4]));
 
@@ -1840,8 +1889,9 @@
                     } else {
                         //just description
                         doc.setFontSize(10);
+                            
                         doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) + 1.5, product[0].costo);
-
+                        
                         doc.setFontSize(12.5);
                         //doc.setPage(pagesQuantity * 2 - 1);
                         doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]));
@@ -1933,7 +1983,7 @@
 
                 if (calculable) {
                     //doc.setPage(pagesQuantity * 2 - 1);
-                    //doc.text(130.5 + xOffset, 209  + yOffset, "TOTAL  " + total.toLocaleString('en-US'), "right");
+                    doc.text(130.5 + xOffset, 209  + yOffset, "TOTAL  " + total.toLocaleString('en-US'), "right");
                     //doc.setPage(pagesQuantity * 2);
                     //doc.text(129.5 + xOffset, 209  + yOffset, "TOTAL  " + total.toLocaleString('en-US'), "right");
 
@@ -2010,12 +2060,11 @@
 
                 
                 //if ($("#invoiceCheckbox").is(':checked'))
-                uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), sOrderProducts, total, productsRefID, anotoLabel);
+                uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), sOrderProducts, total, productsRefID, anotoLabel, calculable, iftomorrow);
                 
                 //autoprints PDF in a new tab
                 doc.autoPrint();
 
-                //aqui3
                 //uploadLastOrder($("#inputName").val(), sOrderProducts, total);
                 lastOrderID = productsRefID;
 
@@ -2062,6 +2111,7 @@
                     */
                     
                     eraseOrder();
+                    retrievedLastOrder = false;
                     
                     firebase.database().ref("liveviews/" + globalComputer + '/wtime').set(etime);
                     finishOrderProducts(true);
@@ -2186,6 +2236,7 @@
             $('#dynamic-list').find('input').eq(1).val(note);
             
             $('#dynamic-list').children().first().data("total", (round(quantity * searchResult[0].costo)));
+        
             $('#dynamic-list').children().first().children().eq(3).text("$" + round(quantity * searchResult[0].costo));
             updateTotal();
 
@@ -2219,7 +2270,7 @@
                         '<input class="form-control product-notes" type="input" oninput="this.value = this.value.toUpperCase()" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-right: 0px; padding-bottom: 0px; line-height: 4px;" maxlength="48" placeholder="MOTIVO"> </input>' +
                     '</div>' +
                 '</div>';
-
+            
             $('#dynamic-list-2').prepend(productListItem);            
         }
         
@@ -2240,9 +2291,12 @@
             if(note == undefined)
                 note = "";
 
+            var localDataTotal;
+            localDataTotal = round(quantity * product.costo);
+
             //onclick="addProductObjectGetterS(&#39;' + product.clave + '&#39;, &#39;' + quantity + '&#39;, &#39;' + note + '&#39;)"
             var productListItem =
-                '<div class="list-group-item row product-row" data-id="' + product.clave + '" data-total="' + round(quantity * product.costo) + '" style="background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555; line-height: 37px;">' +
+                '<div class="list-group-item row product-row" data-id="' + product.clave + '" data-total="' + localDataTotal + '" style="background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555; line-height: 37px;">' +
                     '<button class="col-sm-1 product-quantity" onclick="addProductObjectGetterS(&#39;' + product.clave + '&#39;, &#39;' + quantity + '&#39;, &#39;' + note + '&#39;)" style="text-align: left; padding-left: 13px; height: 35px; background-color: ' + backgroundColor + '; border: none;">' + quantity + '</button>' +
                     '<button class="col-sm-1 product-info" onclick="addProductObjectGetterS(&#39;' + product.clave + '&#39;, &#39;' + quantity + '&#39;, &#39;' + note + '&#39;)" style="text-align: left; padding-top: 0px; height: 35px; background-color: ' + backgroundColor + '; border: none;">' + product.unidad + '</button>' +
                     '<button class="col-sm-6 product-info" onclick="addProductObjectGetterS(&#39;' + product.clave + '&#39;, &#39;' + quantity + '&#39;, &#39;' + note + '&#39;)" style="text-align: left; padding-top: 0px; height: 35px; background-color: ' + backgroundColor + '; border: none;">' + product.descripcion + '</button>' +
@@ -2251,7 +2305,7 @@
                         '<input type="input" oninput="this.value = this.value.toUpperCase()" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-right: 0px; padding-bottom: 0px; line-height: 4px;" class="form-control product-notes" maxlength="48" placeholder="NOTAS"> </input>' +
                     '</div>' +
                 '</div>';
-
+            
             $('#dynamic-list').prepend(productListItem);            
         }
 
@@ -2293,7 +2347,7 @@
             total = total.replace(/\,/g,'');
             dbClients.child(number + "/agr").once('value', function (snapshot) {
                 if(snapshot.val() == null) {
-                    dbClients.child(number + "/agr").set(total);
+                    dbClients.child(number + "/agr").set(totloal);
                 } else {
                     dbClients.child(number + "/agr").set(parseInt(snapshot.val()) + parseInt(total));
                 }
@@ -2312,21 +2366,28 @@
         }
 
         //uploads order when invoice is needed
-        function uploadCompleteOrder(name, products, total, id, anotoLabel) {
+        function uploadCompleteOrder(name, products, total, id, anotoLabel, calculable, tomorrow) {
             id = id.replaceAll(".", "").replaceAll(" ", "");
             total = total.replace(/\,/g,'');
 
-            //aqui
-            for(var i = 0; i < products.length; i++)
+            if(retrievedLastOrder && lastOrderID.includes(name)) {
+                var lastId = lastOrderID.replaceAll(".", "").replaceAll(" ", "");
+                firebase.database().ref("orders/code0/" + lastId).remove();
+                firebase.database().ref("process/firsts/" + lastId).remove();
+            }
+
+            for(var i = 0; i < products.length; i++) 
                 products[i] = products[i].map(v => v === undefined ? '1' : v);
-            
+
             firebase.database().ref("orders/code0/" + id).set({
                 name: name,
                 qr: id,
                 takenby: anotoLabel,
                 products: products,
                 subtotal: total,
-                hour: Date.now()
+                hour: Date.now(),
+                calculable: calculable,
+                iftomorrow: tomorrow
             });
         }
 

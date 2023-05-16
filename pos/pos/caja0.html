@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>CAJA 0</title>
+    <title>CAJA</title>
     <meta charset="utf-8">
     <meta name="viewport">
 
@@ -88,13 +88,16 @@
 
     <div class="container-fluid">
         <div class="form-group row first-row">
-            <div id="inputNameContainer" class="col-md-5">
+            <div id="inputNameContainer" class="col-md-7">
                 <input id="inputName" class="form-control" type="input" oninput="this.value = this.value.toUpperCase()" maxlength="20" placeholder="NOMBRE"> </input>
-                <button id="showAddClientButton" class="btn btn-danger interface-button glyphicon glyphicon-plus-sign" type="button" onclick="showAddClientModal()"> </button>
+                <button id="saveOrderButton" class="btn btn-danger interface-button glyphicon glyphicon glyphicon-floppy-saved" style="visibility: hidden;" type="button" onclick="saveOrder()"> </button>
+                <button id="showAddClientButton" class="btn btn-danger interface-button glyphicon glyphicon-plus-sign" style="display: none;" type="button" onclick="showAddClientModal()"> </button>
                 <ul id="clientOptions" class="list-group client-options"></ul>
                 <span id="greenCheck" class="glyphicon glyphicon-ok"></span>
                 <span id="greenCheckW" class="glyphicon glyphicon-ok"></span>
                 <span id="greenCheckWN" class="glyphicon glyphicon-minus"></span>
+                <span id="greenCheckClient" class="glyphicon glyphicon-ok"></span>
+
             </div>
             <div id="tomorrowContainer" class="col-md-1">
                 <!--
@@ -112,7 +115,7 @@
             <button id="printByWhatsButton" class="btn btn-danger interface-button glyphicon glyphicon-file" style="font-size: 20px !important; padding-top: 2px; margin-top: 0px;" type="button" onclick="verifyOrder('WHATSAPP')"><i aria-hidden="true"></i></button>
             <button id="addProductButton" type="button" class="btn btn-secondary interface-button glyphicon glyphicon-plus-sign" onclick="addProductModal()"></button>
             <button id="callClientButton" type="button" class="btn btn-secondary interface-button glyphicon glyphicon-bullhorn" onclick="callClients()"></button>
-            <button id="lastOrderButton" type="button" class="btn btn-secondary interface-button glyphicon glyphicon-repeat" onclick="retrieveLastOrder()"></button>
+            <button id="lastOrderButton" type="button" class="btn btn-secondary interface-button glyphicon glyphicon-repeat" style="display: none;" onclick="retrieveLastOrder()"></button>
 
         </div>
 
@@ -189,8 +192,12 @@
 
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <label for="priceInput">COSTO</label>
+                                    <label for="priceInput">COSTO/UNIDAD</label>
                                     <input id="costInput" class="form-control" type="number" min="0" placeholder="8.50" required>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="weightInput">CUANTO PESA</label>
+                                    <input id="costInput" class="form-control" type="number" min="0" placeholder="UNIDADES" required>
                                 </div>
                                 <div class="col-sm-2">
                                    <div class="form-group">
@@ -204,7 +211,7 @@
                                        </select>
                                    </div>
                                </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-2">
                                     <div class="form-group">
                                         <label for="stockSelect">EXISTENCIA</label>
                                         <select id="stockSelect" class="form-control">
@@ -214,7 +221,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-2">
                                     <div class="form-group">
                                         <label for="typeSelect">TIPO</label>
                                         <select id="typeSelect" class="form-control">
@@ -231,6 +238,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div id="relationFieldsWrapper" class="row">
                                 <!--
                                     <div class="col-sm-3">
@@ -607,6 +615,38 @@
             });
         }
 
+        function saveOrder() {
+            var order = getOrderProducts();
+
+            var sOrderProducts = {};
+            var total = 0;
+            for (var i = 0; i < order.length; i++) {
+                sOrderProducts[i.toString().padStart(3, '0') + order[i][0]] = {
+                    uc: Number(order[i][1]),
+                    n: order[i][4]
+                };
+
+                var productTotal;
+
+                product = JSON.search(defiantProducts, '//*[clave="' + order[i][0] + '"]');
+
+                if (order[i][1] < 0) productTotal = product[0].costo * order[i][1] * (-1);
+                else productTotal = product[0].costo * order[i][1];
+                total += productTotal;
+            }
+
+            total = roundDecimals(Math.round(total * 10) / 10);
+            
+            for(var i = 0; i < sOrderProducts.length; i++)
+            sOrderProducts[i] = sOrderProducts[i].map(v => v === undefined ? '1' : v);
+
+            firebase.database().ref("orders/code0/" + globalID + "/calculable").set(true);
+            firebase.database().ref("orders/code0/" + globalID + "/products").set(sOrderProducts);
+            firebase.database().ref("orders/code0/" + globalID + "/subtotal").set(total);
+
+            eraseOrder();
+        }
+
         function populateOrder(order) {
             eraseOrder();
 
@@ -617,6 +657,14 @@
             $("#inputName").val(order.name);
             globalTakenBy = order.takenby;
             globalID = order.qr;
+
+            $("#saveOrderButton").css("visibility", "visible");
+
+            if(order.calculable) {
+                $("#greenCheckClient").css("visibility", "visible");
+            } else {
+                $("#greenCheckClient").css("visibility", "hidden");
+            }
 
             (function iterateOverProductsWithDelay (i) {          
                 setTimeout(function () {   
@@ -654,13 +702,26 @@
                 backgroundColor = "#111111";
             }
 
+            if(product.pesoN != undefined) {
+                notesAndQuantity.uc = notesAndQuantity.uc * product.pesoN;
+            }
+
             var totalCost = notesAndQuantity.uc * product.costo;
             totalCost = "$" + Math.round(totalCost * 10) / 10
+            var dataTotal = round(notesAndQuantity.uc * product.costo)
+
+            if(product.pesoN != undefined) {
+                totalCost =notesAndQuantity.uc * (product.costo / product.pesoN);
+                totalCost = "$" + Math.round(totalCost * 10) / 10;
+                dataTotal = round(notesAndQuantity.uc * (product.costo / product.pesoN));
+                product.unidad = "KILO";
+            }
                
+            //aqui
             var productListItem =
-                '<li class="list-group-item row product-row product-total" style= "background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;" data-id="' + product.clave + '" data-date="' + date + '" data-total="' + round(notesAndQuantity.uc * product.costo) + '">' +
+                '<li class="list-group-item row product-row product-total" style= "background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;" data-id="' + product.clave + '" data-date="' + date + '" data-total="' + dataTotal + '">' +
                     '<div class="col-sm-1 product-quantity">' +
-                        '<input class="form-control" type="number" min="0" style= "color: ' + color + '; background-color: ' + backgroundColor + '; border-color: #555555; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;"></input>' +
+                        '<input class="form-control" type="number" min="0" style= "color: ' + color + '; backe round-color: ' + backgroundColor + '; border-color: #555555; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;"></input>' +
                     '</div>' +
                     '<div class="col-sm-1 product-info">' + product.unidad + '</div>' +
                     '<div class="col-sm-6 product-info">' + product.descripcion + '</div>' +
@@ -690,8 +751,13 @@
 
             $('#dynamic-list').find('input').first().on('change', function (e) {
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
-                thisRow.data("total", (round($(this).val() * product.costo)));
-                thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
+                if(product.pesoN == undefined) {
+                    thisRow.data("total", (round($(this).val() * product.costo)));
+                    thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
+                } else {
+                    thisRow.data("total", (round($(this).val() * (product.costo / product.pesoN))));
+                    thisRow.children().eq(3).text("$" + round($(this).val() * (product.costo / product.pesoN)));
+                } 
                 updateTotal();
                 //updateWT();
             })
@@ -699,8 +765,13 @@
             //inputQuantity enter sequence (to notes)
             $('#dynamic-list').find('input').first().on('keyup', function (e) {
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
-                thisRow.data("total", (round($(this).val() * product.costo)));
-                thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
+                if(product.pesoN == undefined) {
+                    thisRow.data("total", (round($(this).val() * product.costo)));
+                    thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
+                } else {
+                    thisRow.data("total", (round($(this).val() * (product.costo / product.pesoN))));
+                    thisRow.children().eq(3).text("$" + round($(this).val() * (product.costo / product.pesoN)));
+                }
                 updateTotal();
                 updateWT();
                 if (e.keyCode == 13)
@@ -907,17 +978,23 @@
             var orderDate;
             var orderHours,
                 orderMinutes;
+            var calculableCheckMark;
             for (var i = 0; i < searchResult.length && i < 51; i++) {
                 //UPDATE create orderHours and orderMinutes in defiantOrders for efficiency
                 orderDate = new Date(searchResult[i].hour);
                 orderHours = orderDate.getHours();
                 orderMinutes = orderDate.getMinutes();
 
-                clientItem = '<button class="list-group-item client-options-item row btn-default" onclick="searchOrderById(&#39;' + searchResult[i].qr + '&#39;)">' +
-                    '<div id="clientNameResult" class="col-sm-8">' + searchResult[i].name + '</div>' + 
-                    '<div class="col-sm-2 no-horizontal-padding">$' + searchResult[i].subtotal + '</div>' + 
-                    '<div class="col-sm-2 no-horizontal-padding" style="padding-left: 7px;">' + orderHours + ':' + orderMinutes.toString().padStart(2, '0') + '</div>';
+                calculableCheckMark = "";      
+                if(searchResult[i].calculable)
+                    calculableCheckMark = "glyphicon-ok";
 
+                clientItem = '<button class="list-group-item list-width client-options-item row btn-default" onclick="searchOrderById(&#39;' + searchResult[i].qr + '&#39;)">' +
+                    '<div id="clientNameResult" class="col-sm-7">' + searchResult[i].name + '</div>' + 
+                    '<div class="col-sm-2 no-horizontal-padding">$' + searchResult[i].subtotal + '</div>' + 
+                    '<div class="col-sm-2 no-horizontal-padding" style="padding-left: 7px;">' + orderHours + ':' + orderMinutes.toString().padStart(2, '0') + '</div>' +
+                    '<span id="greenCheckClientLive" class="glyphicon ' + calculableCheckMark + '"></span>';
+                
                 /*
                 clientItem = clientItem + 
                     '<div class="btn btn-sm col-sm-1" type="button" onclick="editClientModal(&#39;' + searchResult[i].numero + '&#39;)" style="padding-left:1px;"> ' + 
@@ -1248,6 +1325,12 @@
             form.elements[1].value = productToEdit.clave;
             form.elements[2].value = productToEdit.xpcode;
             form.elements[3].value = productToEdit.costo;
+
+            //aqui 00
+            if(productToEdit.pesoN != undefined && productToEdit.pesoN != "")
+                form.elements[3].value = (productToEdit.costo / productToEdit.pesoN).toString();
+            form.elements[4].value = productToEdit.pesoN;
+
             $("#unitSelect").val(productToEdit.unidad);
             $("#stockSelect").val(productToEdit.existencia);
             $("#typeSelect").val(productToEdit.tipo);
@@ -1327,7 +1410,6 @@
             firebase.database().ref('inventory/' + id).remove();
             firebase.database().ref('relations/' + id).remove();
             
-            //aqui
             //remove embeded relations
             firebase.database().ref("relations").once('value', function(snapshot) {
                 if(snapshot.val() != undefined) {
@@ -1349,9 +1431,9 @@
             var verified = true;
 
             //checks for blanks
-            var inputs = new Array(10);
+            var inputs = new Array(11);
             
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < 11; i++)
                 inputs[i] = form.elements[i].value;
 
             if (inputs[0] == "") {
@@ -1366,13 +1448,13 @@
             } else if (inputs[3] == "") {
                 messageLabel.innerHTML = "FALTA COSTO.";
                 verified = false;
-            } else if (inputs[4] == "") {
+            } else if (inputs[5] == "") {
                 messageLabel.innerHTML = "FALTA UNIDAD.";
                 verified = false;
-            } else if (inputs[5] == "") {
+            } else if (inputs[6] == "") {
                 messageLabel.innerHTML = "FALTA EXISTENCIA.";
                 verified = false;
-            } else if (inputs[6] == "") {
+            } else if (inputs[7] == "") {
                 messageLabel.innerHTML = "FALTA TIPO.";
                 verified = false;
             }
@@ -1447,27 +1529,27 @@
         }
 
         function uploadRelations(elements) {
-            if (elements[7].value != undefined && elements[7].value != "") {
-                firebase.database().ref("relations/" + elements[1].value + "/" + elements[7].value).set(elements[8].value);
-                firebase.database().ref("relations/" + elements[7].value + "/" + elements[1].value).set(1 / elements[8].value);
-            } if (elements[10] != undefined && elements[10].value != "") {
+            if (elements[8].value != undefined && elements[8].value != "") {
+                firebase.database().ref("relations/" + elements[1].value + "/" + elements[8].value).set(elements[9].value);
+                firebase.database().ref("relations/" + elements[8].value + "/" + elements[1].value).set(1 / elements[9].value);
+            } if (elements[11] != undefined && elements[11].value != "") {
                 firebase.database().ref("relations/" + elements[1].value + "/" + elements[10].value).set(elements[11].value);
                 firebase.database().ref("relations/" + elements[10].value + "/" + elements[1].value).set(1 / elements[11].value);
-            } if (elements[12] != undefined && elements[12].value != "") {
-                firebase.database().ref("relations/" + elements[1].value + "/" + elements[12].value).set(elements[13].value);
-                firebase.database().ref("relations/" + elements[12].value + "/" + elements[1].value).set(1 / elements[13].value);
-            } if (elements[14] != undefined && elements[14].value != "") {
-                firebase.database().ref("relations/" + elements[1].value + "/" + elements[14].value).set(elements[15].value);
-                firebase.database().ref("relations/" + elements[14].value + "/" + elements[1].value).set(1 / elements[15].value);
-            } if (elements[16] != undefined && elements[16].value != "") {
-                firebase.database().ref("relations/" + elements[1].value + "/" + elements[16].value).set(elements[17].value);
-                firebase.database().ref("relations/" + elements[16].value + "/" + elements[1].value).set(1 / elements[17].value);
-            } if (elements[18] != undefined && elements[18].value != "") {
-                firebase.database().ref("relations/" + elements[1].value + "/" + elements[18].value).set(elements[19].value);
-                firebase.database().ref("relations/" + elements[18].value + "/" + elements[1].value).set(1 / elements[19].value);
-            } if (elements[20] != undefined && elements[20].value != "") {
-                firebase.database().ref("relations/" + elements[1].value + "/" + elements[20].value).set(elements[21].value);
-                firebase.database().ref("relations/" + elements[20].value + "/" + elements[1].value).set(1 / elements[21].value);
+            } if (elements[13] != undefined && elements[13].value != "") {
+                firebase.database().ref("relations/" + elements[1].value + "/" + elements[13].value).set(elements[13].value);
+                firebase.database().ref("relations/" + elements[13].value + "/" + elements[1].value).set(1 / elements[14].value);
+            } if (elements[15] != undefined && elements[15].value != "") {
+                firebase.database().ref("relations/" + elements[1].value + "/" + elements[15].value).set(elements[16].value);
+                firebase.database().ref("relations/" + elements[15].value + "/" + elements[1].value).set(1 / elements[16].value);
+            } if (elements[17] != undefined && elements[17].value != "") {
+                firebase.database().ref("relations/" + elements[1].value + "/" + elements[17].value).set(elements[18].value);
+                firebase.database().ref("relations/" + elements[17].value + "/" + elements[1].value).set(1 / elements[18].value);
+            } if (elements[19] != undefined && elements[19].value != "") {
+                firebase.database().ref("relations/" + elements[1].value + "/" + elements[19].value).set(elements[20].value);
+                firebase.database().ref("relations/" + elements[19].value + "/" + elements[1].value).set(1 / elements[20].value);
+            } if (elements[21] != undefined && elements[21].value != "") {
+                firebase.database().ref("relations/" + elements[1].value + "/" + elements[21].value).set(elements[22].value);
+                firebase.database().ref("relations/" + elements[21].value + "/" + elements[1].value).set(1 / elements[22].value);
             }
         }
 
@@ -1478,13 +1560,18 @@
 
         //adds or updates a product to firebase
         function addNewProductDB(inputs) {
+            var costoLocal = inputs[3];
+            if(inputs[4] != undefined && inputs[4] != "")
+                costoLocal = (inputs[3] * inputs[4]).toString();
+
             firebase.database().ref('products/' + inputs[1]).set({
                 clave: inputs[1],
-                costo: inputs[3],
+                costo: costoLocal,
                 descripcion: inputs[0],
-                existencia: inputs[5],
-                tipo: inputs[6],
-                unidad: inputs[4],
+                existencia: inputs[6],
+                pesoN: inputs[4],
+                tipo: inputs[7],
+                unidad: inputs[5],
                 xpcode: inputs[2],
                 categoria: 1
             }).then(function () {
@@ -1539,13 +1626,22 @@
             }
 
             var totalCost = "";
+            var dataTotal = "";
             if($("#quantityInput").val() != "") {
                 totalCost = $("#quantityInput").val() * product.costo;
-                totalCost = "$" + Math.round(totalCost * 10) / 10
+                totalCost = "$" + Math.round(totalCost * 10) / 10;
+                dataTotal = round($("#quantityInput").val() * product.costo);
             }
-                
+
+            if(product.pesoN != undefined) {
+                totalCost = $("#quantityInput").val() * (product.costo / product.pesoN);
+                totalCost = "$" + Math.round(totalCost * 10) / 10;
+                dataTotal = round($("#quantityInput").val() * (product.costo / product.pesoN));
+                product.unidad = "KILO";
+            }
+        
             var productListItem =
-                '<li class="list-group-item row product-row product-total" style= "background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;" data-id="' + product.clave + '" data-date="' + date + '" data-total="' + round($("#quantityInput").val() * product.costo) + '">' +
+                '<li class="list-group-item row product-row product-total" style= "background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;" data-id="' + product.clave + '" data-date="' + date + '" data-total="' + dataTotal + '">' +
                     '<div class="col-sm-1 product-quantity">' +
                         '<input class="form-control" type="number" min="0" style= "color: ' + color + '; background-color: ' + backgroundColor + '; border-color: #555555; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;"></input>' +
                     '</div>' +
@@ -1582,8 +1678,13 @@
 
             $('#dynamic-list').find('input').first().on('change', function (e) {
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
-                thisRow.data("total", (round($(this).val() * product.costo)));
-                thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
+                if(product.pesoN == undefined) {
+                    thisRow.data("total", (round($(this).val() * product.costo)));
+                    thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
+                } else {
+                    thisRow.data("total", (round($(this).val() * (product.costo / product.pesoN))));
+                    thisRow.children().eq(3).text("$" + round($(this).val() * (product.costo / product.pesoN)));
+                }
                 updateTotal();
                 updateWT();
             })
@@ -1591,8 +1692,13 @@
             //inputQuantity enter sequence (to notes)
             $('#dynamic-list').find('input').first().on('keyup', function (e) {
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
-                thisRow.data("total", (round($(this).val() * product.costo)));
-                thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
+                if(product.pesoN == undefined) {
+                    thisRow.data("total", (round($(this).val() * product.costo)));
+                    thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
+                } else {
+                    thisRow.data("total", (round($(this).val() * (product.costo / product.pesoN))));
+                    thisRow.children().eq(3).text("$" + round($(this).val() * (product.costo / product.pesoN)));
+                }
                 updateTotal();
                 updateWT();
                 if (e.keyCode == 13)
@@ -1770,7 +1876,6 @@
         var yOffset = -2;
         //FIX huge funcntion - generates a PDF with autoprint
         function generatePDF(orderMethod) {
-            
             //set PDF defaults
             var order = getOrderProducts();
             var doc = new jsPDF({
@@ -1911,7 +2016,11 @@
                 doc.setFont("Gill Sans MT Condensed Negrita");
                 doc.setFontSize(12.5);
                 product = JSON.search(defiantProducts, '//*[clave="' + order[i][0] + '"]');
-                var totalProduct = roundDecimals(Math.round(product[0].costo * order[i][1] * 10) / 10);
+                if(product[0].pesoN == undefined)
+                    var totalProduct = roundDecimals(Math.round(product[0].costo * order[i][1] * 10) / 10);
+                else
+                    var totalProduct = roundDecimals(Math.round((product[0].costo / product[0].pesoN) * order[i][1] * 10) / 10);
+
                 if (order[i][5] != "porPesarCamara" && order[i][5] != "porPesarAfuera") {
                     //doc.setPage(pagesQuantity * 2 - 1);
                     doc.text(115 + xOffset, firstLineYPosition + (currentLine * lineHeight), totalProduct.toLocaleString('en-US'), null, null, "left");
@@ -1933,14 +2042,17 @@
                 
                 //calculating current total
                 var productTotal;
-                if (order[i][1] < 0)
-                    productTotal = product[0].costo * order[i][1] * (-1);
-                else
-                    productTotal = product[0].costo * order[i][1];
 
+                if(product[0].pesoN == undefined) {
+                    if (order[i][1] < 0) productTotal = product[0].costo * order[i][1] * (-1);
+                    else productTotal = product[0].costo * order[i][1];
+                } else {
+                    if (order[i][1] < 0) productTotal = (product[0].costo / product[0].pesoN) * order[i][1] * (-1);
+                    else productTotal = (product[0].costo / product[0].pesoN) * order[i][1];
+                }
 
-                
                 total += productTotal;
+                
                 category += (productTotal * categories[order[i][8]]);
 
                 //notes and description
@@ -1956,7 +2068,11 @@
                     doc.setFontSize(10);
                     //doc.setPage(pagesQuantity * 2 - 1);
 
-                    doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) + 1.5, product[0].costo + " - " + replaceAEIOUN(order[i][4]));
+                    if(product[0].pesoN == undefined)
+                        doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) + 1.5, product[0].costo + " - " + replaceAEIOUN(order[i][4]));
+                    else
+                        doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) + 1.5, (product[0].costo / product[0].pesoN) + " - " + replaceAEIOUN(order[i][4]));
+
                     //doc.setPage(pagesQuantity * 2);
                     //doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) + 1.5, replaceAEIOUN(order[i][4]));
 
@@ -1968,7 +2084,12 @@
                 } else {
                     //just description
                     doc.setFontSize(10);
-                    doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) + 1.5, product[0].costo);
+                    
+                    if(product[0].pesoN == undefined)
+                        doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) + 1.5, product[0].costo);
+                    else
+                        doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) + 1.5, (product[0].costo / product[0].pesoN).toString());
+
 
                     doc.setFontSize(12.5);
                     //doc.setPage(pagesQuantity * 2 - 1);
@@ -2143,7 +2264,6 @@
             //autoprints PDF in a new tab
             doc.autoPrint();
             
-            //aqui3
             //uploadLastOrder($("#inputName").val(), sOrderProducts, total);
             lastOrderID = productsRefID;
             
@@ -2453,12 +2573,11 @@
             } */
         }
 
-        //uploads order when invoice is needed
+        //OUTDATED uploads order when invoice is needed
         function uploadCompleteOrder(name, products, total, id) {
             id = id.replaceAll(".", "").replaceAll(" ", "");
             total = total.replace(/\,/g,'');
 
-            //aqui
             for(var i = 0; i < products.length; i++)
                 products[i] = products[i].map(v => v === undefined ? '1' : v);
             
@@ -2476,7 +2595,6 @@
             id = id.replaceAll(".", "").replaceAll(" ", "");
             total = total.replace(/\,/g,'');
 
-            //aqui
             for(var i = 0; i < products.length; i++)
                 products[i] = products[i].map(v => v === undefined ? '1' : v);
             
@@ -2827,6 +2945,10 @@
             $("#greenCheck").css("visibility", "hidden");
             $("#greenCheckW").css("visibility", "hidden");
             $("#greenCheckWN").css("visibility", "hidden");
+            $("#greenCheckClient").css("visibility", "hidden");
+            $("#saveOrderButton").css("visibility", "hidden");
+
+
 
             firebase.database().ref("liveviews/" + globalComputer + '/sorder').remove();
             clientName = "";

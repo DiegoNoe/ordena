@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>ENTRADA 0</title>
+    <title>COMPRAS</title>
     <meta charset="utf-8">
     <meta name="viewport">
 
@@ -15,6 +15,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
+    <script language="javascript" type="text/javascript" src="../js/jspdf.customfonts.min.js "></script>
     <script language="javascript" type="text/javascript" src="../js/index.js"></script>
     <script language="javascript" type="text/javascript" src="../js/jquery.min.js"></script>
     <script language="javascript" type="text/javascript" src="../js/aes.js"></script>
@@ -24,7 +25,6 @@
     <script language="javascript" type="text/javascript" src="../js/facturama.api.js"></script>
     <script language="javascript" type="text/javascript" src="../js/default_vfs.js"></script>
     <script language="javascript" type="text/javascript" src="../js/bootstrap.min.js"></script>
-    <script language="javascript" type="text/javascript" src="../js/jspdf.customfonts.min.js "></script>
     
     <script type="module" src="../fonts/GillSansMTCondensedBold-normal.js"></script>
     
@@ -1318,9 +1318,8 @@
                 });
 
                 //add custom fonts
-                //doc.addFont('GILC____.TTF', "Gill Sans Std Condensed", "normal");
-                //doc.addFont('GillSansMTCondensedBold.ttf', "Gill Sans MT Condensed Negrita", "normal");
-                doc.setFont("GillSansMTCondensedBold", "normal");
+                doc.addFont('GILC____.TTF', "Gill Sans Std Condensed", "normal");
+                doc.addFont('GillSansMTCondensedBold.ttf', "Gill Sans MT Condensed Negrita", "normal");
 
                 var iftomorrow = $("#tomorrowCheckbox").is(':checked');
                 var ordertype = orderMethod;

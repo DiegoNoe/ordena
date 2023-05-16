@@ -78,6 +78,13 @@ body {
     height: 34px;
 }
 
+#saveOrderButton {
+    float:right;
+    font-weight: bold;
+    height: 34px;
+    right: 19px;
+}
+
 #clientOptions::-webkit-scrollbar {
     display: none;
 }
@@ -115,6 +122,22 @@ body {
     right: 90px;
     top: 7px;
     visibility: hidden;
+}
+
+#greenCheckClient {
+    color: #5cb85c;
+    z-index: 1;
+    position: absolute;
+    top: 7px;
+    right: 97px;
+    visibility: hidden;
+}
+
+#greenCheckClientLive {
+    color: #5cb85c;
+    z-index: 1;
+    position: absolute;
+    top: 7px;
 }
 
 #greenCheckW {
@@ -307,6 +330,10 @@ body {
 
 #dynamic-list::-webkit-scrollbar {
     display: none;
+}
+
+.list-width {
+    width: 88% !important;
 }
 
 .search-options {

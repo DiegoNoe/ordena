@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en" style="background-color: white;">
+<head>
+	<title>Empleados</title>
+
+	<meta charset="utf-8">
+    <meta name="viewport" content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+	<!-- local js resources -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+	<script language="javascript" type="text/javascript" src="defiant.min.js"></script>
+	
+	<script>
+		const config = {
+            apiKey: "AIzaSyBhhniDRtbUoE1SGVCTZzVUPTbd5k-mfnI",
+            authDomain: "cremeria-ordena.firebaseapp.com",
+            databaseURL: "https://cremeria-ordena-default-rtdb.firebaseio.com",
+            projectId: "cremeria-ordena",
+            storageBucket: "cremeria-ordena.appspot.com",
+            messagingSenderId: "862495808627",
+            appId: "1:862495808627:web:09d8f34bdb206056f1de06"
+        };
+
+		firebase.initializeApp(config);
+		var database = firebase.database().ref('employees/');
+		database.on('value', function (snapshot) {
+			populateEmployeesList(snapshot.val());
+		});
+
+		var employeesSnapshot;
+
+	</script>
+
+	<style>
+
+		@font-face {
+            font-family: GillSansMTCondensedBold;
+            font-style: normal;
+            src: url(GillSansMTCondensedBold.ttf);
+        }
+
+		.container-fluid {
+			font-family: GillSansMTCondensedBold;
+			margin-left: 1%;
+			margin-right: 1%;
+			margin-top: 1.5%;
+			position: relative;
+		}
+
+		#addEmployeeModal {
+			font-family: GillSansMTCondensedBold;
+			font-size: 25px;
+		}
+		
+		#addEmployeeModalLabel {
+			font-size: 27px;
+		}
+
+		.modal-body {
+			padding-top: 5px;
+		}
+
+		#verificationMessage {
+			font-size: 16px;
+			margin-bottom: 0px;
+		}
+
+		#dynamic-list {
+			height: 640px;
+			overflow: hidden;
+			overflow-y: scroll;
+		}
+
+		#addNewEmployeeDBForm input{
+			font-size: 17px;
+		}
+
+		#addNewEmployeeDBForm select{
+			font-size: 17px;
+		}
+
+		#addNewEmployeeDBForm label{
+			font-size: 18px;
+		}
+
+		.employee-row {
+			margin-left: 0px;
+			margin-right: 0px;
+			padding-left: 12px; 
+			padding-right: 12px;
+		}
+
+		.employee-name {
+			font-size: 26px;
+			line-height: 32px;
+		}
+
+		.employee-id {
+			font-size: 26px;
+			line-height: 32px;
+		}
+
+		.btn-modal {
+			font-size: 20px;
+			line-height: 18px;
+		}
+
+		.form-control:focus {
+			border-color: rgb(239, 154, 154);
+			box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+		}
+
+		.list-group-item {
+			padding-top: 4px;
+			padding-bottom: 4px;
+			padding-left: 4px;
+			padding-right: 4px;
+			color: #444444;
+		}
+
+		.headTitle {
+			border: none;
+		}
+
+		.performance-select {
+			font-size: 24px;
+			height: 30px;
+			line-height: 24px;
+		}
+
+		.comments-box {
+			font-size: 24px;
+			height: 30px;
+			padding: 0px;
+			padding-left: 5px;
+			line-height: 12px;
+		}
+
+		select {
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			text-indent: 1px;
+			text-overflow: '';
+			background: transparent;
+			-webkit-appearance: none;
+		}
+
+	</style>
+</head>
+
+<body style="zoom: 100%; background-color: white; overflow: hidden;">
+	<div class="alert alert-danger" style="display: none" id="noConnectionAlert" role="alert">
+		<strong>No hay conexión.</strong> Los cambios que hagas no se verán reflejados en la base de datos.
+	</div>
+	<div class="container-fluid" style="background-color: white;">
+		<div class="row"> 
+			<h1 class="modal-title col-xs-8" style="margin-bottom:1.5%; margin-top:.5px"> EMPLEADOS</h1>
+			<div class="col-xs-4">
+				<button onclick="addEmployeeModal();" class="btn btn-success" style="float: right; margin-top: 8px; margin-left: 10px; padding-left: 8.4px; padding-top: 7px; height: 34px; width: 34px; font-size: 25px; line-height: 10px;">+</button>
+				<button onclick="sortEmployees(event);" class="btn btn-success" id="orderButton" style="float: right; margin-top: 8px; margin-left: 10px; padding-left: 10px; padding-top: 2.5px; height: 34px; width: 34px; font-size: 20px;">#</button>
+			</div>
+		</div>
+		<div class="list-group-item row employee-row headTitle">
+			<h2 class="col-xs-4 employee-name" style="padding: 0px; margin: 0px; padding-left: 0px;"> NOMBRE </h2>
+			<h2 class="col-xs-1 employee-name" style="padding: 0px; margin: 0px; padding-left: 2px;"> D</h2>
+			<h2 class="col-xs-5 employee-id" style="padding: 0px; margin: 0px; padding-left: 16px;"> COMENTARIOS </h2>
+		</div>
+		<ul id="dynamic-list" class="list-group" style="display:block;"> </ul>
+	</div>
+
+	<div class="modal fade" id="addEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+
+				<!-- modal title -->
+				<div class="modal-header">
+					<h4 class="modal-title" id="addEmployeeModalLabel">AGREGAR EMPLEADO</h4>
+				</div>
+				<div class="modal-body">
+					<form id="addNewEmployeeDBForm">
+						<!-- form -->
+						<div class="form-group">
+							<!-- error message div -->
+							<label id="verificationMessage" style="color: red;"></label>
+							<div class="row" style="margin-bottom: 0px;">
+								<!-- name -->
+								<div class="col-xs-6">
+									<label for="nameInput">NOMBRE</label>
+									<input oninput="this.value = this.value.toUpperCase()" class="form-control" type="text" maxlength="9" placeholder="NOMBRE"
+										required>
+								</div>
+                                <!-- pronunciation -->
+                                <div class="col-xs-6">
+									<label for="pronunciationInput">PRONUNCIACIÓN</label>
+									<input oninput="this.value = this.value.toUpperCase()" class="form-control" type="text" maxlength="9" placeholder="PRONUNCIACIÓN"
+									required>
+                                </div>
+							</div>
+							<div class="row">
+								<div class="col-xs-3" style="padding-right: 7px;">
+									<label for="IDInput">CLAVE</label>
+									<input id="inputID" oninput="this.value = this.value.toUpperCase()"
+									class="form-control" type="number" placeholder="CLAVE" required>
+								</div>
+                                <div class="col-xs-3">
+                                    <label for="priceInput">SIGMA</label>
+                                    <input class="form-control" style="width: 24px; margin-top: 0px;" type="checkbox" style="margin-top: 0px;">
+								</div>
+								<div class="col-xs-6"> 
+									<label for="performanceInput">DESEMPEÑO</label>
+                                    <select class="form-control" id="performance">
+										<option value="NA" selected>NO TIENE</option>
+										<option value="0">REGULAR</option>
+										<option value="1">BUENO</option>
+										<option value="2">MUY BUENO</option>
+										<option value="3">EXCELENTE</option>
+										<option value="4">SOBRESALIENTE</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12"> 
+									<label for="commentsInput">COMENTARIOS</label>
+									<input oninput="this.value = this.value.toUpperCase()" class="form-control" type="text" placeholder="COMENTARIOS">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-3" style="padding-right: 7px;">
+                                    <label for="priceInput">LU 1</label>
+                                    <select class="form-control" id="break1">
+										<option value="NO" selected>NO TIENE</option>
+										<option value="820">8:20AM</option>
+										<option value="900">9:00AM</option>
+										<option value="940">9:40AM</option>
+										<option value="1020">10:20AM</option>
+										<option value="1100">11:00AM</option>
+										<option value="1140">11:40AM</option>
+										<option value="1220">12:20PM</option>
+										<option value="1310">1:10PM</option>
+										<option value="1400">2:00PM</option>
+										<option value="1440">2:40PM</option>
+										<option value="1520">3:20PM</option>
+										<option value="1600">4:00PM</option>
+										<option value="1640">4:40PM</option>
+										<option value="1710">5:10PM</option>
+									</select>
+								</div>
+								<div class="col-xs-3" style="padding-left: 7px;">
+                                    <label for="priceInput">LU 2</label>
+                                    <select class="form-control" id="break2">
+										<option value="NO" selected>NO TIENE</option>
+										<option value="820">8:20AM</option>
+										<option value="900">9:00AM</option>
+										<option value="940">9:40AM</option>
+										<option value="1020">10:20AM</option>
+										<option value="1100">11:00AM</option>
+										<option value="1140">11:40AM</option>
+										<option value="1220">12:20PM</option>
+										<option value="1310">1:10PM</option>
+										<option value="1400">2:00PM</option>
+										<option value="1440">2:40PM</option>
+										<option value="1520">3:20PM</option>
+										<option value="1600">4:00PM</option>
+										<option value="1640">4:40PM</option>
+										<option value="1710">5:10PM</option>
+									</select>
+								</div>
+								<div class="col-xs-3" style="padding-right: 7px;">
+                                    <label for="priceInput">MA 1</label>
+                                    <select class="form-control" id="break3">
+										<option value="NO" selected>NO TIENE</option>
+										<option value="820">8:20AM</option>
+										<option value="900">9:00AM</option>
+										<option value="940">9:40AM</option>
+										<option value="1020">10:20AM</option>
+										<option value="1100">11:00AM</option>
+										<option value="1140">11:40AM</option>
+										<option value="1220">12:20PM</option>
+										<option value="1310">1:10PM</option>
+										<option value="1400">2:00PM</option>
+										<option value="1440">2:40PM</option>
+										<option value="1520">3:20PM</option>
+										<option value="1600">4:00PM</option>
+										<option value="1640">4:40PM</option>
+										<option value="1710">5:10PM</option>
+									</select>
+								</div>
+								<div class="col-xs-3" style="padding-left: 7px;">
+                                    <label for="priceInput">MA 2</label>
+                                    <select class="form-control" id="break4">
+										<option value="NO" selected>NO TIENE</option>
+										<option value="820">8:20AM</option>
+										<option value="900">9:00AM</option>
+										<option value="940">9:40AM</option>
+										<option value="1020">10:20AM</option>
+										<option value="1100">11:00AM</option>
+										<option value="1140">11:40AM</option>
+										<option value="1220">12:20PM</option>
+										<option value="1310">1:10PM</option>
+										<option value="1400">2:00PM</option>
+										<option value="1440">2:40PM</option>
+										<option value="1520">3:20PM</option>
+										<option value="1600">4:00PM</option>
+										<option value="1640">4:40PM</option>
+										<option value="1710">5:10PM</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-3" style="padding-right: 7px;">
+                                    <label for="priceInput">MI 1</label>
+                                    <select class="form-control" id="break5">
+										<option value="NO" selected>NO TIENE</option>
+										<option value="820">8:20AM</option>
+										<option value="900">9:00AM</option>
+										<option value="940">9:40AM</option>
+										<option value="1020">10:20AM</option>
+										<option value="1100">11:00AM</option>
+										<option value="1140">11:40AM</option>
+										<option value="1220">12:20PM</option>
+										<option value="1310">1:10PM</option>
+										<option value="1400">2:00PM</option>
+										<option value="1440">2:40PM</option>
+										<option value="1520">3:20PM</option>
+										<option value="1600">4:00PM</option>
+										<option value="1640">4:40PM</option>
+										<option value="1710">5:10PM</option>
+									</select>
+								</div>
+								<!-- break2 -->
+								<div class="col-xs-3" style="padding-left: 7px;">
+                                    <label for="priceInput">MI 2</label>
+                                    <select class="form-control" id="break6">
+										<option value="NO" selected>NO TIENE</option>
+										<option value="820">8:20AM</option>
+										<option value="900">9:00AM</option>
+										<option value="940">9:40AM</option>
+										<option value="1020">10:20AM</option>
+										<option value="1100">11:00AM</option>
+										<option value="1140">11:40AM</option>
+										<option value="1220">12:20PM</option>
+										<option value="1310">1:10PM</option>
+										<option value="1400">2:00PM</option>
+										<option value="1440">2:40PM</option>
+										<option value="1520">3:20PM</option>
+										<option value="1600">4:00PM</option>
+										<option value="1640">4:40PM</option>
+										<option value="1710">5:10PM</option>
+									</select>
+								</div>
+								<div class="col-xs-3" style="padding-right: 7px;">
+                                    <label for="priceInput">JU 1</label>
+                                    <select class="form-control" id="break7">
+										<option value="NO" selected>NO TIENE</option>
+										<option value="820">8:20AM</option>
+										<option value="900">9:00AM</option>
+										<option value="940">9:40AM</option>
+										<option value="1020">10:20AM</option>
+										<option value="1100">11:00AM</option>
+										<option value="1140">11:40AM</option>
+										<option value="1220">12:20PM</option>
+										<option value="1310">1:10PM</option>
+										<option value="1400">2:00PM</option>
+										<option value="1440">2:40PM</option>
+										<option value="1520">3:20PM</option>
+										<option value="1600">4:00PM</option>
+										<option value="1640">4:40PM</option>
+										<option value="1710">5:10PM</option>
+									</select>
+								</div>
+								<!-- break2 -->
+								<div class="col-xs-3" style="padding-left: 7px;">
+                                    <label for="priceInput">JU 2</label>
+                                    <select class="form-control" id="break8">
+										<option value="NO" selected>NO TIENE</option>
+										<option value="820">8:20AM</option>
+										<option value="900">9:00AM</option>
+										<option value="940">9:40AM</option>
+										<option value="1020">10:20AM</option>
+										<option value="1100">11:00AM</option>
+										<option value="1140">11:40AM</option>
+										<option value="1220">12:20PM</option>
+										<option value="1310">1:10PM</option>
+										<option value="1400">2:00PM</option>
+										<option value="1440">2:40PM</option>
+										<option value="1520">3:20PM</option>
+										<option value="1600">4:00PM</option>
+										<option value="1640">4:40PM</option>
+										<option value="1710">5:10PM</option>
+									</select>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-3" style="padding-right: 7px;">
+                                    <label for="priceInput">VI 1</label>
+                                    <select class="form-control" id="break9">
+										<option value="NO" selected>NO TIENE</option>
+										<option value="820">8:20AM</option>
+										<option value="900">9:00AM</option>
+										<option value="940">9:40AM</option>
+										<option value="1020">10:20AM</option>
+										<option value="1100">11:00AM</option>
+										<option value="1140">11:40AM</option>
+										<option value="1220">12:20PM</option>
+										<option value="1310">1:10PM</option>
+										<option value="1400">2:00PM</option>
+										<option value="1440">2:40PM</option>
+										<option value="1520">3:20PM</option>
+										<option value="1600">4:00PM</option>
+										<option value="1640">4:40PM</option>
+										<option value="1710">5:10PM</option>
+									</select>
+								</div>
+								<!-- break2 -->
+								<div class="col-xs-3" style="padding-left: 7px;">
+                                    <label for="priceInput">VI 2</label>
+                                    <select class="form-control" id="break10">
+										<option value="NO" selected>NO TIENE</option>
+										<option value="820">8:20AM</option>
+										<option value="900">9:00AM</option>
+										<option value="940">9:40AM</option>
+										<option value="1020">10:20AM</option>
+										<option value="1100">11:00AM</option>
+										<option value="1140">11:40AM</option>
+										<option value="1220">12:20PM</option>
+										<option value="1310">1:10PM</option>
+										<option value="1400">2:00PM</option>
+										<option value="1440">2:40PM</option>
+										<option value="1520">3:20PM</option>
+										<option value="1600">4:00PM</option>
+										<option value="1640">4:40PM</option>
+										<option value="1710">5:10PM</option>
+									</select>
+								</div>
+								<div class="col-xs-3" style="padding-right: 7px;">
+                                    <label for="priceInput">SA 1</label>
+                                    <select class="form-control" id="break11">
+										<option value="NO" selected>NO TIENE</option>
+										<option value="900">9:00AM</option>
+										<option value="950">9:50AM</option>
+										<option value="1040">10:40AM</option>
+										<option value="1130">11:30AM</option>
+										<option value="1220">12:20PM</option>
+										<option value="1310">1:10PM</option>
+										<option value="1400">2:00PM</option>
+										<option value="1450">2:50PM</option>
+										<option value="1540">3:40PM</option>
+									</select>
+								</div>
+								<!-- break2 -->
+								<div class="col-xs-3" style="padding-left: 7px;">
+                                    <label for="priceInput">DO 1</label>
+                                    <select class="form-control" id="break12">
+										<option value="NO" selected>NO TIENE</option>
+										<option value="820">8:20AM</option>
+										<option value="900">9:00AM</option>
+										<option value="940">9:40AM</option>
+										<option value="1020">10:20AM</option>
+										<option value="1100">11:00AM</option>
+										<option value="1140">11:40AM</option>
+										<option value="1220">12:20PM</option>
+										<option value="1310">1:10PM</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<!-- modal interface buttons (delete is hidden when "add new product" view is active) -->
+				<div class="modal-footer" style="text-align: center">
+					<button type="button" style="font-size: 17px" class="btn btn-secondary btn-modal" data-dismiss="modal">CANCELAR</button>
+					<button type="button" style="font-size: 17px" id="deleteButton" class="btn btn-danger btn-modal" data-dismiss="modal" onclick="deleteEmployeeDB();" style="display: none">ELIMINAR</button>
+					<button type="button" style="font-size: 17px" class="btn btn-success btn-modal" id="saveButton" data-type="newEmployee" onclick="verificateNewEmployee();">GUARDAR</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+
+		checkConnection();
+		
+		function populateEmployeesList(employeesLocal) {
+			
+			$('#dynamic-list').empty();
+			for (const [key, value] of Object.entries(employeesLocal)) {
+
+				var sigmaEmployee = value.issigma;
+				if(sigmaEmployee == undefined) sigmaEmployee = false;
+
+				var localComments = "";
+				if(value.comments != undefined)
+					localComments = value.comments;
+
+				var localPerformance = "NA";
+				if(value.performance != undefined)
+					localPerformance = value.performance;
+
+				var performanceQuery = "";
+				if(localPerformance == "NA")
+					performanceQuery = '<option value="NA" selected>NT</option>' +
+						'<option value="4">S</option>' +
+						'<option value="3">E</option>' +
+						'<option value="2">MB</option>' +
+						'<option value="1">B</option>' +
+						'<option value="0">R</option>';
+				else if(localPerformance == "0")
+					performanceQuery = '<option value="NA">NT</option>' +
+						'<option value="4">S</option>' +
+						'<option value="3">E</option>' +
+						'<option value="2">MB</option>' +
+						'<option value="1">B</option>' +
+						'<option value="0" selected>R</option>';
+				else if(localPerformance == "1")
+					performanceQuery = '<option value="NA">NT</option>' +
+						'<option value="4">S</option>' +
+						'<option value="3">E</option>' +
+						'<option value="2">MB</option>' +
+						'<option value="1" selected>B</option>' +
+						'<option value="0">R</option>';
+				else if(localPerformance == "2")
+					performanceQuery = '<option value="NA">NT</option>' +
+						'<option value="4">S</option>' +
+						'<option value="3">E</option>' +
+						'<option value="2" selected>MB</option>' +
+						'<option value="1">B</option>' +
+						'<option value="0">R</option>';
+				else if(localPerformance == "3")
+					performanceQuery = '<option value="NA">NT</option>' +
+						'<option value="4">S</option>' +
+						'<option value="3" selected>E</option>' +
+						'<option value="2">MB</option>' +
+						'<option value="1">B</option>' +
+						'<option value="0">R</option>';
+				else if(localPerformance == "4")
+					performanceQuery = '<option value="NA">NT</option>' +
+						'<option value="4" selected>S</option>' +
+						'<option value="3">E</option>' +
+						'<option value="2">MB</option>' +
+						'<option value="1">B</option>' +
+						'<option value="0">R</option>';
+						
+
+				var employeeListItem =
+					'<li class="list-group-item row employee-row">' +
+					'<h2 class="col-xs-4 employee-name" style="padding: 0px; margin: 0px; padding-left: 0px;">' + key + '</h2>' +
+					'<div class="col-xs-2" style="padding: 0px; margin-right: 10px; width: 36px;">' +
+						'<select class="form-control performance-select" id="' + key + 'Performance" onchange="savePerformance(&apos;' + key + '&apos;)" style="padding: 0px;">' +
+							performanceQuery + 
+						'</select>' +
+					'</div>' +									
+					'<input id="' + key + '" oninput="this.value = this.value.toUpperCase()" class="col-xs-5 form-control comments-box" type="text" style="width: 140px;" onkeydown="uploadComment(this)" onfocusout="uploadCommentFocusOut(this)" placeholder="COMENTARIOS" value="' + localComments + '">' +
+					'<button type="button" class="col-xs-1 btn glyphicon glyphicon-pencil" style="background-color:white; padding-top:2px; padding-bottom:0px;" onclick="editEmployeeModal(event)"' + 
+					'data-name="' + key + '" data-pronunciation="' + value.pronunciation + '" data-sigma="' + sigmaEmployee + '" data-id="' + value.id + '">' + '</button>' + 
+					'</li>';
+				
+				$('#dynamic-list').append(employeeListItem);
+				//$("#dynamic-list").on("click", "button", function(e) {$(this).remove();});
+			}
+
+			if($('#orderButton').text() == "A")
+				sortList(document.getElementById('dynamic-list'), "numerical");
+		}
+		
+		function savePerformance(name) {
+			firebase.database().ref('employees/' + name + '/performance').set(document.getElementById(name + "Performance").value);			
+		}
+
+		function uploadComment(ele) {
+			if(event.key === 'Enter')
+				firebase.database().ref('employees/' + event.srcElement.id + '/comments').set(ele.value);
+		}
+
+		function uploadCommentFocusOut(ele) {
+			firebase.database().ref('employees/' + event.srcElement.id + '/comments').set(ele.value);
+		}
+
+
+		function sortEmployees(event) {
+			if(event.target.innerHTML == "#"){
+				sortList(document.getElementById('dynamic-list'), "numerical");
+				event.target.innerHTML = "A";
+			} else if(event.target.innerHTML == "A"){
+				sortList(document.getElementById('dynamic-list'), "alphabetical");
+				event.target.innerHTML = "#";
+			}
+		}
+
+		function sortList(ul, type){
+			var new_ul = ul.cloneNode(false);
+			var lis = [];
+			for(var i = ul.childNodes.length; i--;){
+				if(ul.childNodes[i].nodeName === 'LI')
+					lis.push(ul.childNodes[i]);
+			}
+
+			lis.sort(function(a, b){
+				if(type == "numerical")
+					return parseInt(a.childNodes[2].textContent , 10) - 
+						parseInt(b.childNodes[2].textContent , 10);
+				else if (type == "alphabetical")
+					return a.childNodes[0].textContent > b.childNodes[0].textContent;
+				return;
+			});
+
+			for(var i = 0; i < lis.length; i++)
+				new_ul.appendChild(lis[i]);
+			ul.parentNode.replaceChild(new_ul, ul);
+		}
+
+		//setNewBreaks();
+		function setNewBreaks() {
+			firebase.database().ref('employees').once('value', function(snapshot) {
+				for (const [key, value] of Object.entries(snapshot.val())) {
+					var break1 = value.break1;
+					var break2 = value.break2;
+					var break3 = value.break3;
+
+					if(break1 != undefined) {
+						firebase.database().ref('employees/' + key + '/break1').set(break1);
+						firebase.database().ref('employees/' + key + '/break3').set(break1);
+						firebase.database().ref('employees/' + key + '/break5').set(break1);
+						firebase.database().ref('employees/' + key + '/break7').set(break1);
+						firebase.database().ref('employees/' + key + '/break9').set(break1);
+						firebase.database().ref('employees/' + key + '/break12').set(break1);
+					}
+					if(break2 != undefined) {
+						firebase.database().ref('employees/' + key + '/break2').set(break2);
+						firebase.database().ref('employees/' + key + '/break4').set(break2);
+						firebase.database().ref('employees/' + key + '/break6').set(break2);
+						firebase.database().ref('employees/' + key + '/break8').set(break2);
+						firebase.database().ref('employees/' + key + '/break10').set(break2);
+					}
+					if(break3 != undefined) {
+						firebase.database().ref('employees/' + key + '/break11').set(break3);
+					}
+				}
+			});
+		}
+		
+        //edit or delete product modal values
+        function editEmployeeModal(event) {
+            document.getElementById("addEmployeeModalLabel").innerHTML = "EDITAR EMPLEADO";
+            document.getElementById("deleteButton").style.display = "inline";
+            document.getElementById("verificationMessage").innerHTML = "";
+
+            var form = document.getElementById("addNewEmployeeDBForm");
+            //{name:0, pronunciation:1, id:2, sigma:3}
+            form.elements[0].value = event.target.getAttribute("data-name");
+            form.elements[1].value = event.target.getAttribute("data-pronunciation");
+			if(form.elements[1].value == undefined)
+				form.elements[1].value = form.elements[0].value;
+            form.elements[2].value = event.target.getAttribute("data-id");
+			form.elements[3].checked = event.target.getAttribute("data-sigma") == "true";
+
+			firebase.database().ref('employees/' + form.elements[0].value).once('value', function(snapshot) {
+				if(snapshot.val().break1 != null) form.elements[6].value = snapshot.val().break1;
+				else form.elements[6].value = "NO";
+				if(snapshot.val().break2 != null) form.elements[7].value = snapshot.val().break2;
+				else form.elements[7].value = "NO";
+				if(snapshot.val().break3 != null) form.elements[8].value = snapshot.val().break3;
+				else form.elements[8].value = "NO";
+				if(snapshot.val().break4 != null) form.elements[9].value = snapshot.val().break4;
+				else form.elements[9].value = "NO";
+				if(snapshot.val().break5 != null) form.elements[10].value = snapshot.val().break5;
+				else form.elements[10].value = "NO";
+				if(snapshot.val().break6 != null) form.elements[11].value = snapshot.val().break6;
+				else form.elements[11].value = "NO";
+				if(snapshot.val().break7 != null) form.elements[12].value = snapshot.val().break7;
+				else form.elements[12].value = "NO";
+				if(snapshot.val().break8 != null) form.elements[13].value = snapshot.val().break8;
+				else form.elements[13].value = "NO";
+				if(snapshot.val().break9 != null) form.elements[14].value = snapshot.val().break9;
+				else form.elements[14].value = "NO";
+				if(snapshot.val().break10 != null) form.elements[15].value = snapshot.val().break10;
+				else form.elements[15].value = "NO";
+				if(snapshot.val().break11 != null) form.elements[16].value = snapshot.val().break11;
+				else form.elements[16].value = "NO";
+				if(snapshot.val().break12 != null) form.elements[17].value = snapshot.val().break12;
+				else form.elements[17].value = "NO";
+				
+				if(snapshot.val().performance != undefined) form.elements[4].value = snapshot.val().performance;
+				else form.elements[4].value = "NA";
+				
+				if(snapshot.val().comments != undefined) form.elements[5].value = snapshot.val().comments;
+				else form.elements[5].value = "";
+
+			}).then(function() {
+				//sets buttons inner values
+				$('#saveButton').data("type", "editEmployee");
+				$('#saveButton').data("name", form.elements[0].value);
+				$('#saveButton').data("id", form.elements[2].value);
+
+				$('#addEmployeeModal').modal('show');
+			});
+
+		}
+		
+        //sets modal to add product view
+        function addEmployeeModal() {
+            document.getElementById("addEmployeeModalLabel").innerHTML = "AGREGAR EMPLEADO";
+            document.getElementById("deleteButton").style.display = "none";
+            document.getElementById("verificationMessage").innerHTML = "";
+            document.getElementById("addNewEmployeeDBForm").reset();
+
+            $('#saveButton').data("type", "newEmployee");
+            $('#addEmployeeModal').modal('show');
+        }
+
+        //verificates input of modal form
+        function verificateNewEmployee() {
+            var messageLabel = document.getElementById("verificationMessage");
+            var form = document.getElementById("addNewEmployeeDBForm");
+			var verificated = true;
+
+			var employeesNames = [];
+			var employeesPronunciation = [];
+			var employeesID = [];
+			var posibleIDs = Array.from({length: 99}, (_, i) => i + 1);
+			$.each(employeesSnapshot, function(key, value) {
+				employeesNames.push(key);
+				if(value.substring(0, 1) == 0)
+				employeesPronunciation.push(value.substring(1, value.length - 2));
+				employeesPronunciation.push(value.substring(0, value.length - 2));
+				employeesID.push(value.substring(value.length - 2, value.length));
+				posibleIDs.splice(posibleIDs.indexOf(parseInt(value.substring(value.length - 2, value.length))), 1);
+			});
+
+			if(form.elements[2].value < 10 && form.elements[2].value > 0 && form.elements[2].value.charAt(0) != 0)
+				form.elements[2].value = "0" + form.elements[2].value;
+			
+            //checks for blanks
+            var inputs = new Array(18);
+            //{name:0, pronunciation:1, id:2, sigma:3}
+            for (var i = 0; i < 5; i++) {
+				if(i == 3) inputs[i] = form.elements[i].checked;
+				else {
+					inputs[i] = form.elements[i].value;
+					if (inputs[i] == "") {
+						messageLabel.innerHTML = "LLENA TODOS LOS CAMPOS.";
+						verificated = false;
+						break;
+					}
+				}
+            }
+			inputs[5] = form.elements[5].value;
+			
+			inputs[6] = form.elements[6].value;
+			inputs[7] = form.elements[7].value;
+			inputs[8] = form.elements[8].value;
+			inputs[9] = form.elements[9].value;
+			inputs[10] = form.elements[10].value;
+			inputs[11] = form.elements[11].value;
+			inputs[12] = form.elements[12].value;
+			inputs[13] = form.elements[13].value;
+			inputs[14] = form.elements[14].value;
+			inputs[15] = form.elements[15].value;
+			inputs[16] = form.elements[16].value;
+			inputs[17] = form.elements[17].value;
+
+            //checks for valid id
+            if (form.elements[2].value < 1 || form.elements[2].value > 99) {
+                messageLabel.innerHTML = "LA CLAVE DEBE DE SER ENTRE 01-99";
+                verificated = false;
+            }
+
+            //checks for existing names
+            if (form.elements[0].value != "") {
+				if ($('#saveButton').data("type") == "newEmployee") {
+					if (employeesNames.includes(form.elements[0].value)) {
+						messageLabel.innerHTML = "EL NOMBRE YA EXISTE, INTENTA UNO DIFERENTE.";
+						verificated = false;
+					}
+				} else if ($('#saveButton').data("type") == "editEmployee") {
+					if (employeesNames.includes(form.elements[0].value) && form.elements[0].value != $('#saveButton').data("name")) {
+						messageLabel.innerHTML = "EL NOMBRE YA EXISTE, INTENTA UNO DIFERENTE.";
+						verificated = false;
+					}
+				}
+			}
+			
+			//checks for existing IDs
+            if (form.elements[2].value != "") {
+				if ($('#saveButton').data("type") == "newEmployee") {
+					if (!posibleIDs.includes(parseInt(form.elements[2].value))) {
+						messageLabel.innerHTML = "LA CLAVE YA EXISTE, PUEDE SER " + posibleIDs.toString();
+						verificated = false;
+					}
+				} else if ($('#saveButton').data("type") == "editEmployee") {
+					if (!posibleIDs.includes(parseInt(form.elements[2].value)) && form.elements[2].value != $('#saveButton').data("id")) {
+						messageLabel.innerHTML = "LA CLAVE YA EXISTE, PUEDE SER " + posibleIDs.toString();
+						verificated = false;
+					}
+				}
+			}
+
+            //if everything is checked, upload form
+            if (verificated) {				
+                addNewEmployeeDB(inputs);
+                messageLabel.innerHTML = "";
+
+                //if at edit product the id changes, deletes the old ids instance
+                if ($('#saveButton').data("type") == "editEmployee")
+					if ($('#saveButton').data("name") != form.elements[0].value)
+						database.child($('#saveButton').data("name")).remove();
+
+				//form.reset();
+            }
+        }
+
+		//adds or updates a product to firebase
+        function addNewEmployeeDB(inputs) {
+
+			console.log("inputs");
+			console.log(inputs);
+
+			var pronunciationQuery = inputs[1] + inputs[2];	
+
+			var issigma = false;
+			firebase.database().ref('employees/' + inputs[0] + '/pronunciation').set(pronunciationQuery.substring(0, pronunciationQuery.length - 2));
+			firebase.database().ref('employees/' + inputs[0] + '/id').set(pronunciationQuery.substring(pronunciationQuery.length - 2, pronunciationQuery.length));
+			firebase.database().ref('employees/' + inputs[0] + '/norders').set(0);
+			firebase.database().ref('employees/' + inputs[0] + '/nproducts').set(0);
+			firebase.database().ref('employees/' + inputs[0] + '/ttime').set(0);
+			firebase.database().ref('employees/' + inputs[0] + '/lastFinished').set(0);
+			firebase.database().ref('employees/' + inputs[0] + '/performance').set(inputs[4]);
+			firebase.database().ref('employees/' + inputs[0] + '/comments').set(inputs[5]);
+
+			firebase.database().ref('employees/' + inputs[0] + '/break1').set(inputs[6]);
+			firebase.database().ref('employees/' + inputs[0] + '/break2').set(inputs[7]);
+			firebase.database().ref('employees/' + inputs[0] + '/break3').set(inputs[8]);
+			firebase.database().ref('employees/' + inputs[0] + '/break4').set(inputs[9]);
+			firebase.database().ref('employees/' + inputs[0] + '/break5').set(inputs[10]);
+			firebase.database().ref('employees/' + inputs[0] + '/break6').set(inputs[11]);
+			firebase.database().ref('employees/' + inputs[0] + '/break7').set(inputs[12]);
+			firebase.database().ref('employees/' + inputs[0] + '/break8').set(inputs[13]);
+			firebase.database().ref('employees/' + inputs[0] + '/break9').set(inputs[14]);
+			firebase.database().ref('employees/' + inputs[0] + '/break10').set(inputs[15]);
+			firebase.database().ref('employees/' + inputs[0] + '/break11').set(inputs[16]);
+			firebase.database().ref('employees/' + inputs[0] + '/break12').set(inputs[17]);
+			firebase.database().ref('employees/' + inputs[0] + '/extraTimeT').set(0);
+			firebase.database().ref('employees/' + inputs[0] + '/extraTimeTT').set(0);
+
+			if(inputs[3]) {
+				issigma = true;
+				pronunciationQuery = "0" + pronunciationQuery;
+			}
+			
+			firebase.database().ref('employees/' + inputs[0] + '/issigma').set(issigma).then(function () {
+                $('#addEmployeeModal').modal('toggle');
+			});		
+		}
+		
+		//deletes an existing product from the db
+		function deleteEmployeeDB() {
+			var name = document.getElementById("addNewEmployeeDBForm").elements[0].value;
+			firebase.database().ref('employees/' + name).remove();
+			firebase.database().ref('employees/' + name).remove();
+			database.child(name).remove();
+		}
+
+		//No connections alert
+		function checkConnection() {
+			var connectedRef = firebase.database().ref(".info/connected");
+			connectedRef.on("value", function(snap) {
+				if (snap.val() === true) document.getElementById("noConnectionAlert").style.display = "none";
+				else document.getElementById("noConnectionAlert").style.display = "block";
+			});
+		}
+
+	</script>
+</body>

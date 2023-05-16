@@ -1,19 +1,19 @@
 @font-face {
     font-family: GillSansMTCondensedBold;
     font-style: normal;
-    src: url(GillSansMTCondensedBold.ttf);
+    src: url(../css/GillSansMTCondensedBold.ttf);
 }
 
 @font-face {
     font-family: GillSansStd-Condensed;
     font-style: normal;
-    src: url(GillSansStd-Condensed.otf);
+    src: url(../css/GillSansStd-Condensed.otf);
 }
 
 @font-face {
     font-family: fontawesome-webfont;
     font-style: normal;
-    src: url(fontawesome-webfont.ttf);
+    src: url(../css/fontawesome-webfont.ttf);
 }
 
 body {
