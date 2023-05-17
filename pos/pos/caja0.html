@@ -1910,6 +1910,12 @@
             //addPagePDF(doc, orderMethod, order.length);
             doc.setPage(1);
 
+            console.log("PAGADO");
+            doc.setFontSize(70);
+            doc.setFont("Gill Sans MT Condensed Negrita");
+            doc.setTextColor(240, 240, 240);
+            doc.text(105, 120, "PAGADO", "center");
+
             var shortenedUnits = {
                 KILO: "KG",
                 PIEZA: "PZ",
@@ -1956,6 +1962,7 @@
                 //quantity and unit
                 doc.setFont("Gill Sans MT Condensed Negrita");
                 doc.setFontSize(12.5);
+                doc.setTextColor(0, 0, 0);
                 var quantityAndUnit = order[i][1] + shortenedUnits[order[i][2]];
 
                 //enhance quantity if necessary
@@ -2266,12 +2273,6 @@
                 //doc.save('order.pdf');
             };
             */
-
-            console.log("PAGADO");
-            doc.setFontSize(70);
-            doc.setFont("Gill Sans MT Condensed Negrita");
-            doc.setTextColor(240, 240, 240);
-            doc.text(105, 120, "PAGADO", "center");
 
             //if ($("#invoiceCheckbox").is(':checked'))
             //uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), sOrderProducts, total, productsRefID);
