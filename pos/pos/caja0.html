@@ -2257,7 +2257,22 @@
             else
                 firebase.database().ref('pending/' + orderRefID).remove();
 
-            
+            /* 
+            const img = new Image();
+            img.src = '../images/pagado.png';
+            img.onload = () => {
+                console.log("img load");
+                doc.addImage(img, 'PNG', 100, 100, 127, 100);
+                //doc.save('order.pdf');
+            };
+            */
+
+            console.log("PAGADO");
+            doc.setFontSize(70);
+            doc.setFont("Gill Sans MT Condensed Negrita");
+            doc.setTextColor(240, 240, 240);
+            doc.text(105, 120, "PAGADO", "center");
+
             //if ($("#invoiceCheckbox").is(':checked'))
             //uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), sOrderProducts, total, productsRefID);
             
