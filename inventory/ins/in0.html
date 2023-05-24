@@ -11,11 +11,9 @@
 
     <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="../css/index.css">
+    <link rel="stylesheet" type="text/css" href="../css/index_in.css">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-    <script language="javascript" type="text/javascript" src="../js/jspdf.customfonts.min.js "></script>
+    <script language="javascript" type="text/javascript" src="../js/jspdf.customfonts.min.js"></script>
     <script language="javascript" type="text/javascript" src="../js/index.js"></script>
     <script language="javascript" type="text/javascript" src="../js/jquery.min.js"></script>
     <script language="javascript" type="text/javascript" src="../js/aes.js"></script>
@@ -25,39 +23,51 @@
     <script language="javascript" type="text/javascript" src="../js/facturama.api.js"></script>
     <script language="javascript" type="text/javascript" src="../js/default_vfs.js"></script>
     <script language="javascript" type="text/javascript" src="../js/bootstrap.min.js"></script>
-    
-    <script type="module" src="../fonts/GillSansMTCondensedBold-normal.js"></script>
-    
+
     <script>
         var defiantProducts;
-        var defiantClients;
+        var relationsSnapshot;
+        var defiantClients,
+            defiantOrders;
         var orderRefID = "";
+        var globalID = "";
 
         firebase.initializeApp(firebaseConfig);
-       
+
         var dbProducts = firebase.database().ref('products/');
         dbProducts.on('value', function (snapshot) {
             defiantProducts = Defiant.getSnapshot(snapshot.val());
+        });
+
+        firebase.database().ref('relations').on('value', function (snapshot) {
+            relationsSnapshot = snapshot.val();
         });
 
         var clientName = "";
         var clientWhatsapp = "";
 
         var dbClientsValues;
-        var dbClients = firebase.database().ref('providers/');
+        var dbClients = firebase.database().ref('clients/');
         dbClients.on('value', function (snapshot) {
             if(snapshot.val() != undefined)
                 defiantClients = Defiant.getSnapshot(snapshot.val());
         });
 
-        var globalComputer = "POS0";
-        var globalWaitingOrders,
-            globalTimePerProduct = [];
+        var dbOrders = firebase.database().ref('providers/');
+        dbOrders.on('value', function (snapshot) {
+            if(snapshot.val() != undefined)
+                defiantOrders = Defiant.getSnapshot(snapshot.val());
+        });
 
+        var globalComputer = "IN0";
         var aesEcb = new aesjs.ModeOfOperation.ecb(aesMethod);
 
         var productCounter = 0;
         var qrid = "";
+
+        var globalCode1 = 0,
+            globalCode2 = 1;
+
     </script>
 
 </head>
@@ -71,29 +81,19 @@
 
     <div class="container-fluid">
         <div class="form-group row first-row">
-            <div id="inputNameContainer" class="col-md-5">
-                <input id="inputName" class="form-control" type="input" oninput="this.value = this.value.toUpperCase()" maxlength="20" placeholder="NOMBRE"> </input>
-                <button id="showAddClientButton" class="btn btn-danger interface-button glyphicon glyphicon-plus-sign" type="button" onclick="showAddProviderModal()"> </button>
+            <div id="inputNameContainer" class="col-md-7">
+                <input id="inputName" class="form-control" style="width: 89%;" type="input" oninput="this.value = this.value.toUpperCase()" maxlength="20" placeholder="NOMBRE"> </input>
                 <ul id="clientOptions" class="list-group client-options"></ul>
                 <span id="greenCheck" class="glyphicon glyphicon-ok"></span>
                 <span id="greenCheckW" class="glyphicon glyphicon-ok"></span>
                 <span id="greenCheckWN" class="glyphicon glyphicon-minus"></span>
+                <span id="greenCheckClient" class="glyphicon glyphicon-ok"></span>
+                <input id="inputNameWhatsapp" class="form-control" type="input" oninput="this.value = this.value.toUpperCase()" maxlength="10" placeholder="WHATSAPP" readonly> </input>
             </div>
-            <div id="tomorrowContainer" class="col-md-2" style="display: none;">
-                <input id="tomorrowCheckbox" class="form-check-input" type="checkbox">
-                <label id="tomorrowCheckboxLabel" class="form-check-label" for="tomorrowCheckbox">&nbsp;M</label>
-                <input id="invoiceCheckbox" class="form-check-input" type="checkbox">
-                <label id="invoiceCheckboxLabel" class="form-check-label" for="invoiceCheckbox">&nbsp;F</label>
-            </div>
-            <select id="inputEmployeeName" class="form-control col-sm-1" style="display: none;">
-                <option disabled selected>ANOTADOR</option>
-            </select>
+
             <button id="printButton" class="btn btn-primary interface-button glyphicon glyphicon-download" type="button" onclick="generatePDF('MOSTRADOR')"></button>
             <button id="printByPhoneButton" class="btn btn-danger interface-button glyphicon glyphicon-download" type="button" onclick="generatePDF('TELEFONO')"></button>
             <button id="printByPhoneButton" class="btn btn-danger interface-button glyphicon glyphicon-upload" type="button" onclick="generatePDF('WHATSAPP')"></button>
-            <button id="printByWhatsButton" class="btn btn-danger interface-button fa fa-whatsapp" type="button" onclick="generatePDF('WHATSAPP')" style="display: none;"></button><i aria-hidden="true"></i></button>
-            <button id="addProductButton" type="button" class="btn btn-secondary interface-button glyphicon glyphicon-plus-sign" onclick="addProductModal()" style="display: none;"></button>
-            <button id="callClientButton" type="button" class="btn btn-secondary interface-button glyphicon glyphicon-bullhorn" onclick="callClients()" style="display: none;"></button>
         </div>
 
         <div id="searchContainer" class="row">
@@ -102,8 +102,7 @@
             </div>
             <div id="searchNameContainer" class="col-md-11">
                 <input id="inputSearch" class="form-control" oninput="this.value = this.value.toUpperCase()" placeholder="CLAVE O DESCRIPCION" type="d"></input>
-                <span id="wtTextField" style="display: none;"></span>
-                <span id="npTextField" style="display: none;">PRODUCTOS: 0</span>
+                <span id="npTextField">PRODUCTOS: 0</span>
                 <span id="totalTextField">$0</span>
             </div>
         </div>
@@ -111,8 +110,6 @@
         <ul id="searchOptions" class="list-group search-options"></ul>
         <ul id="dynamic-list" class="list-group"> </ul>
 
-        <h3 id="sugerenciasLabel" class="modal-title">SUGERENCIAS</h3>
-        <ul id="dynamic-list-2" class="list-group"> </ul>
     </div>
 
     <div id="calculatorContainer">
@@ -150,7 +147,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="addNewProductDBForm">
-                        <div class="form-group">
+                        <div id="addNewProductDBFormWrapper" class="form-group">
                             <label id="verificationMessage"></label>
                             <div id="addProductFromTopRow" class="row">
                                 <div class="col-sm-8">
@@ -166,11 +163,14 @@
                                     <input id="SATInput" class="form-control" type="text" oninput="this.value = this.value.toUpperCase()" placeholder="CODIGO" required>
                                 </div>
                             </div>
-
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <label for="priceInput">COSTO</label>
+                                    <label for="priceInput">COSTO/UNIDAD</label>
                                     <input id="costInput" class="form-control" type="number" min="0" placeholder="8.50" required>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="weightInput">CUANTO PESA</label>
+                                    <input id="costInput" class="form-control" type="number" min="0" placeholder="UNIDADES" required>
                                 </div>
                                 <div class="col-sm-2">
                                    <div class="form-group">
@@ -184,7 +184,7 @@
                                        </select>
                                    </div>
                                </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-2">
                                     <div class="form-group">
                                         <label for="stockSelect">EXISTENCIA</label>
                                         <select id="stockSelect" class="form-control">
@@ -194,7 +194,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-2">
                                     <div class="form-group">
                                         <label for="typeSelect">TIPO</label>
                                         <select id="typeSelect" class="form-control">
@@ -211,26 +211,31 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div id="relationFieldsWrapper" class="row">
+                                <!-- <div class="col-sm-3">
+                                        <label for="datePicker">EXPIRACIÓN</label>
+                                        <input id="datePicker" class="form-control" type="text" oninput="this.value = this.value.toUpperCase()" placeholder="FECHA">
+                                </div> -->
                                 <div class="col-sm-3">
-                                    <label for="datePicker">EXPIRACIÓN</label>
-                                    <input id="datePicker" class="form-control" type="text" oninput="this.value = this.value.toUpperCase()" placeholder="FECHA">
-                                </div>
-                                <div class="col-sm-2">
                                     <label for="relationID">RELACIÓN</label>
                                     <input id="relationID" class="form-control" type="text" oninput="this.value = this.value.toUpperCase()" placeholder="CLAVE">
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="relationQuantity">CANTIDAD</label>
-                                        <input id="relationQuantity" class="form-control" type="number" oninput="this.value = this.value.toUpperCase()" placeholder="CUANTOS TIENE">
+                                        <input id="relationQuantity" class="form-control" type="number" oninput="this.value = this.value.toUpperCase()" placeholder="¿CUANTOS?">
+                                        <button type="button" id="addRealtionButton" class="glyphicon glyphicon-plus-sign" onclick="addRelationFields('', '');"> </button>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label id="relationLabel" for="relationQuantity">¿ES PRODUCTO PADRE?</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
-
                 <div class="modal-footer">
                     <button id="cancelButton" class="btn btn-secondary" type="button" data-dismiss="modal">CANCELAR</button>
                     <button id="deleteButton" class="btn btn-danger" type="button" data-dismiss="modal" onclick="deleteProductDB();">ELIMINAR</button>
@@ -240,67 +245,29 @@
         </div>
     </div>
 
-    <div id="addClientModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addClientModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 id="addClientModalLabel" class="modal-title">NUEVO PROVEEDOR</h4>
-                </div>
-                <div id="addClientModalFromContainer" class="modal-body">
-                    <form id="addClientForm">
-                        <div class="form-group">
-                            <label id="addClientMessage"></label>
-                            <div id="formNameInputContainer" class="row">
-                                <div class="col-sm-7">
-                                    <label for="formNameInputLabel">NOMBRE</label>
-                                    <input id="formNameInput" class="form-control" oninput="this.value = this.value.toUpperCase()" type="text" placeholder="" maxlength="20" required>
-                                </div>
-                                <div class="col-sm-5">
-                                    <div id="formWhatsappContainer" class="float-container">
-                                        <div class="float-child">
-                                            <label id="formWNumberInput" for="formNumberInputLabel">WHATSAPP</label>
-                                        </div>
-                                        <div class="float-child">
-                                            <input id="noWhatsappCheckbox" class="form-check-input" type="checkbox">
-                                            <label id="noWhatsappCheckboxLabel" class="form-check-label" for="noWhatsappCheckbox">&nbsp;NO QUIERE</label>
-                                        </div>
-                                    </div>
-                                    <input id="formNumberInput" class="form-control" type="number" oninput="this.value = this.value.toUpperCase()" minlength="12" maxlength="13" required>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button id="cancelClientButton" class="btn btn-secondary" type="button" data-dismiss="modal">CANCELAR</button>
-                    <button id="deleteClientButton" class="btn btn-danger" type="button" data-dismiss="modal" onclick="deleteClientDB();">ELIMINAR</button>
-                    <button id="addClientButton" class="btn btn-danger" type="button" data-type="newClient"  onclick="verifyNewClient();" form="addClientForm">GUARDAR</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
-
-        //polpulates employees select
-        populateEmployees();
-
-        //if POS1 call client on speaker when POS are ready
-        if(globalComputer == "POS0" || globalComputer == "POS1")
-            callClientsToReadyPOS();
+        
+        //when order is created adds one to local and database codes
+        updateGlobalCodes();
 
         //inputName on enter sequence
         $("#inputName").on('keyup', function (e) {
-            if (e.keyCode == 13) $("#quantityInput").focus();
+            if (e.keyCode == 13) {
+                if(!isNumeric($("#inputName").val().slice(-1)) && isNumeric($("#inputName").val().charAt($("#inputName").val().length - 2)))
+                    searchOrderById($("#inputName").val());
+                else {
+                    $("#quantityInput").focus();
+                } 
+            } 
         });
+
+        function isNumeric(str) {
+            return /^\d+$/.test(str);
+        }
         
         //addClient modal enter sequence
         $("#formNameInput").on('keyup', function (e) {
             if (e.keyCode == 13) $("#formNumberInput").focus();
-        });
-
-        $("#formNumberInput").on('keyup', function (e) {
-            if (e.keyCode == 13) verifyNewClient();
         });
 
         $(document).on('click', function(e) {
@@ -308,17 +275,10 @@
                 $("#clientOptions").empty();
         });
 
-        /*
-        //update live view
-        $("#inputName").focusout(function () {
-            updateName($("#inputName").val());
-            updateEmployee($("#inputEmployeeName").val());
+        $(document).on('keyup', function (e) {
+            if (e.keyCode == 187) 
+                prepareToScan();
         });
-
-        $("#inputEmployeeName").on('change', function() {
-            updateEmployee($("#inputEmployeeName").val())
-        });
-        */
 
         //inputQuantity enter sequence
         $("#quantityInput").on('keyup', function (e) {
@@ -329,8 +289,6 @@
         //remove edited product when modal is untoggled
         $("#addProductModal").on("hidden.bs.modal", function () {
             if ($('#saveButton').data("type") == "editProduct") {
-                //FIX it is also being added to the liveView
-                removeOrderProduct($('#dynamic-list li:first-child').data("date"));
                 $('#dynamic-list li:first-child').remove();
             }
         });
@@ -343,9 +301,7 @@
             $("#greenCheckW").css("visibility", "hidden");
             $("#greenCheckWN").css("visibility", "hidden");
 
-            //firebase.database().ref("liveviews/" + globalComputer + '/sorder').remove();
-            $("#dynamic-list-2").html("");
-            hideSugList();
+            firebase.database().ref("liveviews/" + globalComputer + '/sorder').remove();
 
             var searchResult;
             var inputSearchValue = $('#inputName').val();
@@ -354,28 +310,37 @@
                 inputSearchValue = inputSearchValue.split(" ");
                 for (i = 0; i < inputSearchValue.length; i++) {
                     if (inputSearchValue[i] != "") {
-                        if (searchResult == null)
-                            searchResult = JSON.search(defiantClients, '//*[contains(nombre, "' + inputSearchValue[i] + '")]' + '|//*[contains(numero, "' + inputSearchValue[i] + '")]');
-                        else
-                            searchResult = JSON.search(searchResult, '//*[contains(nombre, "' + inputSearchValue[i] + '")]' + '|//*[contains(numero, "' + inputSearchValue[i] + '")]');
+                        if (searchResult == null) {
+                            //searchResult = JSON.search(defiantClients, '//*[contains(nombre, "' + inputSearchValue[i] + '")]' + '|//*[contains(numero, "' + inputSearchValue[i] + '")]');
+                            searchResult = JSON.search(defiantOrders, '//*[contains(name, "' + inputSearchValue[i] + '")]');
+                        }
+                        else {
+                            //searchResult = JSON.search(searchResult, '//*[contains(nombre, "' + inputSearchValue[i] + '")]' + '|//*[contains(numero, "' + inputSearchValue[i] + '")]');
+                            searchResult = JSON.search(searchResult, '//*[contains(name, "' + inputSearchValue[i] + '")]');
+                        } 
                     }
                 }
             }
             //search one word... posible id
             else {
-                if ($('#inputName').val() != "")
-                    searchResult = JSON.search(defiantClients, '//*[contains(nombre, "' + inputSearchValue + '")]' + '|//*[contains(numero, "' + inputSearchValue + '")]');
+                if ($('#inputName').val() != "") {
+                    searchResult = JSON.search(defiantOrders, '//*[contains(name, "' + inputSearchValue + '")]');
+                }
             }
 
             //loads the results into the list
             $("#clientOptions").empty();
             if ($('#inputName').val() != "") {
                 //$("#dynamic-list").css("opacity", "0.25");
-                populateLiveClientList(searchResult);
+                //populateLiveClientList(searchResult);
+                populateLiveOrderList(searchResult);
 
                 //on enter the first search item is selected
-                if (e.keyCode == 13 && searchResult.length > 0)
-                    addClientObjectGetter(searchResult[0].Id);
+                if (e.keyCode == 13 && searchResult.length > 0) {
+                    //addClientObjectGetter(searchResult[0].Id);
+                    addOrderObjectGetter(searchResult[0].Id);
+
+                }
             }// else
                 //$("#dynamic-list").css("opacity", "1");
         });
@@ -385,7 +350,6 @@
             //POSIBLE if searching then blur background
             if (e.keyCode == 219 || e.keyCode == 111) {
                 $("#dynamic-list").css("opacity", "1");
-                $("#dynamic-list-2").css("opacity", "1");
                 $("#inputName").focus();
                 $("#inputSearch").val($("#inputSearch").val().substring(0, $("#inputSearch").val().length - 1));
                 setTimeout(function () {
@@ -394,8 +358,7 @@
             //POSIBLE unblur background
             } else if (e.keyCode == 221 || e.keyCode == 106) {
                 $("#dynamic-list").css("opacity", "1");
-                $("#dynamic-list-2").css("opacity", "1");
-                generatePDF("");
+                verifyOrder("");
             }
 
             //search action
@@ -430,7 +393,6 @@
                 $("#searchOptions").empty();
                 if ($('#inputSearch').val() != "") {
                     $("#dynamic-list").css("opacity", "0.25");
-                    $("#dynamic-list-2").css("opacity", "0.25");
                     populateLiveSearchList(searchResult);
 
                     //on enter the first search item is selected
@@ -438,7 +400,6 @@
                         addProduct(searchResult[0]);
                 } else {
                     $("#dynamic-list").css("opacity", "1");
-                    $("#dynamic-list-2").css("opacity", "1");
                 }
             }
         });
@@ -477,357 +438,375 @@
             }
         };
 
-        //populates employee's select
-        function populateEmployees() {
-            var empleadosDB;
-			firebase.database().ref("employees").once('value', function(snapshot) {
-				empleadosDB = snapshot.val();
-			}).then(function(){
-				$.each(empleadosDB, function(key, value) {
-                    var select = document.getElementById('inputEmployeeName');
-                    var option = document.createElement('option');
-                    option.appendChild(document.createTextNode(key.toUpperCase()));
-                    option.value = key.toUpperCase(); 
-                    select.appendChild(option);
-				});
-			});
+        function prepareToScan() {
+            $('#inputName').val("");
+            $('#inputName').focus();
         }
 
-        //calls clients to specific POS 
-        function callClientsToReadyPOS() {
-            firebase.database().ref('extras/callClients').on('value', function (snapshot) {
+        function updateGlobalCodes() {
+            firebase.database().ref('extras/code1').on('value', function (snapshot) {
                 if(snapshot.val() != undefined) {
-                    for (const [key, value] of Object.entries(snapshot.val())) {
-                        if(value) {
-                            firebase.database().ref('extras/callClients/' + key).set(false);
-                            speakCallClient(key.slice(-1));
-                        }
-                    }
+                    globalCode1 = snapshot.val();
+                }
+            });
+            firebase.database().ref('extras/code2').on('value', function (snapshot) {
+                if(snapshot.val() != undefined) {
+                    globalCode2 = snapshot.val();
                 }
             });
         }
 
-        //speaks greeting and call client to ready POS
-        function speakCallClient(pos) {
-			var msg = new SpeechSynthesisUtterance();
-			msg.rate = 1;
+        function addRelationFields(key, value) {
+            var fields = '<div class="row new-relation">' +
+                            '<div class="col-sm-3">' +
+                                '<input id="relationID" class="form-control" type="text" oninput="this.value = this.value.toUpperCase()" placeholder="CLAVE" value="' + key + '">' +
+                            '</div>' +
+                            '<div class="col-sm-3">' +
+                                '<div class="form-group">' +
+                                    '<input id="relationQuantity" class="form-control" type="number" oninput="this.value = this.value.toUpperCase()" placeholder="¿CUANTOS?" value="' + value + '">' +
+                                '</div>' +
+                            '</div>'
+                        '</div>';
 
-            var hours = (new Date()).getHours();
-            var greeting = hours >= 12 ? "buenas tardes" : "buenos días";
+            $("#addNewProductDBFormWrapper").append(fields);
+        }
+
+        function searchOrderById(id) {
+            id = id.replaceAll(".", "").replaceAll(" ", "");
+            firebase.database().ref("providers/" + id).once('value', function (snapshot) {
+                if(snapshot.val() != null) {
+                    populateOrder(snapshot.val());
+                } else {
+                    console.log("no encontré nada");
+                    //emptyForm(document.getElementById("searchOrderForm"), 3);
+                    //document.getElementById("verificationMessageId").innerHTML = "NO SE GUARDÓ NINGUNA NOTA CON ESE CODIGO.";
+                }
+            });
+        }
+
+        function deleteOrder() {
+            if(globalID != "") {
+                firebase.database().ref("providers/" + globalID).remove();
+            }
+            eraseOrder();
+        }
+        
+        function populateOrder(order) {
+            eraseOrder();
+
+            $("#quantityInput").val("");
+            $("#inputSearch").val("");
+            $("#searchOptions").empty();
             
-            if(getRandomInt(4) == 1) msg.text = greeting + ", pase el siguiente a la " + pos;
-            else msg.text = "pase el siguiente a la " + pos;
+            $("#inputName").val(order.name);
+            globalID = order.qr;
 
-            msg.voice = speechSynthesis.getVoices()[1];
-            //msg.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Google español de Estados Unidos')];
-			window.speechSynthesis.speak(msg);
-		}
+            $("#inputNameWhatsapp").val(order.whatsapp);
+
+            $("#saveOrderButton").css("visibility", "visible");
+
+            if(order.calculable) {
+                $("#greenCheckClient").css("visibility", "visible");
+            } else {
+                $("#greenCheckClient").css("visibility", "hidden");
+            }
+
+            (function iterateOverProductsWithDelay (i) {          
+                setTimeout(function () {   
+                    addProductFromSavedOrder(Object.keys(order.products)[i - 1], Object.values(order.products)[i - 1]);
+                    if (--i) {
+                        iterateOverProductsWithDelay(i);
+                    } else {
+                        $("#quantityInput").focus();
+                    }
+                }, 1)
+            })(Object.keys(order.products).length);
+        }
+
+        //adds the item to the list
+        function addProduct(product) {
+            $("#searchOptions").empty();
+            $("#dynamic-list").css("opacity", "1");
+            $("#inputSearch").val("");
+
+            var date = (new Date()).getTime();
+            var color,
+                backgroundColor;
+
+            if(product.existencia == "siHay") {
+                color = "#EEEEEE";
+                backgroundColor = "#111111";
+            }
+            else if(product.existencia == "noHay") {
+                color = "rgba(216, 61, 52, 95%)";
+                backgroundColor = "#111111";
+            }
+            else if(product.existencia == "pedido") {
+                color = "rgba(51, 204, 51, 80%)";
+                backgroundColor = "#111111";
+            }
+
+            var totalCost = "";
+            if($("#quantityInput").val() != "") {
+                totalCost = $("#quantityInput").val() * product.costo;
+                totalCost = "$" + Math.round(totalCost * 10) / 10
+            }
+                
+            var productListItem =
+                '<li class="list-group-item row product-row product-total" style= "background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;" data-id="' + product.clave + '" data-date="' + date + '" data-total="' + round($("#quantityInput").val() * product.costo) + '">' +
+                    '<div class="col-sm-1 product-quantity">' +
+                        '<input class="form-control" type="number" min="0" style= "color: ' + color + '; background-color: ' + backgroundColor + '; border-color: #555555; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;"></input>' +
+                    '</div>' +
+                    '<div class="col-sm-1 product-info">' + product.unidad + '</div>' +
+                    '<div class="col-sm-5 product-info">' + product.descripcion + '</div>' +
+                    '<div id="localCost" class="col-sm-1 product-info">' + totalCost + '</div>' +
+                    '<div class="col-sm-1 product-notes-container">' +
+                        '<input class="form-control product-price" type="input" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;" oninput="this.value = this.value.toUpperCase()" maxlength="48" placeholder="PRECIO" value="' + product.costo + '"> </input>' +
+                    '</div>' +
+                    '<div class="col-sm-2 product-notes-container">' +
+                        '<input class="form-control product-notes" type="input" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;" oninput="this.value = this.value.toUpperCase()" maxlength="48" placeholder="NOTAS"> </input>' +
+                    '</div>' +
+                    '<button class="btn btn-default btn-sm col-sm-1 remove-button cross" type="button" style="background-color: ' + backgroundColor + '; border-color: ' + backgroundColor + ';">' +
+                        '<span class="glyphicon glyphicon-remove cross" style="color:grey; padding-top: 4.5px;"></span>' +
+                    '</button>' +
+                '</li>';
+
+            //add list element
+            $('#dynamic-list').prepend(productListItem);
+            updateTotal();
+            
+            //populate quantity and clean original (outter) input
+            var outterQuantity = $("#quantityInput").val();
+            var inputQuantity = $('#dynamic-list').find('input').first();
+            inputQuantity.val(outterQuantity);
+            $("#quantityInput").val("");
+            
+            productCounter++;
+            updateNP(productCounter);
+
+            //inputSearch sequence
+            $('#dynamic-list').find('input').eq(1).focus();
+
+            $('#dynamic-list').find('input').first().on('change', function (e) {
+                let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
+                thisRow.data("total", (round($(this).val() * thisRow.children().eq(4).children().val())));
+                thisRow.children().eq(3).text("$" + round($(this).val() * thisRow.children().eq(4).children().val()));
+                updateTotal();
+            })
+
+            //inputQuantity enter sequence (to notes)
+            $('#dynamic-list').find('input').first().on('keyup', function (e) {
+                let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
+                thisRow.data("total", (round($(this).val() * thisRow.children().eq(4).children().val())));
+                thisRow.children().eq(3).text("$" + round($(this).val() * thisRow.children().eq(4).children().val()));
+                updateTotal();
+                if (e.keyCode == 13)
+                    $(this).parent().nextAll().eq(3).children().focus();
+            });
+
+            //price enter
+            $('#dynamic-list').find('input').eq(1).on('keyup', function (e) {
+                let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
+                thisRow.data("total", (round($(this).val() * thisRow.children().eq(0).children().val())));
+                thisRow.children().eq(3).text("$" + round($(this).val() * thisRow.children().eq(0).children().val()));
+                updateTotal();
+                if (e.keyCode == 13)
+                    $("#quantityInput").focus();
+            })
+
+            //inputNotes enter sequence with shortcuts (to outter quantity)
+            var inputNotes = $('#dynamic-list').find('input').eq(2);
+            inputNotes.on('keyup', function (e) {
+                if (e.keyCode == 13) {
+                    if (inputNotes.val() == "S")
+                        inputNotes.val("SURTIDO");
+                    else if (inputNotes.val() == "K")
+                        inputNotes.val("EN KILOS");
+                    else if (inputNotes.val() == "M")
+                        inputNotes.val("EN MEDIOS");
+                    else if (inputNotes.val() == "C")
+                        inputNotes.val("EN CUARTOS");
+                    else if (inputNotes.val() == "2")
+                        inputNotes.val("2-2");
+                    else if (inputNotes.val() == "3")
+                        inputNotes.val("3-3");
+                    else if (inputNotes.val() == "4")
+                        inputNotes.val("4-4");
+                    else if (inputNotes.val() == "5")
+                        inputNotes.val("5-5");
+                    else if (inputNotes.val() == "J")
+                        inputNotes.val("JUNTA");
+                    $("#quantityInput").focus();
+                }
+            });
+
+            $('#dynamic-list').children().first().on("mouseup", "button", function (e) {
+                e.preventDefault();
+                
+                $(this).parent().remove();
+                
+                updateTotal();
+                productCounter--;
+                updateNP(productCounter);
+            });
+        }
+
+        function addProductFromSavedOrder(id, product) {
+            id = id.substring(3);
+
+            var notesAndQuantity = product;
+            product = JSON.search(defiantProducts, '//*[clave="' + id + '"]')[0];
+
+            $("#searchOptions").empty();
+            $("#dynamic-list").css("opacity", "1");
+            $("#inputSearch").val("");
+
+            var date = (new Date()).getTime();
+            var color,
+                backgroundColor;
+
+            if(product.existencia == "siHay") {
+                color = "#EEEEEE";
+                backgroundColor = "#111111";
+            }
+            else if(product.existencia == "noHay") {
+                color = "rgba(216, 61, 52, 95%)";
+                backgroundColor = "#111111";
+            }
+            else if(product.existencia == "pedido") {
+                color = "rgba(51, 204, 51, 80%)";
+                backgroundColor = "#111111";
+            }
+
+            var totalCost = notesAndQuantity.uc * notesAndQuantity.p;
+            totalCost = "$" + Math.round(totalCost * 10) / 10
+               
+            var productListItem =
+                '<li class="list-group-item row product-row product-total" style= "background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;" data-id="' + product.clave + '" data-date="' + date + '" data-total="' + round(notesAndQuantity.uc * notesAndQuantity.p) + '">' +
+                    '<div class="col-sm-1 product-quantity">' +
+                        '<input class="form-control" type="number" min="0" style= "color: ' + color + '; background-color: ' + backgroundColor + '; border-color: #555555; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;"></input>' +
+                    '</div>' +
+                    '<div class="col-sm-1 product-info">' + product.unidad + '</div>' +
+                    '<div class="col-sm-5 product-info">' + product.descripcion + '</div>' +
+                    '<div id="localCost" class="col-sm-1 product-info">' + totalCost + '</div>' +
+                    '<div class="col-sm-1 product-notes-container">' +
+                        '<input class="form-control product-price" type="input" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;" oninput="this.value = this.value.toUpperCase()" maxlength="48" placeholder="PRECIO" value="' + notesAndQuantity.p + '" readonly> </input>' +
+                    '</div>' +
+                    '<div class="col-sm-2 product-notes-container">' +
+                        '<input class="form-control product-notes" type="input" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;" oninput="this.value = this.value.toUpperCase()" maxlength="48" placeholder="NOTAS" value="' + notesAndQuantity.n + '"> </input>' +
+                    '</div>' +
+                    '<button class="btn btn-default btn-sm col-sm-1 remove-button cross" type="button" style="background-color: ' + backgroundColor + '; border-color: ' + backgroundColor + ';">' +
+                        '<span class="glyphicon glyphicon-remove cross" style="color:grey; padding-top: 4.5px;"></span>' +
+                    '</button>' +
+                '</li>';
+
+            //add list element
+            $('#dynamic-list').prepend(productListItem);
+            updateTotal();
+
+            var inputQuantity = $('#dynamic-list').find('input').first();
+            inputQuantity.val(notesAndQuantity.uc);
+            
+            //populate quantity and clean original (outter) input
+            productCounter++;
+            updateNP(productCounter);
+
+            //inputSearch sequence
+            $('#dynamic-list').find('input').eq(1).focus();
+
+            $('#dynamic-list').find('input').first().on('change', function (e) {
+                let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
+                thisRow.data("total", (round($(this).val() * thisRow.children().eq(4).children().val())));
+                thisRow.children().eq(3).text("$" + round($(this).val() * thisRow.children().eq(4).children().val()));
+                updateTotal();
+            })
+
+            //inputQuantity enter sequence (to notes)
+            $('#dynamic-list').find('input').first().on('keyup', function (e) {
+                let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
+                thisRow.data("total", (round($(this).val() * thisRow.children().eq(4).children().val())));
+                thisRow.children().eq(3).text("$" + round($(this).val() * thisRow.children().eq(4).children().val()));
+                updateTotal();
+                if (e.keyCode == 13)
+                    $(this).parent().nextAll().eq(3).children().focus();
+            });
+
+            //price enter
+            $('#dynamic-list').find('input').eq(1).on('keyup', function (e) {
+                let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
+                thisRow.data("total", (round($(this).val() * thisRow.children().eq(0).children().val())));
+                thisRow.children().eq(3).text("$" + round($(this).val() * thisRow.children().eq(0).children().val()));
+                updateTotal();
+                if (e.keyCode == 13)
+                    $("#quantityInput").focus();
+            })
+
+            //inputNotes enter sequence with shortcuts (to outter quantity)
+            var inputNotes = $('#dynamic-list').find('input').eq(2);
+            inputNotes.on('keyup', function (e) {
+                if (e.keyCode == 13) {
+                    if (inputNotes.val() == "S")
+                        inputNotes.val("SURTIDO");
+                    else if (inputNotes.val() == "K")
+                        inputNotes.val("EN KILOS");
+                    else if (inputNotes.val() == "M")
+                        inputNotes.val("EN MEDIOS");
+                    else if (inputNotes.val() == "C")
+                        inputNotes.val("EN CUARTOS");
+                    else if (inputNotes.val() == "2")
+                        inputNotes.val("2-2");
+                    else if (inputNotes.val() == "3")
+                        inputNotes.val("3-3");
+                    else if (inputNotes.val() == "4")
+                        inputNotes.val("4-4");
+                    else if (inputNotes.val() == "5")
+                        inputNotes.val("5-5");
+                    else if (inputNotes.val() == "J")
+                        inputNotes.val("JUNTA");
+                    $("#quantityInput").focus();
+                }
+            });
+
+            $('#dynamic-list').children().first().on("mouseup", "button", function (e) {
+                e.preventDefault();
+                
+                $(this).parent().remove();
+                
+                updateTotal();
+                productCounter--;
+                updateNP(productCounter);
+            });
+        }
 
         //generates random int with max value
         function getRandomInt(max) {
             return Math.floor(Math.random() * max);
         }
 
-
-        //flags POS as ready
-        function callClients() {
-            firebase.database().ref('extras/callClients/' + globalComputer).set(true);
-        }
-
-        //verifies new client to be added or edited 
-        function verifyNewClient() {
-            var messageLabel = document.getElementById("addClientMessage");
-            var form = document.getElementById("addClientForm");
-            var localName = form.elements[0].value,
-                localNumber = form.elements[2].value;
-                localNoquiere = $("#noWhatsappCheckbox").is(':checked');
-
-            messageLabel.innerHTML = "";
-            var verified = true;
-
-            if (localName == "") {
-                messageLabel.innerHTML = "INGRESA UN NOMBRE.";
-                verified = false;
-            }
-            
-            //when in add new client view, the name needs to be always a new one
-            var searchResult = JSON.search(defiantClients, '//*[nombre="' + localName + '"]');
-            if ($('#addClientButton').data("type") == "newClient") {
-                if (searchResult.length != 0) {
-                    if(localName == searchResult[0].nombre) {
-                        messageLabel.innerHTML = "EL NOMBRE YA EXISTE, INTENTA AGREGARLE UN APELLIDO.";
-                        verified = false;
-                    }
-                }
-            }
-
-            //when in edit client view, the name can be either the same or a new one, but not an existing one
-            else if ($('#addClientButton').data("type") == "editClient") {
-                if ($('#addClientButton').data("nombre") != localName && searchResult.length != 0) {
-                    if(localName == searchResult[0].nombre) {
-                        messageLabel.innerHTML = "EL NOMBRE YA EXISTE, INTENTA AGREGARLE UN APELLIDO.";
-                        verified = false;
-                    }
-                }
-            }
-            
-            //checks for points in number
-            if ((localNumber != "") && !isNaturalNumber(localNumber)) {                
-                messageLabel.innerHTML = "EL WHATSAPP SOLO PUEDE TENER NUMEROS.";
-                verified = false;
-            }
-            
-            //checks for 10 digit format in number
-            if ((localNumber != "") && (isNaN(localNumber) || localNumber.length != 10)) {
-                messageLabel.innerHTML = "EL WHATSAPP DEBE DE SER DE 10 DIGITOS.";
-                verified = false;
-            }
-            
-            //checks for any special character
-            if (!isValidName(localName)) {
-                messageLabel.innerHTML = "EL NOMBRE SOLO PUEDE TENER LETRAS Y/O NUMEROS.";
-                verified = false;
-            }
-
-            //checks for at least a letter
-            if (!localName.match(/[A-Z]/i)) {
-                messageLabel.innerHTML = "EL NOMBRE NO PUEDE SER UN NUMERO.";
-                verified = false;
-            }
-
-            //checks for existing numbers
-            if (localNumber != "") {
-                dbClients.child(localNumber).once('value', function (snapshot) {
-                    //when in "add client" view, the id needs to be always a new one
-                    if ($('#addClientButton').data("type") == "newClient") {
-                        if (snapshot.val() !== null) {
-                            messageLabel.innerHTML = "EL WHATSAPP YA EXISTE, VERIFICALO.";
-                            verified = false;
-                        }
-                    }
-                    //when in edit client, the number can be either the same or a new one, but not an existing one
-                    else if ($('#addClientButton').data("type") == "editClient") {
-                        if ($('#addClientButton').data("numero") != localNumber) {
-                            if (snapshot.val() !== null) {
-                                messageLabel.innerHTML = "EL WHATSAPP YA EXISTE, VERIFICALO.";
-                                verified = false;
-                            }
-                        }
-                    }
-                });
-            }
-
-            if(verified) {
-                if(localNumber == "") {
-                    generateNewRandomWhatsapp(localName, localNoquiere, form, messageLabel);
-                } else
-                    endClientDialog(localName, localNumber, localNoquiere, form, messageLabel);
-            }
-            return false;
-        }
-
         //populates client search list after the result has been processed
-        function populateLiveClientList(searchResult) {
+        function populateLiveOrderList(searchResult) {
             var clientItem = "";
             //up to 51 results in search bar
+            var orderDate;
+            var orderHours,
+                orderMinutes;
+            var calculableCheckMark;
             for (var i = 0; i < searchResult.length && i < 51; i++) {
-                clientItem = '<button class="list-group-item client-options-item row btn-default" onclick="addClientObjectGetter(&#39;' + searchResult[i].numero + '&#39;)">' +
-                    '<div id="clientNameResult" class="col-sm-7">' + searchResult[i].nombre + '</div>';
-                if(searchResult[i].noquiere)
-                    clientItem = clientItem + 
-                        '<div class="col-sm-4 hidden-number no-horizontal-padding">' + "NO QUIERE" + '</div>';
-                else if(isFakeWhatsapp(searchResult[i].numero))
-                    clientItem = clientItem + 
-                        '<div id="clientNumberResult" class="col-sm-4 hidden-number">' + searchResult[i].numero + '</div>';
-                else
-                    clientItem = clientItem + 
-                        '<div class="col-sm-4 no-horizontal-padding">' + searchResult[i].numero + '</div>';
+                calculableCheckMark = "";    
+                if(searchResult[i].calculable)
+                    calculableCheckMark = "glyphicon-ok";
 
-                clientItem = clientItem + 
-                    '<div class="btn btn-sm col-sm-1" type="button" onclick="editClientModal(&#39;' + searchResult[i].numero + '&#39;)" style="padding-left:1px;"> ' + 
-                        '<span style="color:grey; font-size:20px; line-height:96%;">&#9998;</span>' +
-                    '</div>' +
-                    '</button>';
-
+                clientItem = '<button class="list-group-item list-width client-options-item row btn-default" onclick="searchOrderById(&#39;' + searchResult[i].qr + '&#39;)">' +
+                    '<div id="clientNameResult" class="col-sm-7">' + searchResult[i].name + '</div>' + 
+                    '<div class="col-sm-3 no-horizontal-padding">' + searchResult[i].whatsapp + '</div>' + 
+                    '<div class="col-sm-1 no-horizontal-padding">$' + searchResult[i].subtotal + '</div>';
+                    //'<span id="greenCheckClientLive" class="glyphicon ' + calculableCheckMark + '"></span>';
+                
                 $("#clientOptions").append(clientItem);
             }
         }
 
-        //edit or delete product modal values
-        function editClientModal(numero) {
-            document.getElementById("addClientModalLabel").innerHTML = "EDITAR CLIENTE";
-            document.getElementById("verificationMessage").innerHTML = "";
-            document.getElementById("addClientForm").reset();
-            document.getElementById("deleteClientButton").style.display = "inline";
-
-            var clientToEdit = JSON.search(defiantClients, '//*[contains(numero, "' + numero + '")]')[0];
-            var form = document.getElementById("addClientForm");
-
-            form.elements[0].value = clientToEdit.nombre;
-            $('#noWhatsappCheckbox').prop('checked', clientToEdit.noquiere);
-            form.elements[2].value = clientToEdit.numero;
-
-            if(clientToEdit.noquiere)
-                form.elements[2].disabled = true;
-
-            $("#noWhatsappCheckbox").change(function() {
-                var ischecked = $(this).is(':checked');
-                if(ischecked) $('#formNumberInput').attr("disabled", true);
-                else $('#formNumberInput').attr("disabled", false);
-            });
-
-            for(var i = 0; i < form.elements.length; i++) {
-                if(form.elements[i].value == undefined || form.elements[i].value == "undefined")
-                    form.elements[i].value = "";
-            } 
-
-            $('#addClientButton').data("type", "editClient");
-            $('#addClientButton').data("numero", numero);
-            $('#addClientButton').data("nombre", clientToEdit.nombre);
-
-            $('#addClientModal').modal('show');
-        }
-
-        function addClientObjectGetter(numero) {
-            searchResult = JSON.search(defiantClients, '//*[contains(numero, "' + numero + '")]');
-            setClient(searchResult[0]);
-        }
-
-        function setClient(client) {
-            $("#clientOptions").empty();
-            $("#dynamic-list").css("opacity", "1");
-            $("#inputName").val(client.nombre);
-            clientName = client.nombre;
-            clientWhatsapp = client.numero;
-            $("#greenCheck").css("visibility", "visible");
-            
-            if(client.numero.toString().charAt(0) != "0")
-                $("#greenCheckW").css("visibility", "visible");
-            else if(client.noquiere) 
-                $("#greenCheckWN").css("visibility", "visible");
-
-            $("#dynamic-list-2").html("");
-            hideSugList();
-            
-            /*FIX efficiency
-            populateSuggestedOrder(client.numero);
-            populateSuggestedOrderLV(client.numero);
-            */
-           
-            updateName($("#inputName").val());
-        }
-
-        function isNaturalNumber(str) {
-            var pattern = /^(0|([0-9]\d*))$/;
-            return pattern.test(str);
-        }
-
-        function isValidName(name) {
-            var pattern = /^[A-Z0-9 _]*[A-Z0-9][A-Z0-9 _]*$/;
-            return pattern.test(name);
-        }
-
-        function getRandomW() {
-            var randomint = Math.floor(Math.random() * 1000000000);
-            randomint = ('000000000' + randomint).slice(-10);
-            return randomint;
-        }
-
-        function generateNewRandomWhatsapp(localName, localNoquiere, form, messageLabel) {
-            var newWhatsapp = getRandomW();
-            dbClients.child(newWhatsapp).once('value', function (snapshot) {
-                if (snapshot.val() != null)
-                    generateNewRandomWhatsapp(localName, localNoquiere, form, messageLabel);
-                else
-                    endClientDialog(localName, newWhatsapp, localNoquiere, form, messageLabel);
-            });
-        }
-
-        function isFakeWhatsapp(whatsapp) {
-            return whatsapp.length == 10 && whatsapp.charAt(0) == "0";
-        }
-
-        function endClientDialog(localName, localNumber, localNoquiere, form, messageLabel) {            
-            saveProviderDB(localName, localNumber, localNoquiere);
-            messageLabel.innerHTML = "";
-
-            //if at edit product the id changes, deletes the old ids instance
-            if ($('#addClientButton').data("type") == "editClient")
-                if ($('#addClientButton').data("numero") != localNumber)
-                    dbClients.child($('#addClientButton').data("numero")).remove();
-
-            emptyForm(form, form.elements.length);
-            $("#clientOptions").empty();
-            $("#dynamic-list").css("opacity", "1");
-            $("#dynamic-list-2").css("opacity", "1");
-
-            setTimeout(function () {
-                $("#quantityInput").focus();
-            }, 500);
-        }
-
-        function saveProviderDB(name, number, localNoquiere) {
-            firebase.database().ref('providers/' + number).set({
-                nombre: name,
-                numero: number,
-                noquiere: localNoquiere
-            }).then(function () {
-                $("#inputName").val(name);
-                clientName = name;
-                clientWhatsapp = number;
-                $("#greenCheck").css("visibility", "visible");
-
-                if(number.charAt(0) != "0") $("#greenCheckW").css("visibility", "visible");
-                else if(client.noquiere) $("#greenCheckWN").css("visibility", "visible");
-                
-                $('#addClientModal').modal('toggle');
-                updateName($("#inputName").val());
-            });
-        }
-
-        function deleteClientDB() {
-            dbClients.child($('#addClientButton').data("numero")).remove().then(function () {
-                $("#inputName").val("");
-                $("#clientOptions").empty();
-                $("#dynamic-list").css("opacity", "1");
-
-                clientName = "";
-                clientWhatsapp = "";
-
-                $("#greenCheck").css("visibility", "hidden");
-                $("#greenCheckW").css("visibility", "hidden");
-                $("#greenCheckWN").css("visibility", "hidden");
-
-                //firebase.database().ref("liveviews/" + globalComputer + '/sorder').remove();
-                $("#dynamic-list-2").html("");
-                hideSugList();
-            });
-        }
-
-        function showAddProviderModal() {
-            document.getElementById("addClientModalLabel").innerHTML = "NUEVO PROVEEDOR";
-            document.getElementById("addClientMessage").innerHTML = "";
-            document.getElementById("deleteClientButton").style.display = "none";
-            document.getElementById("addClientForm").reset();
-            $('#addClientButton').data("type", "newClient");
-
-            $("#noWhatsappCheckbox").change(function() {
-                var ischecked = $(this).is(':checked');
-
-                if(ischecked) $('#formNumberInput').attr("disabled", true);
-                else $('#formNumberInput').attr("disabled", false);
-            });
-
-            $("#formNameInput").val($("#inputName").val());
-            $('#addClientModal').modal('show');
-
-            setTimeout(function () {
-                if($("#formNameInput").val() == "") $("#formNameInput").focus();
-                else $("#formNumberInput").focus();
-            }, 500);
-        }
-
-        //populates live search list after the result has been processed
+        //populates live search of products list after the result has been processed
         function populateLiveSearchList(searchResult) {
             var backgroundColor,
                 color,
@@ -880,19 +859,57 @@
             form.elements[1].value = productToEdit.clave;
             form.elements[2].value = productToEdit.xpcode;
             form.elements[3].value = productToEdit.costo;
+
+            if(productToEdit.pesoN != undefined && productToEdit.pesoN != "")
+                form.elements[3].value = (productToEdit.costo / productToEdit.pesoN).toString();
+            form.elements[4].value = productToEdit.pesoN;
+
             $("#unitSelect").val(productToEdit.unidad);
             $("#stockSelect").val(productToEdit.existencia);
             $("#typeSelect").val(productToEdit.tipo);
+            $(".new-relation").remove();
 
-            $("#datePicker").val(productToEdit.expiracion);
-            $("#relationID").val(productToEdit.relacion);
-            $("#relationQuantity").val(productToEdit.cantidadr);
+            if(relationsSnapshot[id] != undefined) {
+                //product has one relation
+                if(Object.keys(relationsSnapshot[id]).length >= 1) {
+                    $("#relationID").val(Object.keys(relationsSnapshot[id])[0]);
+                    $("#relationQuantity").val(Object.values(relationsSnapshot[id])[0]);
+                    
+                    //relation is child type
+                    if(Object.values(relationsSnapshot[id])[0] <= 1)
+                    disableRelationInput();
+                }
+                
+                //relationn is parent type
+                if(Object.keys(relationsSnapshot[id]).length > 1) {
+                    enableRelationInput();
+                    for (const [key, value] of Object.entries(relationsSnapshot[id])) {
+                        if(Object.keys(relationsSnapshot[id])[0] != key) {
+                            addRelationFields(key, value);
+                        }     
+                    }
+                } 
+            }
 
             //sets buttons inner values
             $('#saveButton').data("type", "editProduct");
             $('#saveButton').data("id", form.elements[1].value);
 
             $('#addProductModal').modal('show');
+        }
+
+        function disableRelationInput() {
+            $("#relationID").prop('disabled', true); 
+            $("#relationQuantity").prop('disabled', true); 
+            $("#addRealtionButton").css('display', 'none'); 
+            $("#relationLabel").css('display', 'none'); 
+        }
+
+        function enableRelationInput() {
+            $("#relationID").prop('disabled', false); 
+            $("#relationQuantity").prop('disabled', false); 
+            $("#addRealtionButton").css('display', 'inline-block'); 
+            $("#relationLabel").css('display', 'block'); 
         }
 
         //sets modal to add product view
@@ -903,6 +920,16 @@
             document.getElementById("verificationMessage").innerHTML = "";
             emptyForm(document.getElementById("addNewProductDBForm"), 7);
 
+            if($("#relationFieldsWrapper").siblings()[3] != undefined)
+                $("#relationFieldsWrapper").siblings()[3].remove();
+            if($("#relationFieldsWrapper").siblings()[4] != undefined)
+                $("#relationFieldsWrapper").siblings()[4].remove();
+            if($("#relationFieldsWrapper").siblings()[5] != undefined)
+                $("#relationFieldsWrapper").siblings()[5].remove();
+
+            $(".new-relation").remove();
+            enableRelationInput();
+
             $('#saveButton').data("type", "newProduct");
             $('#addProductModal').modal('show');
         }
@@ -912,6 +939,22 @@
             $('#dynamic-list li:first-child').remove();
             var id = document.getElementById("addNewProductDBForm").elements[1].value;
             dbProducts.child(id).remove();
+
+            firebase.database().ref('inventory/' + id).remove();
+            firebase.database().ref('relations/' + id).remove();
+            
+            //remove embeded relations
+            firebase.database().ref("relations").once('value', function(snapshot) {
+                if(snapshot.val() != undefined) {
+                    for (let bigId in snapshot.val()) {
+                        for (let smallId in snapshot.val()[bigId]) {
+                            if(smallId == id) {
+                                firebase.database().ref("relations/" + bigId + "/" + smallId).remove();
+                            }
+                        }
+                    }
+                }
+            });
         }
 
         //verifies input of modal form
@@ -921,9 +964,9 @@
             var verified = true;
 
             //checks for blanks
-            var inputs = new Array(10);
+            var inputs = new Array(11);
             
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < 11; i++)
                 inputs[i] = form.elements[i].value;
 
             if (inputs[0] == "") {
@@ -938,13 +981,13 @@
             } else if (inputs[3] == "") {
                 messageLabel.innerHTML = "FALTA COSTO.";
                 verified = false;
-            } else if (inputs[4] == "") {
+            } else if (inputs[5] == "") {
                 messageLabel.innerHTML = "FALTA UNIDAD.";
                 verified = false;
-            } else if (inputs[5] == "") {
+            } else if (inputs[6] == "") {
                 messageLabel.innerHTML = "FALTA EXISTENCIA.";
                 verified = false;
-            } else if (inputs[6] == "") {
+            } else if (inputs[7] == "") {
                 messageLabel.innerHTML = "FALTA TIPO.";
                 verified = false;
             }
@@ -960,7 +1003,7 @@
                 messageLabel.innerHTML = "EL CODIGO DEL SAT DEBE DE SER DE 8 DIGITOS.";
                 verified = false;
             }
-
+            
             //checks for $ or -
             if (form.elements[1].value.indexOf("$") >= 0 || form.elements[1].value.indexOf("-") >= 0) {
                 messageLabel.innerHTML = "LA CLAVE SOLO PUEDE TENER LETRAS Y/O NUMEROS";
@@ -1003,8 +1046,11 @@
 
             //if everything is checked, upload form
             if (verified) {
+                uploadRelations(form.elements);
+
                 addNewProductDB(inputs);
                 messageLabel.innerHTML = "";
+
 
                 //if at edit product the id changes, deletes the old ids instance
                 if ($('#saveButton').data("type") == "editProduct")
@@ -1015,6 +1061,31 @@
             }
         }
 
+        function uploadRelations(elements) {
+            if (elements[8].value != undefined && elements[8].value != "") {
+                firebase.database().ref("relations/" + elements[1].value + "/" + elements[8].value).set(elements[9].value);
+                firebase.database().ref("relations/" + elements[8].value + "/" + elements[1].value).set(1 / elements[9].value);
+            } if (elements[11] != undefined && elements[11].value != "") {
+                firebase.database().ref("relations/" + elements[1].value + "/" + elements[10].value).set(elements[11].value);
+                firebase.database().ref("relations/" + elements[10].value + "/" + elements[1].value).set(1 / elements[11].value);
+            } if (elements[13] != undefined && elements[13].value != "") {
+                firebase.database().ref("relations/" + elements[1].value + "/" + elements[13].value).set(elements[13].value);
+                firebase.database().ref("relations/" + elements[13].value + "/" + elements[1].value).set(1 / elements[14].value);
+            } if (elements[15] != undefined && elements[15].value != "") {
+                firebase.database().ref("relations/" + elements[1].value + "/" + elements[15].value).set(elements[16].value);
+                firebase.database().ref("relations/" + elements[15].value + "/" + elements[1].value).set(1 / elements[16].value);
+            } if (elements[17] != undefined && elements[17].value != "") {
+                firebase.database().ref("relations/" + elements[1].value + "/" + elements[17].value).set(elements[18].value);
+                firebase.database().ref("relations/" + elements[17].value + "/" + elements[1].value).set(1 / elements[18].value);
+            } if (elements[19] != undefined && elements[19].value != "") {
+                firebase.database().ref("relations/" + elements[1].value + "/" + elements[19].value).set(elements[20].value);
+                firebase.database().ref("relations/" + elements[19].value + "/" + elements[1].value).set(1 / elements[20].value);
+            } if (elements[21] != undefined && elements[21].value != "") {
+                firebase.database().ref("relations/" + elements[1].value + "/" + elements[21].value).set(elements[22].value);
+                firebase.database().ref("relations/" + elements[21].value + "/" + elements[1].value).set(1 / elements[22].value);
+            }
+        }
+
         //clears modal form values
         function emptyForm(form, length) {
             form.reset();
@@ -1022,22 +1093,25 @@
 
         //adds or updates a product to firebase
         function addNewProductDB(inputs) {
+            var costoLocal = inputs[3];
+            if(inputs[4] != undefined && inputs[4] != "")
+                costoLocal = (inputs[3] * inputs[4]).toString();
+
             firebase.database().ref('products/' + inputs[1]).set({
                 clave: inputs[1],
-                costo: inputs[3],
+                costo: costoLocal,
                 descripcion: inputs[0],
-                existencia: inputs[5],
-                tipo: inputs[6],
-                unidad: inputs[4],
+                existencia: inputs[6],
+                pesoN: inputs[4],
+                tipo: inputs[7],
+                unidad: inputs[5],
                 xpcode: inputs[2],
-                categoria: 1,
-                expiracion: inputs[7],
-                relacion: inputs[8],
-                cantidadr: inputs[9],
-
+                categoria: 1
             }).then(function () {
                 $('#addProductModal').modal('toggle');
             });
+
+            firebase.database().ref('inventory/' + inputs[1] + "/stock").set(0);
         }
 
         //FIX adds a product to the order by id (only gets the product from the DB so that it can be added in addProduct())
@@ -1046,148 +1120,9 @@
             addProduct(searchResult[0]);
         }
 
-        function hideSugList() {
-            $('#dynamic-list').css("height", "620px");
-            $('#dynamic-list').css("margin-bottom", "0px");
-            $('#dynamic-list-2').css("visibility", "hidden");
-            $('#sugerenciasLabel').css("visibility", "hidden");
-        }
-        
-        function showSugList() {
-            $('#dynamic-list').css("height", "360px");
-            $('#dynamic-list').css("margin-bottom", "8px");
-            $('#dynamic-list-2').css("visibility", "visible");
-            $('#sugerenciasLabel').css("visibility", "visible");
-        }
-
-        //adds the item to the list
-        function addProduct(product) {
-            $("#searchOptions").empty();
-            $("#dynamic-list").css("opacity", "1");
-            $("#dynamic-list-2").css("opacity", "1");
-            $("#inputSearch").val("");
-
-            var date = (new Date()).getTime();
-            var color,
-                backgroundColor;
-
-            if(product.existencia == "siHay") {
-                color = "#EEEEEE";
-                backgroundColor = "#111111";
-            }
-            else if(product.existencia == "noHay") {
-                color = "rgba(216, 61, 52, 95%)";
-                backgroundColor = "#111111";
-            }
-            else if(product.existencia == "pedido") {
-                color = "rgba(51, 204, 51, 80%)";
-                backgroundColor = "#111111";
-            }
-
-            var totalCost = "";
-                
-            var productListItem =
-                '<li class="list-group-item row product-row product-total" style= "background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;" data-id="' + product.clave + '" data-date="' + date + '" data-total="' + round($("#quantityInput").val() * product.costo) + '">' +
-                    '<div class="col-sm-1 product-quantity">' +
-                        '<input class="form-control" type="number" min="0" style= "color: ' + color + '; background-color: ' + backgroundColor + '; border-color: #555555; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;"></input>' +
-                    '</div>' +
-                    '<div class="col-sm-1 product-info">' + product.unidad + '</div>' +
-                    '<div class="col-sm-6 product-info">' + product.descripcion + '</div>' +
-                    '<div id="localCost" class="col-sm-1 product-info">' + totalCost + '</div>' +
-                    '<div class="col-sm-2 product-notes-container">' +
-                        '<input class="form-control product-notes" type="number" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;" oninput="this.value = this.value.toUpperCase()" placeholder="PRECIO"> </input>' +
-                    '</div>' +
-                    '<button class="btn btn-default btn-sm col-sm-1 remove-button cross" type="button" style="background-color: ' + backgroundColor + '; border-color: ' + backgroundColor + ';">' +
-                        '<span class="glyphicon glyphicon-remove cross" style="color:grey; padding-top: 4.5px;"></span>' +
-                    '</button>' +
-                '</li>';
-
-            //add list element
-            $('#dynamic-list').prepend(productListItem);
-            updateTotal();
-
-            deleteSuggestedProduct(product.clave);
-            
-            //populate quantity and clean original (outter) input
-            var outterQuantity = $("#quantityInput").val();
-            var inputQuantity = $('#dynamic-list').find('input').first();
-            inputQuantity.val(outterQuantity);
-            $("#quantityInput").val("");
-            
-            updateWT();
-
-            productCounter++;
-            updateNP(productCounter);
-
-            //inputSearch sequence
-            $('#dynamic-list').find('input').eq(1).focus();
-
-            $('#dynamic-list').find('input').eq(1).on('keyup', function (e) {
-                let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
-                thisRow.data("total", (round($(this).val() * $('#dynamic-list').find('input').first().val())));
-                thisRow.children().eq(3).text("$" + round($(this).val() * $('#dynamic-list').find('input').first().val()));
-                updateTotal();
-                updateWT();
-            })
-
-            //inputQuantity enter sequence (to notes)
-            $('#dynamic-list').find('input').first().on('keyup', function (e) {
-                let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
-                thisRow.data("total", round($(this).val() * $('#dynamic-list').find('input').last().val()));
-                thisRow.children().eq(3).text("$" + round($(this).val() * $('#dynamic-list').find('input').eq(1).val()));
-                updateTotal();
-                updateWT();
-                if (e.keyCode == 13)
-                    $(this).parent().nextAll().eq(3).children().focus();
-            });
-
-            //inputNotes enter sequence with shortcuts (to outter quantity)
-            var inputNotes = $('#dynamic-list').find('input').eq(1);
-            inputNotes.on('keyup', function (e) {
-                if (e.keyCode == 13) {
-                    if (inputNotes.val() == "S")
-                        inputNotes.val("SURTIDO");
-                    else if (inputNotes.val() == "K")
-                        inputNotes.val("EN KILOS");
-                    else if (inputNotes.val() == "M")
-                        inputNotes.val("EN MEDIOS");
-                    else if (inputNotes.val() == "C")
-                        inputNotes.val("EN CUARTOS");
-                    else if (inputNotes.val() == "2")
-                        inputNotes.val("2-2");
-                    else if (inputNotes.val() == "3")
-                        inputNotes.val("3-3");
-                    else if (inputNotes.val() == "4")
-                        inputNotes.val("4-4");
-                    else if (inputNotes.val() == "5")
-                        inputNotes.val("5-5");
-                    else if (inputNotes.val() == "J")
-                        inputNotes.val("JUNTA");
-                    $("#quantityInput").focus();
-                }
-            });
-
-            //upload or update order item
-            //uploadOrderProduct(date, outterQuantity, product.unidad, product.descripcion, "", product.costo, product.existencia, product.tipo, product.clave);
-            inputQuantity.focusout(function () {updateOrderProductQuantity(date, inputQuantity.val())});
-            inputNotes.focusout(function () {updateOrderProductNotes(date, inputNotes.val())});
-
-            $('#dynamic-list').children().first().on("mouseup", "button", function (e) {
-                e.preventDefault();
-                
-                removeOrderProduct($(this).parent().data("date"));
-                $(this).parent().remove();
-                
-                updateTotal();
-                updateWT();
-                productCounter--;
-                updateNP(productCounter);
-            });
-        }
-
         //populates an array with all the order product values
         function getOrderProducts() {
-            verifiedOrder = true;
+            var verifiedOrder = true;
             var typesSequence = ["porPesarCamara", "yaPesadoCamara", "porPesarAfuera", "yaPesadoAfuera", "yaPesadoAfueraTrino", "aCremas", "aJamones", "aBodega", "aBodegaAbajo"];
             
             var newOrder = [];
@@ -1197,8 +1132,7 @@
                 var orderTypeSection = [];
                 //iterates over order list items
                 $("#dynamic-list").children().each(function (index) {
-                    var jsonProduct = JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0];
-                    if (jsonProduct.tipo == typesSequence[sequenceIndex]) {
+                    if (JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0].tipo == typesSequence[sequenceIndex]) {
                         var productItem = $(this).children();
 
                         var orderTypeUnit = [];
@@ -1207,18 +1141,14 @@
                         orderTypeUnit.push(productItem.eq(1).text());
                         orderTypeUnit.push(productItem.eq(2).text());
                         orderTypeUnit.push(productItem.eq(4).children().val());
-                        orderTypeUnit.push(jsonProduct.tipo);
-                        orderTypeUnit.push(jsonProduct.xpcode);
-                        //orderTypeUnit.push(jsonProduct.costo);
-                        orderTypeUnit.push(productItem.eq(4).children().val());
+                        orderTypeUnit.push(productItem.eq(5).children().val());
+                        orderTypeUnit.push(JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0].tipo);
+                        orderTypeUnit.push(JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0].xpcode);
+                        orderTypeUnit.push(JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0].costo);
 
                         orderTypeSection.push(orderTypeUnit);
-                        orderTypeUnit.push(jsonProduct.categoria);
 
-                        if (jsonProduct.relacion != undefined) orderTypeUnit.push(jsonProduct.relacion);
-                        else orderTypeUnit.push("");
-                        if (jsonProduct.cantidadr != undefined) orderTypeUnit.push(jsonProduct.cantidadr);
-                        else orderTypeUnit.push("");
+                        //orderTypeUnit.push(JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0].categoria);
 
                         //verificating quantity
                         if (orderTypeUnit[1] == "" || orderTypeUnit[1] == "0") {
@@ -1253,782 +1183,332 @@
 
             $("#totalTextField").text("$" + round(total));
         }
-        
-        //updates de waiting time
-        function updateWT() {
-            var nproducts = 0;
-            $("#dynamic-list").children().each(function (index) {
-                var type = JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0].tipo;
-                var quantity = $(this).children().eq(0).children().val();
-                if (type == "porPesarCamara" || type == "yaPesadoCamara" || type == "porPesarAfuera" || type == "yaPesadoAfuera")
-                    if(quantity != "")
-                        nproducts = nproducts + parseFloat(quantity);
-            });
-
-            if(nproducts == 0) 
-                $("#wtTextField").text("TIEMPO ESTIMADO: 0M");
-            else
-                $("#wtTextField").text("TIEMPO ESTIMADO: " + calculateWTime(Math.ceil(nproducts)) + "M");
-        }
 
         //updates the total numbero of different products
         function updateNP(np) {
             $("#npTextField").text("PRODUCTOS: " + np);
         }
 
-        function uploadSugReasons(clientName, clientWhatsapp) {
-            $("#dynamic-list-2").children().each(function(index) {
-                var sugReason = $(this).children().eq(4).children().eq(0).val();
-                if(sugReason != "") {
-                    var thismoment = Date.now();
-                    var sugQuantity = $(this).children().eq(0).text();  
-                    firebase.database().ref('sugerencias/' + $(this).data("id") + '/' + thismoment).set({
-                        name: clientName,
-                        number: clientWhatsapp,
-                        reason: sugReason,
-                        quantity: sugQuantity
-                    });
-                }
-            });            
-        }
-
-        var xOffset = 40;
-        var yOffset = -2;
-        //FIX huge funcntion - generates a PDF with autoprint
-        function generatePDF(orderMethod) {
-            //set PDF defaults
-            var order = getOrderProducts();
+        function verifyOrder(orderMethod) {
+            var verifiedOrder = true;
             if ($("#inputName").val() == "") {
                 alert("FALTA EL NOMBRE DEL CLIENTE");
                 verifiedOrder = false;
             } else if (!$("#inputName").val().match(/[A-Z]/i)) {
                 alert("El NOMBRE DEL CLIENTE NO PUEDE SER UN NUMERO");
                 verifiedOrder = false;
-            } 
-            /* else if ($("#inputEmployeeName").val() == null) {
-                alert("FALTA EL NOMBRE DEL ANOTADOR");
-                verifiedOrder = false;
-            } */
+            }
 
-            if (verifiedOrder) {
-                var doc = new jsPDF({
-                    orientation: 'p',
-                    unit: 'mm',
-                    format: [297, 210]
-                });
+            if (verifiedOrder) {   
+                generatePDF(orderMethod);
+            }
+        } 
 
-                //add custom fonts
-                doc.addFont('GILC____.TTF', "Gill Sans Std Condensed", "normal");
-                doc.addFont('GillSansMTCondensedBold.ttf', "Gill Sans MT Condensed Negrita", "normal");
 
-                var iftomorrow = $("#tomorrowCheckbox").is(':checked');
-                var ordertype = orderMethod;
-                
-                //add defaults values
-                addTimePDF(doc);
-                //addMethodPDF(doc, orderMethod);
-                var cleanName = addNamePDF(doc, order.length);
+        var xOffset = 40;
+        var yOffset = -2;
+        //FIX huge function - generates a PDF with autoprint
+        function generatePDF(orderMethod) {
+            
+            //set PDF defaults
+            var order = getOrderProducts();
+            var doc = new jsPDF({
+                orientation: 'p',
+                unit: 'mm',
+                format: [297, 210]
+            });
 
-                //creates the database instance
-                //createNameDB($("#inputName").val());
+            //add custom fonts
+            doc.addFont('GILC____.TTF', "Gill Sans Std Condensed", "normal");
+            doc.addFont('GillSansMTCondensedBold.ttf', "Gill Sans MT Condensed Negrita", "normal");
 
-                //creates pending products key (aJamones, aCremas, aBodega)
-                var withPendingProducts = false;
-                var productsRefID = "";
-                var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                var randomLetter1 = possible.charAt(Math.floor(Math.random() * possible.length));
-                var randomLetter2 = possible.charAt(Math.floor(Math.random() * possible.length));
+            var ordertype = orderMethod;
+            
+            //add defaults values
+            addTimePDF(doc);
+            addMethodPDF(doc, orderMethod);
+            var cleanName = addNamePDF(doc, order.length);
 
-                //add copy
-                addPagePDF(doc, orderMethod, order.length);
-                doc.setPage(1);
+            //creates pending products key (aJamones, aCremas, aBodega)
+            var productsRefID = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            var randomLetter1 = possible.charAt(Math.floor(Math.random() * possible.length));
+            var randomLetter2 = possible.charAt(Math.floor(Math.random() * possible.length));
 
-                var shortenedUnits = {
-                    KILO: "KG",
-                    PIEZA: "PZ",
-                    CAJA: "CJ",
-                    CUB: "CB",
-                    EXB: "EX",
-                    PROMO: "PR"
-                };
+            doc.setPage(1);
 
-                var sOrderProducts = {};
+            var shortenedUnits = {
+                KILO: "KG",
+                PIEZA: "PZ",
+                CAJA: "CJ",
+                CUB: "CB",
+                EXB: "EX",
+                PROMO: "PR"
+            };
 
-                var calculable = true;
-                var total = 0;
-                var category = 0;
-                var categories = [.05, .10, .15, .20, .25];
+            var sOrderProducts = {};
 
-                var firstLineYPosition = 49.8 + yOffset;
-                var lineHeight = 8.54;
-                var currentLine = 0;
-                var pagesQuantity = 1;
-                var surveyValues = order;
-                var nproducts = 0;
-                var ndiversity = 0;
-                var haspanela = false;
-                var hasChuletaN = false;
-                var onlyafuera = true;
-                var hasBidon = false;
+            var calculable = true;
+            var total = 0;
 
-                for (var i = 0; i < order.length; i++) {
-                    //adds new page if necessary
-                    if (currentLine == 17) {
-                        pagesQuantity++;
-                        addPagePDF(doc, orderMethod, order.length);
-                        addPagePDF(doc, orderMethod, order.length);
-                        doc.setPage(pagesQuantity * 2 - 1);
-                        currentLine = 0;
-                    }
+            var firstLineYPosition = 49.8 + yOffset;
+            var lineHeight = 8.54;
+            var currentLine = 0;
+            var pagesQuantity = 1;
+            var surveyValues = order;
+            var nproducts = 0;
+            var ndiversity = 0;
+            var haspanela = false;
+            var hasChuletaN = false;
+            var onlyafuera = true;
+            var hasBidon = false;
 
-                    sOrderProducts[order[i][0]] = {
-                        uc: Number(order[i][1]),
-                        n: order[i][4]
-                    };
-
-                    //quantity and unit
-                    doc.setFont("Gill Sans MT Condensed Negrita");
-                    doc.setFontSize(12.5);
-                    var quantityAndUnit = order[i][1] + shortenedUnits[order[i][2]];
-
-                    //enhance quantity if necessary
-                    if (quantityAndUnit.includes(".500"))
-                        quantityAndUnit = quantityAndUnit.replace(".500", ".500");
-                    else if (quantityAndUnit.includes(".50"))
-                        quantityAndUnit = quantityAndUnit.replace(".50", ".500");
-                    else if (quantityAndUnit.includes(".5"))
-                        quantityAndUnit = quantityAndUnit.replace(".5", ".500");
-                    else if (quantityAndUnit.includes(".250"))
-                        quantityAndUnit = quantityAndUnit.replace(".250", ".250");
-                    else if (quantityAndUnit.includes(".25"))
-                        quantityAndUnit = quantityAndUnit.replace(".25", ".250");
-
-                    if (quantityAndUnit.slice(0, 4) == ".500")
-                        quantityAndUnit = quantityAndUnit.replace(".500", "1/2");
-                    else if (quantityAndUnit.slice(0, 4) == ".250")
-                        quantityAndUnit = quantityAndUnit.replace(".250", "1/4");
-
-                    if(quantityAndUnit.charAt(0) == '.') {
-                        quantityAndUnit = "0" + quantityAndUnit;
-                    }
-
-                    doc.setPage(pagesQuantity * 2 - 1);
-                    doc.text(5.5 + xOffset, firstLineYPosition + (currentLine * lineHeight), quantityAndUnit, null, null, "left");
-                    doc.setPage(pagesQuantity * 2);
-                    doc.text(5.5  + xOffset, firstLineYPosition + (currentLine * lineHeight), quantityAndUnit, null, null, "left");
-                    doc.setFont("Gill Sans Std Condensed");
-
-                    /*
-                    //if product is being supplied by suppliers then draw cirlce
-                    if (order[i][5] == "porPesarCamara" || order[i][5] == "yaPesadoCamara") {
-                        doc.setPage(pagesQuantity * 2 - 1);
-                        drawAsterisk(doc, firstLineYPosition + (currentLine * lineHeight), "blue");
-                        doc.setPage(pagesQuantity * 2);
-                        drawAsterisk(doc, firstLineYPosition + (currentLine * lineHeight), "blue");
-                        nproducts = nproducts + Math.ceil(parseFloat(order[i][1]));
-                        ndiversity++;
-                        onlyafuera = false;
-                    } else if (order[i][5] == "porPesarAfuera" || order[i][5] == "yaPesadoAfuera") {
-                        doc.setPage(pagesQuantity * 2 - 1);
-                        drawCricle(doc, firstLineYPosition + (currentLine * lineHeight), "red");
-                        doc.setPage(pagesQuantity * 2);
-                        drawCricle(doc, firstLineYPosition + (currentLine * lineHeight), "red");
-                        nproducts = nproducts + Math.ceil(parseFloat(order[i][1]));
-                       ndiversity++;
-                    } 
-                    
-                    if(order[i][0] == "QU")
-                    haspanela = true;
-                    
-                    if(order[i][0] == "ACL20")
-                    hasBidon = true;
-                    
-                    if(order[i][0] == "CHN" || order[i][0] == "QUMI" || order[i][0] == "QUGI" || order[i][0] == "CHP")
-                        hasChuletaN = true;
-                    */
-
-                    //product price * quantity
-                    doc.setFont("Gill Sans MT Condensed Negrita");
-                    doc.setFontSize(12.5);
-                    product = JSON.search(defiantProducts, '//*[clave="' + order[i][0] + '"]');
-                    var totalProduct = roundDecimals(Math.round(order[i][7] * order[i][1] * 10) / 10);
-                    if (order[i][5] != "porPesarCamara" && order[i][5] != "porPesarAfuera") {
-                        doc.setPage(pagesQuantity * 2 - 1);
-                        doc.text(115 + xOffset, firstLineYPosition + (currentLine * lineHeight), totalProduct.toLocaleString('en-US'), null, null, "left");
-                        doc.setPage(pagesQuantity * 2);
-                        doc.text(115 + xOffset, firstLineYPosition + (currentLine * lineHeight), totalProduct.toLocaleString('en-US'), null, null, "left");
-                    } else {
-                        doc.setPage(pagesQuantity * 2 - 1);
-                        doc.text(115 + xOffset, firstLineYPosition + (currentLine * lineHeight), totalProduct.toLocaleString('en-US'));
-                        doc.setDrawColor(255, 0, 0);
-                        doc.line(128 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8, 135  + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8);
-                        doc.setDrawColor(0, 0, 0);
-
-                        doc.setPage(pagesQuantity * 2);
-                        doc.text(115 + xOffset, firstLineYPosition + (currentLine * lineHeight), totalProduct.toLocaleString('en-US'));
-                        doc.setDrawColor(255, 0, 0);
-                        doc.line(128 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8, 135 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8);
-                        doc.setDrawColor(0, 0, 0);
-                    }
-                    
-                    //calculating current total
-                    var productTotal;
-                    if (order[i][1] < 0)
-                        productTotal = order[i][7] * order[i][1] * (-1);
-                    else
-                        productTotal = order[i][7] * order[i][1];
-                    
-                    total += productTotal;
-                    category += (productTotal * categories[order[i][8]]);
-
-                    //notes and description
-                    doc.setFont("Gill Sans MT Condensed Negrita");
-
-                    //FIX huge if... if no connection then sign aJamones and aCremas products
-                    var aJamonesSpecialProducts = ["RET", "SA", "JAI", "TOI", "JAAA", "JAAN", "JAAR", "JAI", "JAYI", "JAPF", "JAHV", "JAPA", "JPA", "JAA"];
-                    if (order[i][5] == "aCremas" || order[i][5] == "aJamones" || aJamonesSpecialProducts.includes(order[i][0]) && order[i][4] != "" || aJamonesSpecialProducts.includes(order[i][0]) && order[i][1] % 1 != 0)
-                        if(document.getElementById("noConnectionAlert").style.display == "block")
-                            order[i][4] = "-ANOTAR- " + order[i][4];
-                    if (order[i][4] != "") {
-                        //notes and description
-                        doc.setFontSize(10);
-                        doc.setPage(pagesQuantity * 2 - 1);
-
-                        doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) + 1.5, replaceAEIOUN(order[i][4]));
-                        doc.setPage(pagesQuantity * 2);
-                        doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) + 1.5, replaceAEIOUN(order[i][4]));
-
-                        doc.setFontSize(12.5);
-                        doc.setPage(pagesQuantity * 2 - 1);
-                        doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]));
-                        doc.setPage(pagesQuantity * 2);
-                        doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]));
-                    } else {
-                        //just description
-                        doc.setFontSize(12.5);
-                        doc.setPage(pagesQuantity * 2 - 1);
-                        doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight), replaceAEIOUN(order[i][3]));
-                        doc.setPage(pagesQuantity * 2);
-                        doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight), replaceAEIOUN(order[i][3]));
-                    }
-
-                    //drawline if product needs to be weighted
-                    if (order[i][5] == "porPesarCamara" || order[i][5] == "porPesarAfuera") {
-                        calculable = false;
-                        doc.setLineWidth(0.35);
-                        doc.setPage(pagesQuantity * 2 - 1);
-                        doc.setDrawColor(255, 0, 0);
-                        doc.line(93 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8, 110 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8);
-                        doc.setPage(pagesQuantity * 2);
-                        doc.setDrawColor(255, 0, 0);
-                        doc.line(93 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8, 110 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8);
-                        doc.setDrawColor(0, 0, 0);
-                    }
-
-                    /*
-                    //send to cremas or jamones with index. some jamones are detected automatically
-                    if (order[i][5] == "aCremas")
-                        withPendingProducts = aCremasOrder(cleanName, order[i], i);
-                    else if (order[i][5] == "aJamones")
-                        withPendingProducts = aJamonesOrder(order[i], i);
-                    else if (order[i][5] == "aBodega")
-                        withPendingProducts = aBodegaOrder(order[i], i);
-                    else if (order[i][5] == "aBodegaAbajo")
-                        withPendingProducts = aBodegaAbajoOrder(order[i], i);
-                    else if (aJamonesSpecialProducts.includes(order[i][0]) && order[i][4] != "") 
-                        withPendingProducts = aJamonesOrder(order[i], i);
-                    else if (aJamonesSpecialProducts.includes(order[i][0]) && order[i][1] % 1 != 0) {
-                        var tempProduct = order[i];
-                        tempProduct[1] = ((order[i][1] * 100) % 100) / 100;
-                        withPendingProducts = aJamonesOrder(tempProduct, i);
-                    }
-                    */
-                    currentLine++;
+            for (var i = 0; i < order.length; i++) {
+                //adds new page if necessary
+                if (currentLine == 17) {
+                    pagesQuantity++;
+                    addPagePDF(doc, orderMethod, order.length);
+                    //addPagePDF(doc, orderMethod, order.length);
+                    doc.setPage(pagesQuantity);
+                    currentLine = 0;
                 }
-                
-                /*
-                if(hasBidon) {
-                    if((order.length % 17) != 0 && (order.length % 17) != 16) {
-                        doc.setFontSize(12.5);
-                        doc.setFont("Gill Sans MT Condensed Negrita");
-                        doc.setPage(pagesQuantity * 2 - 1);
-                        doc.text(68.5 + xOffset, 184  + yOffset, "RECUERDA TRAER TUS ENVASES VACIOS DE ACEITE", "center");
-                        doc.text(68.5 + xOffset, 189  + yOffset, "SON $10 PESOS DE IMPROTE", "center");
-                        doc.setPage(pagesQuantity * 2);
-                        doc.text(68.5 + xOffset, 184  + yOffset, "RECUERDA TRAER TUS ENVASES VACIOS DE ACEITE", "center");
-                        doc.text(68.5 + xOffset, 189  + yOffset, "SON $10 PESOS DE IMPROTE", "center");
-                    }
-                }else if(orderMethod == "MOSTRADOR") {
-                    if((order.length % 17) != 0 && (order.length % 17) != 16) {
-                        doc.setFontSize(12.5);
-                        doc.setFont("Gill Sans MT Condensed Negrita");
-                        doc.setPage(pagesQuantity * 2 - 1);
-                        doc.text(68.5 + xOffset, 179  + yOffset, "RECUERDA QUE YA PUEDES HACER TU PEDIDO ANTES DE VENIR", "center");
-                        doc.text(68.5 + xOffset, 184  + yOffset, "POR WHATSAPP: 3335050537 O TELEFONO: 3336712912", "center");
-                        doc.text(68.5 + xOffset, 189  + yOffset, "Y PASAS DIRECTO A PAGAR Y RECOGER.", "center");
-                        doc.setPage(pagesQuantity * 2);
-                        doc.text(68.5 + xOffset, 179  + yOffset, "RECUERDA QUE YA PUEDES HACER TU PEDIDO ANTES DE VENIR", "center");
-                        doc.text(68.5 + xOffset, 184  + yOffset, "POR WHATSAPP: 3335050537 O TELEFONO: 3336712912", "center");
-                        doc.text(68.5 + xOffset, 189  + yOffset, "Y PASAS DIRECTO A PAGAR Y RECOGER.", "center");
-                    }
-                }else if(orderMethod == "TELEFONO" || orderMethod == "WHATSAPP") {
-                    if((order.length % 17) != 0 && (order.length % 17) != 16) {
-                        doc.setFontSize(12.5);
-                        doc.setFont("Gill Sans MT Condensed Negrita");
-                        doc.setPage(pagesQuantity * 2 - 1);
-                        doc.text(68.5 + xOffset, 184  + yOffset, "CON EL PROPOSITO DE MEJORAR NUESTRO SERVICIO", "center");
-                        doc.text(68.5 + xOffset, 189  + yOffset, "RECOMENDAMOS HACER TU PEDIDO HORA Y MEDIA ANTES DE VENIR", "center");
-                        doc.setPage(pagesQuantity * 2);
-                        doc.text(68.5 + xOffset, 184  + yOffset, "CON EL PROPOSITO DE MEJORAR NUESTRO SERVICIO", "center");
-                        doc.text(68.5 + xOffset, 189  + yOffset, "RECOMENDAMOS HACER TU PEDIDO HORA Y MEDIA ANTES DE VENIR", "center");
-                    }
-                } */
 
-                //if calculable then total
+                //quantity and unit
                 doc.setFont("Gill Sans MT Condensed Negrita");
-                doc.setFontSize(25);
-                total = roundDecimals(Math.round(total * 10) / 10);
-                if ((total / 1000) >= 1)
-                    total = total.toLocaleString('en-US')
+                doc.setFontSize(12.5);
+                var quantityAndUnit = order[i][1] + shortenedUnits[order[i][2]];
+
+                //enhance quantity if necessary
+                if (quantityAndUnit.includes(".500"))
+                    quantityAndUnit = quantityAndUnit.replace(".500", ".500");
+                else if (quantityAndUnit.includes(".50"))
+                    quantityAndUnit = quantityAndUnit.replace(".50", ".500");
+                else if (quantityAndUnit.includes(".5"))
+                    quantityAndUnit = quantityAndUnit.replace(".5", ".500");
+                else if (quantityAndUnit.includes(".250"))
+                    quantityAndUnit = quantityAndUnit.replace(".250", ".250");
+                else if (quantityAndUnit.includes(".25"))
+                    quantityAndUnit = quantityAndUnit.replace(".25", ".250");
+
+                if (quantityAndUnit.slice(0, 4) == ".500")
+                    quantityAndUnit = quantityAndUnit.replace(".500", "1/2");
+                else if (quantityAndUnit.slice(0, 4) == ".250")
+                    quantityAndUnit = quantityAndUnit.replace(".250", "1/4");
+
+                if(quantityAndUnit.charAt(0) == '.') {
+                    quantityAndUnit = "0" + quantityAndUnit;
+                }
+
+                doc.text(5.5 + xOffset, firstLineYPosition + (currentLine * lineHeight), quantityAndUnit, null, null, "left");
+                doc.setFont("Gill Sans Std Condensed");
+
+                //if product is being supplied then draw cirlce
+                if (order[i][5] == "porPesarCamara" || order[i][5] == "yaPesadoCamara") {
+                    drawAsterisk(doc, firstLineYPosition + (currentLine * lineHeight), "blue");
+                    nproducts = nproducts + Math.ceil(parseFloat(order[i][1]));
+                    ndiversity++;
+                    onlyafuera = false;
+                } else if (order[i][5] == "porPesarAfuera" || order[i][5] == "yaPesadoAfuera") {
+                    drawCricle(doc, firstLineYPosition + (currentLine * lineHeight), "red");
+                    nproducts = nproducts + Math.ceil(parseFloat(order[i][1]));
+                    ndiversity++;
+                }
+
+                if(order[i][0] == "QU")
+                    haspanela = true;
+
+                if(order[i][0] == "ACL20")
+                    hasBidon = true;
+
+                if(order[i][0] == "CHN" || order[i][0] == "QUMI" || order[i][0] == "QUGI" || order[i][0] == "CHP")
+                    hasChuletaN = true;
+
+                //product price * quantity
+                doc.setFont("Gill Sans MT Condensed Negrita");
+                doc.setFontSize(12.5);
+                product = JSON.search(defiantProducts, '//*[clave="' + order[i][0] + '"]');
+                var totalProduct = roundDecimals(Math.round(product[0].costo * order[i][1] * 10) / 10);
+                if (order[i][5] != "porPesarCamara" && order[i][5] != "porPesarAfuera") {
+                    doc.text(115 + xOffset, firstLineYPosition + (currentLine * lineHeight), totalProduct.toLocaleString('en-US'), null, null, "left");
+                } else {
+                    doc.text(115 + xOffset, firstLineYPosition + (currentLine * lineHeight), totalProduct.toLocaleString('en-US'));
+                    doc.setDrawColor(255, 0, 0);
+                    doc.line(128 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8, 135  + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8);
+                    doc.setDrawColor(0, 0, 0);
+                }
+                
+                //calculating current total
+                var productTotal;
+                if (order[i][1] < 0)
+                    productTotal = product[0].costo * order[i][1] * (-1);
                 else
-                    total = total.toString();
-
-                if (calculable) {
-                    doc.setPage(pagesQuantity * 2 - 1);
-                    doc.text(129.5 + xOffset, 209  + yOffset, "TOTAL  " + total.toLocaleString('en-US'), "right");
-                    doc.setPage(pagesQuantity * 2);
-                    doc.text(129.5 + xOffset, 209  + yOffset, "TOTAL  " + total.toLocaleString('en-US'), "right");
-
-                    //generates QR code with total embeded in
-                    for(var i = 1; i <= pagesQuantity * 2; i++) {
-                        doc.setPage(i);
-                        productsRefID = randomLetter1 + $("#inputName").val().trim() + " " + total.replace(/,/g, '') + randomLetter2;
-                        //doc.addImage(generateQR(productsRefID), 'JPEG', 6 + xOffset, 194  + yOffset, 15, 15);
-                    }
-                } else {
-                    doc.setPage(pagesQuantity * 2 - 1);
-                    doc.text(129.5 + xOffset, 200  + yOffset, "APROX  " + total.toLocaleString('en-US'), "right");
-                    doc.setPage(pagesQuantity * 2);
-                    doc.text(129.5 + xOffset, 200  + yOffset, "APROX  " + total.toLocaleString('en-US'), "right");
-
-                    //generates QR code with total embeded in
-                    for(var i = 1; i <= pagesQuantity * 2; i++) {
-                        doc.setPage(i);
-                        productsRefID = randomLetter1 + $("#inputName").val().trim() + " " + total.replace(/,/g, '') + randomLetter2;
-                        //doc.addImage(generateQR(productsRefID), 'JPEG', 6 + xOffset, 194  + yOffset, 15, 15);
-                    }
-                }
+                    productTotal = product[0].costo * order[i][1];
                 
-                /*
-                //category
-                var points = "";
-                doc.setPage(1);
-                doc.setFontSize(10);
-                if (category >= 50 && category < 100) points = ".";
-                else if(category >= 100 && category < 150) points = "..";
-                else if(category >= 150 && category < 200) points = "...";
-                else if(category >= 200 && category < 250) points = "....";
-                else if(category >= 250 && category < 300) points = ".....";
-                else if(category >= 300 && category < 350) points = "......";
-                else if(category >= 350 && category < 400) points = ".......";
-                else if(category >= 400 && category < 450) points = "........";
-                else if(category >= 450 && category < 500) points = ".........";
-                else if(category >= 550 && category < 600) points = "..........";
-                else if(category >= 600 && category < 650) points = "...........";
-                else if(category >= 650) points = "............";
-
-                for(var i = 1; i <= pagesQuantity * 2; i++) {
-                    doc.setPage(i);
-                    doc.text(27 + xOffset, 210  + yOffset, points, "left");
-                }
-
-                var justNameFlag = false;
-                if(((ndiversity <= 1 && !hasChuletaN) && orderMethod == "MOSTRADOR") || ((ndiversity == 0 && !hasChuletaN) && orderMethod != "MOSTRADOR")) {
-                    doc.setPage(1);
-                    doc.setFontSize(29);
-                    doc.setFont("Gill Sans MT Condensed Negrita");
-                    doc.text(123 + xOffset, 41.5  + yOffset, ">", "center");
-                    doc.setPage(2);
-                    doc.setFontSize(29);
-                    doc.setFont("Gill Sans MT Condensed Negrita");
-                    doc.text(123 + xOffset, 41.5  + yOffset, ">", "center");
-                    justNameFlag = true;
-                }
-                */
-
-                /* FIX efficiency...
-                if($("#sugerenciasLabel").css("visibility") == "visible")
-                    uploadSugReasons(clientName, clientWhatsapp);
-                */
-
-                /*
-                //set pending products id (the one embeded in the qr code)
-                if(withPendingProducts)
-                    firebase.database().ref('pending/' + orderRefID + '/id').set(productsRefID);
-                else
-                    firebase.database().ref('pending/' + orderRefID).remove();
-
-                if ($("#invoiceCheckbox").is(':checked'))
-                    uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), order, total, productsRefID);
-                */
-
-                //uploads buying order
-                if(orderMethod == "MOSTRADOR")
-                    uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), order, total, productsRefID);
-                else if((orderMethod == "TELEFONO")) 
-                    uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), order, total, productsRefID);
-                else if((orderMethod == "WHATSAPP")) 
-                    uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), order, total, productsRefID);
-
-                //autoprints PDF in a new tab
-                doc.autoPrint();
-
-                if(window.open(doc.output('bloburl'), '_blank') != null) { 
-                    var ncomputer = globalComputer.slice(-1);
-                    var etime = calculateWTime(Math.ceil(nproducts));
-
-                    uploadPurchasedOrder(clientWhatsapp, sOrderProducts, total);
-
-
-                    
-                    /*
-                    //process
-                    firebase.database().ref('process/firsts/' + productsRefID.replace(/[^A-Z0-9]/g,'')).set({
-                        name: replaceAEIOUN($("#inputName").val().trim()),
-                        total: total,
-                        hour: Date.now(),
-                        nproducts: nproducts,
-                        ndiversity: ndiversity,
-                        haspanela: hasChuletaN,
-                        onlyafuera: onlyafuera,
-                        femployee: replaceAEIOUN($("#inputEmployeeName").val()),
-                        iftomorrow: iftomorrow,
-                        ordertype: ordertype,
-                        ftotal: calculable,
-                        ncomputer: ncomputer,
-                        etime: etime,
-                        justName: justNameFlag
-                    });
-                    */
-                    
-                    /* FIX efficiency...
-                    uploadSuggestedOrder(clientWhatsapp, sOrderProducts, total);
-                    if(clientWhatsapp != "" && clientWhatsapp.charAt(0) != "0") {
-                        firebase.database().ref('process/whatsapp/' + productsRefID.replace(/[^A-Z0-9]/g,'')).set({
-                            name: clientName,
-                            total: total,
-                            hour: Date.now(),
-                            iftomorrow: iftomorrow,
-                            number: clientWhatsapp,
-                            etime: etime,
-                            stage: 0
-                        });
-                    }
-                    
-                    //survey values
-                    increaseEmployeeCounter($("#inputEmployeeName").val());
-                    uploadSurvey(surveyValues);
-                    */
-                    
-                    eraseOrder();
-                    
-                    //firebase.database().ref("liveviews/" + globalComputer + '/wtime').set(etime);
-                    
-                    finishOrderProducts(true);
-                }
-            }
-        }
-
-        function deleteSuggestedProduct(id) {
-            $("#dynamic-list-2").find("[data-id='" + id + "']").remove();
-            if($("#dynamic-list-2").children().length == 0)
-                hideSugList();
-        }
-
-        function populateSuggestedOrder(number) {
-            dbClients.child(number + "/sug").once('value', function (snapshot) {
-                if(snapshot.val() != null) {
-                    $("#dynamic-list-2").empty();
-                    $("#dynamic-list-2").css("opacity", "1");
-                    formatSuggestedOrder(snapshot.val());
-                    showSugList();
-                }
-            });
-        }
-
-        function populateSuggestedOrderLV(number) {
-            dbClients.child(number + "/sug").once('value', function (snapshot) {
-                if(snapshot.val() != null) {
-                    formatSuggestedOrderLV(snapshot.val());
-                }
-            });
-        }
-
-        function formatSuggestedOrder(sorder) {
-            var sorder = Object.fromEntries(
-                Object.entries(sorder).sort(function(a, b) {
-                    return a[1].f - b[1].f;
-                })
-            );
-
-            for (const [key, value] of Object.entries(sorder)) {
-                var searchResult = JSON.search(defiantProducts, '//*[clave="' + key + '"]');
-                if(searchResult[0] != null)
-                    populateSuggestedProduct(searchResult[0], value["uc"], value["n"]);
-            }
-        }
-
-        function formatSuggestedOrderLV(sorder) {
-            var sorder = Object.fromEntries(
-                Object.entries(sorder).sort(function(a, b) {
-                    return a[1].f - b[1].f;
-                })
-            );
-
-            var sOrderObject = {};
-            for (const [key, value] of Object.entries(sorder)) {
-                var searchResult = JSON.search(defiantProducts, '//*[clave="' + key + '"]');
-                var sProducts = {};
-                if(searchResult[0] != null) {
-                    sProducts.cantidad = value["uc"];
-                    sProducts.descripcion = searchResult[0].descripcion;
-                    sProducts.existencia = searchResult[0].existencia;
-                    if(value["n"] == undefined) sProducts.notas = "";
-                    else sProducts.notas = value["n"];
-                    sProducts.precio = searchResult[0].costo;
-                    sProducts.tipo = searchResult[0].tipo;
-                    sProducts.unidad = searchResult[0].unidad;
-                }
-                sOrderObject[key] = sProducts;
-            }
-            //firebase.database().ref("liveviews/" + globalComputer + '/sorder').set(sOrderObject);
-        }
-
-        function addProductObjectGetterS(id, quantity, note) {
-            var searchResult = JSON.search(defiantProducts, '//*[clave="' + id + '"]');
-            addProduct(searchResult[0]);
-            var firstInput = $('#dynamic-list').find('input').first();
-            firstInput.val(quantity);
-            $('#dynamic-list').find('input').eq(1).val(note);
-            
-            $('#dynamic-list').children().first().data("total", (round(quantity * searchResult[0].costo)));
-            $('#dynamic-list').children().first().children().eq(3).text("$" + round(quantity * searchResult[0].costo));
-            updateTotal();
-
-            firstInput.focus();
-        }
-
-        function populateSuggestedProduct(product, quantity, note) {
-            var color,
-            backgroundColor;
-            if(product.existencia == "siHay") {
-                color = "#EEEEEE";
-                backgroundColor = "#111111";
-            } else if(product.existencia == "noHay") {
-                color = "rgba(216, 61, 52, 95%)";
-                backgroundColor = "#111111";
-            } else if(product.existencia == "pedido") {
-                color = "rgba(51, 204, 51, 80%)";
-                backgroundColor = "#111111";
-            }
-            
-            if(note == undefined)
-                note = "";
-
-            var productListItem =
-                '<div class="list-group-item row product-row" data-id="' + product.clave + '" data-total="' + round(quantity * product.costo) + '" style="background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555; line-height: 37px;">' +
-                    '<button class="col-sm-1 product-quantity" onclick="addProductObjectGetterS(&#39;' + product.clave + '&#39;, &#39;' + quantity + '&#39;, &#39;' + note + '&#39;)" style="text-align: left; padding-left: 13px; height: 35px; background-color: ' + backgroundColor + '; border: none;">' + quantity + '</button>' +
-                    '<button class="col-sm-1 product-info" onclick="addProductObjectGetterS(&#39;' + product.clave + '&#39;, &#39;' + quantity + '&#39;, &#39;' + note + '&#39;)" style="text-align: left; padding-top: 0px; height: 35px; background-color: ' + backgroundColor + '; border: none;">' + product.unidad + '</button>' +
-                    '<button class="col-sm-6 product-info" onclick="addProductObjectGetterS(&#39;' + product.clave + '&#39;, &#39;' + quantity + '&#39;, &#39;' + note + '&#39;)" style="text-align: left; padding-top: 0px; height: 35px; background-color: ' + backgroundColor + '; border: none;">' + product.descripcion + '</button>' +
-                    '<button class="col-sm-2 product-info" onclick="addProductObjectGetterS(&#39;' + product.clave + '&#39;, &#39;' + quantity + '&#39;, &#39;' + note + '&#39;)" style="text-align: left; padding-top: 0px; height: 35px; background-color: ' + backgroundColor + '; border: none;">' + note + '</button>' +
-                    '<div class="col-sm-2 product-notes-container">' +
-                        '<input class="form-control product-notes" type="input" oninput="this.value = this.value.toUpperCase()" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-right: 0px; padding-bottom: 0px; line-height: 4px;" maxlength="48" placeholder="MOTIVO"> </input>' +
-                    '</div>' +
-                '</div>';
-
-            $('#dynamic-list-2').prepend(productListItem);            
-        }
-        
-        //registers clients products on current order
-        function uploadSuggestedOrder(number, sOrderProducts, total) {
-            dbClients.child(number + "/uvisita").set(Date.now());
-
-            total = total.replace(/\,/g,'');
-            dbClients.child(number + "/agr").once('value', function (snapshot) {
-                if(snapshot.val() == null) {
-                    dbClients.child(number + "/agr").set(total);
-                } else {
-                    dbClients.child(number + "/agr").set(parseInt(snapshot.val()) + parseInt(total));
-                }
-            });
-
-            for (const [key, value] of Object.entries(sOrderProducts)) {
-                dbClients.child(number + "/sug/" + key + "/uc").set(value.uc);
-                if(value.n != "")
-                    dbClients.child(number + "/sug/" + key + "/n").set(value.n);
+                total += productTotal;
                 
-                dbClients.child(number + "/sug/" + key + "/f").once('value', function(snapshot) {
-                    if(snapshot.val() == null) dbClients.child(number + "/sug/" + key + "/f").set(1);
-                    else dbClients.child(number + "/sug/" + key + "/f").set(snapshot.val() + 1);
-                });
-            }
-        }
+                //notes and description
+                doc.setFont("Gill Sans MT Condensed Negrita");
 
-        function uploadPurchasedOrder(number, sOrderProducts, total) {
-            console.log(number);
-            console.log(sOrderProducts);
-            console.log(total);
-            /*
-            dbClients.child(number + "/uvisita").set(Date.now());
+                if (order[i][5] != "") {
+                    //notes and description
+                    doc.setFontSize(10);
+                    doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) + 1.5, product[0].costo + " - " + replaceAEIOUN(order[i][5]));
 
-            total = total.replace(/\,/g,'');
-            dbClients.child(number + "/agr").once('value', function (snapshot) {
-                if(snapshot.val() == null) {
-                    dbClients.child(number + "/agr").set(total);
+                    doc.setFontSize(12.5);
+                    doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]));
+
                 } else {
-                    dbClients.child(number + "/agr").set(parseInt(snapshot.val()) + parseInt(total));
-                }
-            });
+                    //just description
+                    doc.setFontSize(10);
+                    doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) + 1.5, product[0].costo);
 
-            for (const [key, value] of Object.entries(sOrderProducts)) {
-                dbClients.child(number + "/sug/" + key + "/uc").set(value.uc);
-                if(value.n != "")
-                    dbClients.child(number + "/sug/" + key + "/n").set(value.n);
-                
-                dbClients.child(number + "/sug/" + key + "/f").once('value', function(snapshot) {
-                    if(snapshot.val() == null) dbClients.child(number + "/sug/" + key + "/f").set(1);
-                    else dbClients.child(number + "/sug/" + key + "/f").set(snapshot.val() + 1);
-                });
+                    doc.setFontSize(12.5);
+                    doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]));
+                }
+
+                updateStock(order[i]);
+
+                //drawline if product needs to be weighted
+                if (order[i][5] == "porPesarCamara" || order[i][5] == "porPesarAfuera") {
+                    calculable = false;
+                    doc.setLineWidth(0.35);
+                    doc.setDrawColor(255, 0, 0);
+                    doc.line(93 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8, 110 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8);
+                    doc.setDrawColor(0, 0, 0);
+                }
+
+                currentLine++;
             }
-            */
-        }
-        
-        function calculateWTime(nproducts) {
-            var wtime;
-            if(nproducts <= 10)
-                wtime = nproducts * globalTimePerProduct[0];
-            else if(nproducts <= 30)
-                wtime = nproducts * globalTimePerProduct[1];
+
+            //if calculable then total
+            doc.setFont("Gill Sans MT Condensed Negrita");
+            doc.setFontSize(25);
+            total = roundDecimals(Math.round(total * 10) / 10);
+            if ((total / 1000) >= 1)
+                total = total.toLocaleString('en-US')
             else
-                wtime = nproducts * globalTimePerProduct[2];
+                total = total.toString();
 
-            wtime = wtime + (globalWaitingOrders * 1.5);
+            if (calculable) {
+                doc.setPage(pagesQuantity * 2 - 1);
+                doc.text(130.5 + xOffset, 209  + yOffset, "TOTAL  " + total.toLocaleString('en-US'), "right");
 
-            if(!wtime)
-                return "-";
+                //generates QR code with total embeded in
+                for(var i = 1; i <= pagesQuantity; i++) {
+                    doc.setPage(i);
+                    productsRefID = randomLetter1 + $("#inputName").val().trim() + " " + total.replace(/,/g, '') + randomLetter2;
+                    //doc.addImage(generateQR(productsRefID), 'JPEG', 6 + xOffset, 194  + yOffset, 15, 15);
+                }
+            } else {
+                for(var i = 1; i <= pagesQuantity; i++) {
+                    doc.setPage(i);
+                    productsRefID = randomLetter1 + $("#inputName").val().trim() + " " + total.replace(/,/g, '') + randomLetter2;
+                    //doc.addImage(generateQR(productsRefID), 'JPEG', 6 + xOffset, 194  + yOffset, 15, 15);
+                }
+                doc.setPage(pagesQuantity * 2 - 1);
+                doc.text(130.5 + xOffset, 200  + yOffset, "APROX  " + total.toLocaleString('en-US'), "right");
 
-            return Math.ceil(wtime);
+                //generates QR code with total embeded in
+                for(var i = 1; i <= pagesQuantity; i++) {
+                    doc.setPage(i);
+                    productsRefID = randomLetter1 + $("#inputName").val().trim() + " " + total.replace(/,/g, '') + randomLetter2;
+                    //doc.addImage(generateQR(productsRefID), 'JPEG', 6 + xOffset, 194  + yOffset, 15, 15);
+                }
+            }
+
+            //uploads buying order
+            if(orderMethod == "MOSTRADOR")
+                uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), order, total, productsRefID);
+            else if((orderMethod == "TELEFONO")) 
+                uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), order, total, productsRefID);
+            else if((orderMethod == "WHATSAPP")) 
+                uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), order, total, productsRefID);
+            
+            //autoprints PDF in a new tab
+            doc.autoPrint();
+                        
+            if(window.open(doc.output('bloburl'), '_blank') != null) { 
+                eraseOrder();
+            }
         }
 
-        function populateWaitingTimes() {
-            firebase.database().ref('process/timing').on('value', function (snapshot) {
-                if(snapshot.val()) {
-                    globalWaitingOrders = snapshot.val().worders;
-                    if(snapshot.val().tpp10 != undefined && snapshot.val().tpp30 != undefined && snapshot.val().tpp50 != undefined)
-                        globalTimePerProduct = [snapshot.val().tpp10, snapshot.val().tpp30, snapshot.val().tpp50];
-                    else
-                        globalTimePerProduct = ["0.55", "0.45", "0.35"];
-                    updateWT();
+        function updateStock(product) {
+            //update current products stock
+            substractStock(product[0], product[1]);
+
+            firebase.database().ref("relations/" + product[0]).once('value', function(snapshot) {
+                if(snapshot.val() != undefined) {
+                    if(Object.keys(snapshot.val()).length == 1) {
+                        
+                        //update parent products stock
+                        substractStock(Object.keys(snapshot.val())[0], snapshot.val()[Object.keys(snapshot.val())[0]] * product[1]);
+                        
+                        firebase.database().ref("relations/" + Object.keys(snapshot.val())[0]).once('value', function(childSnapshot) {
+                            if(childSnapshot.val() != undefined) {
+                                for (let id in childSnapshot.val()) {
+                                    if(id != product[0]) {
+                                        //update siblings products stock
+                                        substractStock(id, childSnapshot.val()[id] * snapshot.val()[Object.keys(snapshot.val())[0]] * product[1]);
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        //means it's a parent product
+                        for (let id in snapshot.val()) {
+                            //update children products stock
+                            substractStock(id, snapshot.val()[id] * product[1]);
+                        }
+                    }
+                }
+            });
+        }
+
+        function substractStock(id, quantity) {
+            var currentRelationStock = -1000000;
+            firebase.database().ref("inventory/" + id + "/stock").once('value', function(snapshot) {
+                if(snapshot.val() != undefined) {
+                    currentRelationStock = parseInt(snapshot.val());
+                    console.log("currentRelationStock");
+                    console.log(currentRelationStock);
+                }  
+            }).then(function(){
+                if(currentRelationStock != -1000000) {
+                    firebase.database().ref("inventory/" +  id + "/stock").set(currentRelationStock + parseInt(quantity));
                 }
             });
         }
 
         //uploads order when invoice is needed
         function uploadCompleteOrder(name, products, total, id) {
+            console.log("uploadCompleteOrder");
             id = id.replace(".", "").replace(" ", "");
             total = total.replace(/\,/g,'');
 
-            for(var i = 0; i < products.length; i++) {
-                products[i] = products[i].map(v => v === undefined ? '1' : v);
-
-                //add stock to current product
-                var currentStock = -1;
-                var currentID = products[i][0];
-                var currentQuantity = parseInt(products[i][1]);
-                firebase.database().ref("inventory/" + currentID + "/stock").once('value', function(snapshot) {
-                    if(snapshot.val() != undefined) {
-                        currentStock = snapshot.val();
-                    }
-                }).then(function(){
-                    if(currentStock != -1) {
-                        firebase.database().ref("inventory/" + currentID + "/stock").set(currentStock + currentQuantity);
-                    }
-                });
-
-                firebase.database().ref("relations/" + currentID).once('value', function(snapshot) {
-                    if(snapshot.val() != undefined) {
-                        if(Object.keys(snapshot.val()).length == 1) {
-                            
-                            //update parent products stock
-                            addStock(Object.keys(snapshot.val())[0], snapshot.val()[Object.keys(snapshot.val())[0]] * currentQuantity);
-                            
-                            firebase.database().ref("relations/" + Object.keys(snapshot.val())[0]).once('value', function(childSnapshot) {
-                                if(childSnapshot.val() != undefined) {
-                                    for (let id in childSnapshot.val()) {
-                                        if(id != currentID) {
-                                            //update siblings products stock
-                                            addStock(id, childSnapshot.val()[id] * snapshot.val()[Object.keys(snapshot.val())[0]] * currentQuantity);
-                                        }
-                                    }
-                                }
-                            });
-                        } else {
-                            //means it's a parent product
-                            for (let id in snapshot.val()) {
-                                //update children products stock
-                                addStock(id, snapshot.val()[id] * currentQuantity);
-                            }
-                        }
-                    }
-                });
-            }
+            console.log(products);
 
             firebase.database().ref("purchases/" + id).set({
                 nombre: name,
                 productos: products,
-                subtotal: total
+                subtotal: total,
+                hour: Date.now()
             });
         }
 
-        function addStock(id, quantity) {
-            var currentRelationStock = -9999;
-            firebase.database().ref("inventory/" + id + "/stock").once('value', function(snapshot) {
-                if(snapshot.val() != undefined)
-                    currentRelationStock = snapshot.val();
-            }).then(function(){
-                if(currentRelationStock != -9999) {
-                    firebase.database().ref("inventory/" +  id + "/stock").set(currentRelationStock + quantity);
-                }
-            });
-        }
+        //uploads order when invoice is needed
+        function uploadCompleteOrderWithCode(name, products, total, id, globalCodeType, code) {
+            id = id.replaceAll(".", "").replaceAll(" ", "");
+            total = total.replace(/\,/g,'');
 
-        function substractStockI(id, quantity) {
-            var currentRelationStock = -9999;
-            firebase.database().ref("inventory/" + id + "/stock").once('value', function(snapshot) {
-                if(snapshot.val() != undefined)
-                    currentRelationStock = snapshot.val();
-            }).then(function(){
-                if(currentRelationStock != -9999) {
-                    firebase.database().ref("inventory/" +  id + "/stock").set(currentRelationStock - quantity);
-                }
-            });
-        }
-
-        function increaseEmployeeCounter(employee) {
-            firebase.database().ref("registro/" + employee + "/pedidos").once('value', function(snapshot) {
-                if(snapshot.val() == null)
-                    firebase.database().ref("registro/" + employee + "/pedidos").set(1);
-                else
-                    firebase.database().ref("registro/" + employee + "/pedidos").set(snapshot.val() + 1);
-            });
-        }
-
-        function increaseEmployeeCounterPhone(employee) {
-            firebase.database().ref("registro/" + employee + "/pedidosTelefonicos").once('value', function(snapshot) {
-                if(snapshot.val() == null)
-                    firebase.database().ref("registro/" + employee + "/pedidosTelefonicos").set(1);
-                else
-                    firebase.database().ref("registro/" + employee + "/pedidosTelefonicos").set(snapshot.val() + 1);
+            for(var i = 0; i < products.length; i++)
+                products[i] = products[i].map(v => v === undefined ? '1' : v);
+            
+            firebase.database().ref("orders/" + globalCodeType + "/" + id).set({
+                name: name,
+                code: code,
+                products: products,
+                subtotal: total,
+                hour: Date.now()
             });
         }
 
@@ -2045,7 +1525,7 @@
             doc.addPage();
             addTimePDF(doc);
             addNamePDF(doc, length);
-            //addMethodPDF(doc, orderMethod);
+            addMethodPDF(doc, orderMethod);
         }
 
         //adds date and time to the top right corner
@@ -2066,33 +1546,20 @@
             doc.setFontSize(12.5);
             doc.setFont("Gill Sans MT Condensed Negrita");
 
-            //special mark if the order is for the next day
-            if ($("#tomorrowCheckbox").is(':checked')) {
-                doc.setFontSize(29);
-                doc.text(9 + xOffset, 41.5  + yOffset, "M", "center");
-                doc.setFontSize(12.5);
-                //revisar
-                doc.text(68 + xOffset, 196.9  + yOffset, "MANANA");
-                doc.setFontSize(12.5);
-            }
+            if(orderMethod == "MOSTRADOR" || orderMethod == "TELEFONO")
+                doc.text(111 + xOffset, 30  + yOffset, getCodeFormat(globalCode1), 'center');
+            else if(orderMethod == "WHATSAPP")
+                doc.text(111 + xOffset, 30  + yOffset, getCodeFormat(globalCode2), 'center');
 
             doc.text(84 + xOffset, 30  + yOffset, orderMethod, 'center');
-
-            //special counter if the order was made by phone
-            if(event.srcElement.id == "printByPhoneButton") {
-                //FIX efficiency
-                //increaseEmployeeCounterPhone($("#inputEmployeeName").val());
-                //firebase.database().ref(globalComputer + '/phoneOrder').set(true);
-            }
-
-            if ($("#invoiceCheckbox").is(':checked')) {
-                doc.setFontSize(29);
-                doc.setFont("Gill Sans MT Condensed Negrita");
-                doc.text(129 + xOffset, 41.5  + yOffset, "F", "center");
-            }
         }
 
-        //adds the name
+        function getCodeFormat(code) {
+            var codeToString = code.toString();
+            while (codeToString.length < 5) codeToString = "0" + codeToString;
+            return codeToString;
+        }
+
         function addNamePDF(doc, length) {
             var name = $("#inputName").val().trim();
 
@@ -2103,9 +1570,6 @@
 
             doc.setFontSize(12.5);
             doc.setFont("Gill Sans MT Condensed Negrita");
-            //doc.text(27 + xOffset, 196.9  + yOffset, "ANOTO: " + replaceAEIOUN($("#inputEmployeeName").val()) + " C" + globalComputer.slice(-1) + " #" + length);
-            //doc.text(27 + xOffset, 202.95  + yOffset, "SURTIO: ");
-            //doc.text(27 + xOffset, 209  + yOffset, "ENTREGO: ");
             
             return cleanName;
         }
@@ -2156,47 +1620,6 @@
             return canvas.toDataURL();
         }
 
-        //uploads or updates an order product
-        function uploadOrderProduct(date, quantity, unit, description, notes, price, stock, type, id) {
-            firebase.database().ref("liveviews/" + globalComputer + '/order/' + date).set({
-                cantidad: quantity,
-                unidad: unit,
-                descripcion: description,
-                notas: notes,
-                precio: price,
-                existencia: stock,
-                tipo: type,
-                clave: id
-            });
-        }
-
-        function joinRepeatedProducts(surveyValues) {
-            result = [];
-            surveyValues.forEach(function (a) {
-                if (!this[a[0]]) {
-                    this[a[0]] = [a[0], 0];
-                    result.push(this[a[0]]);
-                }
-                this[a[0]][1] += parseInt(Math.trunc(a[1] * 100), 10);
-            }, Object.create(null));
-            return result;
-        }
-
-        function uploadSurvey(surveyValues) {
-            surveyValues = joinRepeatedProducts(surveyValues);
-            for (var i = 0; i < surveyValues.length; i++) {
-                let key = toAES(surveyValues[i][0]);
-                let sale = surveyValues[i][1];
-                firebase.database().ref('survey/' + key).once('value', function(snapshot) {
-                    var aes = snapshot.key;
-                    var current = snapshot.val();
-                    var num = parseInt(current, 16) + sale;
-                    
-                    firebase.database().ref('survey/' + aes).set(num.toString(16));
-                });
-            }
-        }
-
         function toAES(string) {
             return aesjs.utils.hex.fromBytes(aesEcb.encrypt(aesjs.utils.utf8.toBytes(to16Bytes(string))));
         }
@@ -2205,136 +1628,24 @@
             return string + " ".repeat(16 - string.length);
         }
 
-        function updateName(name) {
-            firebase.database().ref("liveviews/" + globalComputer + '/name').set(name);
-        }
-
-        function updateEmployee(employee) {
-            firebase.database().ref("liveviews/" + globalComputer + '/employee').set(employee);
-        }
-
-        function updateOrderProductNotes(date, notes) {
-            firebase.database().ref("liveviews/" + globalComputer + '/order/' + date + "/notas").set(notes);
-        }
-
-        function updateOrderProductQuantity(date, quantity) {
-            firebase.database().ref("liveviews/" + globalComputer + '/order/' + date + "/cantidad").set(quantity);
-        }
-
-        function removeOrderProduct(date) {
-            firebase.database().ref("liveviews/" + globalComputer + '/order/' + date).remove();
-        }
-
-        function removeOrderProducts() {
-            firebase.database().ref("liveviews/" + globalComputer).remove();
-            finishOrderProducts(false);
-        }
-
-        function finishOrderProducts(isDone) {
-            firebase.database().ref("liveviews/" + globalComputer + '/done').set(isDone);
-        }
-
-        function createNameDB(name) {
-            var orderRef = firebase.database().ref('pending').push({ name: name });
-            orderRefID = orderRef.key;
-        }
-
-        //uploads the aCremas product
-        function aCremasOrder(cleanName, productOrder, i) {
-            var time = new Date();
-            if ($("#tomorrowCheckbox").is(':checked'))
-                productOrder[4] = "MAÑANA " + productOrder[4];
-            
-            var productJSON = {
-                id: productOrder[0],
-                quantity: productOrder[1],
-                unit: productOrder[2],
-                description: productOrder[3],
-                notes: productOrder[4],
-                hour: time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
-                name: cleanName
-            };
-            var productRef = firebase.database().ref('pending/' + orderRefID + '/aCremas').push(productJSON);
-            firebase.database().ref('tablets/cremas/pendientes/' + productRef.key ).set(productJSON);
-            return true;
-        }
-
-        //uploads the aJamones product
-        function aJamonesOrder(productOrder, i) {
-            var time = new Date();
-            if ($("#tomorrowCheckbox").is(':checked'))
-                productOrder[4] = "MAÑANA " + productOrder[4];
-            
-            var productJSON = {
-                id: productOrder[0],
-                quantity: productOrder[1],
-                unit: productOrder[2],
-                description: productOrder[3],
-                notes: productOrder[4],
-                hour: time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
-            };
-            var productRef = firebase.database().ref('pending/' + orderRefID + '/aJamones').push(productJSON);
-            firebase.database().ref('tablets/jamones/pendientes/' + productRef.key ).set(productJSON);
-            return true;
-        }
-
-        //uploads the aBodega product
-        function aBodegaOrder(productOrder, i) {
-            var time = new Date();
-            if ($("#tomorrowCheckbox").is(':checked'))
-                productOrder[4] = "MAÑANA " + productOrder[4];
-            
-            var productJSON = {
-                id: productOrder[0],
-                quantity: productOrder[1],
-                unit: productOrder[2],
-                description: productOrder[3],
-                notes: productOrder[4],
-                hour: time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
-            };
-            var productRef = firebase.database().ref('pending/' + orderRefID + '/aBodega').push(productJSON);
-            firebase.database().ref('tablets/bodega/pendientes/' + productRef.key ).set(productJSON);
-            return true;
-        }
-
-        //uploads the arriba product
-        function aBodegaAbajoOrder(productOrder, i) {
-            var time = new Date();
-            if ($("#tomorrowCheckbox").is(':checked'))
-                productOrder[4] = "MAÑANA " + productOrder[4];
-            
-            var productJSON = {
-                id: productOrder[0],
-                quantity: productOrder[1],
-                unit: productOrder[2],
-                description: productOrder[3],
-                notes: productOrder[4],
-                hour: time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
-            };
-            var productRef = firebase.database().ref('pending/' + orderRefID + '/aBodegaAbajo').push(productJSON);
-            firebase.database().ref('tablets/arriba/pendientes/' + productRef.key ).set(productJSON);
-            return true;
-        }
-
         //leaves the page ready for a new order
         function eraseOrder() {
             $("#inputName").val("");
+            $("#inputNameWhatsapp").val("");
             $("#dynamic-list").html("");
             $("#dynamic-list-2").html("");
 
-            hideSugList();
-            $('#tomorrowCheckbox').prop('checked', false);
-            $('#invoiceCheckbox').prop('checked', false);
             $("#totalTextField").text("$0");
             $("#greenCheck").css("visibility", "hidden");
             $("#greenCheckW").css("visibility", "hidden");
             $("#greenCheckWN").css("visibility", "hidden");
+            $("#greenCheckClient").css("visibility", "hidden");
 
             firebase.database().ref("liveviews/" + globalComputer + '/sorder').remove();
             clientName = "";
             clientWhatsapp = "";
+            globalID = "";
 
-            updateWT();
             productCounter = 0;
             updateNP(productCounter);
         }
@@ -2351,25 +1662,9 @@
             });
         }
 
-        //starts listening to connection stauts
+        //listens to connection's stauts
         checkConnection();
 
-        populateWaitingTimes();
-
-        //removes any products from the live view
-        removeOrderProducts();
-
-        //some shortcuts... got the keycodes from here http://keycode.info
-        $(document).keydown(function (e) {
-            if (e.keyCode == 221 || e.keyCode == 106)
-                generatePDF("");
-            else if (e.keyCode == 219 || e.keyCode == 111) {
-                $("#inputName").focus();
-                setTimeout(function () {
-                    $("#inputName").val($("#inputName").val().substring(0, $("#inputName").val().length - 1));
-                }, 100);
-            }
-        });
-
     </script>
+
 </body>

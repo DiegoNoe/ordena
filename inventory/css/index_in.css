@@ -54,8 +54,19 @@ body {
 }
 
 #inputName {
-    width: 88%;
+    width: 78%;
     float:left; 
+    margin-top: 1px; 
+    background-color: #111111; 
+    border-color: #555555;
+    color: #EEEEEE; 
+}
+
+#inputNameWhatsapp {
+    width: 30%;
+    height: 35px;
+    position: absolute;
+    left: 638px;
     margin-top: 1px; 
     background-color: #111111; 
     border-color: #555555;
@@ -79,10 +90,17 @@ body {
 }
 
 #saveOrderButton {
-    float:right;
+    float:left;
     font-weight: bold;
     height: 34px;
-    right: 19px;
+    left: 6px;
+}
+
+#deleteOrderButton {
+    float:left;
+    font-weight: bold;
+    height: 34px;
+    left: 12px;
 }
 
 #clientOptions::-webkit-scrollbar {
@@ -138,6 +156,7 @@ body {
     z-index: 1;
     position: absolute;
     top: 7px;
+    right: 10px;
 }
 
 #greenCheckW {
@@ -159,9 +178,9 @@ body {
 }
 
 #tomorrowContainer {
+    padding-top: 5px;
     padding-right: 10px;
     padding-left: 22px;
-    padding-top: 5px;
 }
 
 #tomorrowCheckbox {
@@ -196,34 +215,6 @@ body {
 
 #inputEmployeeName {
     width: 162px; 
-    margin-top: 1px; 
-    padding-top: .5px;
-    background-color: #111111; 
-    border-color: #555555; 
-    -webkit-appearance: none; 
-    font-family: GillSansMTCondensedBold !important;
-    font-size: 23px !important;
-}
-
-#casilleroContainer {
-    padding-left: 0%;
-    padding-right: 0%;
-}
-
-#inputCasillero {
-    width: 66px;
-    height: 34px;
-    float:left; 
-    margin-top: 1px; 
-    background-color: #111111; 
-    border-color: #555555;
-    color: #EEEEEE; 
-    margin-right: 6px;
-}
-
-#inputEmployeeNameCaja {
-    width: 144px;
-    height: 34px;
     margin-top: 1px; 
     padding-top: .5px;
     background-color: #111111; 
@@ -283,10 +274,14 @@ body {
     line-height: 0px !important;
 }
 
-#addProductButton, #callClientButton {
+#addProductButton, #callClientButton, #eraseOrderButton {
     float: right;
     margin-right: 5px;
     font-weight: bold;
+}
+
+#eraseOrderButton {
+    padding-right: 12.5px;
 }
 
 #searchContainer {
@@ -361,7 +356,7 @@ body {
 }
 
 .list-width {
-    width: 88% !important;
+    width: 89% !important;
 }
 
 .search-options {

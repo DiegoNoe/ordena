@@ -540,5 +540,16 @@
             }, 60000);
         }
 
+        reloadOnUpdate();
+		function reloadOnUpdate() {
+            firebase.database().ref("updates/jamones").on('value', function(snapshot) {
+                if(snapshot.val()) {
+                    firebase.database().ref("updates/jamones").set(false).then(function() {
+                        location.reload();
+                    });
+                }
+            });
+        }
+
     </script>
 </body>

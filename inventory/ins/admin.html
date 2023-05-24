@@ -601,6 +601,7 @@
 
         function searchOrderById(id) {
             id = id.replaceAll(".", "").replaceAll(" ", "");
+
             firebase.database().ref("providers/" + id).once('value', function (snapshot) {
                 if(snapshot.val() != null) {
                     populateOrder(snapshot.val());
@@ -641,8 +642,9 @@
                 var randomLetter1 = possible.charAt(Math.floor(Math.random() * possible.length));
                 var randomLetter2 = possible.charAt(Math.floor(Math.random() * possible.length));
                 globalID = randomLetter1 + $("#inputName").val().trim() + " " + total + randomLetter2;
-                globalID = globalID.replace(/ /g, '');
+                globalID = globalID.replaceAll(".", "").replaceAll(" ", "");
             }
+
             
             firebase.database().ref("providers/" + globalID + "/products").set(sOrderProducts);
             firebase.database().ref("providers/" + globalID + "/subtotal").set(total);

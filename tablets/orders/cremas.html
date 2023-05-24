@@ -507,5 +507,16 @@
             }, 60000);
         }
 
+		reloadOnUpdate();
+		function reloadOnUpdate() {
+            firebase.database().ref("updates/cremas").on('value', function(snapshot) {
+                if(snapshot.val()) {
+                    firebase.database().ref("updates/cremas").set(false).then(function() {
+                        location.reload();
+                    });
+                }
+            });
+        }
+
     </script>
 </body>
