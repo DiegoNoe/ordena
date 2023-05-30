@@ -549,7 +549,7 @@
             var totalCost = "";
             if($("#quantityInput").val() != "") {
                 totalCost = $("#quantityInput").val() * product.costo;
-                totalCost = "$" + Math.round(totalCost * 10) / 10
+                totalCost = "$" + Math.round(totalCost * 10) / 10;
             }
                 
             var productListItem =
@@ -1212,6 +1212,8 @@
             
             //set PDF defaults
             var order = getOrderProducts();
+            console.log("order");
+            console.log(order);
             var doc = new jsPDF({
                 orientation: 'p',
                 unit: 'mm',
@@ -1327,7 +1329,7 @@
                 doc.setFont("Gill Sans MT Condensed Negrita");
                 doc.setFontSize(12.5);
                 product = JSON.search(defiantProducts, '//*[clave="' + order[i][0] + '"]');
-                var totalProduct = roundDecimals(Math.round(product[0].costo * order[i][1] * 10) / 10);
+                var totalProduct = roundDecimals(Math.round(order[i][4] * order[i][1] * 10) / 10);
                 if (order[i][5] != "porPesarCamara" && order[i][5] != "porPesarAfuera") {
                     doc.text(115 + xOffset, firstLineYPosition + (currentLine * lineHeight), totalProduct.toLocaleString('en-US'), null, null, "left");
                 } else {
@@ -1340,9 +1342,9 @@
                 //calculating current total
                 var productTotal;
                 if (order[i][1] < 0)
-                    productTotal = product[0].costo * order[i][1] * (-1);
+                    productTotal = order[i][4] * order[i][1] * (-1);
                 else
-                    productTotal = product[0].costo * order[i][1];
+                    productTotal = order[i][4] * order[i][1];
                 
                 total += productTotal;
                 
@@ -1366,7 +1368,7 @@
                     doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]));
                 }
 
-                updateStock(order[i]);
+                updateStock(order[i], orderMethod);
 
                 //drawline if product needs to be weighted
                 if (order[i][5] == "porPesarCamara" || order[i][5] == "porPesarAfuera") {
@@ -1417,12 +1419,7 @@
             }
 
             //uploads buying order
-            if(orderMethod == "MOSTRADOR")
-                uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), order, total, productsRefID);
-            else if((orderMethod == "TELEFONO")) 
-                uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), order, total, productsRefID);
-            else if((orderMethod == "WHATSAPP")) 
-                uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), order, total, productsRefID);
+            uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), order, total, productsRefID,orderMethod);
             
             //autoprints PDF in a new tab
             doc.autoPrint();
@@ -1432,23 +1429,27 @@
             }
         }
 
-        function updateStock(product) {
+        function updateStock(product, orderMethod) {
+
             //update current products stock
-            substractStock(product[0], product[1]);
+            var jsonProduct = JSON.search(defiantProducts, '//*[clave="' + product[0] + '"]')[0];
+            if(jsonProduct.pesoN != undefined && jsonProduct.pesoN != "")
+                product[1] = product[1] * jsonProduct.pesoN;
+            substractStock(product[0], product[1], orderMethod);
 
             firebase.database().ref("relations/" + product[0]).once('value', function(snapshot) {
                 if(snapshot.val() != undefined) {
                     if(Object.keys(snapshot.val()).length == 1) {
                         
                         //update parent products stock
-                        substractStock(Object.keys(snapshot.val())[0], snapshot.val()[Object.keys(snapshot.val())[0]] * product[1]);
+                        substractStock(Object.keys(snapshot.val())[0], snapshot.val()[Object.keys(snapshot.val())[0]] * product[1], orderMethod);
                         
                         firebase.database().ref("relations/" + Object.keys(snapshot.val())[0]).once('value', function(childSnapshot) {
                             if(childSnapshot.val() != undefined) {
                                 for (let id in childSnapshot.val()) {
                                     if(id != product[0]) {
                                         //update siblings products stock
-                                        substractStock(id, childSnapshot.val()[id] * snapshot.val()[Object.keys(snapshot.val())[0]] * product[1]);
+                                        substractStock(id, childSnapshot.val()[id] * snapshot.val()[Object.keys(snapshot.val())[0]] * product[1], orderMethod);
                                     }
                                 }
                             }
@@ -1457,14 +1458,14 @@
                         //means it's a parent product
                         for (let id in snapshot.val()) {
                             //update children products stock
-                            substractStock(id, snapshot.val()[id] * product[1]);
+                            substractStock(id, snapshot.val()[id] * product[1], orderMethod);
                         }
                     }
                 }
             });
         }
 
-        function substractStock(id, quantity) {
+        function substractStock(id, quantity, orderMethod) {
             var currentRelationStock = -1000000;
             firebase.database().ref("inventory/" + id + "/stock").once('value', function(snapshot) {
                 if(snapshot.val() != undefined) {
@@ -1474,20 +1475,29 @@
                 }  
             }).then(function(){
                 if(currentRelationStock != -1000000) {
-                    firebase.database().ref("inventory/" +  id + "/stock").set(currentRelationStock + parseInt(quantity));
+                    console.log(orderMethod);
+                    if(orderMethod == "MOSTRADOR" || orderMethod == "TELEFONO")
+                        firebase.database().ref("inventory/" +  id + "/stock").set(currentRelationStock + parseInt(quantity));
+                    else if(orderMethod == "WHATSAPP")
+                        firebase.database().ref("inventory/" +  id + "/stock").set(currentRelationStock - parseInt(quantity));
                 }
             });
         }
 
         //uploads order when invoice is needed
-        function uploadCompleteOrder(name, products, total, id) {
-            console.log("uploadCompleteOrder");
+        function uploadCompleteOrder(name, products, total, id, orderMethod) {
             id = id.replace(".", "").replace(" ", "");
             total = total.replace(/\,/g,'');
 
-            console.log(products);
+            var destination = "";
+            if(orderMethod == "MOSTRADOR")
+                destination = "outsideToO";
+            else if(orderMethod == "TELEFONO")
+                destination = "imperialToO";
+            else if(orderMethod == "WHATSAPP")
+                destination = "ordenaToI";
 
-            firebase.database().ref("purchases/" + id).set({
+            firebase.database().ref("purchases/" + destination + "/" + id).set({
                 nombre: name,
                 productos: products,
                 subtotal: total,
@@ -1546,12 +1556,34 @@
             doc.setFontSize(12.5);
             doc.setFont("Gill Sans MT Condensed Negrita");
 
-            if(orderMethod == "MOSTRADOR" || orderMethod == "TELEFONO")
+            if(orderMethod == "MOSTRADOR")
                 doc.text(111 + xOffset, 30  + yOffset, getCodeFormat(globalCode1), 'center');
+            else if(orderMethod == "TELEFONO")
+                doc.text(111 + xOffset, 30  + yOffset, getCodeFormat(globalCode2), 'center');
             else if(orderMethod == "WHATSAPP")
                 doc.text(111 + xOffset, 30  + yOffset, getCodeFormat(globalCode2), 'center');
 
-            doc.text(84 + xOffset, 30  + yOffset, orderMethod, 'center');
+
+            if(orderMethod == "MOSTRADOR") {
+                doc.text(84 + xOffset, 30  + yOffset, "COMPRA", 'center');
+            } else if(orderMethod == "TELEFONO") {
+                doc.text(84 + xOffset, 30  + yOffset, "DE IMPERIAL", 'center');
+            } else if(orderMethod == "WHATSAPP") {
+                doc.text(84 + xOffset, 30  + yOffset, "A IMPERIAL", 'center');
+            }
+
+            doc.setFontSize(70);
+            doc.setTextColor(240, 240, 240);
+            if(orderMethod == "MOSTRADOR") {
+                if(globalID == "") doc.text(105, 120, "SIN REVISAR", "center");
+                else doc.text(105, 120, "REVISADO", "center");
+            } else if(orderMethod == "TELEFONO") {
+                doc.text(105, 120, "SIN REVISAR", "center");
+            } else if(orderMethod == "WHATSAPP") {
+                doc.text(105, 120, "SIN REVISAR", "center");
+            }
+            doc.setFontSize(12.5);
+            doc.setTextColor(0, 0, 0);
         }
 
         function getCodeFormat(code) {
