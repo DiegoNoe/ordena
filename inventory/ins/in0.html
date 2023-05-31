@@ -1354,18 +1354,15 @@
                 if (order[i][5] != "") {
                     //notes and description
                     doc.setFontSize(10);
-                    doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) + 1.5, product[0].costo + " - " + replaceAEIOUN(order[i][5]));
+                    doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) + 1.5,replaceAEIOUN(order[i][5]));
 
                     doc.setFontSize(12.5);
                     doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]));
 
                 } else {
                     //just description
-                    doc.setFontSize(10);
-                    doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) + 1.5, product[0].costo);
-
                     doc.setFontSize(12.5);
-                    doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]));
+                    doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight), replaceAEIOUN(order[i][3]));
                 }
 
                 updateStock(order[i], orderMethod);
