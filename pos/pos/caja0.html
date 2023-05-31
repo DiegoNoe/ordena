@@ -1972,8 +1972,12 @@
 
                 sOrderProducts[i.toString().padStart(3, '0') + order[i][0]] = {
                     uc: Number(order[i][1]),
-                    n: order[i][4]
+                    n: order[i][4],
+                    p: order[i][7]
                 };
+
+                console.log("order[i]");
+                console.log(order[i]);
 
                 //quantity and unit
                 doc.setFont("Gill Sans MT Condensed Negrita");

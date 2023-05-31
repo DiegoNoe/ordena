@@ -1,10102 +1,6062 @@
 var relacionesJSON = [
     {
-      "ACA": "ACAP",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACAP,,"
     },
     {
-      "ACA": "ACB",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACB,,"
     },
     {
-      "ACA": "ACBC",
-      "": "ACB",
-      "__1": 28
+      "ACA,,": "ACBC,ACB,28"
     },
     {
-      "ACA": "ACC1",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACC1,,"
     },
     {
-      "ACA": "ACC15",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACC15,,"
     },
     {
-      "ACA": "ACC15C",
-      "": "ACC15",
-      "__1": 8
+      "ACA,,": "ACC15C,ACC15,8"
     },
     {
-      "ACA": "ACC1C",
-      "": "ACC1",
-      "__1": 12
+      "ACA,,": "ACC1C,ACC1,12"
     },
     {
-      "ACA": "ACC1M",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACC1M,,"
     },
     {
-      "ACA": "ACC20",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACC20,,"
     },
     {
-      "ACA": "ACC20N",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACC20N,,"
     },
     {
-      "ACA": "ACC5",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACC5,,"
     },
     {
-      "ACA": "ACC5C",
-      "": "ACC5",
-      "__1": 2
+      "ACA,,": "ACC5C,ACC5,2"
     },
     {
-      "ACA": "ACCA1",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACCA1,,"
     },
     {
-      "ACA": "ACCA1C",
-      "": "ACCA1",
-      "__1": 12
+      "ACA,,": "ACCA1C,ACCA1,12"
     },
     {
-      "ACA": "ACCA20",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACCA20,,"
     },
     {
-      "ACA": "ACCCH235",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACCCH235,,"
     },
     {
-      "ACA": "ACCCHBC",
-      "": "ACCHCB",
-      "__1": 24
+      "ACA,,": "ACCCHBC,ACCHCB,24"
     },
     {
-      "ACA": "ACCHCB",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACCHCB,,"
     },
     {
-      "ACA": "ACCM",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACCM,,"
     },
     {
-      "ACA": "ACCMC",
-      "": "ACCM",
-      "__1": 24
+      "ACA,,": "ACCMC,ACCM,24"
     },
     {
-      "ACA": "ACCO",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACCO,,"
     },
     {
-      "ACA": "ACEC1",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACEC1,,"
     },
     {
-      "ACA": "ACEC1C",
-      "": "ACEC1",
-      "__1": 6
+      "ACA,,": "ACEC1C,ACEC1,6"
     },
     {
-      "ACA": "ACI4",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACI4,,"
     },
     {
-      "ACA": "ACIC",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACIC,,"
     },
     {
-      "ACA": "ACIK",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACIK,,"
     },
     {
-      "ACA": "ACIM",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACIM,,"
     },
     {
-      "ACA": "ACK900",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACK900,,"
     },
     {
-      "ACA": "ACL",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACL,,"
     },
     {
-      "ACA": "ACL1",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACL1,,"
     },
     {
-      "ACA": "ACL1C",
-      "": "ACL1",
-      "__1": 12
+      "ACA,,": "ACL1C,ACL1,12"
     },
     {
-      "ACA": "ACL20",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACL20,,"
     },
     {
-      "ACA": "ACN1",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACN1,,"
     },
     {
-      "ACA": "ACN1C",
-      "": "ACN1",
-      "__1": 12
+      "ACA,,": "ACN1C,ACN1,12"
     },
     {
-      "ACA": "ACNRA3",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACNRA3,,"
     },
     {
-      "ACA": "ACNRA3C",
-      "": "ACNRA3",
-      "__1": 6
+      "ACA,,": "ACNRA3C,ACNRA3,6"
     },
     {
-      "ACA": "ACOG",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACOG,,"
     },
     {
-      "ACA": "ACOG256",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACOG256,,"
     },
     {
-      "ACA": "ACOG256C",
-      "": "ACOG256",
-      "__1": 24
+      "ACA,,": "ACOG256C,ACOG256,24"
     },
     {
-      "ACA": "ACOGC",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACOGC,,"
     },
     {
-      "ACA": "ACOGM",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACOGM,,"
     },
     {
-      "ACA": "ACOGMC",
-      "": "ACOGM",
-      "__1": 24
+      "ACA,,": "ACOGMC,ACOGM,24"
     },
     {
-      "ACA": "ACOGT",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACOGT,,"
     },
     {
-      "ACA": "ACOGTC",
-      "": "ACOGT",
-      "__1": 12
+      "ACA,,": "ACOGTC,ACOGT,12"
     },
     {
-      "ACA": "ACOM1",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACOM1,,"
     },
     {
-      "ACA": "ACOM1C",
-      "": "ACOM1",
-      "__1": 12
+      "ACA,,": "ACOM1C,ACOM1,12"
     },
     {
-      "ACA": "ACOMV",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACOMV,,"
     },
     {
-      "ACA": "ACP1",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACP1,,"
     },
     {
-      "ACA": "ACP100",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACP100,,"
     },
     {
-      "ACA": "ACP100C",
-      "": "ACP100",
-      "__1": 30
+      "ACA,,": "ACP100C,ACP100,30"
     },
     {
-      "ACA": "ACP1C",
-      "": "ACP1",
-      "__1": 10
+      "ACA,,": "ACP1C,ACP1,10"
     },
     {
-      "ACA": "ACPC1",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACPC1,,"
     },
     {
-      "ACA": "ACSHC",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACSHC,,"
     },
     {
-      "ACA": "ACSHC1",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACSHC1,,"
     },
     {
-      "ACA": "ACSHCB",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACSHCB,,"
     },
     {
-      "ACA": "ACSHCBC",
-      "": "ACSHCB",
-      "__1": 24
+      "ACA,,": "ACSHCBC,ACSHCB,24"
     },
     {
-      "ACA": "ACSHCKC",
-      "": "ACSHC1",
-      "__1": 6
+      "ACA,,": "ACSHCKC,ACSHC1,6"
     },
     {
-      "ACA": "ACSHV135",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACSHV135,,"
     },
     {
-      "ACA": "ACSHV135C",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACSHV135C,,"
     },
     {
-      "ACA": "ACSP1",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACSP1,,"
     },
     {
-      "ACA": "ACSP1C",
-      "": "ACSP1",
-      "__1": 12
+      "ACA,,": "ACSP1C,ACSP1,12"
     },
     {
-      "ACA": "ACVC",
-      "": "",
-      "__1": ""
+      "ACA,,": "ACVC,,"
     },
     {
-      "ACA": "ADB3",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADB3,,"
     },
     {
-      "ACA": "ADB3C",
-      "": "ADB3",
-      "__1": 4
+      "ACA,,": "ADB3C,ADB3,4"
     },
     {
-      "ACA": "ADC",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADC,,"
     },
     {
-      "ACA": "ADC710",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADC710,,"
     },
     {
-      "ACA": "ADCH3",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADCH3,,"
     },
     {
-      "ACA": "ADCL",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADCL,,"
     },
     {
-      "ACA": "ADE3",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADE3,,"
     },
     {
-      "ACA": "ADEV250",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADEV250,,"
     },
     {
-      "ACA": "ADF1",
-      "": "ADFC",
-      "__1": 4
+      "ACA,,": "ADF1,ADFC,4"
     },
     {
-      "ACA": "ADF1",
-      "": "ADFM",
-      "__1": 2
+      "ACA,,": "ADF1,ADFM,2"
     },
     {
-      "ACA": "ADFC",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADFC,,"
     },
     {
-      "ACA": "ADFG",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADFG,,"
     },
     {
-      "ACA": "ADFGM",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADFGM,,"
     },
     {
-      "ACA": "ADFIM",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADFIM,,"
     },
     {
-      "ACA": "ADFM",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADFM,,"
     },
     {
-      "ACA": "ADFN1K",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADFN1K,,"
     },
     {
-      "ACA": "ADFN200G",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADFN200G,,"
     },
     {
-      "ACA": "ADFN400G",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADFN400G,,"
     },
     {
-      "ACA": "ADFO1",
-      "": "ADFOC",
-      "__1": 4
+      "ACA,,": "ADFO1,ADFOC,4"
     },
     {
-      "ACA": "ADFO1",
-      "": "ADFOM",
-      "__1": 2
+      "ACA,,": "ADFO1,ADFOM,2"
     },
     {
-      "ACA": "ADFOC",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADFOC,,"
     },
     {
-      "ACA": "ADFOM",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADFOM,,"
     },
     {
-      "ACA": "ADFOMM",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADFOMM,,"
     },
     {
-      "ACA": "ADFRC",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADFRC,,"
     },
     {
-      "ACA": "ADFRK",
-      "": "ADFRC",
-      "__1": 4
+      "ACA,,": "ADFRK,ADFRC,4"
     },
     {
-      "ACA": "ADFRK",
-      "": "ADFRM",
-      "__1": 2
+      "ACA,,": "ADFRK,ADFRM,2"
     },
     {
-      "ACA": "ADFRM",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADFRM,,"
     },
     {
-      "ACA": "ADFS",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADFS,,"
     },
     {
-      "ACA": "ADFSJ1",
-      "": "ADFSJM",
-      "__1": 2
+      "ACA,,": "ADFSJ1,ADFSJM,2"
     },
     {
-      "ACA": "ADFSJ1",
-      "": "ADFS",
-      "__1": 4
+      "ACA,,": "ADFSJ1,ADFS,4"
     },
     {
-      "ACA": "ADFSJM",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADFSJM,,"
     },
     {
-      "ACA": "ADFSK",
-      "": "ADFSME",
-      "__1": 2
+      "ACA,,": "ADFSK,ADFSME,2"
     },
     {
-      "ACA": "ADFSME",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADFSME,,"
     },
     {
-      "ACA": "ADFSMG",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADFSMG,,"
     },
     {
-      "ACA": "ADH3",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADH3,,"
     },
     {
-      "ACA": "ADH3C",
-      "": "ADH3",
-      "__1": 4
+      "ACA,,": "ADH3C,ADH3,4"
     },
     {
-      "ACA": "ADHC3C",
-      "": "ADCH3",
-      "__1": 4
+      "ACA,,": "ADHC3C,ADCH3,4"
     },
     {
-      "ACA": "ADIC",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADIC,,"
     },
     {
-      "ACA": "ADIC710",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADIC710,,"
     },
     {
-      "ACA": "ADIH3",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADIH3,,"
     },
     {
-      "ACA": "ADIH3C",
-      "": "ADIH3",
-      "__1": 4
+      "ACA,,": "ADIH3C,ADIH3,4"
     },
     {
-      "ACA": "ADM1",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADM1,,"
     },
     {
-      "ACA": "ADM3",
-      "": "ADM3",
-      "__1": 6
+      "ACA,,": "ADM3,ADM3,6"
     },
     {
-      "ACA": "ADM3C",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADM3C,,"
     },
     {
-      "ACA": "ADM3IH",
-      "": "ADM3K",
-      "__1": 4
+      "ACA,,": "ADM3IH,ADM3K,4"
     },
     {
-      "ACA": "ADM3K",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADM3K,,"
     },
     {
-      "ACA": "ADM3KH",
-      "": "ADM3K",
-      "__1": 4
+      "ACA,,": "ADM3KH,ADM3K,4"
     },
     {
-      "ACA": "ADMI2",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADMI2,,"
     },
     {
-      "ACA": "ADMI710",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADMI710,,"
     },
     {
-      "ACA": "ADMIH3",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADMIH3,,"
     },
     {
-      "ACA": "ADMIH3C",
-      "": "ADMIH3",
-      "__1": 4
+      "ACA,,": "ADMIH3C,ADMIH3,4"
     },
     {
-      "ACA": "ADMIM",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADMIM,,"
     },
     {
-      "ACA": "ADMM",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADMM,,"
     },
     {
-      "ACA": "ADMM1",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADMM1,,"
     },
     {
-      "ACA": "ADMM1J",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADMM1J,,"
     },
     {
-      "ACA": "ADMO1",
-      "": "ADMO2",
-      "__1": 0.5
+      "ACA,,": "ADMO1,ADMO2,0.5"
     },
     {
-      "ACA": "ADMO1",
-      "": "ADMOM",
-      "__1": 2
+      "ACA,,": "ADMO1,ADMOM,2"
     },
     {
-      "ACA": "ADMO2",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADMO2,,"
     },
     {
-      "ACA": "ADMOM",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADMOM,,"
     },
     {
-      "ACA": "ADMOMD",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADMOMD,,"
     },
     {
-      "ACA": "ADMS2",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADMS2,,"
     },
     {
-      "ACA": "ADMSJMANZANILLA",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADMSJMANZANILLA,,"
     },
     {
-      "ACA": "ADP3",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADP3,,"
     },
     {
-      "ACA": "ADR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADR,,"
     },
     {
-      "ACA": "ADR473",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADR473,,"
     },
     {
-      "ACA": "ADR710",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADR710,,"
     },
     {
-      "ACA": "ADRB",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADRB,,"
     },
     {
-      "ACA": "ADRBC",
-      "": "ADRB",
-      "__1": 4
+      "ACA,,": "ADRBC,ADRB,4"
     },
     {
-      "ACA": "ADRBG",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADRBG,,"
     },
     {
-      "ACA": "ADRBGC",
-      "": "ADRBG",
-      "__1": 4
+      "ACA,,": "ADRBGC,ADRBG,4"
     },
     {
-      "ACA": "ADRCG",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADRCG,,"
     },
     {
-      "ACA": "ADRCGC",
-      "": "ADRCG",
-      "__1": 4
+      "ACA,,": "ADRCGC,ADRCG,4"
     },
     {
-      "ACA": "ADRH3",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADRH3,,"
     },
     {
-      "ACA": "ADRH3C",
-      "": "ADRH3",
-      "__1": 4
+      "ACA,,": "ADRH3C,ADRH3,4"
     },
     {
-      "ACA": "ADRNK",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADRNK,,"
     },
     {
-      "ACA": "ADRS",
-      "": "ADR",
-      "__1": 4
+      "ACA,,": "ADRS,ADR,4"
     },
     {
-      "ACA": "ADRZ16",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADRZ16,,"
     },
     {
-      "ACA": "ADS",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADS,,"
     },
     {
-      "ACA": "ADSJC",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADSJC,,"
     },
     {
-      "ACA": "ADSMV",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADSMV,,"
     },
     {
-      "ACA": "ADSV",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADSV,,"
     },
     {
-      "ACA": "ADSVC",
-      "": "ADSV",
-      "__1": 6
+      "ACA,,": "ADSVC,ADSV,6"
     },
     {
-      "ACA": "ADSVCH",
-      "": "",
-      "__1": ""
+      "ACA,,": "ADSVCH,,"
     },
     {
-      "ACA": "ADSVCHC",
-      "": "ADSVCH",
-      "__1": 10
+      "ACA,,": "ADSVCHC,ADSVCH,10"
     },
     {
-      "ACA": "ADSVMC",
-      "": "ADSMV",
-      "__1": 10
+      "ACA,,": "ADSVMC,ADSMV,10"
     },
     {
-      "ACA": "AGBC",
-      "": "AGB1",
-      "__1": 12
+      "ACA,,": "AGBC,AGB1,12"
     },
     {
-      "ACA": "AGBL",
-      "": "AGBL1",
-      "__1": 12
+      "ACA,,": "AGBL,AGBL1,12"
     },
     {
-      "ACA": "AGI1500",
-      "": "",
-      "__1": ""
+      "ACA,,": "AGI1500,,"
     },
     {
-      "ACA": "AGI1500C",
-      "": "AGI1500",
-      "__1": 12
+      "ACA,,": "AGI1500C,AGI1500,12"
     },
     {
-      "ACA": "AGIM",
-      "": "",
-      "__1": ""
+      "ACA,,": "AGIM,,"
     },
     {
-      "ACA": "AGIMC",
-      "": "AGIM",
-      "__1": 20
+      "ACA,,": "AGIMC,AGIM,20"
     },
     {
-      "ACA": "AHU",
-      "": "",
-      "__1": ""
+      "ACA,,": "AHU,,"
     },
     {
-      "ACA": "AHUP",
-      "": "AHU",
-      "__1": 4
+      "ACA,,": "AHUP,AHU,4"
     },
     {
-      "ACA": "AL400",
-      "": "",
-      "__1": ""
+      "ACA,,": "AL400,,"
     },
     {
-      "ACA": "AL400C",
-      "": "AL400",
-      "__1": 4
+      "ACA,,": "AL400C,AL400,4"
     },
     {
-      "ACA": "AL7",
-      "": "",
-      "__1": ""
+      "ACA,,": "AL7,,"
     },
     {
-      "ACA": "AL7C",
-      "": "AL7",
-      "__1": 24
+      "ACA,,": "AL7C,AL7,24"
     },
     {
-      "ACA": "ALA50",
-      "": "",
-      "__1": ""
+      "ACA,,": "ALA50,,"
     },
     {
-      "ACA": "ALA50C",
-      "": "ALA50",
-      "__1": 12
+      "ACA,,": "ALA50C,ALA50,12"
     },
     {
-      "ACA": "ALCI",
-      "": "",
-      "__1": ""
+      "ACA,,": "ALCI,,"
     },
     {
-      "ACA": "ALD",
-      "": "",
-      "__1": ""
+      "ACA,,": "ALD,,"
     },
     {
-      "ACA": "ALMD",
-      "": "",
-      "__1": ""
+      "ACA,,": "ALMD,,"
     },
     {
-      "ACA": "ALN",
-      "": "",
-      "__1": ""
+      "ACA,,": "ALN,,"
     },
     {
-      "ACA": "ALNM",
-      "": "",
-      "__1": ""
+      "ACA,,": "ALNM,,"
     },
     {
-      "ACA": "ALR50",
-      "": "",
-      "__1": ""
+      "ACA,,": "ALR50,,"
     },
     {
-      "ACA": "ALR50C",
-      "": "ALR50",
-      "__1": 12
+      "ACA,,": "ALR50C,ALR50,12"
     },
     {
-      "ACA": "APC",
-      "": "",
-      "__1": ""
+      "ACA,,": "APC,,"
     },
     {
-      "ACA": "ARCI",
-      "": "",
-      "__1": ""
+      "ACA,,": "ARCI,,"
     },
     {
-      "ACA": "ARRI",
-      "": "",
-      "__1": ""
+      "ACA,,": "ARRI,,"
     },
     {
-      "ACA": "ARRIM",
-      "": "",
-      "__1": ""
+      "ACA,,": "ARRIM,,"
     },
     {
-      "ACA": "ARRK",
-      "": "",
-      "__1": ""
+      "ACA,,": "ARRK,,"
     },
     {
-      "ACA": "ARRKM",
-      "": "",
-      "__1": ""
+      "ACA,,": "ARRKM,,"
     },
     {
-      "ACA": "ARRKMA",
-      "": "",
-      "__1": ""
+      "ACA,,": "ARRKMA,,"
     },
     {
-      "ACA": "ARRRI",
-      "": "",
-      "__1": ""
+      "ACA,,": "ARRRI,,"
     },
     {
-      "ACA": "AST",
-      "": "",
-      "__1": ""
+      "ACA,,": "AST,,"
     },
     {
-      "ACA": "ASUPER",
-      "": "",
-      "__1": ""
+      "ACA,,": "ASUPER,,"
     },
     {
-      "ACA": "ASUPERM05",
-      "": "",
-      "__1": ""
+      "ACA,,": "ASUPERM05,,"
     },
     {
-      "ACA": "ASUPERM10",
-      "": "",
-      "__1": ""
+      "ACA,,": "ASUPERM10,,"
     },
     {
-      "ACA": "ASUPERM20",
-      "": "",
-      "__1": ""
+      "ACA,,": "ASUPERM20,,"
     },
     {
-      "ACA": "ATAADO",
-      "": "",
-      "__1": ""
+      "ACA,,": "ATAADO,,"
     },
     {
-      "ACA": "ATAD140",
-      "": "",
-      "__1": ""
+      "ACA,,": "ATAD140,,"
     },
     {
-      "ACA": "ATAD140C",
-      "": "ATAD140",
-      "__1": 36
+      "ACA,,": "ATAD140C,ATAD140,36"
     },
     {
-      "ACA": "ATAD140CG",
-      "": "ATAD140G",
-      "__1": 36
+      "ACA,,": "ATAD140CG,ATAD140G,36"
     },
     {
-      "ACA": "ATAD140G",
-      "": "",
-      "__1": ""
+      "ACA,,": "ATAD140G,,"
     },
     {
-      "ACA": "ATADO",
-      "": "",
-      "__1": ""
+      "ACA,,": "ATADO,,"
     },
     {
-      "ACA": "ATAT140",
-      "": "",
-      "__1": ""
+      "ACA,,": "ATAT140,,"
     },
     {
-      "ACA": "ATAT140C",
-      "": "ATAT140",
-      "__1": 48
+      "ACA,,": "ATAT140C,ATAT140,48"
     },
     {
-      "ACA": "ATAT140CG",
-      "": "ATAT140G",
-      "__1": 48
+      "ACA,,": "ATAT140CG,ATAT140G,48"
     },
     {
-      "ACA": "ATAT140G",
-      "": "",
-      "__1": ""
+      "ACA,,": "ATAT140G,,"
     },
     {
-      "ACA": "ATCA",
-      "": "",
-      "__1": ""
+      "ACA,,": "ATCA,,"
     },
     {
-      "ACA": "ATCAC",
-      "": "ATCA",
-      "__1": 48
+      "ACA,,": "ATCAC,ATCA,48"
     },
     {
-      "ACA": "ATCM",
-      "": "",
-      "__1": ""
+      "ACA,,": "ATCM,,"
     },
     {
-      "ACA": "ATCMA",
-      "": "ATCM",
-      "__1": 48
+      "ACA,,": "ATCMA,ATCM,48"
     },
     {
-      "ACA": "ATM",
-      "": "",
-      "__1": ""
+      "ACA,,": "ATM,,"
     },
     {
-      "ACA": "ATMG",
-      "": "",
-      "__1": ""
+      "ACA,,": "ATMG,,"
     },
     {
-      "ACA": "ATML",
-      "": "",
-      "__1": ""
+      "ACA,,": "ATML,,"
     },
     {
-      "ACA": "ATMLM",
-      "": "",
-      "__1": ""
+      "ACA,,": "ATMLM,,"
     },
     {
-      "ACA": "ATMLP",
-      "": "",
-      "__1": ""
+      "ACA,,": "ATMLP,,"
     },
     {
-      "ACA": "ATMM",
-      "": "",
-      "__1": ""
+      "ACA,,": "ATMM,,"
     },
     {
-      "ACA": "ATMP",
-      "": "",
-      "__1": ""
+      "ACA,,": "ATMP,,"
     },
     {
-      "ACA": "BA",
-      "": "",
-      "__1": ""
+      "ACA,,": "BA,,"
     },
     {
-      "ACA": "BAI2",
-      "": "",
-      "__1": ""
+      "ACA,,": "BAI2,,"
     },
     {
-      "ACA": "BASC",
-      "": "",
-      "__1": ""
+      "ACA,,": "BASC,,"
     },
     {
-      "ACA": "BBH",
-      "": "",
-      "__1": ""
+      "ACA,,": "BBH,,"
     },
     {
-      "ACA": "BBHG",
-      "": "",
-      "__1": ""
+      "ACA,,": "BBHG,,"
     },
     {
-      "ACA": "BBHGC",
-      "": "BBHG",
-      "__1": 4
+      "ACA,,": "BBHGC,BBHG,4"
     },
     {
-      "ACA": "BBHZ",
-      "": "",
-      "__1": ""
+      "ACA,,": "BBHZ,,"
     },
     {
-      "ACA": "BBHZC",
-      "": "BBHZ",
-      "__1": 4
+      "ACA,,": "BBHZC,BBHZ,4"
     },
     {
-      "ACA": "BEBD",
-      "": "",
-      "__1": ""
+      "ACA,,": "BEBD,,"
     },
     {
-      "ACA": "BEBDC",
-      "": "BEBD",
-      "__1": 28
+      "ACA,,": "BEBDC,BEBD,28"
     },
     {
-      "ACA": "BELY220",
-      "": "",
-      "__1": ""
+      "ACA,,": "BELY220,,"
     },
     {
-      "ACA": "BELY220C",
-      "": "BELY220",
-      "__1": 24
+      "ACA,,": "BELY220C,BELY220,24"
     },
     {
-      "ACA": "BEMY",
-      "": "",
-      "__1": ""
+      "ACA,,": "BEMY,,"
     },
     {
-      "ACA": "BEMYC",
-      "": "BEMY",
-      "__1": 28
+      "ACA,,": "BEMYC,BEMY,28"
     },
     {
-      "ACA": "BEY242",
-      "": "",
-      "__1": ""
+      "ACA,,": "BEY242,,"
     },
     {
-      "ACA": "BEY242C",
-      "": "BEY242",
-      "__1": 30
+      "ACA,,": "BEY242C,BEY242,30"
     },
     {
-      "ACA": "BEY242N",
-      "": "",
-      "__1": ""
+      "ACA,,": "BEY242N,,"
     },
     {
-      "ACA": "BEYCF",
-      "": "",
-      "__1": ""
+      "ACA,,": "BEYCF,,"
     },
     {
-      "ACA": "BEYN",
-      "": "BEY242N",
-      "__1": 24
+      "ACA,,": "BEYN,BEY242N,24"
     },
     {
-      "ACA": "BFM",
-      "": "",
-      "__1": ""
+      "ACA,,": "BFM,,"
     },
     {
-      "ACA": "BHC",
-      "": "",
-      "__1": ""
+      "ACA,,": "BHC,,"
     },
     {
-      "ACA": "BHH",
-      "": "",
-      "__1": ""
+      "ACA,,": "BHH,,"
     },
     {
-      "ACA": "BHO",
-      "": "",
-      "__1": ""
+      "ACA,,": "BHO,,"
     },
     {
-      "ACA": "BII",
-      "": "",
-      "__1": ""
+      "ACA,,": "BII,,"
     },
     {
-      "ACA": "BOCC",
-      "": "",
-      "__1": ""
+      "ACA,,": "BOCC,,"
     },
     {
-      "ACA": "BOLC",
-      "": "",
-      "__1": ""
+      "ACA,,": "BOLC,,"
     },
     {
-      "ACA": "BOLCA",
-      "": "",
-      "__1": ""
+      "ACA,,": "BOLCA,,"
     },
     {
-      "ACA": "BOLCD",
-      "": "",
-      "__1": ""
+      "ACA,,": "BOLCD,,"
     },
     {
-      "ACA": "BOMC",
-      "": "",
-      "__1": ""
+      "ACA,,": "BOMC,,"
     },
     {
-      "ACA": "BONO",
-      "": "",
-      "__1": ""
+      "ACA,,": "BONO,,"
     },
     {
-      "ACA": "BOR",
-      "": "",
-      "__1": ""
+      "ACA,,": "BOR,,"
     },
     {
-      "ACA": "BORI",
-      "": "",
-      "__1": ""
+      "ACA,,": "BORI,,"
     },
     {
-      "ACA": "BOVC",
-      "": "",
-      "__1": ""
+      "ACA,,": "BOVC,,"
     },
     {
-      "ACA": "BOYMD",
-      "": "",
-      "__1": ""
+      "ACA,,": "BOYMD,,"
     },
     {
-      "ACA": "BOYS",
-      "": "",
-      "__1": ""
+      "ACA,,": "BOYS,,"
     },
     {
-      "ACA": "BUC",
-      "": "",
-      "__1": ""
+      "ACA,,": "BUC,,"
     },
     {
-      "ACA": "BUCM",
-      "": "",
-      "__1": ""
+      "ACA,,": "BUCM,,"
     },
     {
-      "ACA": "CA",
-      "": "",
-      "__1": ""
+      "ACA,,": "CA,,"
     },
     {
-      "ACA": "CA1",
-      "": "",
-      "__1": ""
+      "ACA,,": "CA1,,"
     },
     {
-      "ACA": "CA5",
-      "": "",
-      "__1": ""
+      "ACA,,": "CA5,,"
     },
     {
-      "ACA": "CAB",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAB,,"
     },
     {
-      "ACA": "CABC",
-      "": "",
-      "__1": ""
+      "ACA,,": "CABC,,"
     },
     {
-      "ACA": "CAC",
-      "": "CA",
-      "__1": 16
+      "ACA,,": "CAC,CA,16"
     },
     {
-      "ACA": "CAC19",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAC19,,"
     },
     {
-      "ACA": "CAC4",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAC4,,"
     },
     {
-      "ACA": "CACCH",
-      "": "",
-      "__1": ""
+      "ACA,,": "CACCH,,"
     },
     {
-      "ACA": "CACMD",
-      "": "",
-      "__1": ""
+      "ACA,,": "CACMD,,"
     },
     {
-      "ACA": "CACO",
-      "": "",
-      "__1": ""
+      "ACA,,": "CACO,,"
     },
     {
-      "ACA": "CACU",
-      "": "",
-      "__1": ""
+      "ACA,,": "CACU,,"
     },
     {
-      "ACA": "CACUL",
-      "": "",
-      "__1": ""
+      "ACA,,": "CACUL,,"
     },
     {
-      "ACA": "CAEB",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAEB,,"
     },
     {
-      "ACA": "CAEBC",
-      "": "CAEB",
-      "__1": 6
+      "ACA,,": "CAEBC,CAEB,6"
     },
     {
-      "ACA": "CAH",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAH,,"
     },
     {
-      "ACA": "CAH1",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAH1,,"
     },
     {
-      "ACA": "CAH1C",
-      "": "CAH1",
-      "__1": 12
+      "ACA,,": "CAH1C,CAH1,12"
     },
     {
-      "ACA": "CAH397",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAH397,,"
     },
     {
-      "ACA": "CAH397C",
-      "": "CAH397",
-      "__1": 16
+      "ACA,,": "CAH397C,CAH397,16"
     },
     {
-      "ACA": "CAH3B",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAH3B,,"
     },
     {
-      "ACA": "CAH3BA",
-      "": "CAH3B",
-      "__1": 3
+      "ACA,,": "CAH3BA,CAH3B,3"
     },
     {
-      "ACA": "CAH3BC",
-      "": "CAH3B",
-      "__1": 6
+      "ACA,,": "CAH3BC,CAH3B,6"
     },
     {
-      "ACA": "CAHB",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAHB,,"
     },
     {
-      "ACA": "CAHBC",
-      "": "CAHB",
-      "__1": 24
+      "ACA,,": "CAHBC,CAHB,24"
     },
     {
-      "ACA": "CAHG",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAHG,,"
     },
     {
-      "ACA": "CAHI",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAHI,,"
     },
     {
-      "ACA": "CAHIJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAHIJ,,"
     },
     {
-      "ACA": "CAHP",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAHP,,"
     },
     {
-      "ACA": "CAHP8",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAHP8,,"
     },
     {
-      "ACA": "CAHPM",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAHPM,,"
     },
     {
-      "ACA": "CAIC",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAIC,,"
     },
     {
-      "ACA": "CAICU",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAICU,,"
     },
     {
-      "ACA": "CAIG",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAIG,,"
     },
     {
-      "ACA": "CAIGR",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAIGR,,"
     },
     {
-      "ACA": "CAIGRM",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAIGRM,,"
     },
     {
-      "ACA": "CAKC",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAKC,,"
     },
     {
-      "ACA": "CAKO",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAKO,,"
     },
     {
-      "ACA": "CAL",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAL,,"
     },
     {
-      "ACA": "CALC",
-      "": "",
-      "__1": ""
+      "ACA,,": "CALC,,"
     },
     {
-      "ACA": "CALCA",
-      "": "",
-      "__1": ""
+      "ACA,,": "CALCA,,"
     },
     {
-      "ACA": "CALDC1",
-      "": "",
-      "__1": ""
+      "ACA,,": "CALDC1,,"
     },
     {
-      "ACA": "CALDCM",
-      "": "",
-      "__1": ""
+      "ACA,,": "CALDCM,,"
     },
     {
-      "ACA": "CALGB",
-      "": "",
-      "__1": ""
+      "ACA,,": "CALGB,,"
     },
     {
-      "ACA": "CAMM",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAMM,,"
     },
     {
-      "ACA": "CAO",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAO,,"
     },
     {
-      "ACA": "CAOC",
-      "": "CAO",
-      "__1": 12
+      "ACA,,": "CAOC,CAO,12"
     },
     {
-      "ACA": "CAP",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAP,,"
     },
     {
-      "ACA": "CAP8C",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAP8C,,"
     },
     {
-      "ACA": "CAPA",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAPA,,"
     },
     {
-      "ACA": "CAPI",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAPI,,"
     },
     {
-      "ACA": "CAPIM",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAPIM,,"
     },
     {
-      "ACA": "CAPIM1",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAPIM1,,"
     },
     {
-      "ACA": "CAPK",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAPK,,"
     },
     {
-      "ACA": "CAPK1",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAPK1,,"
     },
     {
-      "ACA": "CAPK24",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAPK24,,"
     },
     {
-      "ACA": "CAPK24P",
-      "": "CAPK24",
-      "__1": 3
+      "ACA,,": "CAPK24P,CAPK24,3"
     },
     {
-      "ACA": "CAPKC",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAPKC,,"
     },
     {
-      "ACA": "CAPKCA",
-      "": "CAPK1",
-      "__1": ""
+      "ACA,,": "CAPKCA,CAPK1,"
     },
     {
-      "ACA": "CAPKK",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAPKK,,"
     },
     {
-      "ACA": "CAPKKM",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAPKKM,,"
     },
     {
-      "ACA": "CAPP",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAPP,,"
     },
     {
-      "ACA": "CAR19",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAR19,,"
     },
     {
-      "ACA": "CAR19M",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAR19M,,"
     },
     {
-      "ACA": "CAR4",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAR4,,"
     },
     {
-      "ACA": "CAR410",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAR410,,"
     },
     {
-      "ACA": "CAR4A",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAR4A,,"
     },
     {
-      "ACA": "CAR9M",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAR9M,,"
     },
     {
-      "ACA": "CARA",
-      "": "",
-      "__1": ""
+      "ACA,,": "CARA,,"
     },
     {
-      "ACA": "CARAC",
-      "": "CARA",
-      "__1": 20
+      "ACA,,": "CARAC,CARA,20"
     },
     {
-      "ACA": "CARB",
-      "": "",
-      "__1": ""
+      "ACA,,": "CARB,,"
     },
     {
-      "ACA": "CARBA",
-      "": "",
-      "__1": ""
+      "ACA,,": "CARBA,,"
     },
     {
-      "ACA": "CARBC",
-      "": "CARB",
-      "__1": 6
+      "ACA,,": "CARBC,CARB,6"
     },
     {
-      "ACA": "CARBO",
-      "": "",
-      "__1": ""
+      "ACA,,": "CARBO,,"
     },
     {
-      "ACA": "CARBOC",
-      "": "CARBO",
-      "__1": 6
+      "ACA,,": "CARBOC,CARBO,6"
     },
     {
-      "ACA": "CARIH",
-      "": "",
-      "__1": ""
+      "ACA,,": "CARIH,,"
     },
     {
-      "ACA": "CARIMD",
-      "": "",
-      "__1": ""
+      "ACA,,": "CARIMD,,"
     },
     {
-      "ACA": "CASV",
-      "": "",
-      "__1": ""
+      "ACA,,": "CASV,,"
     },
     {
-      "ACA": "CASVC",
-      "": "CASV",
-      "__1": 6
+      "ACA,,": "CASVC,CASV,6"
     },
     {
-      "ACA": "CASVCH",
-      "": "",
-      "__1": ""
+      "ACA,,": "CASVCH,,"
     },
     {
-      "ACA": "CASVCHC",
-      "": "CASVCH",
-      "__1": 10
+      "ACA,,": "CASVCHC,CASVCH,10"
     },
     {
-      "ACA": "CAT4",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAT4,,"
     },
     {
-      "ACA": "CATB20",
-      "": "",
-      "__1": ""
+      "ACA,,": "CATB20,,"
     },
     {
-      "ACA": "CATR20",
-      "": "",
-      "__1": ""
+      "ACA,,": "CATR20,,"
     },
     {
-      "ACA": "CATRMC",
-      "": "",
-      "__1": ""
+      "ACA,,": "CATRMC,,"
     },
     {
-      "ACA": "CAVM",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAVM,,"
     },
     {
-      "ACA": "CAYG",
-      "": "",
-      "__1": ""
+      "ACA,,": "CAYG,,"
     },
     {
-      "ACA": "CAYGC",
-      "": "CAYG",
-      "__1": 4
+      "ACA,,": "CAYGC,CAYG,4"
     },
     {
-      "ACA": "CAYGCH",
-      "": "CAYG",
-      "__1": 4
+      "ACA,,": "CAYGCH,CAYG,4"
     },
     {
-      "ACA": "CDC",
-      "": "",
-      "__1": ""
+      "ACA,,": "CDC,,"
     },
     {
-      "ACA": "CDCC",
-      "": "CDC",
-      "__1": 12
+      "ACA,,": "CDCC,CDC,12"
     },
     {
-      "ACA": "CEAN",
-      "": "",
-      "__1": ""
+      "ACA,,": "CEAN,,"
     },
     {
-      "ACA": "CEI170",
-      "": "",
-      "__1": ""
+      "ACA,,": "CEI170,,"
     },
     {
-      "ACA": "CEI220",
-      "": "",
-      "__1": ""
+      "ACA,,": "CEI220,,"
     },
     {
-      "ACA": "CEI40",
-      "": "",
-      "__1": ""
+      "ACA,,": "CEI40,,"
     },
     {
-      "ACA": "CERI",
-      "": "",
-      "__1": ""
+      "ACA,,": "CERI,,"
     },
     {
-      "ACA": "CERV2",
-      "": "",
-      "__1": ""
+      "ACA,,": "CERV2,,"
     },
     {
-      "ACA": "CERV2C",
-      "": "CERV2",
-      "__1": 6
+      "ACA,,": "CERV2C,CERV2,6"
     },
     {
-      "ACA": "CERV3",
-      "": "",
-      "__1": ""
+      "ACA,,": "CERV3,,"
     },
     {
-      "ACA": "CERV3C",
-      "": "CERV3",
-      "__1": 4
+      "ACA,,": "CERV3C,CERV3,4"
     },
     {
-      "ACA": "CEU",
-      "": "",
-      "__1": ""
+      "ACA,,": "CEU,,"
     },
     {
-      "ACA": "CEUP",
-      "": "CEU",
-      "__1": 2
+      "ACA,,": "CEUP,CEU,2"
     },
     {
-      "ACA": "CEY200",
-      "": "",
-      "__1": ""
+      "ACA,,": "CEY200,,"
     },
     {
-      "ACA": "CH3",
-      "": "",
-      "__1": ""
+      "ACA,,": "CH3,,"
     },
     {
-      "ACA": "CH3C",
-      "": "CH3",
-      "__1": 6
+      "ACA,,": "CH3C,CH3,6"
     },
     {
-      "ACA": "CH5J5RICO",
-      "": "",
-      "__1": ""
+      "ACA,,": "CH5J5RICO,,"
     },
     {
-      "ACA": "CH5J5RICOR",
-      "": "",
-      "__1": ""
+      "ACA,,": "CH5J5RICOR,,"
     },
     {
-      "ACA": "CHA3",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHA3,,"
     },
     {
-      "ACA": "CHA3C",
-      "": "CHA3",
-      "__1": 6
+      "ACA,,": "CHA3C,CHA3,6"
     },
     {
-      "ACA": "CHAM1",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHAM1,,"
     },
     {
-      "ACA": "CHAM1C",
-      "": "CHAM1",
-      "__1": 8
+      "ACA,,": "CHAM1C,CHAM1,8"
     },
     {
-      "ACA": "CHAQ",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHAQ,,"
     },
     {
-      "ACA": "CHB",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHB,,"
     },
     {
-      "ACA": "CHB125",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHB125,,"
     },
     {
-      "ACA": "CHB9",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHB9,,"
     },
     {
-      "ACA": "CHB9C",
-      "": "CHB9",
-      "__1": 12
+      "ACA,,": "CHB9C,CHB9,12"
     },
     {
-      "ACA": "CHBC",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHBC,,"
     },
     {
-      "ACA": "CHC1",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHC1,,"
     },
     {
-      "ACA": "CHC105",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHC105,,"
     },
     {
-      "ACA": "CHC105C",
-      "": "CHC105",
-      "__1": 40
+      "ACA,,": "CHC105C,CHC105,40"
     },
     {
-      "ACA": "CHC1G",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHC1G,,"
     },
     {
-      "ACA": "CHC1M",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHC1M,,"
     },
     {
-      "ACA": "CHC215",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHC215,,"
     },
     {
-      "ACA": "CHC215CM",
-      "": "CHC215",
-      "__1": 48
+      "ACA,,": "CHC215CM,CHC215,48"
     },
     {
-      "ACA": "CHC225",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHC225,,"
     },
     {
-      "ACA": "CHC225C",
-      "": "CHC225",
-      "__1": 12
+      "ACA,,": "CHC225C,CHC225,12"
     },
     {
-      "ACA": "CHC225CG",
-      "": "CHC225",
-      "__1": 24
+      "ACA,,": "CHC225CG,CHC225,24"
     },
     {
-      "ACA": "CHC3",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHC3,,"
     },
     {
-      "ACA": "CHC380",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHC380,,"
     },
     {
-      "ACA": "CHC380C",
-      "": "CHC380",
-      "__1": 24
+      "ACA,,": "CHC380C,CHC380,24"
     },
     {
-      "ACA": "CHC3C",
-      "": "CHC3",
-      "__1": 6
+      "ACA,,": "CHC3C,CHC3,6"
     },
     {
-      "ACA": "CHC4",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHC4,,"
     },
     {
-      "ACA": "CHC430",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHC430,,"
     },
     {
-      "ACA": "CHC430C",
-      "": "CHC430",
-      "__1": 12
+      "ACA,,": "CHC430C,CHC430,12"
     },
     {
-      "ACA": "CHC430CG",
-      "": "CHC430",
-      "__1": 24
+      "ACA,,": "CHC430CG,CHC430,24"
     },
     {
-      "ACA": "CHC5",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHC5,,"
     },
     {
-      "ACA": "CHC5M",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHC5M,,"
     },
     {
-      "ACA": "CHC5R",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHC5R,,"
     },
     {
-      "ACA": "CHC800",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHC800,,"
     },
     {
-      "ACA": "CHC800C",
-      "": "CHC800",
-      "__1": 12
+      "ACA,,": "CHC800C,CHC800,12"
     },
     {
-      "ACA": "CHCC",
-      "": "CHCR",
-      "__1": 6
+      "ACA,,": "CHCC,CHCR,6"
     },
     {
-      "ACA": "CHCCA",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHCCA,,"
     },
     {
-      "ACA": "CHCEL",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHCEL,,"
     },
     {
-      "ACA": "CHCELC",
-      "": "CHCEL",
-      "__1": 6
+      "ACA,,": "CHCELC,CHCEL,6"
     },
     {
-      "ACA": "CHCELR",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHCELR,,"
     },
     {
-      "ACA": "CHCELRC",
-      "": "CHCELR",
-      "__1": 6
+      "ACA,,": "CHCELRC,CHCELR,6"
     },
     {
-      "ACA": "CHCELX",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHCELX,,"
     },
     {
-      "ACA": "CHCELX1",
-      "": "CHCELX",
-      "__1": 6
+      "ACA,,": "CHCELX1,CHCELX,6"
     },
     {
-      "ACA": "CHCF",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHCF,,"
     },
     {
-      "ACA": "CHCFR",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHCFR,,"
     },
     {
-      "ACA": "CHCI",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHCI,,"
     },
     {
-      "ACA": "CHCIJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHCIJ,,"
     },
     {
-      "ACA": "CHCKR",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHCKR,,"
     },
     {
-      "ACA": "CHCR",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHCR,,"
     },
     {
-      "ACA": "CHCRA",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHCRA,,"
     },
     {
-      "ACA": "CHCUM",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHCUM,,"
     },
     {
-      "ACA": "CHE1",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHE1,,"
     },
     {
-      "ACA": "CHEC",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHEC,,"
     },
     {
-      "ACA": "CHEC215",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHEC215,,"
     },
     {
-      "ACA": "CHEC215C",
-      "": "CHEC215",
-      "__1": 48
+      "ACA,,": "CHEC215C,CHEC215,48"
     },
     {
-      "ACA": "CHEC3",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHEC3,,"
     },
     {
-      "ACA": "CHEC380",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHEC380,,"
     },
     {
-      "ACA": "CHEC380C",
-      "": "CHEC380",
-      "__1": 24
+      "ACA,,": "CHEC380C,CHEC380,24"
     },
     {
-      "ACA": "CHEC3C",
-      "": "CHEC3",
-      "__1": 6
+      "ACA,,": "CHEC3C,CHEC3,6"
     },
     {
-      "ACA": "CHEC3CO",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHEC3CO,,"
     },
     {
-      "ACA": "CHEC3COC",
-      "": "CHEC3CO",
-      "__1": 6
+      "ACA,,": "CHEC3COC,CHEC3CO,6"
     },
     {
-      "ACA": "CHEC800",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHEC800,,"
     },
     {
-      "ACA": "CHEC800C",
-      "": "CHEC800",
-      "__1": 12
+      "ACA,,": "CHEC800C,CHEC800,12"
     },
     {
-      "ACA": "CHEM215",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHEM215,,"
     },
     {
-      "ACA": "CHEM215C",
-      "": "CHEM215",
-      "__1": 24
+      "ACA,,": "CHEM215C,CHEM215,24"
     },
     {
-      "ACA": "CHEM3",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHEM3,,"
     },
     {
-      "ACA": "CHEM340",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHEM340,,"
     },
     {
-      "ACA": "CHEM340C",
-      "": "CHEM340",
-      "__1": 24
+      "ACA,,": "CHEM340C,CHEM340,24"
     },
     {
-      "ACA": "CHEM3C",
-      "": "CHEM3",
-      "__1": 6
+      "ACA,,": "CHEM3C,CHEM3,6"
     },
     {
-      "ACA": "CHEM800",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHEM800,,"
     },
     {
-      "ACA": "CHEM800C",
-      "": "CHEM800",
-      "__1": 12
+      "ACA,,": "CHEM800C,CHEM800,12"
     },
     {
-      "ACA": "CHEP",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHEP,,"
     },
     {
-      "ACA": "CHEV3",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHEV3,,"
     },
     {
-      "ACA": "CHGC",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHGC,,"
     },
     {
-      "ACA": "CHGV",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHGV,,"
     },
     {
-      "ACA": "CHGVA",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHGVA,,"
     },
     {
-      "ACA": "CHH",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHH,,"
     },
     {
-      "ACA": "CHI",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHI,,"
     },
     {
-      "ACA": "CHIA",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHIA,,"
     },
     {
-      "ACA": "CHIEB",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHIEB,,"
     },
     {
-      "ACA": "CHIS",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHIS,,"
     },
     {
-      "ACA": "CHKB",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHKB,,"
     },
     {
-      "ACA": "CHKBK",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHKBK,,"
     },
     {
-      "ACA": "CHL2",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHL2,,"
     },
     {
-      "ACA": "CHLR",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHLR,,"
     },
     {
-      "ACA": "CHM1",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHM1,,"
     },
     {
-      "ACA": "CHM1C",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHM1C,,"
     },
     {
-      "ACA": "CHM215",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHM215,,"
     },
     {
-      "ACA": "CHM215C",
-      "": "CHM215",
-      "__1": 24
+      "ACA,,": "CHM215C,CHM215,24"
     },
     {
-      "ACA": "CHM2B",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHM2B,,"
     },
     {
-      "ACA": "CHM3",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHM3,,"
     },
     {
-      "ACA": "CHM380",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHM380,,"
     },
     {
-      "ACA": "CHM380C",
-      "": "CHM380",
-      "__1": 12
+      "ACA,,": "CHM380C,CHM380,12"
     },
     {
-      "ACA": "CHM3C",
-      "": "CHM3",
-      "__1": 6
+      "ACA,,": "CHM3C,CHM3,6"
     },
     {
-      "ACA": "CHM4",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHM4,,"
     },
     {
-      "ACA": "CHM4C",
-      "": "CHM4",
-      "__1": 6
+      "ACA,,": "CHM4C,CHM4,6"
     },
     {
-      "ACA": "CHM800",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHM800,,"
     },
     {
-      "ACA": "CHM800C",
-      "": "CHM800",
-      "__1": 12
+      "ACA,,": "CHM800C,CHM800,12"
     },
     {
-      "ACA": "CHMB186",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHMB186,,"
     },
     {
-      "ACA": "CHMB186C",
-      "": "CHMB186",
-      "__1": 12
+      "ACA,,": "CHMB186C,CHMB186,12"
     },
     {
-      "ACA": "CHMB380",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHMB380,,"
     },
     {
-      "ACA": "CHMB380C",
-      "": "CHMB380",
-      "__1": 12
+      "ACA,,": "CHMB380C,CHMB380,12"
     },
     {
-      "ACA": "CHMB800",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHMB800,,"
     },
     {
-      "ACA": "CHMB800C",
-      "": "CHMB800",
-      "__1": 12
+      "ACA,,": "CHMB800C,CHMB800,12"
     },
     {
-      "ACA": "CHN",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHN,,"
     },
     {
-      "ACA": "CHN1",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHN1,,"
     },
     {
-      "ACA": "CHNJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHNJ,,"
     },
     {
-      "ACA": "CHNR",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHNR,,"
     },
     {
-      "ACA": "CHP",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHP,,"
     },
     {
-      "ACA": "CHPE",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHPE,,"
     },
     {
-      "ACA": "CHPI",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHPI,,"
     },
     {
-      "ACA": "CHPIM",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHPIM,,"
     },
     {
-      "ACA": "CHPM220",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHPM220,,"
     },
     {
-      "ACA": "CHPM220C",
-      "": "CHPM220",
-      "__1": 12
+      "ACA,,": "CHPM220C,CHPM220,12"
     },
     {
-      "ACA": "CHPM390",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHPM390,,"
     },
     {
-      "ACA": "CHPM390C",
-      "": "CHPM390",
-      "__1": 24
+      "ACA,,": "CHPM390C,CHPM390,24"
     },
     {
-      "ACA": "CHPMC800",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHPMC800,,"
     },
     {
-      "ACA": "CHPMC800C",
-      "": "CHPMC800",
-      "__1": 12
+      "ACA,,": "CHPMC800C,CHPMC800,12"
     },
     {
-      "ACA": "CHPP",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHPP,,"
     },
     {
-      "ACA": "CHPR",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHPR,,"
     },
     {
-      "ACA": "CHPRPM",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHPRPM,,"
     },
     {
-      "ACA": "CHQ380",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHQ380,,"
     },
     {
-      "ACA": "CHR",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHR,,"
     },
     {
-      "ACA": "CHR1A",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHR1A,,"
     },
     {
-      "ACA": "CHR380C",
-      "": "CHRC380R",
-      "__1": 24
+      "ACA,,": "CHR380C,CHRC380R,24"
     },
     {
-      "ACA": "CHRA",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRA,,"
     },
     {
-      "ACA": "CHRA3",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRA3,,"
     },
     {
-      "ACA": "CHRAF",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRAF,,"
     },
     {
-      "ACA": "CHRAFI",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRAFI,,"
     },
     {
-      "ACA": "CHRC",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRC,,"
     },
     {
-      "ACA": "CHRC215",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRC215,,"
     },
     {
-      "ACA": "CHRC3",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRC3,,"
     },
     {
-      "ACA": "CHRC380R",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRC380R,,"
     },
     {
-      "ACA": "CHRC3C",
-      "": "CHRC3",
-      "__1": 6
+      "ACA,,": "CHRC3C,CHRC3,6"
     },
     {
-      "ACA": "CHRC800",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRC800,,"
     },
     {
-      "ACA": "CHRC800C",
-      "": "CHRC800",
-      "__1": 12
+      "ACA,,": "CHRC800C,CHRC800,12"
     },
     {
-      "ACA": "CHRCA",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRCA,,"
     },
     {
-      "ACA": "CHRCAO",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRCAO,,"
     },
     {
-      "ACA": "CHRCC",
-      "": "CHRC215",
-      "__1": 48
+      "ACA,,": "CHRCC,CHRC215,48"
     },
     {
-      "ACA": "CHRCCA",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRCCA,,"
     },
     {
-      "ACA": "CHRCCG",
-      "": "CHRCCA",
-      "__1": 6
+      "ACA,,": "CHRCCG,CHRCCA,6"
     },
     {
-      "ACA": "CHRCCGR",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRCCGR,,"
     },
     {
-      "ACA": "CHRCCGRC",
-      "": "CHRCCGR",
-      "__1": 6
+      "ACA,,": "CHRCCGRC,CHRCCGR,6"
     },
     {
-      "ACA": "CHRCO",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRCO,,"
     },
     {
-      "ACA": "CHRG",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRG,,"
     },
     {
-      "ACA": "CHRI3",
-      "": "CHRIB",
-      "__1": 5
+      "ACA,,": "CHRI3,CHRIB,5"
     },
     {
-      "ACA": "CHRIB",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRIB,,"
     },
     {
-      "ACA": "CHRM220A",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRM220A,,"
     },
     {
-      "ACA": "CHRM220CA",
-      "": "CHRM220A",
-      "__1": 24
+      "ACA,,": "CHRM220CA,CHRM220A,24"
     },
     {
-      "ACA": "CHRM3",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRM3,,"
     },
     {
-      "ACA": "CHRM340A",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRM340A,,"
     },
     {
-      "ACA": "CHRM340CA",
-      "": "CHRM340A",
-      "__1": 12
+      "ACA,,": "CHRM340CA,CHRM340A,12"
     },
     {
-      "ACA": "CHRM3A",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRM3A,,"
     },
     {
-      "ACA": "CHRM3CA",
-      "": "CHRM3A",
-      "__1": 6
+      "ACA,,": "CHRM3CA,CHRM3A,6"
     },
     {
-      "ACA": "CHRM800A",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRM800A,,"
     },
     {
-      "ACA": "CHRM800C",
-      "": "CHRM800A",
-      "__1": 12
+      "ACA,,": "CHRM800C,CHRM800A,12"
     },
     {
-      "ACA": "CHRM800CO",
-      "": "CHRM800O",
-      "__1": 12
+      "ACA,,": "CHRM800CO,CHRM800O,12"
     },
     {
-      "ACA": "CHRM800O",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRM800O,,"
     },
     {
-      "ACA": "CHRMC",
-      "": "CHRM3",
-      "__1": 6
+      "ACA,,": "CHRMC,CHRM3,6"
     },
     {
-      "ACA": "CHRN",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRN,,"
     },
     {
-      "ACA": "CHRO",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRO,,"
     },
     {
-      "ACA": "CHRPM",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRPM,,"
     },
     {
-      "ACA": "CHRV3",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRV3,,"
     },
     {
-      "ACA": "CHRV3A",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRV3A,,"
     },
     {
-      "ACA": "CHRV3AO",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRV3AO,,"
     },
     {
-      "ACA": "CHRV3O",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRV3O,,"
     },
     {
-      "ACA": "CHRZG",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHRZG,,"
     },
     {
-      "ACA": "CHSC3",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHSC3,,"
     },
     {
-      "ACA": "CHSC3C",
-      "": "CHSC3",
-      "__1": 6
+      "ACA,,": "CHSC3C,CHSC3,6"
     },
     {
-      "ACA": "CHSC800",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHSC800,,"
     },
     {
-      "ACA": "CHSM3",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHSM3,,"
     },
     {
-      "ACA": "CHSM3A",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHSM3A,,"
     },
     {
-      "ACA": "CHSM3C",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHSM3C,,"
     },
     {
-      "ACA": "CHSME3",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHSME3,,"
     },
     {
-      "ACA": "CHSME3C",
-      "": "CHSME3",
-      "__1": 6
+      "ACA,,": "CHSME3C,CHSME3,6"
     },
     {
-      "ACA": "CHSMR",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHSMR,,"
     },
     {
-      "ACA": "CHSMRC",
-      "": "CHSMR",
-      "__1": 6
+      "ACA,,": "CHSMRC,CHSMR,6"
     },
     {
-      "ACA": "CHSO",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHSO,,"
     },
     {
-      "ACA": "CHSP",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHSP,,"
     },
     {
-      "ACA": "CHTI",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHTI,,"
     },
     {
-      "ACA": "CHZ",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHZ,,"
     },
     {
-      "ACA": "CHZ1500",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHZ1500,,"
     },
     {
-      "ACA": "CHZ800",
-      "": "",
-      "__1": ""
+      "ACA,,": "CHZ800,,"
     },
     {
-      "ACA": "CHZ800C",
-      "": "CHZ800",
-      "__1": 12
+      "ACA,,": "CHZ800C,CHZ800,12"
     },
     {
-      "ACA": "CLH",
-      "": "",
-      "__1": ""
+      "ACA,,": "CLH,,"
     },
     {
-      "ACA": "CLH1",
-      "": "",
-      "__1": ""
+      "ACA,,": "CLH1,,"
     },
     {
-      "ACA": "CLHC",
-      "": "CLH",
-      "__1": 6
+      "ACA,,": "CLHC,CLH,6"
     },
     {
-      "ACA": "CO",
-      "": "",
-      "__1": ""
+      "ACA,,": "CO,,"
     },
     {
-      "ACA": "COBK",
-      "": "",
-      "__1": ""
+      "ACA,,": "COBK,,"
     },
     {
-      "ACA": "COC",
-      "": "",
-      "__1": ""
+      "ACA,,": "COC,,"
     },
     {
-      "ACA": "COCMC",
-      "": "COCP",
-      "__1": 24
+      "ACA,,": "COCMC,COCP,24"
     },
     {
-      "ACA": "COCMCO",
-      "": "",
-      "__1": ""
+      "ACA,,": "COCMCO,,"
     },
     {
-      "ACA": "COCP",
-      "": "",
-      "__1": ""
+      "ACA,,": "COCP,,"
     },
     {
-      "ACA": "COEM",
-      "": "",
-      "__1": ""
+      "ACA,,": "COEM,,"
     },
     {
-      "ACA": "COF",
-      "": "",
-      "__1": ""
+      "ACA,,": "COF,,"
     },
     {
-      "ACA": "COFC",
-      "": "COF",
-      "__1": 12
+      "ACA,,": "COFC,COF,12"
     },
     {
-      "ACA": "COK",
-      "": "",
-      "__1": ""
+      "ACA,,": "COK,,"
     },
     {
-      "ACA": "COKM",
-      "": "",
-      "__1": ""
+      "ACA,,": "COKM,,"
     },
     {
-      "ACA": "COL380",
-      "": "",
-      "__1": ""
+      "ACA,,": "COL380,,"
     },
     {
-      "ACA": "COL960",
-      "": "",
-      "__1": ""
+      "ACA,,": "COL960,,"
     },
     {
-      "ACA": "COLG",
-      "": "",
-      "__1": ""
+      "ACA,,": "COLG,,"
     },
     {
-      "ACA": "CPBC",
-      "": "",
-      "__1": ""
+      "ACA,,": "CPBC,,"
     },
     {
-      "ACA": "CRAC200C",
-      "": "CRAC200",
-      "__1": 12
+      "ACA,,": "CRAC200C,CRAC200,12"
     },
     {
-      "ACA": "CRAC3",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRAC3,,"
     },
     {
-      "ACA": "CRAC350",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRAC350,,"
     },
     {
-      "ACA": "CRAC350C",
-      "": "CRAC350",
-      "__1": 12
+      "ACA,,": "CRAC350C,CRAC350,12"
     },
     {
-      "ACA": "CRAC700",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRAC700,,"
     },
     {
-      "ACA": "CRAC700C",
-      "": "CRAC700",
-      "__1": 6
+      "ACA,,": "CRAC700C,CRAC700,6"
     },
     {
-      "ACA": "CRB",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRB,,"
     },
     {
-      "ACA": "CRB5",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRB5,,"
     },
     {
-      "ACA": "CRBCIC",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRBCIC,,"
     },
     {
-      "ACA": "CRBLK",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRBLK,,"
     },
     {
-      "ACA": "CRBLL",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRBLL,,"
     },
     {
-      "ACA": "CRBN1",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRBN1,,"
     },
     {
-      "ACA": "CRBT",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRBT,,"
     },
     {
-      "ACA": "CRBTC",
-      "": "CRBT",
-      "__1": 4
+      "ACA,,": "CRBTC,CRBT,4"
     },
     {
-      "ACA": "CRBTC1C",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRBTC1C,,"
     },
     {
-      "ACA": "CRBTC460C",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRBTC460C,,"
     },
     {
-      "ACA": "CRBTCD",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRBTCD,,"
     },
     {
-      "ACA": "CRBTCDV",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRBTCDV,,"
     },
     {
-      "ACA": "CRBTCF",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRBTCF,,"
     },
     {
-      "ACA": "CRBTCHANTILLY",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRBTCHANTILLY,,"
     },
     {
-      "ACA": "CRBTCHANTILLYM",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRBTCHANTILLYM,,"
     },
     {
-      "ACA": "CRBTCM",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRBTCM,,"
     },
     {
-      "ACA": "CRBTCN1C",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRBTCN1C,,"
     },
     {
-      "ACA": "CRBTCP",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRBTCP,,"
     },
     {
-      "ACA": "CRBTCPD",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRBTCPD,,"
     },
     {
-      "ACA": "CRCCHORRO",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRCCHORRO,,"
     },
     {
-      "ACA": "CRCCHORROA",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRCCHORROA,,"
     },
     {
-      "ACA": "CRCCUCHORRO",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRCCUCHORRO,,"
     },
     {
-      "ACA": "CRCCUCHORROA",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRCCUCHORROA,,"
     },
     {
-      "ACA": "CRCMCHORROMAY",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRCMCHORROMAY,,"
     },
     {
-      "ACA": "CRDC",
-      "": "CAKC",
-      "__1": 6
+      "ACA,,": "CRDC,CAKC,6"
     },
     {
-      "ACA": "CRE",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRE,,"
     },
     {
-      "ACA": "CREC",
-      "": "",
-      "__1": ""
+      "ACA,,": "CREC,,"
     },
     {
-      "ACA": "CREM",
-      "": "",
-      "__1": ""
+      "ACA,,": "CREM,,"
     },
     {
-      "ACA": "CRI",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRI,,"
     },
     {
-      "ACA": "CRIL",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRIL,,"
     },
     {
-      "ACA": "CRIM",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRIM,,"
     },
     {
-      "ACA": "CRIN",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRIN,,"
     },
     {
-      "ACA": "CRIO",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRIO,,"
     },
     {
-      "ACA": "CRIOC",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRIOC,,"
     },
     {
-      "ACA": "CRIOM",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRIOM,,"
     },
     {
-      "ACA": "CRL200",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRL200,,"
     },
     {
-      "ACA": "CRL4",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRL4,,"
     },
     {
-      "ACA": "CRL450",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRL450,,"
     },
     {
-      "ACA": "CRLL",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRLL,,"
     },
     {
-      "ACA": "CRLL200",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRLL200,,"
     },
     {
-      "ACA": "CRLL450",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRLL450,,"
     },
     {
-      "ACA": "CRM",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRM,,"
     },
     {
-      "ACA": "CRMC",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRMC,,"
     },
     {
-      "ACA": "CRMIM",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRMIM,,"
     },
     {
-      "ACA": "CRP",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRP,,"
     },
     {
-      "ACA": "CRPC",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRPC,,"
     },
     {
-      "ACA": "CRPM",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRPM,,"
     },
     {
-      "ACA": "CRY440",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRY440,,"
     },
     {
-      "ACA": "CRZP",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRZP,,"
     },
     {
-      "ACA": "CRZPC",
-      "": "",
-      "__1": ""
+      "ACA,,": "CRZPC,,"
     },
     {
-      "ACA": "CU1",
-      "": "",
-      "__1": ""
+      "ACA,,": "CU1,,"
     },
     {
-      "ACA": "CUC",
-      "": "",
-      "__1": ""
+      "ACA,,": "CUC,,"
     },
     {
-      "ACA": "CUE1",
-      "": "",
-      "__1": ""
+      "ACA,,": "CUE1,,"
     },
     {
-      "ACA": "CUE1M",
-      "": "",
-      "__1": ""
+      "ACA,,": "CUE1M,,"
     },
     {
-      "ACA": "CUEB",
-      "": "",
-      "__1": ""
+      "ACA,,": "CUEB,,"
     },
     {
-      "ACA": "CUEG",
-      "": "",
-      "__1": ""
+      "ACA,,": "CUEG,,"
     },
     {
-      "ACA": "CUIC",
-      "": "",
-      "__1": ""
+      "ACA,,": "CUIC,,"
     },
     {
-      "ACA": "CUIN",
-      "": "",
-      "__1": ""
+      "ACA,,": "CUIN,,"
     },
     {
-      "ACA": "CUMK",
-      "": "",
-      "__1": ""
+      "ACA,,": "CUMK,,"
     },
     {
-      "ACA": "CUN",
-      "": "",
-      "__1": ""
+      "ACA,,": "CUN,,"
     },
     {
-      "ACA": "CUP1",
-      "": "",
-      "__1": ""
+      "ACA,,": "CUP1,,"
     },
     {
-      "ACA": "CUP1M",
-      "": "",
-      "__1": ""
+      "ACA,,": "CUP1M,,"
     },
     {
-      "ACA": "CUPIM",
-      "": "",
-      "__1": ""
+      "ACA,,": "CUPIM,,"
     },
     {
-      "ACA": "CUR",
-      "": "",
-      "__1": ""
+      "ACA,,": "CUR,,"
     },
     {
-      "ACA": "DA",
-      "": "",
-      "__1": ""
+      "ACA,,": "DA,,"
     },
     {
-      "ACA": "DAB",
-      "": "",
-      "__1": ""
+      "ACA,,": "DAB,,"
     },
     {
-      "ACA": "DABC",
-      "": "DAB",
-      "__1": 28
+      "ACA,,": "DABC,DAB,28"
     },
     {
-      "ACA": "DABM",
-      "": "",
-      "__1": ""
+      "ACA,,": "DABM,,"
     },
     {
-      "ACA": "DABMA",
-      "": "",
-      "__1": ""
+      "ACA,,": "DABMA,,"
     },
     {
-      "ACA": "DABMC",
-      "": "DABM",
-      "__1": 24
+      "ACA,,": "DABMC,DABM,24"
     },
     {
-      "ACA": "DABMCA",
-      "": "DABMA",
-      "__1": 24
+      "ACA,,": "DABMCA,DABMA,24"
     },
     {
-      "ACA": "DAC",
-      "": "DA",
-      "__1": 28
+      "ACA,,": "DAC,DA,28"
     },
     {
-      "ACA": "DAL",
-      "": "",
-      "__1": ""
+      "ACA,,": "DAL,,"
     },
     {
-      "ACA": "DALC",
-      "": "DAL",
-      "__1": 12
+      "ACA,,": "DALC,DAL,12"
     },
     {
-      "ACA": "DAM",
-      "": "",
-      "__1": ""
+      "ACA,,": "DAM,,"
     },
     {
-      "ACA": "DAMA",
-      "": "",
-      "__1": ""
+      "ACA,,": "DAMA,,"
     },
     {
-      "ACA": "DAMC",
-      "": "DAM",
-      "__1": 24
+      "ACA,,": "DAMC,DAM,24"
     },
     {
-      "ACA": "DAMCG",
-      "": "DAMA",
-      "__1": 48
+      "ACA,,": "DAMCG,DAMA,48"
     },
     {
-      "ACA": "DAPETIT",
-      "": "",
-      "__1": ""
+      "ACA,,": "DAPETIT,,"
     },
     {
-      "ACA": "DAPETITC",
-      "": "DAPETIT",
-      "__1": 96
+      "ACA,,": "DAPETITC,DAPETIT,96"
     },
     {
-      "ACA": "DAT",
-      "": "",
-      "__1": ""
+      "ACA,,": "DAT,,"
     },
     {
-      "ACA": "DAV",
-      "": "",
-      "__1": ""
+      "ACA,,": "DAV,,"
     },
     {
-      "ACA": "DAVC",
-      "": "DAV",
-      "__1": 48
+      "ACA,,": "DAVC,DAV,48"
     },
     {
-      "ACA": "DED1",
-      "": "",
-      "__1": ""
+      "ACA,,": "DED1,,"
     },
     {
-      "ACA": "DED210",
-      "": "",
-      "__1": ""
+      "ACA,,": "DED210,,"
     },
     {
-      "ACA": "DEDG",
-      "": "",
-      "__1": ""
+      "ACA,,": "DEDG,,"
     },
     {
-      "ACA": "DEDGC",
-      "": "DEDG",
-      "__1": 12
+      "ACA,,": "DEDGC,DEDG,12"
     },
     {
-      "ACA": "DEDM",
-      "": "",
-      "__1": ""
+      "ACA,,": "DEDM,,"
     },
     {
-      "ACA": "DEQUI",
-      "": "",
-      "__1": ""
+      "ACA,,": "DEQUI,,"
     },
     {
-      "ACA": "DEQUIC",
-      "": "DEQUI",
-      "__1": 10
+      "ACA,,": "DEQUIC,DEQUI,10"
     },
     {
-      "ACA": "DIY442",
-      "": "",
-      "__1": ""
+      "ACA,,": "DIY442,,"
     },
     {
-      "ACA": "DIY442C",
-      "": "DIY442",
-      "__1": 12
+      "ACA,,": "DIY442C,DIY442,12"
     },
     {
-      "ACA": "DOLAR",
-      "": "",
-      "__1": ""
+      "ACA,,": "DOLAR,,"
     },
     {
-      "ACA": "DU800",
-      "": "",
-      "__1": ""
+      "ACA,,": "DU800,,"
     },
     {
-      "ACA": "DU800C",
-      "": "DU800",
-      "__1": 12
+      "ACA,,": "DU800C,DU800,12"
     },
     {
-      "ACA": "DUCA3",
-      "": "",
-      "__1": ""
+      "ACA,,": "DUCA3,,"
     },
     {
-      "ACA": "DUCA3C",
-      "": "DUCA3",
-      "__1": 6
+      "ACA,,": "DUCA3C,DUCA3,6"
     },
     {
-      "ACA": "DUM3",
-      "": "",
-      "__1": ""
+      "ACA,,": "DUM3,,"
     },
     {
-      "ACA": "DUM3C",
-      "": "DUM3",
-      "__1": 6
+      "ACA,,": "DUM3C,DUM3,6"
     },
     {
-      "ACA": "ELA3",
-      "": "",
-      "__1": ""
+      "ACA,,": "ELA3,,"
     },
     {
-      "ACA": "ELA3C",
-      "": "ELA3",
-      "__1": 6
+      "ACA,,": "ELA3C,ELA3,6"
     },
     {
-      "ACA": "ELC225",
-      "": "",
-      "__1": ""
+      "ACA,,": "ELC225,,"
     },
     {
-      "ACA": "ELC225C",
-      "": "ELC225",
-      "__1": 12
+      "ACA,,": "ELC225C,ELC225,12"
     },
     {
-      "ACA": "ELC430",
-      "": "",
-      "__1": ""
+      "ACA,,": "ELC430,,"
     },
     {
-      "ACA": "ELC430C",
-      "": "ELC430",
-      "__1": 24
+      "ACA,,": "ELC430C,ELC430,24"
     },
     {
-      "ACA": "EM1",
-      "": "",
-      "__1": ""
+      "ACA,,": "EM1,,"
     },
     {
-      "ACA": "EM1C",
-      "": "EM1",
-      "__1": 12
+      "ACA,,": "EM1C,EM1,12"
     },
     {
-      "ACA": "ENSA",
-      "": "",
-      "__1": ""
+      "ACA,,": "ENSA,,"
     },
     {
-      "ACA": "ENSAC",
-      "": "ENSA",
-      "__1": 6
+      "ACA,,": "ENSAC,ENSA,6"
     },
     {
-      "ACA": "ENV420",
-      "": "",
-      "__1": ""
+      "ACA,,": "ENV420,,"
     },
     {
-      "ACA": "ENVC215",
-      "": "",
-      "__1": ""
+      "ACA,,": "ENVC215,,"
     },
     {
-      "ACA": "ENVC215C",
-      "": "ENVC215",
-      "__1": 12
+      "ACA,,": "ENVC215C,ENVC215,12"
     },
     {
-      "ACA": "ENVC430C",
-      "": "ENV420",
-      "__1": 12
+      "ACA,,": "ENVC430C,ENV420,12"
     },
     {
-      "ACA": "ES",
-      "": "",
-      "__1": ""
+      "ACA,,": "ES,,"
     },
     {
-      "ACA": "ESI",
-      "": "",
-      "__1": ""
+      "ACA,,": "ESI,,"
     },
     {
-      "ACA": "EX",
-      "": "",
-      "__1": ""
+      "ACA,,": "EX,,"
     },
     {
-      "ACA": "EXMD90C",
-      "": "MAD90",
-      "__1": 12
+      "ACA,,": "EXMD90C,MAD90,12"
     },
     {
-      "ACA": "EXQAC",
-      "": "",
-      "__1": ""
+      "ACA,,": "EXQAC,,"
     },
     {
-      "ACA": "EXQAD",
-      "": "",
-      "__1": ""
+      "ACA,,": "EXQAD,,"
     },
     {
-      "ACA": "EXQADP",
-      "": "EXQAD",
-      "__1": 6
+      "ACA,,": "EXQADP,EXQAD,6"
     },
     {
-      "ACA": "EXQAS",
-      "": "",
-      "__1": ""
+      "ACA,,": "EXQAS,,"
     },
     {
-      "ACA": "EXQSC",
-      "": "EXQAS",
-      "__1": 6
+      "ACA,,": "EXQSC,EXQAS,6"
     },
     {
-      "ACA": "EXQSCN",
-      "": "",
-      "__1": ""
+      "ACA,,": "EXQSCN,,"
     },
     {
-      "ACA": "EXSM",
-      "": "QUAS",
-      "__1": 6
+      "ACA,,": "EXSM,QUAS,6"
     },
     {
-      "ACA": "FICM",
-      "": "",
-      "__1": ""
+      "ACA,,": "FICM,,"
     },
     {
-      "ACA": "FIMKM",
-      "": "",
-      "__1": ""
+      "ACA,,": "FIMKM,,"
     },
     {
-      "ACA": "FIRM",
-      "": "",
-      "__1": ""
+      "ACA,,": "FIRM,,"
     },
     {
-      "ACA": "FLC",
-      "": "",
-      "__1": ""
+      "ACA,,": "FLC,,"
     },
     {
-      "ACA": "FLD",
-      "": "",
-      "__1": ""
+      "ACA,,": "FLD,,"
     },
     {
-      "ACA": "FLDC",
-      "": "FLD",
-      "__1": 48
+      "ACA,,": "FLDC,FLD,48"
     },
     {
-      "ACA": "FLHY220",
-      "": "",
-      "__1": ""
+      "ACA,,": "FLHY220,,"
     },
     {
-      "ACA": "FLHY220C",
-      "": "FLHY220",
-      "__1": 20
+      "ACA,,": "FLHY220C,FLHY220,20"
     },
     {
-      "ACA": "FLI",
-      "": "",
-      "__1": ""
+      "ACA,,": "FLI,,"
     },
     {
-      "ACA": "FLVY",
-      "": "",
-      "__1": ""
+      "ACA,,": "FLVY,,"
     },
     {
-      "ACA": "FLVY400C",
-      "": "FLVY",
-      "__1": 24
+      "ACA,,": "FLVY400C,FLVY,24"
     },
     {
-      "ACA": "FRC",
-      "": "",
-      "__1": ""
+      "ACA,,": "FRC,,"
     },
     {
-      "ACA": "FRCB",
-      "": "",
-      "__1": ""
+      "ACA,,": "FRCB,,"
     },
     {
-      "ACA": "FRCC",
-      "": "FRC",
-      "__1": 24
+      "ACA,,": "FRCC,FRC,24"
     },
     {
-      "ACA": "FRM3",
-      "": "",
-      "__1": ""
+      "ACA,,": "FRM3,,"
     },
     {
-      "ACA": "GA",
-      "": "",
-      "__1": ""
+      "ACA,,": "GA,,"
     },
     {
-      "ACA": "GAAI",
-      "": "",
-      "__1": ""
+      "ACA,,": "GAAI,,"
     },
     {
-      "ACA": "GAB",
-      "": "",
-      "__1": ""
+      "ACA,,": "GAB,,"
     },
     {
-      "ACA": "GAB400",
-      "": "",
-      "__1": ""
+      "ACA,,": "GAB400,,"
     },
     {
-      "ACA": "GABC1C",
-      "": "",
-      "__1": ""
+      "ACA,,": "GABC1C,,"
     },
     {
-      "ACA": "GABM",
-      "": "",
-      "__1": ""
+      "ACA,,": "GABM,,"
     },
     {
-      "ACA": "GAC",
-      "": "",
-      "__1": ""
+      "ACA,,": "GAC,,"
     },
     {
-      "ACA": "GACB",
-      "": "",
-      "__1": ""
+      "ACA,,": "GACB,,"
     },
     {
-      "ACA": "GACCAM",
-      "": "",
-      "__1": ""
+      "ACA,,": "GACCAM,,"
     },
     {
-      "ACA": "GACCI",
-      "": "",
-      "__1": ""
+      "ACA,,": "GACCI,,"
     },
     {
-      "ACA": "GACI",
-      "": "",
-      "__1": ""
+      "ACA,,": "GACI,,"
     },
     {
-      "ACA": "GACM",
-      "": "",
-      "__1": ""
+      "ACA,,": "GACM,,"
     },
     {
-      "ACA": "GACMI",
-      "": "",
-      "__1": ""
+      "ACA,,": "GACMI,,"
     },
     {
-      "ACA": "GAG",
-      "": "GAB400",
-      "__1": 10
+      "ACA,,": "GAG,GAB400,10"
     },
     {
-      "ACA": "GAII",
-      "": "",
-      "__1": ""
+      "ACA,,": "GAII,,"
     },
     {
-      "ACA": "GAMACM",
-      "": "",
-      "__1": ""
+      "ACA,,": "GAMACM,,"
     },
     {
-      "ACA": "GAMI",
-      "": "",
-      "__1": ""
+      "ACA,,": "GAMI,,"
     },
     {
-      "ACA": "GAMIM",
-      "": "",
-      "__1": ""
+      "ACA,,": "GAMIM,,"
     },
     {
-      "ACA": "GAMM",
-      "": "",
-      "__1": ""
+      "ACA,,": "GAMM,,"
     },
     {
-      "ACA": "GANI",
-      "": "",
-      "__1": ""
+      "ACA,,": "GANI,,"
     },
     {
-      "ACA": "GANIC",
-      "": "",
-      "__1": ""
+      "ACA,,": "GANIC,,"
     },
     {
-      "ACA": "GAO",
-      "": "",
-      "__1": ""
+      "ACA,,": "GAO,,"
     },
     {
-      "ACA": "GAOMD",
-      "": "",
-      "__1": ""
+      "ACA,,": "GAOMD,,"
     },
     {
-      "ACA": "GAP",
-      "": "",
-      "__1": ""
+      "ACA,,": "GAP,,"
     },
     {
-      "ACA": "GAPM",
-      "": "",
-      "__1": ""
+      "ACA,,": "GAPM,,"
     },
     {
-      "ACA": "GAPU",
-      "": "",
-      "__1": ""
+      "ACA,,": "GAPU,,"
     },
     {
-      "ACA": "GAPUC",
-      "": "",
-      "__1": ""
+      "ACA,,": "GAPUC,,"
     },
     {
-      "ACA": "GAT",
-      "": "",
-      "__1": ""
+      "ACA,,": "GAT,,"
     },
     {
-      "ACA": "GATC",
-      "": "",
-      "__1": ""
+      "ACA,,": "GATC,,"
     },
     {
-      "ACA": "GEAD",
-      "": "",
-      "__1": ""
+      "ACA,,": "GEAD,,"
     },
     {
-      "ACA": "GEADC",
-      "": "GEAD",
-      "__1": 48
+      "ACA,,": "GEADC,GEAD,48"
     },
     {
-      "ACA": "GEAI",
-      "": "",
-      "__1": ""
+      "ACA,,": "GEAI,,"
     },
     {
-      "ACA": "GEDL",
-      "": "",
-      "__1": ""
+      "ACA,,": "GEDL,,"
     },
     {
-      "ACA": "GEDX",
-      "": "",
-      "__1": ""
+      "ACA,,": "GEDX,,"
     },
     {
-      "ACA": "GEDXC",
-      "": "GEDX",
-      "__1": 7
+      "ACA,,": "GEDXC,GEDX,7"
     },
     {
-      "ACA": "GEI",
-      "": "",
-      "__1": ""
+      "ACA,,": "GEI,,"
     },
     {
-      "ACA": "GEIAFP",
-      "": "",
-      "__1": ""
+      "ACA,,": "GEIAFP,,"
     },
     {
-      "ACA": "GEIL",
-      "": "",
-      "__1": ""
+      "ACA,,": "GEIL,,"
     },
     {
-      "ACA": "GEILV",
-      "": "",
-      "__1": ""
+      "ACA,,": "GEILV,,"
     },
     {
-      "ACA": "GELD",
-      "": "",
-      "__1": ""
+      "ACA,,": "GELD,,"
     },
     {
-      "ACA": "GELDC",
-      "": "GELD",
-      "__1": 48
+      "ACA,,": "GELDC,GELD,48"
     },
     {
-      "ACA": "GEYI",
-      "": "",
-      "__1": ""
+      "ACA,,": "GEYI,,"
     },
     {
-      "ACA": "GOIB",
-      "": "",
-      "__1": ""
+      "ACA,,": "GOIB,,"
     },
     {
-      "ACA": "GOIB3",
-      "": "",
-      "__1": ""
+      "ACA,,": "GOIB3,,"
     },
     {
-      "ACA": "GOIB3N",
-      "": "",
-      "__1": ""
+      "ACA,,": "GOIB3N,,"
     },
     {
-      "ACA": "GOIB3R",
-      "": "",
-      "__1": ""
+      "ACA,,": "GOIB3R,,"
     },
     {
-      "ACA": "GOIBF",
-      "": "",
-      "__1": ""
+      "ACA,,": "GOIBF,,"
     },
     {
-      "ACA": "GOIMT",
-      "": "",
-      "__1": ""
+      "ACA,,": "GOIMT,,"
     },
     {
-      "ACA": "GORP",
-      "": "",
-      "__1": ""
+      "ACA,,": "GORP,,"
     },
     {
-      "ACA": "GRC",
-      "": "",
-      "__1": ""
+      "ACA,,": "GRC,,"
     },
     {
-      "ACA": "GRM",
-      "": "",
-      "__1": ""
+      "ACA,,": "GRM,,"
     },
     {
-      "ACA": "GUMA",
-      "": "",
-      "__1": ""
+      "ACA,,": "GUMA,,"
     },
     {
-      "ACA": "HAHC",
-      "": "",
-      "__1": ""
+      "ACA,,": "HAHC,,"
     },
     {
-      "ACA": "HAI",
-      "": "",
-      "__1": ""
+      "ACA,,": "HAI,,"
     },
     {
-      "ACA": "HEP",
-      "": "",
-      "__1": ""
+      "ACA,,": "HEP,,"
     },
     {
-      "ACA": "HEPP",
-      "": "",
-      "__1": ""
+      "ACA,,": "HEPP,,"
     },
     {
-      "ACA": "HOAP",
-      "": "",
-      "__1": ""
+      "ACA,,": "HOAP,,"
     },
     {
-      "ACA": "HOBM",
-      "": "",
-      "__1": ""
+      "ACA,,": "HOBM,,"
     },
     {
-      "ACA": "HOC",
-      "": "",
-      "__1": ""
+      "ACA,,": "HOC,,"
     },
     {
-      "ACA": "HOLI",
-      "": "",
-      "__1": ""
+      "ACA,,": "HOLI,,"
     },
     {
-      "ACA": "HOM",
-      "": "",
-      "__1": ""
+      "ACA,,": "HOM,,"
     },
     {
-      "ACA": "HOPLC",
-      "": "",
-      "__1": ""
+      "ACA,,": "HOPLC,,"
     },
     {
-      "ACA": "HU1",
-      "": "",
-      "__1": ""
+      "ACA,,": "HU1,,"
     },
     {
-      "ACA": "HUC",
-      "": "",
-      "__1": ""
+      "ACA,,": "HUC,,"
     },
     {
-      "ACA": "HUCA",
-      "": "",
-      "__1": ""
+      "ACA,,": "HUCA,,"
     },
     {
-      "ACA": "HUCM",
-      "": "",
-      "__1": ""
+      "ACA,,": "HUCM,,"
     },
     {
-      "ACA": "HUEMC",
-      "": "",
-      "__1": ""
+      "ACA,,": "HUEMC,,"
     },
     {
-      "ACA": "HUEMCC",
-      "": "HUEMC",
-      "__1": 12
+      "ACA,,": "HUEMCC,HUEMC,12"
     },
     {
-      "ACA": "HUG",
-      "": "",
-      "__1": ""
+      "ACA,,": "HUG,,"
     },
     {
-      "ACA": "HUM",
-      "": "",
-      "__1": ""
+      "ACA,,": "HUM,,"
     },
     {
-      "ACA": "HUPP",
-      "": "",
-      "__1": ""
+      "ACA,,": "HUPP,,"
     },
     {
-      "ACA": "IMT",
-      "": "",
-      "__1": ""
+      "ACA,,": "IMT,,"
     },
     {
-      "ACA": "JAA",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAA,,"
     },
     {
-      "ACA": "JAAA",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAAA,,"
     },
     {
-      "ACA": "JAAAP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAAAP,,"
     },
     {
-      "ACA": "JAAAS",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAAAS,,"
     },
     {
-      "ACA": "JAAGJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAAGJ,,"
     },
     {
-      "ACA": "JAAI",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAAI,,"
     },
     {
-      "ACA": "JAAN",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAAN,,"
     },
     {
-      "ACA": "JAANP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAANP,,"
     },
     {
-      "ACA": "JAAP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAAP,,"
     },
     {
-      "ACA": "JAAR",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAAR,,"
     },
     {
-      "ACA": "JAARP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAARP,,"
     },
     {
-      "ACA": "JAASRP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAASRP,,"
     },
     {
-      "ACA": "JABCO1",
-      "": "",
-      "__1": ""
+      "ACA,,": "JABCO1,,"
     },
     {
-      "ACA": "JACC",
-      "": "",
-      "__1": ""
+      "ACA,,": "JACC,,"
     },
     {
-      "ACA": "JACCP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JACCP,,"
     },
     {
-      "ACA": "JACN1",
-      "": "",
-      "__1": ""
+      "ACA,,": "JACN1,,"
     },
     {
-      "ACA": "JACNP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JACNP,,"
     },
     {
-      "ACA": "JACNPK",
-      "": "",
-      "__1": ""
+      "ACA,,": "JACNPK,,"
     },
     {
-      "ACA": "JACR",
-      "": "",
-      "__1": ""
+      "ACA,,": "JACR,,"
     },
     {
-      "ACA": "JACRP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JACRP,,"
     },
     {
-      "ACA": "JACV",
-      "": "",
-      "__1": ""
+      "ACA,,": "JACV,,"
     },
     {
-      "ACA": "JACVP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JACVP,,"
     },
     {
-      "ACA": "JACVP1",
-      "": "",
-      "__1": ""
+      "ACA,,": "JACVP1,,"
     },
     {
-      "ACA": "JACVPA",
-      "": "",
-      "__1": ""
+      "ACA,,": "JACVPA,,"
     },
     {
-      "ACA": "JACVPM",
-      "": "",
-      "__1": ""
+      "ACA,,": "JACVPM,,"
     },
     {
-      "ACA": "JAEA",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAEA,,"
     },
     {
-      "ACA": "JAEC",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAEC,,"
     },
     {
-      "ACA": "JAECK",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAECK,,"
     },
     {
-      "ACA": "JAFI",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAFI,,"
     },
     {
-      "ACA": "JAFIP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAFIP,,"
     },
     {
-      "ACA": "JAH",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAH,,"
     },
     {
-      "ACA": "JAHA",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAHA,,"
     },
     {
-      "ACA": "JAHAF",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAHAF,,"
     },
     {
-      "ACA": "JAHAP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAHAP,,"
     },
     {
-      "ACA": "JAHRC",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAHRC,,"
     },
     {
-      "ACA": "JAHV",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAHV,,"
     },
     {
-      "ACA": "JAHVP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAHVP,,"
     },
     {
-      "ACA": "JAI",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAI,,"
     },
     {
-      "ACA": "JAIF",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAIF,,"
     },
     {
-      "ACA": "JAIP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAIP,,"
     },
     {
-      "ACA": "JAMA",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAMA,,"
     },
     {
-      "ACA": "JAMAP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAMAP,,"
     },
     {
-      "ACA": "JAMAPI",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAMAPI,,"
     },
     {
-      "ACA": "JAMAPP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAMAPP,,"
     },
     {
-      "ACA": "JAP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAP,,"
     },
     {
-      "ACA": "JAP8C",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAP8C,,"
     },
     {
-      "ACA": "JAPA",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPA,,"
     },
     {
-      "ACA": "JAPAF",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPAF,,"
     },
     {
-      "ACA": "JAPAFM",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPAFM,,"
     },
     {
-      "ACA": "JAPANP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPANP,,"
     },
     {
-      "ACA": "JAPAP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPAP,,"
     },
     {
-      "ACA": "JAPAS",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPAS,,"
     },
     {
-      "ACA": "JAPASE",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPASE,,"
     },
     {
-      "ACA": "JAPC",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPC,,"
     },
     {
-      "ACA": "JAPCO",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPCO,,"
     },
     {
-      "ACA": "JAPCOA",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPCOA,,"
     },
     {
-      "ACA": "JAPCOAR",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPCOAR,,"
     },
     {
-      "ACA": "JAPCP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPCP,,"
     },
     {
-      "ACA": "JAPCPF",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPCPF,,"
     },
     {
-      "ACA": "JAPCPP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPCPP,,"
     },
     {
-      "ACA": "JAPCPPJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPCPPJ,,"
     },
     {
-      "ACA": "JAPCPR",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPCPR,,"
     },
     {
-      "ACA": "JAPCPRP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPCPRP,,"
     },
     {
-      "ACA": "JAPCPV",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPCPV,,"
     },
     {
-      "ACA": "JAPCPVF",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPCPVF,,"
     },
     {
-      "ACA": "JAPCPVJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPCPVJ,,"
     },
     {
-      "ACA": "JAPCPVJE",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPCPVJE,,"
     },
     {
-      "ACA": "JAPCPVR",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPCPVR,,"
     },
     {
-      "ACA": "JAPCR",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPCR,,"
     },
     {
-      "ACA": "JAPCV",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPCV,,"
     },
     {
-      "ACA": "JAPF",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPF,,"
     },
     {
-      "ACA": "JAPFP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPFP,,"
     },
     {
-      "ACA": "JAPFPF",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPFPF,,"
     },
     {
-      "ACA": "JAPPSR",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPPSR,,"
     },
     {
-      "ACA": "JAPPSRN",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPPSRN,,"
     },
     {
-      "ACA": "JAPPSRP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPPSRP,,"
     },
     {
-      "ACA": "JAPPVPAQ",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPPVPAQ,,"
     },
     {
-      "ACA": "JAPR",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPR,,"
     },
     {
-      "ACA": "JAPRJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPRJ,,"
     },
     {
-      "ACA": "JAPRJF",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPRJF,,"
     },
     {
-      "ACA": "JAPRJR",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPRJR,,"
     },
     {
-      "ACA": "JAPRO",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPRO,,"
     },
     {
-      "ACA": "JAPRP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPRP,,"
     },
     {
-      "ACA": "JAPRPM",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPRPM,,"
     },
     {
-      "ACA": "JAPRR",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPRR,,"
     },
     {
-      "ACA": "JAPRS",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPRS,,"
     },
     {
-      "ACA": "JAPRSR",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPRSR,,"
     },
     {
-      "ACA": "JAPSRA",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPSRA,,"
     },
     {
-      "ACA": "JAPSRP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPSRP,,"
     },
     {
-      "ACA": "JAPSRPF",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPSRPF,,"
     },
     {
-      "ACA": "JAPSRPM",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPSRPM,,"
     },
     {
-      "ACA": "JAPT",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPT,,"
     },
     {
-      "ACA": "JAPTP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPTP,,"
     },
     {
-      "ACA": "JAPVCP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPVCP,,"
     },
     {
-      "ACA": "JAPVPAQ",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPVPAQ,,"
     },
     {
-      "ACA": "JAPVR",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPVR,,"
     },
     {
-      "ACA": "JAPVRCP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPVRCP,,"
     },
     {
-      "ACA": "JAPVRCPJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPVRCPJ,,"
     },
     {
-      "ACA": "JAPVRCPR",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPVRCPR,,"
     },
     {
-      "ACA": "JAPVV",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPVV,,"
     },
     {
-      "ACA": "JAPVVP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPVVP,,"
     },
     {
-      "ACA": "JAPVVV",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPVVV,,"
     },
     {
-      "ACA": "JAPVVVP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAPVVVP,,"
     },
     {
-      "ACA": "JAR",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAR,,"
     },
     {
-      "ACA": "JARA",
-      "": "",
-      "__1": ""
+      "ACA,,": "JARA,,"
     },
     {
-      "ACA": "JARI",
-      "": "",
-      "__1": ""
+      "ACA,,": "JARI,,"
     },
     {
-      "ACA": "JARP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JARP,,"
     },
     {
-      "ACA": "JAS",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAS,,"
     },
     {
-      "ACA": "JASA",
-      "": "",
-      "__1": ""
+      "ACA,,": "JASA,,"
     },
     {
-      "ACA": "JASP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JASP,,"
     },
     {
-      "ACA": "JASPP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JASPP,,"
     },
     {
-      "ACA": "JASTM",
-      "": "",
-      "__1": ""
+      "ACA,,": "JASTM,,"
     },
     {
-      "ACA": "JAVIER",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAVIER,,"
     },
     {
-      "ACA": "JAVNJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAVNJ,,"
     },
     {
-      "ACA": "JAVNP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAVNP,,"
     },
     {
-      "ACA": "JAVPCAP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAVPCAP,,"
     },
     {
-      "ACA": "JAVPCAPP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAVPCAPP,,"
     },
     {
-      "ACA": "JAYI",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAYI,,"
     },
     {
-      "ACA": "JAYP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAYP,,"
     },
     {
-      "ACA": "JAYR",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAYR,,"
     },
     {
-      "ACA": "JAYRP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAYRP,,"
     },
     {
-      "ACA": "JAZSN",
-      "": "",
-      "__1": ""
+      "ACA,,": "JAZSN,,"
     },
     {
-      "ACA": "JOM",
-      "": "",
-      "__1": ""
+      "ACA,,": "JOM,,"
     },
     {
-      "ACA": "JOP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JOP,,"
     },
     {
-      "ACA": "JPA",
-      "": "",
-      "__1": ""
+      "ACA,,": "JPA,,"
     },
     {
-      "ACA": "JPR",
-      "": "",
-      "__1": ""
+      "ACA,,": "JPR,,"
     },
     {
-      "ACA": "JPRP",
-      "": "",
-      "__1": ""
+      "ACA,,": "JPRP,,"
     },
     {
-      "ACA": "JUAC",
-      "": "",
-      "__1": ""
+      "ACA,,": "JUAC,,"
     },
     {
-      "ACA": "JUBV",
-      "": "",
-      "__1": ""
+      "ACA,,": "JUBV,,"
     },
     {
-      "ACA": "JUC",
-      "": "",
-      "__1": ""
+      "ACA,,": "JUC,,"
     },
     {
-      "ACA": "JUCC",
-      "": "JUC",
-      "__1": 8
+      "ACA,,": "JUCC,JUC,8"
     },
     {
-      "ACA": "JUL",
-      "": "",
-      "__1": ""
+      "ACA,,": "JUL,,"
     },
     {
-      "ACA": "JULS",
-      "": "JUL",
-      "__1": 4
+      "ACA,,": "JULS,JUL,4"
     },
     {
-      "ACA": "JUM180",
-      "": "",
-      "__1": ""
+      "ACA,,": "JUM180,,"
     },
     {
-      "ACA": "JUMC",
-      "": "",
-      "__1": ""
+      "ACA,,": "JUMC,,"
     },
     {
-      "ACA": "JUPM",
-      "": "",
-      "__1": ""
+      "ACA,,": "JUPM,,"
     },
     {
-      "ACA": "JUPM1",
-      "": "",
-      "__1": ""
+      "ACA,,": "JUPM1,,"
     },
     {
-      "ACA": "JUPM1C",
-      "": "JUPM1",
-      "__1": 12
+      "ACA,,": "JUPM1C,JUPM1,12"
     },
     {
-      "ACA": "JUPMC",
-      "": "JUPM",
-      "__1": 6
+      "ACA,,": "JUPMC,JUPM,6"
     },
     {
-      "ACA": "JUSZ1",
-      "": "",
-      "__1": ""
+      "ACA,,": "JUSZ1,,"
     },
     {
-      "ACA": "JUSZ1C",
-      "": "JUSZ1",
-      "__1": 12
+      "ACA,,": "JUSZ1C,JUSZ1,12"
     },
     {
-      "ACA": "JUSZ2",
-      "": "",
-      "__1": ""
+      "ACA,,": "JUSZ2,,"
     },
     {
-      "ACA": "JUSZ2C",
-      "": "JUSZ2",
-      "__1": 6
+      "ACA,,": "JUSZ2C,JUSZ2,6"
     },
     {
-      "ACA": "JUSZL",
-      "": "",
-      "__1": ""
+      "ACA,,": "JUSZL,,"
     },
     {
-      "ACA": "LA4",
-      "": "",
-      "__1": ""
+      "ACA,,": "LA4,,"
     },
     {
-      "ACA": "LCBM",
-      "": "",
-      "__1": ""
+      "ACA,,": "LCBM,,"
     },
     {
-      "ACA": "LEA1",
-      "": "",
-      "__1": ""
+      "ACA,,": "LEA1,,"
     },
     {
-      "ACA": "LEA1C",
-      "": "LEA1",
-      "__1": 24
+      "ACA,,": "LEA1C,LEA1,24"
     },
     {
-      "ACA": "LEAMD",
-      "": "",
-      "__1": ""
+      "ACA,,": "LEAMD,,"
     },
     {
-      "ACA": "LEC",
-      "": "",
-      "__1": ""
+      "ACA,,": "LEC,,"
     },
     {
-      "ACA": "LED24C",
-      "": "",
-      "__1": ""
+      "ACA,,": "LED24C,,"
     },
     {
-      "ACA": "LED5",
-      "": "",
-      "__1": ""
+      "ACA,,": "LED5,,"
     },
     {
-      "ACA": "LED5H",
-      "": "",
-      "__1": ""
+      "ACA,,": "LED5H,,"
     },
     {
-      "ACA": "LEDMC",
-      "": "",
-      "__1": ""
+      "ACA,,": "LEDMC,,"
     },
     {
-      "ACA": "LEEC1",
-      "": "",
-      "__1": ""
+      "ACA,,": "LEEC1,,"
     },
     {
-      "ACA": "LEEC1C",
-      "": "LEEC1",
-      "__1": 12
+      "ACA,,": "LEEC1C,LEEC1,12"
     },
     {
-      "ACA": "LEEC360",
-      "": "",
-      "__1": ""
+      "ACA,,": "LEEC360,,"
     },
     {
-      "ACA": "LEEC360C",
-      "": "LEEC360",
-      "__1": 48
+      "ACA,,": "LEEC360C,LEEC360,48"
     },
     {
-      "ACA": "LEEC360T",
-      "": "",
-      "__1": ""
+      "ACA,,": "LEEC360T,,"
     },
     {
-      "ACA": "LEESR",
-      "": "",
-      "__1": ""
+      "ACA,,": "LEESR,,"
     },
     {
-      "ACA": "LEESRA",
-      "": "",
-      "__1": ""
+      "ACA,,": "LEESRA,,"
     },
     {
-      "ACA": "LEESRC",
-      "": "LEESRA",
-      "__1": 12
+      "ACA,,": "LEESRC,LEESRA,12"
     },
     {
-      "ACA": "LEI1",
-      "": "",
-      "__1": ""
+      "ACA,,": "LEI1,,"
     },
     {
-      "ACA": "LEI24",
-      "": "",
-      "__1": ""
+      "ACA,,": "LEI24,,"
     },
     {
-      "ACA": "LEI24F",
-      "": "",
-      "__1": ""
+      "ACA,,": "LEI24F,,"
     },
     {
-      "ACA": "LEI5",
-      "": "",
-      "__1": ""
+      "ACA,,": "LEI5,,"
     },
     {
-      "ACA": "LEN387",
-      "": "",
-      "__1": ""
+      "ACA,,": "LEN387,,"
     },
     {
-      "ACA": "LEN387C",
-      "": "LEN387",
-      "__1": 48
+      "ACA,,": "LEN387C,LEN387,48"
     },
     {
-      "ACA": "LENC",
-      "": "",
-      "__1": ""
+      "ACA,,": "LENC,,"
     },
     {
-      "ACA": "LENCA",
-      "": "",
-      "__1": ""
+      "ACA,,": "LENCA,,"
     },
     {
-      "ACA": "LENCP",
-      "": "",
-      "__1": ""
+      "ACA,,": "LENCP,,"
     },
     {
-      "ACA": "LEND",
-      "": "",
-      "__1": ""
+      "ACA,,": "LEND,,"
     },
     {
-      "ACA": "LENDC",
-      "": "",
-      "__1": ""
+      "ACA,,": "LENDC,,"
     },
     {
-      "ACA": "LENG",
-      "": "",
-      "__1": ""
+      "ACA,,": "LENG,,"
     },
     {
-      "ACA": "LET",
-      "": "",
-      "__1": ""
+      "ACA,,": "LET,,"
     },
     {
-      "ACA": "LO",
-      "": "",
-      "__1": ""
+      "ACA,,": "LO,,"
     },
     {
-      "ACA": "LOCI",
-      "": "",
-      "__1": ""
+      "ACA,,": "LOCI,,"
     },
     {
-      "ACA": "LOCK",
-      "": "",
-      "__1": ""
+      "ACA,,": "LOCK,,"
     },
     {
-      "ACA": "LOCKP",
-      "": "",
-      "__1": ""
+      "ACA,,": "LOCKP,,"
     },
     {
-      "ACA": "LOCR",
-      "": "",
-      "__1": ""
+      "ACA,,": "LOCR,,"
     },
     {
-      "ACA": "LOKA",
-      "": "",
-      "__1": ""
+      "ACA,,": "LOKA,,"
     },
     {
-      "ACA": "LOKAR",
-      "": "",
-      "__1": ""
+      "ACA,,": "LOKAR,,"
     },
     {
-      "ACA": "LOPIM",
-      "": "",
-      "__1": ""
+      "ACA,,": "LOPIM,,"
     },
     {
-      "ACA": "LOPIMR",
-      "": "",
-      "__1": ""
+      "ACA,,": "LOPIMR,,"
     },
     {
-      "ACA": "LORB",
-      "": "",
-      "__1": ""
+      "ACA,,": "LORB,,"
     },
     {
-      "ACA": "LORFNK",
-      "": "",
-      "__1": ""
+      "ACA,,": "LORFNK,,"
     },
     {
-      "ACA": "LORNK",
-      "": "",
-      "__1": ""
+      "ACA,,": "LORNK,,"
     },
     {
-      "ACA": "LOSJ5",
-      "": "",
-      "__1": ""
+      "ACA,,": "LOSJ5,,"
     },
     {
-      "ACA": "MA1",
-      "": "",
-      "__1": ""
+      "ACA,,": "MA1,,"
     },
     {
-      "ACA": "MA1C",
-      "": "",
-      "__1": ""
+      "ACA,,": "MA1C,,"
     },
     {
-      "ACA": "MABI",
-      "": "",
-      "__1": ""
+      "ACA,,": "MABI,,"
     },
     {
-      "ACA": "MABO",
-      "": "",
-      "__1": ""
+      "ACA,,": "MABO,,"
     },
     {
-      "ACA": "MAC",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAC,,"
     },
     {
-      "ACA": "MAC3",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAC3,,"
     },
     {
-      "ACA": "MAC3C",
-      "": "MAC3",
-      "__1": 6
+      "ACA,,": "MAC3C,MAC3,6"
     },
     {
-      "ACA": "MACA",
-      "": "",
-      "__1": ""
+      "ACA,,": "MACA,,"
     },
     {
-      "ACA": "MACAC",
-      "": "MACA",
-      "__1": 30
+      "ACA,,": "MACAC,MACA,30"
     },
     {
-      "ACA": "MACH",
-      "": "",
-      "__1": ""
+      "ACA,,": "MACH,,"
     },
     {
-      "ACA": "MACH340",
-      "": "",
-      "__1": ""
+      "ACA,,": "MACH340,,"
     },
     {
-      "ACA": "MAD",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAD,,"
     },
     {
-      "ACA": "MAD1",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAD1,,"
     },
     {
-      "ACA": "MAD1C",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAD1C,,"
     },
     {
-      "ACA": "MAD1CA",
-      "": "MAD1K",
-      "__1": 10
+      "ACA,,": "MAD1CA,MAD1K,10"
     },
     {
-      "ACA": "MAD1K",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAD1K,,"
     },
     {
-      "ACA": "MAD90",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAD90,,"
     },
     {
-      "ACA": "MAD90C",
-      "": "MAD90",
-      "__1": 96
+      "ACA,,": "MAD90C,MAD90,96"
     },
     {
-      "ACA": "MAD90CM",
-      "": "MAD90",
-      "__1": 96
+      "ACA,,": "MAD90CM,MAD90,96"
     },
     {
-      "ACA": "MAD90CMR",
-      "": "MAD90",
-      "__1": 96
+      "ACA,,": "MAD90CMR,MAD90,96"
     },
     {
-      "ACA": "MADC",
-      "": "MAD1K",
-      "__1": 10
+      "ACA,,": "MADC,MAD1K,10"
     },
     {
-      "ACA": "MADCF",
-      "": "MAD90",
-      "__1": 96
+      "ACA,,": "MADCF,MAD90,96"
     },
     {
-      "ACA": "MADKMR",
-      "": "MAD1",
-      "__1": 10
+      "ACA,,": "MADKMR,MAD1,10"
     },
     {
-      "ACA": "MADMD",
-      "": "MAD1",
-      "__1": 10
+      "ACA,,": "MADMD,MAD1,10"
     },
     {
-      "ACA": "MADZ225C",
-      "": "",
-      "__1": ""
+      "ACA,,": "MADZ225C,,"
     },
     {
-      "ACA": "MAE90",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAE90,,"
     },
     {
-      "ACA": "MAE90A",
-      "": "MAE90",
-      "__1": 12
+      "ACA,,": "MAE90A,MAE90,12"
     },
     {
-      "ACA": "MAE90C",
-      "": "MAE90",
-      "__1": 96
+      "ACA,,": "MAE90C,MAE90,96"
     },
     {
-      "ACA": "MAEA1",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAEA1,,"
     },
     {
-      "ACA": "MAEA1A",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAEA1A,,"
     },
     {
-      "ACA": "MAEA1B",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAEA1B,,"
     },
     {
-      "ACA": "MAEA1C",
-      "": "MAEA1",
-      "__1": 16
+      "ACA,,": "MAEA1C,MAEA1,16"
     },
     {
-      "ACA": "MAEA5",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAEA5,,"
     },
     {
-      "ACA": "MAEA5A",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAEA5A,,"
     },
     {
-      "ACA": "MAECM",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAECM,,"
     },
     {
-      "ACA": "MAECMP",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAECMP,,"
     },
     {
-      "ACA": "MAER1",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAER1,,"
     },
     {
-      "ACA": "MAER1C",
-      "": "MAER1",
-      "__1": 10
+      "ACA,,": "MAER1C,MAER1,10"
     },
     {
-      "ACA": "MAER5",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAER5,,"
     },
     {
-      "ACA": "MAERK",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAERK,,"
     },
     {
-      "ACA": "MAFC",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAFC,,"
     },
     {
-      "ACA": "MAG13",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAG13,,"
     },
     {
-      "ACA": "MAG13M",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAG13M,,"
     },
     {
-      "ACA": "MAGB",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAGB,,"
     },
     {
-      "ACA": "MAGHA",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAGHA,,"
     },
     {
-      "ACA": "MAGHM",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAGHM,,"
     },
     {
-      "ACA": "MAH",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAH,,"
     },
     {
-      "ACA": "MAH13",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAH13,,"
     },
     {
-      "ACA": "MAH13H",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAH13H,,"
     },
     {
-      "ACA": "MAH3",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAH3,,"
     },
     {
-      "ACA": "MAH3C",
-      "": "MAH3",
-      "__1": 4
+      "ACA,,": "MAH3C,MAH3,4"
     },
     {
-      "ACA": "MAH3K",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAH3K,,"
     },
     {
-      "ACA": "MAH3KC",
-      "": "MAH3K",
-      "__1": 4
+      "ACA,,": "MAH3KC,MAH3K,4"
     },
     {
-      "ACA": "MAHB",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAHB,,"
     },
     {
-      "ACA": "MAHB750",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAHB750,,"
     },
     {
-      "ACA": "MAHC",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAHC,,"
     },
     {
-      "ACA": "MAHCC",
-      "": "MAHC",
-      "__1": 24
+      "ACA,,": "MAHCC,MAHC,24"
     },
     {
-      "ACA": "MAHE13",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAHE13,,"
     },
     {
-      "ACA": "MAHM10",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAHM10,,"
     },
     {
-      "ACA": "MAHP",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAHP,,"
     },
     {
-      "ACA": "MAI",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAI,,"
     },
     {
-      "ACA": "MAI1",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAI1,,"
     },
     {
-      "ACA": "MAI3",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAI3,,"
     },
     {
-      "ACA": "MAI3C",
-      "": "MAI3",
-      "__1": 4
+      "ACA,,": "MAI3C,MAI3,4"
     },
     {
-      "ACA": "MAIB",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAIB,,"
     },
     {
-      "ACA": "MAIBI",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAIBI,,"
     },
     {
-      "ACA": "MAIBM",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAIBM,,"
     },
     {
-      "ACA": "MAIBV",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAIBV,,"
     },
     {
-      "ACA": "MAIC",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAIC,,"
     },
     {
-      "ACA": "MAICHC",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAICHC,,"
     },
     {
-      "ACA": "MAIG",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAIG,,"
     },
     {
-      "ACA": "MAIM",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAIM,,"
     },
     {
-      "ACA": "MAIMT",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAIMT,,"
     },
     {
-      "ACA": "MAIRP",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAIRP,,"
     },
     {
-      "ACA": "MAM",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAM,,"
     },
     {
-      "ACA": "MAM16",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAM16,,"
     },
     {
-      "ACA": "MAM16C",
-      "": "MAM16",
-      "__1": 12
+      "ACA,,": "MAM16C,MAM16,12"
     },
     {
-      "ACA": "MAM32",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAM32,,"
     },
     {
-      "ACA": "MAM32C",
-      "": "MAM32",
-      "__1": 12
+      "ACA,,": "MAM32C,MAM32,12"
     },
     {
-      "ACA": "MAM34MMK",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAM34MMK,,"
     },
     {
-      "ACA": "MAM3C",
-      "": "MAM34MMK",
-      "__1": 4
+      "ACA,,": "MAM3C,MAM34MMK,4"
     },
     {
-      "ACA": "MAM3E",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAM3E,,"
     },
     {
-      "ACA": "MAM3EC",
-      "": "MAM3E",
-      "__1": 6
+      "ACA,,": "MAM3EC,MAM3E,6"
     },
     {
-      "ACA": "MAM3R",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAM3R,,"
     },
     {
-      "ACA": "MAM4",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAM4,,"
     },
     {
-      "ACA": "MAM4C",
-      "": "MAM4",
-      "__1": 24
+      "ACA,,": "MAM4C,MAM4,24"
     },
     {
-      "ACA": "MAM6",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAM6,,"
     },
     {
-      "ACA": "MAM8",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAM8,,"
     },
     {
-      "ACA": "MAM8C",
-      "": "MAM8",
-      "__1": 24
+      "ACA,,": "MAM8C,MAM8,24"
     },
     {
-      "ACA": "MAMB3",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAMB3,,"
     },
     {
-      "ACA": "MAMC",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAMC,,"
     },
     {
-      "ACA": "MAMCH",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAMCH,,"
     },
     {
-      "ACA": "MAMCS",
-      "": "MAMCH",
-      "__1": 4
+      "ACA,,": "MAMCS,MAMCH,4"
     },
     {
-      "ACA": "MAMCZF",
-      "": "MAM3C",
-      "__1": 4
+      "ACA,,": "MAMCZF,MAM3C,4"
     },
     {
-      "ACA": "MAMG",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAMG,,"
     },
     {
-      "ACA": "MAMI",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAMI,,"
     },
     {
-      "ACA": "MAMK",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAMK,,"
     },
     {
-      "ACA": "MAMM",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAMM,,"
     },
     {
-      "ACA": "MANR",
-      "": "",
-      "__1": ""
+      "ACA,,": "MANR,,"
     },
     {
-      "ACA": "MAP",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAP,,"
     },
     {
-      "ACA": "MAP90",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAP90,,"
     },
     {
-      "ACA": "MAP90C",
-      "": "MAP90",
-      "__1": 48
+      "ACA,,": "MAP90C,MAP90,48"
     },
     {
-      "ACA": "MAP90CH",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAP90CH,,"
     },
     {
-      "ACA": "MAPC1",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAPC1,,"
     },
     {
-      "ACA": "MAPC1C",
-      "": "MAPC1",
-      "__1": 12
+      "ACA,,": "MAPC1C,MAPC1,12"
     },
     {
-      "ACA": "MAPC3",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAPC3,,"
     },
     {
-      "ACA": "MAPC3C",
-      "": "MAPC3",
-      "__1": 6
+      "ACA,,": "MAPC3C,MAPC3,6"
     },
     {
-      "ACA": "MAPMO",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAPMO,,"
     },
     {
-      "ACA": "MAPU",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAPU,,"
     },
     {
-      "ACA": "MAR15",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAR15,,"
     },
     {
-      "ACA": "MARC",
-      "": "",
-      "__1": ""
+      "ACA,,": "MARC,,"
     },
     {
-      "ACA": "MARCC",
-      "": "",
-      "__1": ""
+      "ACA,,": "MARCC,,"
     },
     {
-      "ACA": "MARF",
-      "": "QUFMR",
-      "__1": 36
+      "ACA,,": "MARF,QUFMR,36"
     },
     {
-      "ACA": "MARP",
-      "": "",
-      "__1": ""
+      "ACA,,": "MARP,,"
     },
     {
-      "ACA": "MAS1",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAS1,,"
     },
     {
-      "ACA": "MAS1C",
-      "": "MAS1",
-      "__1": 10
+      "ACA,,": "MAS1C,MAS1,10"
     },
     {
-      "ACA": "MASC",
-      "": "",
-      "__1": ""
+      "ACA,,": "MASC,,"
     },
     {
-      "ACA": "MASV",
-      "": "",
-      "__1": ""
+      "ACA,,": "MASV,,"
     },
     {
-      "ACA": "MASVC",
-      "": "MASV",
-      "__1": 6
+      "ACA,,": "MASVC,MASV,6"
     },
     {
-      "ACA": "MASVC13",
-      "": "",
-      "__1": ""
+      "ACA,,": "MASVC13,,"
     },
     {
-      "ACA": "MASVCH",
-      "": "",
-      "__1": ""
+      "ACA,,": "MASVCH,,"
     },
     {
-      "ACA": "MASVCHC",
-      "": "MASVCH",
-      "__1": 10
+      "ACA,,": "MASVCHC,MASVCH,10"
     },
     {
-      "ACA": "MASVCS",
-      "": "MASV",
-      "__1": 6
+      "ACA,,": "MASVCS,MASV,6"
     },
     {
-      "ACA": "MASVL",
-      "": "",
-      "__1": ""
+      "ACA,,": "MASVL,,"
     },
     {
-      "ACA": "MASVL950",
-      "": "",
-      "__1": ""
+      "ACA,,": "MASVL950,,"
     },
     {
-      "ACA": "MASVL950C",
-      "": "MASVL950",
-      "__1": 10
+      "ACA,,": "MASVL950C,MASVL950,10"
     },
     {
-      "ACA": "MASVLC",
-      "": "MASVL",
-      "__1": 6
+      "ACA,,": "MASVLC,MASVL,6"
     },
     {
-      "ACA": "MASVM",
-      "": "",
-      "__1": ""
+      "ACA,,": "MASVM,,"
     },
     {
-      "ACA": "MAUP190",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAUP190,,"
     },
     {
-      "ACA": "MAUP190C",
-      "": "MAUP190",
-      "__1": 12
+      "ACA,,": "MAUP190C,MAUP190,12"
     },
     {
-      "ACA": "MAUP400",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAUP400,,"
     },
     {
-      "ACA": "MAUP400C",
-      "": "MAUP400",
-      "__1": 12
+      "ACA,,": "MAUP400C,MAUP400,12"
     },
     {
-      "ACA": "MAUV190",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAUV190,,"
     },
     {
-      "ACA": "MAUV400",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAUV400,,"
     },
     {
-      "ACA": "MAV1",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAV1,,"
     },
     {
-      "ACA": "MAV1C",
-      "": "MAV1",
-      "__1": 10
+      "ACA,,": "MAV1C,MAV1,10"
     },
     {
-      "ACA": "MAV90",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAV90,,"
     },
     {
-      "ACA": "MAV90C",
-      "": "MAV90",
-      "__1": 24
+      "ACA,,": "MAV90C,MAV90,24"
     },
     {
-      "ACA": "MAVCK",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAVCK,,"
     },
     {
-      "ACA": "MAVCKC",
-      "": "MAVCK",
-      "__1": 12
+      "ACA,,": "MAVCKC,MAVCK,12"
     },
     {
-      "ACA": "MAW3",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAW3,,"
     },
     {
-      "ACA": "MAY1",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAY1,,"
     },
     {
-      "ACA": "MAY1C",
-      "": "MAY1",
-      "__1": 10
+      "ACA,,": "MAY1C,MAY1,10"
     },
     {
-      "ACA": "MAY1CM",
-      "": "MAY1",
-      "__1": 10
+      "ACA,,": "MAY1CM,MAY1,10"
     },
     {
-      "ACA": "MAY1CMP",
-      "": "MAY1",
-      "__1": 10
+      "ACA,,": "MAY1CMP,MAY1,10"
     },
     {
-      "ACA": "MAY90",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAY90,,"
     },
     {
-      "ACA": "MAY90C",
-      "": "MAY90",
-      "__1": 100
+      "ACA,,": "MAY90C,MAY90,100"
     },
     {
-      "ACA": "MAYM",
-      "": "",
-      "__1": ""
+      "ACA,,": "MAYM,,"
     },
     {
-      "ACA": "MAYMC",
-      "": "MAYM",
-      "__1": 20
+      "ACA,,": "MAYMC,MAYM,20"
     },
     {
-      "ACA": "ME1",
-      "": "",
-      "__1": ""
+      "ACA,,": "ME1,,"
     },
     {
-      "ACA": "MEC",
-      "": "",
-      "__1": ""
+      "ACA,,": "MEC,,"
     },
     {
-      "ACA": "MEC1",
-      "": "",
-      "__1": ""
+      "ACA,,": "MEC1,,"
     },
     {
-      "ACA": "MECL",
-      "": "",
-      "__1": ""
+      "ACA,,": "MECL,,"
     },
     {
-      "ACA": "MECLC",
-      "": "MECL",
-      "__1": 2
+      "ACA,,": "MECLC,MECL,2"
     },
     {
-      "ACA": "MECN270",
-      "": "",
-      "__1": ""
+      "ACA,,": "MECN270,,"
     },
     {
-      "ACA": "MECNC",
-      "": "MECN270",
-      "__1": 8
+      "ACA,,": "MECNC,MECN270,8"
     },
     {
-      "ACA": "MECSR",
-      "": "",
-      "__1": ""
+      "ACA,,": "MECSR,,"
     },
     {
-      "ACA": "MECU",
-      "": "",
-      "__1": ""
+      "ACA,,": "MECU,,"
     },
     {
-      "ACA": "MEIC",
-      "": "",
-      "__1": ""
+      "ACA,,": "MEIC,,"
     },
     {
-      "ACA": "MERG",
-      "": "",
-      "__1": ""
+      "ACA,,": "MERG,,"
     },
     {
-      "ACA": "MERGC",
-      "": "MERG",
-      "__1": 6
+      "ACA,,": "MERGC,MERG,6"
     },
     {
-      "ACA": "MESF",
-      "": "",
-      "__1": ""
+      "ACA,,": "MESF,,"
     },
     {
-      "ACA": "MI1",
-      "": "",
-      "__1": ""
+      "ACA,,": "MI1,,"
     },
     {
-      "ACA": "MIA",
-      "": "",
-      "__1": ""
+      "ACA,,": "MIA,,"
     },
     {
-      "ACA": "MIAG",
-      "": "",
-      "__1": ""
+      "ACA,,": "MIAG,,"
     },
     {
-      "ACA": "MIC",
-      "": "",
-      "__1": ""
+      "ACA,,": "MIC,,"
     },
     {
-      "ACA": "MICU",
-      "": "",
-      "__1": ""
+      "ACA,,": "MICU,,"
     },
     {
-      "ACA": "MIIC5",
-      "": "",
-      "__1": ""
+      "ACA,,": "MIIC5,,"
     },
     {
-      "ACA": "MIIC5A",
-      "": "",
-      "__1": ""
+      "ACA,,": "MIIC5A,,"
     },
     {
-      "ACA": "MIMHG",
-      "": "",
-      "__1": ""
+      "ACA,,": "MIMHG,,"
     },
     {
-      "ACA": "MINC",
-      "": "",
-      "__1": ""
+      "ACA,,": "MINC,,"
     },
     {
-      "ACA": "MINC1",
-      "": "",
-      "__1": ""
+      "ACA,,": "MINC1,,"
     },
     {
-      "ACA": "MIP",
-      "": "",
-      "__1": ""
+      "ACA,,": "MIP,,"
     },
     {
-      "ACA": "MIP1",
-      "": "",
-      "__1": ""
+      "ACA,,": "MIP1,,"
     },
     {
-      "ACA": "MIP2",
-      "": "",
-      "__1": ""
+      "ACA,,": "MIP2,,"
     },
     {
-      "ACA": "MIPC",
-      "": "",
-      "__1": ""
+      "ACA,,": "MIPC,,"
     },
     {
-      "ACA": "MIPC5",
-      "": "",
-      "__1": ""
+      "ACA,,": "MIPC5,,"
     },
     {
-      "ACA": "MIPGP",
-      "": "",
-      "__1": ""
+      "ACA,,": "MIPGP,,"
     },
     {
-      "ACA": "MIPI",
-      "": "MIP",
-      "__1": 100
+      "ACA,,": "MIPI,MIP,100"
     },
     {
-      "ACA": "MIVY90",
-      "": "",
-      "__1": ""
+      "ACA,,": "MIVY90,,"
     },
     {
-      "ACA": "MIVY90C",
-      "": "MIVY90",
-      "__1": 72
+      "ACA,,": "MIVY90C,MIVY90,72"
     },
     {
-      "ACA": "MMKA",
-      "": "",
-      "__1": ""
+      "ACA,,": "MMKA,,"
     },
     {
-      "ACA": "MOAC255",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOAC255,,"
     },
     {
-      "ACA": "MOAC255C",
-      "": "MOAC255",
-      "__1": 12
+      "ACA,,": "MOAC255C,MOAC255,12"
     },
     {
-      "ACA": "MOAE3",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOAE3,,"
     },
     {
-      "ACA": "MOAP4",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOAP4,,"
     },
     {
-      "ACA": "MOB3",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOB3,,"
     },
     {
-      "ACA": "MOB3C",
-      "": "MOB3",
-      "__1": 4
+      "ACA,,": "MOB3C,MOB3,4"
     },
     {
-      "ACA": "MOB950",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOB950,,"
     },
     {
-      "ACA": "MOB950C",
-      "": "MOB950",
-      "__1": 12
+      "ACA,,": "MOB950C,MOB950,12"
     },
     {
-      "ACA": "MOE3",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOE3,,"
     },
     {
-      "ACA": "MOEC",
-      "": "MOE3",
-      "__1": 6
+      "ACA,,": "MOEC,MOE3,6"
     },
     {
-      "ACA": "MOEV250",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOEV250,,"
     },
     {
-      "ACA": "MOEV250C",
-      "": "MOEV250",
-      "__1": 24
+      "ACA,,": "MOEV250C,MOEV250,24"
     },
     {
-      "ACA": "MOFP",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOFP,,"
     },
     {
-      "ACA": "MOH",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOH,,"
     },
     {
-      "ACA": "MOHAC",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOHAC,,"
     },
     {
-      "ACA": "MOHACC",
-      "": "MOHAC",
-      "__1": 16
+      "ACA,,": "MOHACC,MOHAC,16"
     },
     {
-      "ACA": "MOHAG",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOHAG,,"
     },
     {
-      "ACA": "MOHAGC",
-      "": "MOHAG",
-      "__1": 16
+      "ACA,,": "MOHAGC,MOHAG,16"
     },
     {
-      "ACA": "MOHBC",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOHBC,,"
     },
     {
-      "ACA": "MOHC",
-      "": "MOHCA",
-      "__1": 4
+      "ACA,,": "MOHC,MOHCA,4"
     },
     {
-      "ACA": "MOHCA",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOHCA,,"
     },
     {
-      "ACA": "MOK",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOK,,"
     },
     {
-      "ACA": "MOKP",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOKP,,"
     },
     {
-      "ACA": "MOM16",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOM16,,"
     },
     {
-      "ACA": "MOM3",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOM3,,"
     },
     {
-      "ACA": "MOM3C",
-      "": "MOM3",
-      "__1": 6
+      "ACA,,": "MOM3C,MOM3,6"
     },
     {
-      "ACA": "MOM3G",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOM3G,,"
     },
     {
-      "ACA": "MOM3K",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOM3K,,"
     },
     {
-      "ACA": "MOM4",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOM4,,"
     },
     {
-      "ACA": "MOM8",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOM8,,"
     },
     {
-      "ACA": "MOP",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOP,,"
     },
     {
-      "ACA": "MOP10",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOP10,,"
     },
     {
-      "ACA": "MOP3",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOP3,,"
     },
     {
-      "ACA": "MOP8C",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOP8C,,"
     },
     {
-      "ACA": "MOPC",
-      "": "MOP3",
-      "__1": 6
+      "ACA,,": "MOPC,MOP3,6"
     },
     {
-      "ACA": "MOPPM",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOPPM,,"
     },
     {
-      "ACA": "MOPV125",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOPV125,,"
     },
     {
-      "ACA": "MOSM",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOSM,,"
     },
     {
-      "ACA": "MOSV",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOSV,,"
     },
     {
-      "ACA": "MOSVC",
-      "": "MOSV",
-      "__1": 6
+      "ACA,,": "MOSVC,MOSV,6"
     },
     {
-      "ACA": "MOSVCH",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOSVCH,,"
     },
     {
-      "ACA": "MOSVCHC",
-      "": "MOSVCH",
-      "__1": 10
+      "ACA,,": "MOSVCHC,MOSVCH,10"
     },
     {
-      "ACA": "MOVP3",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOVP3,,"
     },
     {
-      "ACA": "MOY20",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOY20,,"
     },
     {
-      "ACA": "MOY3",
-      "": "MOY3",
-      "__1": 4
+      "ACA,,": "MOY3,MOY3,4"
     },
     {
-      "ACA": "MOY3C",
-      "": "",
-      "__1": ""
+      "ACA,,": "MOY3C,,"
     },
     {
-      "ACA": "NA",
-      "": "",
-      "__1": ""
+      "ACA,,": "NA,,"
     },
     {
-      "ACA": "NAD",
-      "": "",
-      "__1": ""
+      "ACA,,": "NAD,,"
     },
     {
-      "ACA": "NADC",
-      "": "NAD",
-      "__1": 48
+      "ACA,,": "NADC,NAD,48"
     },
     {
-      "ACA": "NAT",
-      "": "",
-      "__1": ""
+      "ACA,,": "NAT,,"
     },
     {
-      "ACA": "NUP",
-      "": "",
-      "__1": ""
+      "ACA,,": "NUP,,"
     },
     {
-      "ACA": "NUPC",
-      "": "NUP",
-      "__1": 10
+      "ACA,,": "NUPC,NUP,10"
     },
     {
-      "ACA": "OR1",
-      "": "",
-      "__1": ""
+      "ACA,,": "OR1,,"
     },
     {
-      "ACA": "ORC",
-      "": "",
-      "__1": ""
+      "ACA,,": "ORC,,"
     },
     {
-      "ACA": "PAA2",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAA2,,"
     },
     {
-      "ACA": "PAAN",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAAN,,"
     },
     {
-      "ACA": "PAB3",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAB3,,"
     },
     {
-      "ACA": "PABBC",
-      "": "",
-      "__1": ""
+      "ACA,,": "PABBC,,"
     },
     {
-      "ACA": "PABBG",
-      "": "",
-      "__1": ""
+      "ACA,,": "PABBG,,"
     },
     {
-      "ACA": "PABC",
-      "": "",
-      "__1": ""
+      "ACA,,": "PABC,,"
     },
     {
-      "ACA": "PABE",
-      "": "",
-      "__1": ""
+      "ACA,,": "PABE,,"
     },
     {
-      "ACA": "PABI",
-      "": "",
-      "__1": ""
+      "ACA,,": "PABI,,"
     },
     {
-      "ACA": "PABP",
-      "": "",
-      "__1": ""
+      "ACA,,": "PABP,,"
     },
     {
-      "ACA": "PABS",
-      "": "",
-      "__1": ""
+      "ACA,,": "PABS,,"
     },
     {
-      "ACA": "PACI",
-      "": "",
-      "__1": ""
+      "ACA,,": "PACI,,"
     },
     {
-      "ACA": "PAD",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAD,,"
     },
     {
-      "ACA": "PADA",
-      "": "",
-      "__1": ""
+      "ACA,,": "PADA,,"
     },
     {
-      "ACA": "PAF",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAF,,"
     },
     {
-      "ACA": "PAFA",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAFA,,"
     },
     {
-      "ACA": "PAFAMD",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAFAMD,,"
     },
     {
-      "ACA": "PAFC",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAFC,,"
     },
     {
-      "ACA": "PAFCC",
-      "": "PAFC",
-      "__1": 4
+      "ACA,,": "PAFCC,PAFC,4"
     },
     {
-      "ACA": "PAFI",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAFI,,"
     },
     {
-      "ACA": "PAFIB",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAFIB,,"
     },
     {
-      "ACA": "PAFIR",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAFIR,,"
     },
     {
-      "ACA": "PAFQCR",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAFQCR,,"
     },
     {
-      "ACA": "PAGB",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAGB,,"
     },
     {
-      "ACA": "PAGC",
-      "": "PAGB",
-      "__1": 6
+      "ACA,,": "PAGC,PAGB,6"
     },
     {
-      "ACA": "PAI",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAI,,"
     },
     {
-      "ACA": "PAIBC",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAIBC,,"
     },
     {
-      "ACA": "PAIBG",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAIBG,,"
     },
     {
-      "ACA": "PAL",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAL,,"
     },
     {
-      "ACA": "PALB",
-      "": "",
-      "__1": ""
+      "ACA,,": "PALB,,"
     },
     {
-      "ACA": "PAMAB",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAMAB,,"
     },
     {
-      "ACA": "PAMABZ",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAMABZ,,"
     },
     {
-      "ACA": "PAMB",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAMB,,"
     },
     {
-      "ACA": "PAMC",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAMC,,"
     },
     {
-      "ACA": "PAMG",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAMG,,"
     },
     {
-      "ACA": "PAMKC",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAMKC,,"
     },
     {
-      "ACA": "PAMNB",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAMNB,,"
     },
     {
-      "ACA": "PAMNI",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAMNI,,"
     },
     {
-      "ACA": "PAMNS",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAMNS,,"
     },
     {
-      "ACA": "PAMR",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAMR,,"
     },
     {
-      "ACA": "PAMS",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAMS,,"
     },
     {
-      "ACA": "PANA",
-      "": "",
-      "__1": ""
+      "ACA,,": "PANA,,"
     },
     {
-      "ACA": "PANK",
-      "": "",
-      "__1": ""
+      "ACA,,": "PANK,,"
     },
     {
-      "ACA": "PAO",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAO,,"
     },
     {
-      "ACA": "PAOR",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAOR,,"
     },
     {
-      "ACA": "PAP",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAP,,"
     },
     {
-      "ACA": "PAPK",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAPK,,"
     },
     {
-      "ACA": "PAPKI",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAPKI,,"
     },
     {
-      "ACA": "PAQ",
-      "": "",
-      "__1": ""
+      "ACA,,": "PAQ,,"
     },
     {
-      "ACA": "PARRILLA",
-      "": "",
-      "__1": ""
+      "ACA,,": "PARRILLA,,"
     },
     {
-      "ACA": "PASA",
-      "": "",
-      "__1": ""
+      "ACA,,": "PASA,,"
     },
     {
-      "ACA": "PATAB",
-      "": "",
-      "__1": ""
+      "ACA,,": "PATAB,,"
     },
     {
-      "ACA": "PATIB",
-      "": "",
-      "__1": ""
+      "ACA,,": "PATIB,,"
     },
     {
-      "ACA": "PATP3",
-      "": "",
-      "__1": ""
+      "ACA,,": "PATP3,,"
     },
     {
-      "ACA": "PATP3C",
-      "": "PATP3",
-      "__1": 6
+      "ACA,,": "PATP3C,PATP3,6"
     },
     {
-      "ACA": "PE",
-      "": "",
-      "__1": ""
+      "ACA,,": "PE,,"
     },
     {
-      "ACA": "PEBP",
-      "": "",
-      "__1": ""
+      "ACA,,": "PEBP,,"
     },
     {
-      "ACA": "PEBPC",
-      "": "",
-      "__1": ""
+      "ACA,,": "PEBPC,,"
     },
     {
-      "ACA": "PEE3",
-      "": "",
-      "__1": ""
+      "ACA,,": "PEE3,,"
     },
     {
-      "ACA": "PEEC",
-      "": "",
-      "__1": ""
+      "ACA,,": "PEEC,,"
     },
     {
-      "ACA": "PEIB",
-      "": "",
-      "__1": ""
+      "ACA,,": "PEIB,,"
     },
     {
-      "ACA": "PEIG",
-      "": "",
-      "__1": ""
+      "ACA,,": "PEIG,,"
     },
     {
-      "ACA": "PEIK",
-      "": "",
-      "__1": ""
+      "ACA,,": "PEIK,,"
     },
     {
-      "ACA": "PELAP",
-      "": "",
-      "__1": ""
+      "ACA,,": "PELAP,,"
     },
     {
-      "ACA": "PELC",
-      "": "PELC",
-      "__1": 36
+      "ACA,,": "PELC,PELC,36"
     },
     {
-      "ACA": "PELCA",
-      "": "PELC",
-      "__1": 36
+      "ACA,,": "PELCA,PELC,36"
     },
     {
-      "ACA": "PEOV3",
-      "": "",
-      "__1": ""
+      "ACA,,": "PEOV3,,"
     },
     {
-      "ACA": "PEOV3C",
-      "": "PEOV3",
-      "__1": 4
+      "ACA,,": "PEOV3C,PEOV3,4"
     },
     {
-      "ACA": "PEP3",
-      "": "",
-      "__1": ""
+      "ACA,,": "PEP3,,"
     },
     {
-      "ACA": "PERA3",
-      "": "",
-      "__1": ""
+      "ACA,,": "PERA3,,"
     },
     {
-      "ACA": "PERA3C",
-      "": "PERA3",
-      "__1": 4
+      "ACA,,": "PERA3C,PERA3,4"
     },
     {
-      "ACA": "PERC",
-      "": "",
-      "__1": ""
+      "ACA,,": "PERC,,"
     },
     {
-      "ACA": "PERCC",
-      "": "",
-      "__1": ""
+      "ACA,,": "PERCC,,"
     },
     {
-      "ACA": "PES50112009",
-      "": "",
-      "__1": ""
+      "ACA,,": "PES50112009,,"
     },
     {
-      "ACA": "PESA",
-      "": "",
-      "__1": ""
+      "ACA,,": "PESA,,"
     },
     {
-      "ACA": "PESAK",
-      "": "",
-      "__1": ""
+      "ACA,,": "PESAK,,"
     },
     {
-      "ACA": "PETMR",
-      "": "",
-      "__1": ""
+      "ACA,,": "PETMR,,"
     },
     {
-      "ACA": "PETP",
-      "": "",
-      "__1": ""
+      "ACA,,": "PETP,,"
     },
     {
-      "ACA": "PETPM",
-      "": "",
-      "__1": ""
+      "ACA,,": "PETPM,,"
     },
     {
-      "ACA": "PH190",
-      "": "",
-      "__1": ""
+      "ACA,,": "PH190,,"
     },
     {
-      "ACA": "PH190C",
-      "": "PH190",
-      "__1": 24
+      "ACA,,": "PH190C,PH190,24"
     },
     {
-      "ACA": "PH2",
-      "": "",
-      "__1": ""
+      "ACA,,": "PH2,,"
     },
     {
-      "ACA": "PH2C",
-      "": "PH2",
-      "__1": 6
+      "ACA,,": "PH2C,PH2,6"
     },
     {
-      "ACA": "PH9",
-      "": "",
-      "__1": ""
+      "ACA,,": "PH9,,"
     },
     {
-      "ACA": "PH9C",
-      "": "PH9",
-      "__1": 36
+      "ACA,,": "PH9C,PH9,36"
     },
     {
-      "ACA": "PHR144",
-      "": "",
-      "__1": ""
+      "ACA,,": "PHR144,,"
     },
     {
-      "ACA": "PHR144P",
-      "": "",
-      "__1": ""
+      "ACA,,": "PHR144P,,"
     },
     {
-      "ACA": "PIAK",
-      "": "",
-      "__1": ""
+      "ACA,,": "PIAK,,"
     },
     {
-      "ACA": "PIAKP",
-      "": "",
-      "__1": ""
+      "ACA,,": "PIAKP,,"
     },
     {
-      "ACA": "PIANK",
-      "": "",
-      "__1": ""
+      "ACA,,": "PIANK,,"
     },
     {
-      "ACA": "PIC",
-      "": "",
-      "__1": ""
+      "ACA,,": "PIC,,"
     },
     {
-      "ACA": "PIC3K",
-      "": "",
-      "__1": ""
+      "ACA,,": "PIC3K,,"
     },
     {
-      "ACA": "PIF",
-      "": "",
-      "__1": ""
+      "ACA,,": "PIF,,"
     },
     {
-      "ACA": "PIMN",
-      "": "",
-      "__1": ""
+      "ACA,,": "PIMN,,"
     },
     {
-      "ACA": "PIMNK",
-      "": "",
-      "__1": ""
+      "ACA,,": "PIMNK,,"
     },
     {
-      "ACA": "PIRA3C",
-      "": "PIC3K",
-      "__1": 6
+      "ACA,,": "PIRA3C,PIC3K,6"
     },
     {
-      "ACA": "PIRC800",
-      "": "",
-      "__1": ""
+      "ACA,,": "PIRC800,,"
     },
     {
-      "ACA": "PIRC800C",
-      "": "PIRC800",
-      "__1": 12
+      "ACA,,": "PIRC800C,PIRC800,12"
     },
     {
-      "ACA": "PIRI3",
-      "": "",
-      "__1": ""
+      "ACA,,": "PIRI3,,"
     },
     {
-      "ACA": "PIRI3C",
-      "": "PIRI3",
-      "__1": 6
+      "ACA,,": "PIRI3C,PIRI3,6"
     },
     {
-      "ACA": "PITA",
-      "": "",
-      "__1": ""
+      "ACA,,": "PITA,,"
     },
     {
-      "ACA": "PITA3",
-      "": "PITA",
-      "__1": 6
+      "ACA,,": "PITA3,PITA,6"
     },
     {
-      "ACA": "PITA3C",
-      "": "",
-      "__1": ""
+      "ACA,,": "PITA3C,,"
     },
     {
-      "ACA": "PITAC",
-      "": "PITA3C",
-      "__1": 6
+      "ACA,,": "PITAC,PITA3C,6"
     },
     {
-      "ACA": "PITC800",
-      "": "",
-      "__1": ""
+      "ACA,,": "PITC800,,"
     },
     {
-      "ACA": "PITC800C",
-      "": "PITC800",
-      "__1": 12
+      "ACA,,": "PITC800C,PITC800,12"
     },
     {
-      "ACA": "PLY145",
-      "": "",
-      "__1": ""
+      "ACA,,": "PLY145,,"
     },
     {
-      "ACA": "POBC",
-      "": "",
-      "__1": ""
+      "ACA,,": "POBC,,"
     },
     {
-      "ACA": "POE1",
-      "": "",
-      "__1": ""
+      "ACA,,": "POE1,,"
     },
     {
-      "ACA": "POSAM",
-      "": "",
-      "__1": ""
+      "ACA,,": "POSAM,,"
     },
     {
-      "ACA": "POSLM",
-      "": "",
-      "__1": ""
+      "ACA,,": "POSLM,,"
     },
     {
-      "ACA": "POT",
-      "": "",
-      "__1": ""
+      "ACA,,": "POT,,"
     },
     {
-      "ACA": "PRBDY",
-      "": "YODB",
-      "__1": 5
+      "ACA,,": "PRBDY,YODB,5"
     },
     {
-      "ACA": "PRBMY",
-      "": "BEMY",
-      "__1": 10
+      "ACA,,": "PRBMY,BEMY,10"
     },
     {
-      "ACA": "PRBY",
-      "": "",
-      "__1": ""
+      "ACA,,": "PRBY,,"
     },
     {
-      "ACA": "PRCO",
-      "": "CAO",
-      "__1": 6
+      "ACA,,": "PRCO,CAO,6"
     },
     {
-      "ACA": "PRFHY220",
-      "": "FLHY220",
-      "__1": 3
+      "ACA,,": "PRFHY220,FLHY220,3"
     },
     {
-      "ACA": "PRFVY",
-      "": "",
-      "__1": ""
+      "ACA,,": "PRFVY,,"
     },
     {
-      "ACA": "PRGB220",
-      "": "",
-      "__1": ""
+      "ACA,,": "PRGB220,,"
     },
     {
-      "ACA": "PRGB220SA",
-      "": "",
-      "__1": ""
+      "ACA,,": "PRGB220SA,,"
     },
     {
-      "ACA": "PRGVY",
-      "": "",
-      "__1": ""
+      "ACA,,": "PRGVY,,"
     },
     {
-      "ACA": "PRGVYS",
-      "": "",
-      "__1": ""
+      "ACA,,": "PRGVYS,,"
     },
     {
-      "ACA": "PRMVY90",
-      "": "",
-      "__1": ""
+      "ACA,,": "PRMVY90,,"
     },
     {
-      "ACA": "PROMOASAR",
-      "": "",
-      "__1": ""
+      "ACA,,": "PROMOASAR,,"
     },
     {
-      "ACA": "PRPY145",
-      "": "",
-      "__1": ""
+      "ACA,,": "PRPY145,,"
     },
     {
-      "ACA": "PRQAF",
-      "": "",
-      "__1": ""
+      "ACA,,": "PRQAF,,"
     },
     {
-      "ACA": "PRQAV",
-      "": "",
-      "__1": ""
+      "ACA,,": "PRQAV,,"
     },
     {
-      "ACA": "PRQBV",
-      "": "",
-      "__1": ""
+      "ACA,,": "PRQBV,,"
     },
     {
-      "ACA": "PRQMF",
-      "": "",
-      "__1": ""
+      "ACA,,": "PRQMF,,"
     },
     {
-      "ACA": "PRT",
-      "": "",
-      "__1": ""
+      "ACA,,": "PRT,,"
     },
     {
-      "ACA": "PRV90",
-      "": "",
-      "__1": ""
+      "ACA,,": "PRV90,,"
     },
     {
-      "ACA": "PRVC",
-      "": "",
-      "__1": ""
+      "ACA,,": "PRVC,,"
     },
     {
-      "ACA": "PRVY125",
-      "": "",
-      "__1": ""
+      "ACA,,": "PRVY125,,"
     },
     {
-      "ACA": "PRYBL",
-      "": "",
-      "__1": ""
+      "ACA,,": "PRYBL,,"
     },
     {
-      "ACA": "PUCHC",
-      "": "",
-      "__1": ""
+      "ACA,,": "PUCHC,,"
     },
     {
-      "ACA": "PUF1",
-      "": "",
-      "__1": ""
+      "ACA,,": "PUF1,,"
     },
     {
-      "ACA": "PUF1C",
-      "": "PUF1",
-      "__1": 12
+      "ACA,,": "PUF1C,PUF1,12"
     },
     {
-      "ACA": "PUF210",
-      "": "",
-      "__1": ""
+      "ACA,,": "PUF210,,"
     },
     {
-      "ACA": "PUF210C",
-      "": "PUF210",
-      "__1": 24
+      "ACA,,": "PUF210C,PUF210,24"
     },
     {
-      "ACA": "PUTC3",
-      "": "",
-      "__1": ""
+      "ACA,,": "PUTC3,,"
     },
     {
-      "ACA": "PUTC3C",
-      "": "PUTC3",
-      "__1": 4
+      "ACA,,": "PUTC3C,PUTC3,4"
     },
     {
-      "ACA": "PUTP3",
-      "": "",
-      "__1": ""
+      "ACA,,": "PUTP3,,"
     },
     {
-      "ACA": "PUTP3C",
-      "": "PUTP3",
-      "__1": 6
+      "ACA,,": "PUTP3C,PUTP3,6"
     },
     {
-      "ACA": "QAFF",
-      "": "",
-      "__1": ""
+      "ACA,,": "QAFF,,"
     },
     {
-      "ACA": "QAPRC",
-      "": "QAFF",
-      "__1": 24
+      "ACA,,": "QAPRC,QAFF,24"
     },
     {
-      "ACA": "QU",
-      "": "",
-      "__1": ""
+      "ACA,,": "QU,,"
     },
     {
-      "ACA": "QUAAN",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUAAN,,"
     },
     {
-      "ACA": "QUACC",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUACC,,"
     },
     {
-      "ACA": "QUACG",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUACG,,"
     },
     {
-      "ACA": "QUAF",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUAF,,"
     },
     {
-      "ACA": "QUAFE",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUAFE,,"
     },
     {
-      "ACA": "QUAFEC",
-      "": "QUAFE",
-      "__1": 6
+      "ACA,,": "QUAFEC,QUAFE,6"
     },
     {
-      "ACA": "QUAFG",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUAFG,,"
     },
     {
-      "ACA": "QUAI",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUAI,,"
     },
     {
-      "ACA": "QUAIM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUAIM,,"
     },
     {
-      "ACA": "QUALE",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUALE,,"
     },
     {
-      "ACA": "QUAM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUAM,,"
     },
     {
-      "ACA": "QUAMK",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUAMK,,"
     },
     {
-      "ACA": "QUAMM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUAMM,,"
     },
     {
-      "ACA": "QUAMMM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUAMMM,,"
     },
     {
-      "ACA": "QUARF",
-      "": "QUAF",
-      "__1": 36
+      "ACA,,": "QUARF,QUAF,36"
     },
     {
-      "ACA": "QUARN",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUARN,,"
     },
     {
-      "ACA": "QUAS",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUAS,,"
     },
     {
-      "ACA": "QUASA1",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUASA1,,"
     },
     {
-      "ACA": "QUASG",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUASG,,"
     },
     {
-      "ACA": "QUAV",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUAV,,"
     },
     {
-      "ACA": "QUAVC",
-      "": "QUAV",
-      "__1": 36
+      "ACA,,": "QUAVC,QUAV,36"
     },
     {
-      "ACA": "QUBRS",
-      "": "QUBS",
-      "__1": 6
+      "ACA,,": "QUBRS,QUBS,6"
     },
     {
-      "ACA": "QUBS",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUBS,,"
     },
     {
-      "ACA": "QUBV",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUBV,,"
     },
     {
-      "ACA": "QUBVC",
-      "": "QUBV",
-      "__1": 36
+      "ACA,,": "QUBVC,QUBV,36"
     },
     {
-      "ACA": "QUC",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUC,,"
     },
     {
-      "ACA": "QUC1",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUC1,,"
     },
     {
-      "ACA": "QUC1M",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUC1M,,"
     },
     {
-      "ACA": "QUC1PC",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUC1PC,,"
     },
     {
-      "ACA": "QUC1PC4",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUC1PC4,,"
     },
     {
-      "ACA": "QUC1PG",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUC1PG,,"
     },
     {
-      "ACA": "QUC2",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUC2,,"
     },
     {
-      "ACA": "QUC2K",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUC2K,,"
     },
     {
-      "ACA": "QUC2M",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUC2M,,"
     },
     {
-      "ACA": "QUC2P",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUC2P,,"
     },
     {
-      "ACA": "QUC2PC",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUC2PC,,"
     },
     {
-      "ACA": "QUC2PG",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUC2PG,,"
     },
     {
-      "ACA": "QUC2PR",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUC2PR,,"
     },
     {
-      "ACA": "QUCA",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCA,,"
     },
     {
-      "ACA": "QUCAI",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCAI,,"
     },
     {
-      "ACA": "QUCAIP",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCAIP,,"
     },
     {
-      "ACA": "QUCAM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCAM,,"
     },
     {
-      "ACA": "QUCB",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCB,,"
     },
     {
-      "ACA": "QUCC",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCC,,"
     },
     {
-      "ACA": "QUCC2",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCC2,,"
     },
     {
-      "ACA": "QUCCMD",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCCMD,,"
     },
     {
-      "ACA": "QUCCMDI",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCCMDI,,"
     },
     {
-      "ACA": "QUCE",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCE,,"
     },
     {
-      "ACA": "QUCEMD",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCEMD,,"
     },
     {
-      "ACA": "QUCEMDC",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCEMDC,,"
     },
     {
-      "ACA": "QUCFR",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCFR,,"
     },
     {
-      "ACA": "QUCH",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCH,,"
     },
     {
-      "ACA": "QUCHF",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCHF,,"
     },
     {
-      "ACA": "QUCHNR",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCHNR,,"
     },
     {
-      "ACA": "QUCHP1",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCHP1,,"
     },
     {
-      "ACA": "QUCHP3",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCHP3,,"
     },
     {
-      "ACA": "QUCI",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCI,,"
     },
     {
-      "ACA": "QUCIM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCIM,,"
     },
     {
-      "ACA": "QUCIMA",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCIMA,,"
     },
     {
-      "ACA": "QUCIMAC",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCIMAC,,"
     },
     {
-      "ACA": "QUCIMACK",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCIMACK,,"
     },
     {
-      "ACA": "QUCIMACM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCIMACM,,"
     },
     {
-      "ACA": "QUCIO",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCIO,,"
     },
     {
-      "ACA": "QUCIOM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCIOM,,"
     },
     {
-      "ACA": "QUCIOMJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCIOMJ,,"
     },
     {
-      "ACA": "QUCL",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCL,,"
     },
     {
-      "ACA": "QUCLA",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCLA,,"
     },
     {
-      "ACA": "QUCLM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCLM,,"
     },
     {
-      "ACA": "QUCM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCM,,"
     },
     {
-      "ACA": "QUCM5",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCM5,,"
     },
     {
-      "ACA": "QUCME",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCME,,"
     },
     {
-      "ACA": "QUCMI",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCMI,,"
     },
     {
-      "ACA": "QUCMMD",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCMMD,,"
     },
     {
-      "ACA": "QUCMY",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCMY,,"
     },
     {
-      "ACA": "QUCN",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCN,,"
     },
     {
-      "ACA": "QUCN140",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCN140,,"
     },
     {
-      "ACA": "QUCN2",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCN2,,"
     },
     {
-      "ACA": "QUCN200",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCN200,,"
     },
     {
-      "ACA": "QUCN400G",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCN400G,,"
     },
     {
-      "ACA": "QUCNA250",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCNA250,,"
     },
     {
-      "ACA": "QUCNB",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCNB,,"
     },
     {
-      "ACA": "QUCNG",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCNG,,"
     },
     {
-      "ACA": "QUCNK",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCNK,,"
     },
     {
-      "ACA": "QUCO",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCO,,"
     },
     {
-      "ACA": "QUCRN",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCRN,,"
     },
     {
-      "ACA": "QUCRNP",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCRNP,,"
     },
     {
-      "ACA": "QUCS",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCS,,"
     },
     {
-      "ACA": "QUCSJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCSJ,,"
     },
     {
-      "ACA": "QUCSM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCSM,,"
     },
     {
-      "ACA": "QUCV",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCV,,"
     },
     {
-      "ACA": "QUCVC",
-      "": "QUDCV",
-      "__1": 12
+      "ACA,,": "QUCVC,QUDCV,12"
     },
     {
-      "ACA": "QUCVG",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUCVG,,"
     },
     {
-      "ACA": "QUD1",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUD1,,"
     },
     {
-      "ACA": "QUDCV",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUDCV,,"
     },
     {
-      "ACA": "QUFMR",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUFMR,,"
     },
     {
-      "ACA": "QUFSM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUFSM,,"
     },
     {
-      "ACA": "QUFSMA",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUFSMA,,"
     },
     {
-      "ACA": "QUFSMD",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUFSMD,,"
     },
     {
-      "ACA": "QUFSMDM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUFSMDM,,"
     },
     {
-      "ACA": "QUFSMM1",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUFSMM1,,"
     },
     {
-      "ACA": "QUFSMM1M",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUFSMM1M,,"
     },
     {
-      "ACA": "QUGA1",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUGA1,,"
     },
     {
-      "ACA": "QUGE",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUGE,,"
     },
     {
-      "ACA": "QUGF",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUGF,,"
     },
     {
-      "ACA": "QUGFI",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUGFI,,"
     },
     {
-      "ACA": "QUGIR",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUGIR,,"
     },
     {
-      "ACA": "QUGLF",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUGLF,,"
     },
     {
-      "ACA": "QUGN5",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUGN5,,"
     },
     {
-      "ACA": "QUGNM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUGNM,,"
     },
     {
-      "ACA": "QUGV",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUGV,,"
     },
     {
-      "ACA": "QUGVP",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUGVP,,"
     },
     {
-      "ACA": "QUM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUM,,"
     },
     {
-      "ACA": "QUMA",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUMA,,"
     },
     {
-      "ACA": "QUMCN",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUMCN,,"
     },
     {
-      "ACA": "QUME",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUME,,"
     },
     {
-      "ACA": "QUME5",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUME5,,"
     },
     {
-      "ACA": "QUMESM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUMESM,,"
     },
     {
-      "ACA": "QUMEV",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUMEV,,"
     },
     {
-      "ACA": "QUMEVB",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUMEVB,,"
     },
     {
-      "ACA": "QUMEVR",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUMEVR,,"
     },
     {
-      "ACA": "QUMI",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUMI,,"
     },
     {
-      "ACA": "QUMIG",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUMIG,,"
     },
     {
-      "ACA": "QUMM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUMM,,"
     },
     {
-      "ACA": "QUMN",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUMN,,"
     },
     {
-      "ACA": "QUMN200",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUMN200,,"
     },
     {
-      "ACA": "QUMNR300",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUMNR300,,"
     },
     {
-      "ACA": "QUMO",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUMO,,"
     },
     {
-      "ACA": "QUMOB",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUMOB,,"
     },
     {
-      "ACA": "QUMR",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUMR,,"
     },
     {
-      "ACA": "QUMR400",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUMR400,,"
     },
     {
-      "ACA": "QUMRN3",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUMRN3,,"
     },
     {
-      "ACA": "QUMRN400",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUMRN400,,"
     },
     {
-      "ACA": "QUMSM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUMSM,,"
     },
     {
-      "ACA": "QUMZ",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUMZ,,"
     },
     {
-      "ACA": "QUMZN",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUMZN,,"
     },
     {
-      "ACA": "QUN1",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUN1,,"
     },
     {
-      "ACA": "QUNC",
-      "": "QUN1",
-      "__1": 12
+      "ACA,,": "QUNC,QUN1,12"
     },
     {
-      "ACA": "QUNH",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUNH,,"
     },
     {
-      "ACA": "QUNHC",
-      "": "QUNH",
-      "__1": 12
+      "ACA,,": "QUNHC,QUNH,12"
     },
     {
-      "ACA": "QUNMM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUNMM,,"
     },
     {
-      "ACA": "QUNS",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUNS,,"
     },
     {
-      "ACA": "QUNSC",
-      "": "QUNS",
-      "__1": 10
+      "ACA,,": "QUNSC,QUNS,10"
     },
     {
-      "ACA": "QUOCC",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUOCC,,"
     },
     {
-      "ACA": "QUOCM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUOCM,,"
     },
     {
-      "ACA": "QUOIC",
-      "": "QUOIM",
-      "__1": 2
+      "ACA,,": "QUOIC,QUOIM,2"
     },
     {
-      "ACA": "",
-      "": "",
-      "__1": 4
+      "ACA,,": ",,4"
     },
     {
-      "ACA": "QUOIM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUOIM,,"
     },
     {
-      "ACA": "QUOIMK",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUOIMK,,"
     },
     {
-      "ACA": "QUOIP",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUOIP,,"
     },
     {
-      "ACA": "QUOSC",
-      "": "QUOSJ",
-      "__1": 2
+      "ACA,,": "QUOSC,QUOSJ,2"
     },
     {
-      "ACA": "",
-      "": "QUOSJ1",
-      "__1": 4
+      "ACA,,": ",QUOSJ1,4"
     },
     {
-      "ACA": "QUOSJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUOSJ,,"
     },
     {
-      "ACA": "QUOSJ1",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUOSJ1,,"
     },
     {
-      "ACA": "QUOSM",
-      "": "QUOSMM",
-      "__1": 2
+      "ACA,,": "QUOSM,QUOSMM,2"
     },
     {
-      "ACA": "",
-      "": "QUOSMC",
-      "__1": 4
+      "ACA,,": ",QUOSMC,4"
     },
     {
-      "ACA": "QUOSMC",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUOSMC,,"
     },
     {
-      "ACA": "QUOSMM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUOSMM,,"
     },
     {
-      "ACA": "QUOV200",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUOV200,,"
     },
     {
-      "ACA": "QUOV200C",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUOV200C,,"
     },
     {
-      "ACA": "QUP",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUP,,"
     },
     {
-      "ACA": "QUPC",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPC,,"
     },
     {
-      "ACA": "QUPC1",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPC1,,"
     },
     {
-      "ACA": "QUPCA",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPCA,,"
     },
     {
-      "ACA": "QUPCAP",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPCAP,,"
     },
     {
-      "ACA": "QUPCAPP",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPCAPP,,"
     },
     {
-      "ACA": "QUPCB",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPCB,,"
     },
     {
-      "ACA": "QUPCO",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPCO,,"
     },
     {
-      "ACA": "QUPCP",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPCP,,"
     },
     {
-      "ACA": "QUPCPJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPCPJ,,"
     },
     {
-      "ACA": "QUPCPJJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPCPJJ,,"
     },
     {
-      "ACA": "QUPCPJJR",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPCPJJR,,"
     },
     {
-      "ACA": "QUPF",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPF,,"
     },
     {
-      "ACA": "QUPFP",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPFP,,"
     },
     {
-      "ACA": "QUPG",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPG,,"
     },
     {
-      "ACA": "QUPI",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPI,,"
     },
     {
-      "ACA": "QUPIP",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPIP,,"
     },
     {
-      "ACA": "QUPK2",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPK2,,"
     },
     {
-      "ACA": "QUPKC",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPKC,,"
     },
     {
-      "ACA": "QUPKCC",
-      "": "QUPKC",
-      "__1": 24
+      "ACA,,": "QUPKCC,QUPKC,24"
     },
     {
-      "ACA": "QUPKG",
-      "": "",
-      "__1": 12
+      "ACA,,": "QUPKG,,12"
     },
     {
-      "ACA": "QUPKGC",
-      "": "QUPKG",
-      "__1": ""
+      "ACA,,": "QUPKGC,QUPKG,"
     },
     {
-      "ACA": "QUPKM",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPKM,,"
     },
     {
-      "ACA": "QUPKMC",
-      "": "QUPKM",
-      "__1": 24
+      "ACA,,": "QUPKMC,QUPKM,24"
     },
     {
-      "ACA": "QUPLN400",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPLN400,,"
     },
     {
-      "ACA": "QUPN400",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPN400,,"
     },
     {
-      "ACA": "QUPN750",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPN750,,"
     },
     {
-      "ACA": "QUPP",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPP,,"
     },
     {
-      "ACA": "QUPV",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPV,,"
     },
     {
-      "ACA": "QUPVO",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPVO,,"
     },
     {
-      "ACA": "QUPVOC",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUPVOC,,"
     },
     {
-      "ACA": "QUR250",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUR250,,"
     },
     {
-      "ACA": "QUR5",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUR5,,"
     },
     {
-      "ACA": "QUSG",
-      "": "",
-      "__1": ""
+      "ACA,,": "QUSG,,"
     },
     {
-      "ACA": "RAM375",
-      "": "",
-      "__1": ""
+      "ACA,,": "RAM375,,"
     },
     {
-      "ACA": "RE",
-      "": "",
-      "__1": ""
+      "ACA,,": "RE,,"
     },
     {
-      "ACA": "RECI",
-      "": "",
-      "__1": ""
+      "ACA,,": "RECI,,"
     },
     {
-      "ACA": "RECRR",
-      "": "",
-      "__1": ""
+      "ACA,,": "RECRR,,"
     },
     {
-      "ACA": "REI",
-      "": "",
-      "__1": ""
+      "ACA,,": "REI,,"
     },
     {
-      "ACA": "REIO",
-      "": "",
-      "__1": ""
+      "ACA,,": "REIO,,"
     },
     {
-      "ACA": "REJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "REJ,,"
     },
     {
-      "ACA": "RELKO",
-      "": "",
-      "__1": ""
+      "ACA,,": "RELKO,,"
     },
     {
-      "ACA": "RET",
-      "": "",
-      "__1": ""
+      "ACA,,": "RET,,"
     },
     {
-      "ACA": "RETC",
-      "": "RETI",
-      "__1": 3
+      "ACA,,": "RETC,RETI,3"
     },
     {
-      "ACA": "RETCR",
-      "": "",
-      "__1": ""
+      "ACA,,": "RETCR,,"
     },
     {
-      "ACA": "RETI",
-      "": "",
-      "__1": ""
+      "ACA,,": "RETI,,"
     },
     {
-      "ACA": "RETM",
-      "": "",
-      "__1": ""
+      "ACA,,": "RETM,,"
     },
     {
-      "ACA": "RETMD",
-      "": "",
-      "__1": ""
+      "ACA,,": "RETMD,,"
     },
     {
-      "ACA": "RETME",
-      "": "",
-      "__1": ""
+      "ACA,,": "RETME,,"
     },
     {
-      "ACA": "RETN",
-      "": "",
-      "__1": ""
+      "ACA,,": "RETN,,"
     },
     {
-      "ACA": "REZ",
-      "": "",
-      "__1": ""
+      "ACA,,": "REZ,,"
     },
     {
-      "ACA": "REZM",
-      "": "",
-      "__1": ""
+      "ACA,,": "REZM,,"
     },
     {
-      "ACA": "RICA9",
-      "": "",
-      "__1": ""
+      "ACA,,": "RICA9,,"
     },
     {
-      "ACA": "RLR",
-      "": "",
-      "__1": ""
+      "ACA,,": "RLR,,"
     },
     {
-      "ACA": "ROA950",
-      "": "",
-      "__1": ""
+      "ACA,,": "ROA950,,"
     },
     {
-      "ACA": "ROAC",
-      "": "ROA950",
-      "__1": 12
+      "ACA,,": "ROAC,ROA950,12"
     },
     {
-      "ACA": "ROAMC",
-      "": "",
-      "__1": ""
+      "ACA,,": "ROAMC,,"
     },
     {
-      "ACA": "RODM1",
-      "": "",
-      "__1": ""
+      "ACA,,": "RODM1,,"
     },
     {
-      "ACA": "ROMC",
-      "": "RODM1",
-      "__1": 12
+      "ACA,,": "ROMC,RODM1,12"
     },
     {
-      "ACA": "RORG",
-      "": "",
-      "__1": ""
+      "ACA,,": "RORG,,"
     },
     {
-      "ACA": "ROSCA",
-      "": "",
-      "__1": ""
+      "ACA,,": "ROSCA,,"
     },
     {
-      "ACA": "SA",
-      "": "",
-      "__1": ""
+      "ACA,,": "SA,,"
     },
     {
-      "ACA": "SA4",
-      "": "",
-      "__1": ""
+      "ACA,,": "SA4,,"
     },
     {
-      "ACA": "SAAAE",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAAAE,,"
     },
     {
-      "ACA": "SAABC",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAABC,,"
     },
     {
-      "ACA": "SAABCC",
-      "": "SAABC",
-      "__1": 2
+      "ACA,,": "SAABCC,SAABC,2"
     },
     {
-      "ACA": "SAABM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAABM,,"
     },
     {
-      "ACA": "SAABT",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAABT,,"
     },
     {
-      "ACA": "SAABZ",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAABZ,,"
     },
     {
-      "ACA": "SAABZC",
-      "": "SAABZ",
-      "__1": 4
+      "ACA,,": "SAABZC,SAABZ,4"
     },
     {
-      "ACA": "SAACC",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAACC,,"
     },
     {
-      "ACA": "SAACI",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAACI,,"
     },
     {
-      "ACA": "SAAGC",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAAGC,,"
     },
     {
-      "ACA": "SAAH",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAAH,,"
     },
     {
-      "ACA": "SAAHM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAAHM,,"
     },
     {
-      "ACA": "SAAHMA",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAAHMA,,"
     },
     {
-      "ACA": "SAAHMC",
-      "": "SAAHMA",
-      "__1": 12
+      "ACA,,": "SAAHMC,SAAHMA,12"
     },
     {
-      "ACA": "SAAHMCC",
-      "": "SAAHM",
-      "__1": 12
+      "ACA,,": "SAAHMCC,SAAHM,12"
     },
     {
-      "ACA": "SAAHSC",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAAHSC,,"
     },
     {
-      "ACA": "SAAMHZ",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAAMHZ,,"
     },
     {
-      "ACA": "SAAMHZC",
-      "": "SAAMHZ",
-      "__1": 6
+      "ACA,,": "SAAMHZC,SAAMHZ,6"
     },
     {
-      "ACA": "SAAP",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAAP,,"
     },
     {
-      "ACA": "SAAPI",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAAPI,,"
     },
     {
-      "ACA": "SAAPM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAAPM,,"
     },
     {
-      "ACA": "SAAPMM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAAPMM,,"
     },
     {
-      "ACA": "SAARHG",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAARHG,,"
     },
     {
-      "ACA": "SAASSC",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAASSC,,"
     },
     {
-      "ACA": "SAAT",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAAT,,"
     },
     {
-      "ACA": "SAATC",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAATC,,"
     },
     {
-      "ACA": "SAATI",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAATI,,"
     },
     {
-      "ACA": "SAAWRH",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAAWRH,,"
     },
     {
-      "ACA": "SAAWRHC",
-      "": "SAAWRH",
-      "__1": 4
+      "ACA,,": "SAAWRHC,SAAWRH,4"
     },
     {
-      "ACA": "SAAZM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAAZM,,"
     },
     {
-      "ACA": "SABA",
-      "": "",
-      "__1": ""
+      "ACA,,": "SABA,,"
     },
     {
-      "ACA": "SABAC",
-      "": "SABA",
-      "__1": 4
+      "ACA,,": "SABAC,SABA,4"
     },
     {
-      "ACA": "SABAN",
-      "": "SABA",
-      "__1": 4
+      "ACA,,": "SABAN,SABA,4"
     },
     {
-      "ACA": "SABHC",
-      "": "BHO",
-      "__1": 12
+      "ACA,,": "SABHC,BHO,12"
     },
     {
-      "ACA": "SABHM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SABHM,,"
     },
     {
-      "ACA": "SABHMC",
-      "": "SABHM",
-      "__1": 24
+      "ACA,,": "SABHMC,SABHM,24"
     },
     {
-      "ACA": "SABRH",
-      "": "SAAWRH",
-      "__1": 4
+      "ACA,,": "SABRH,SAAWRH,4"
     },
     {
-      "ACA": "SABZ",
-      "": "",
-      "__1": ""
+      "ACA,,": "SABZ,,"
     },
     {
-      "ACA": "SABZC",
-      "": "SABZ",
-      "__1": 4
+      "ACA,,": "SABZC,SABZ,4"
     },
     {
-      "ACA": "SABZM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SABZM,,"
     },
     {
-      "ACA": "SACB1",
-      "": "",
-      "__1": ""
+      "ACA,,": "SACB1,,"
     },
     {
-      "ACA": "SACB1C",
-      "": "SACB1",
-      "__1": 12
+      "ACA,,": "SACB1C,SACB1,12"
     },
     {
-      "ACA": "SACBG4",
-      "": "",
-      "__1": ""
+      "ACA,,": "SACBG4,,"
     },
     {
-      "ACA": "SACBG4C",
-      "": "SACBG4",
-      "__1": 3
+      "ACA,,": "SACBG4C,SACBG4,3"
     },
     {
-      "ACA": "SACC",
-      "": "",
-      "__1": ""
+      "ACA,,": "SACC,,"
     },
     {
-      "ACA": "SACCC",
-      "": "SACC",
-      "__1": 12
+      "ACA,,": "SACCC,SACC,12"
     },
     {
-      "ACA": "SAE1",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAE1,,"
     },
     {
-      "ACA": "SAE340",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAE340,,"
     },
     {
-      "ACA": "SAE340C",
-      "": "SAE340",
-      "__1": 20
+      "ACA,,": "SAE340C,SAE340,20"
     },
     {
-      "ACA": "SAF1",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAF1,,"
     },
     {
-      "ACA": "SAF2",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAF2,,"
     },
     {
-      "ACA": "SAFC2",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAFC2,,"
     },
     {
-      "ACA": "SAFC2M",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAFC2M,,"
     },
     {
-      "ACA": "SAFCM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAFCM,,"
     },
     {
-      "ACA": "SAFCR",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAFCR,,"
     },
     {
-      "ACA": "SAG180",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAG180,,"
     },
     {
-      "ACA": "SAG3",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAG3,,"
     },
     {
-      "ACA": "SAGC",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAGC,,"
     },
     {
-      "ACA": "SAGCC",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAGCC,,"
     },
     {
-      "ACA": "SAH180",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAH180,,"
     },
     {
-      "ACA": "SAH200",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAH200,,"
     },
     {
-      "ACA": "SAHC",
-      "": "SAH200",
-      "__1": 24
+      "ACA,,": "SAHC,SAH200,24"
     },
     {
-      "ACA": "SAHDF",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAHDF,,"
     },
     {
-      "ACA": "SAHK",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAHK,,"
     },
     {
-      "ACA": "SAHM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAHM,,"
     },
     {
-      "ACA": "SAI",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAI,,"
     },
     {
-      "ACA": "SAIC1",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAIC1,,"
     },
     {
-      "ACA": "SAIC11",
-      "": "SAIC1",
-      "__1": 6
+      "ACA,,": "SAIC11,SAIC1,6"
     },
     {
-      "ACA": "SAIC145",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAIC145,,"
     },
     {
-      "ACA": "SAIC145C",
-      "": "SAIC145",
-      "__1": 6
+      "ACA,,": "SAIC145C,SAIC145,6"
     },
     {
-      "ACA": "SAIC2",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAIC2,,"
     },
     {
-      "ACA": "SAIC2C",
-      "": "SAIC2",
-      "__1": 4
+      "ACA,,": "SAIC2C,SAIC2,4"
     },
     {
-      "ACA": "SAIH",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAIH,,"
     },
     {
-      "ACA": "SAIZ1",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAIZ1,,"
     },
     {
-      "ACA": "SAIZ1C",
-      "": "SAIZ1",
-      "__1": 12
+      "ACA,,": "SAIZ1C,SAIZ1,12"
     },
     {
-      "ACA": "SAIZ2",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAIZ2,,"
     },
     {
-      "ACA": "SAIZ2C",
-      "": "SAIZ2",
-      "__1": 6
+      "ACA,,": "SAIZ2C,SAIZ2,6"
     },
     {
-      "ACA": "SAIZL",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAIZL,,"
     },
     {
-      "ACA": "SAJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAJ,,"
     },
     {
-      "ACA": "SAJ180",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAJ180,,"
     },
     {
-      "ACA": "SAJF",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAJF,,"
     },
     {
-      "ACA": "SAJMD",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAJMD,,"
     },
     {
-      "ACA": "SALJF",
-      "": "",
-      "__1": ""
+      "ACA,,": "SALJF,,"
     },
     {
-      "ACA": "SALP",
-      "": "",
-      "__1": ""
+      "ACA,,": "SALP,,"
     },
     {
-      "ACA": "SALPC",
-      "": "SALP",
-      "__1": 4
+      "ACA,,": "SALPC,SALP,4"
     },
     {
-      "ACA": "SAM100",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAM100,,"
     },
     {
-      "ACA": "SAM2",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAM2,,"
     },
     {
-      "ACA": "SAM800",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAM800,,"
     },
     {
-      "ACA": "SAMC2",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAMC2,,"
     },
     {
-      "ACA": "SAMD",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAMD,,"
     },
     {
-      "ACA": "SAMHZM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAMHZM,,"
     },
     {
-      "ACA": "SAMN2",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAMN2,,"
     },
     {
-      "ACA": "SANJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "SANJ,,"
     },
     {
-      "ACA": "SAP",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAP,,"
     },
     {
-      "ACA": "SAP225",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAP225,,"
     },
     {
-      "ACA": "SAP3",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAP3,,"
     },
     {
-      "ACA": "SAP3C",
-      "": "SAP3",
-      "__1": 6
+      "ACA,,": "SAP3C,SAP3,6"
     },
     {
-      "ACA": "SAPA",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPA,,"
     },
     {
-      "ACA": "SAPAC800",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPAC800,,"
     },
     {
-      "ACA": "SAPAHB",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPAHB,,"
     },
     {
-      "ACA": "SAPAHBC",
-      "": "SAPAHB",
-      "__1": 4
+      "ACA,,": "SAPAHBC,SAPAHB,4"
     },
     {
-      "ACA": "SAPAK800",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPAK800,,"
     },
     {
-      "ACA": "SAPAM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPAM,,"
     },
     {
-      "ACA": "SAPAMF",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPAMF,,"
     },
     {
-      "ACA": "SAPAZ",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPAZ,,"
     },
     {
-      "ACA": "SAPC",
-      "": "SAP225",
-      "__1": 48
+      "ACA,,": "SAPC,SAP225,48"
     },
     {
-      "ACA": "SAPC3",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPC3,,"
     },
     {
-      "ACA": "SAPC500",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPC500,,"
     },
     {
-      "ACA": "SAPC500R",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPC500R,,"
     },
     {
-      "ACA": "SAPCM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPCM,,"
     },
     {
-      "ACA": "SAPCMR",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPCMR,,"
     },
     {
-      "ACA": "SAPE1",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPE1,,"
     },
     {
-      "ACA": "SAPEM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPEM,,"
     },
     {
-      "ACA": "SAPF",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPF,,"
     },
     {
-      "ACA": "SAPF1",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPF1,,"
     },
     {
-      "ACA": "SAPF2",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPF2,,"
     },
     {
-      "ACA": "SAPF2M",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPF2M,,"
     },
     {
-      "ACA": "SAPFC",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPFC,,"
     },
     {
-      "ACA": "SAPFG",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPFG,,"
     },
     {
-      "ACA": "SAPFM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPFM,,"
     },
     {
-      "ACA": "SAPH360",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPH360,,"
     },
     {
-      "ACA": "SAPHC",
-      "": "SAPH360",
-      "__1": 24
+      "ACA,,": "SAPHC,SAPH360,24"
     },
     {
-      "ACA": "SAPP",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPP,,"
     },
     {
-      "ACA": "SAPPG",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPPG,,"
     },
     {
-      "ACA": "SAPR2",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPR2,,"
     },
     {
-      "ACA": "SAPR2A",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPR2A,,"
     },
     {
-      "ACA": "SAPR2H",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPR2H,,"
     },
     {
-      "ACA": "SAPR2J",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPR2J,,"
     },
     {
-      "ACA": "SAPR2JJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPR2JJ,,"
     },
     {
-      "ACA": "SAPR2R",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPR2R,,"
     },
     {
-      "ACA": "SAPR2S",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPR2S,,"
     },
     {
-      "ACA": "SAPRS",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPRS,,"
     },
     {
-      "ACA": "SAPSA",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPSA,,"
     },
     {
-      "ACA": "SAPSAC",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPSAC,,"
     },
     {
-      "ACA": "SAPSM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPSM,,"
     },
     {
-      "ACA": "SAPSMD",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPSMD,,"
     },
     {
-      "ACA": "SAPW",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPW,,"
     },
     {
-      "ACA": "SAPY",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPY,,"
     },
     {
-      "ACA": "SAPYM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPYM,,"
     },
     {
-      "ACA": "SAPZA",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPZA,,"
     },
     {
-      "ACA": "SAPZAG",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPZAG,,"
     },
     {
-      "ACA": "SAPZC1",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPZC1,,"
     },
     {
-      "ACA": "SAPZC2",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPZC2,,"
     },
     {
-      "ACA": "SAPZCG",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPZCG,,"
     },
     {
-      "ACA": "SAPZCJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPZCJ,,"
     },
     {
-      "ACA": "SAPZCM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAPZCM,,"
     },
     {
-      "ACA": "SAR",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAR,,"
     },
     {
-      "ACA": "SARD",
-      "": "",
-      "__1": ""
+      "ACA,,": "SARD,,"
     },
     {
-      "ACA": "SARDC",
-      "": "SARD",
-      "__1": 6
+      "ACA,,": "SARDC,SARD,6"
     },
     {
-      "ACA": "SARGU",
-      "": "",
-      "__1": ""
+      "ACA,,": "SARGU,,"
     },
     {
-      "ACA": "SARP",
-      "": "",
-      "__1": ""
+      "ACA,,": "SARP,,"
     },
     {
-      "ACA": "SARPP",
-      "": "",
-      "__1": ""
+      "ACA,,": "SARPP,,"
     },
     {
-      "ACA": "SARPR",
-      "": "",
-      "__1": ""
+      "ACA,,": "SARPR,,"
     },
     {
-      "ACA": "SAS3",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAS3,,"
     },
     {
-      "ACA": "SAS3M",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAS3M,,"
     },
     {
-      "ACA": "SAS3MF",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAS3MF,,"
     },
     {
-      "ACA": "SAS3MH",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAS3MH,,"
     },
     {
-      "ACA": "SASA",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASA,,"
     },
     {
-      "ACA": "SASA1",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASA1,,"
     },
     {
-      "ACA": "SASA3",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASA3,,"
     },
     {
-      "ACA": "SASAH",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASAH,,"
     },
     {
-      "ACA": "SASAIJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASAIJ,,"
     },
     {
-      "ACA": "SASAMTC",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASAMTC,,"
     },
     {
-      "ACA": "SASAQ",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASAQ,,"
     },
     {
-      "ACA": "SASC190",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASC190,,"
     },
     {
-      "ACA": "SASC190C",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASC190C,,"
     },
     {
-      "ACA": "SASCG",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASCG,,"
     },
     {
-      "ACA": "SASCGC",
-      "": "SASCG",
-      "__1": 4
+      "ACA,,": "SASCGC,SASCG,4"
     },
     {
-      "ACA": "SASCLC",
-      "": "SASV1",
-      "__1": 12
+      "ACA,,": "SASCLC,SASV1,12"
     },
     {
-      "ACA": "SASM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASM,,"
     },
     {
-      "ACA": "SASM3",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASM3,,"
     },
     {
-      "ACA": "SASM3M10",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASM3M10,,"
     },
     {
-      "ACA": "SASM3M20",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASM3M20,,"
     },
     {
-      "ACA": "SASM3M30",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASM3M30,,"
     },
     {
-      "ACA": "SASMH",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASMH,,"
     },
     {
-      "ACA": "SASMM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASMM,,"
     },
     {
-      "ACA": "SASP",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASP,,"
     },
     {
-      "ACA": "SASPC",
-      "": "SASP",
-      "__1": 4
+      "ACA,,": "SASPC,SASP,4"
     },
     {
-      "ACA": "SASPRA",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASPRA,,"
     },
     {
-      "ACA": "SASRSA",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASRSA,,"
     },
     {
-      "ACA": "SASRSF",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASRSF,,"
     },
     {
-      "ACA": "SASRSP",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASRSP,,"
     },
     {
-      "ACA": "SASRSR",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASRSR,,"
     },
     {
-      "ACA": "SAST1",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAST1,,"
     },
     {
-      "ACA": "SAST11C",
-      "": "SAST1",
-      "__1": 12
+      "ACA,,": "SAST11C,SAST1,12"
     },
     {
-      "ACA": "SAST180",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAST180,,"
     },
     {
-      "ACA": "SAST180C",
-      "": "SAST180",
-      "__1": 24
+      "ACA,,": "SAST180C,SAST180,24"
     },
     {
-      "ACA": "SAST4",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAST4,,"
     },
     {
-      "ACA": "SAST4C",
-      "": "SAST4",
-      "__1": 4
+      "ACA,,": "SAST4C,SAST4,4"
     },
     {
-      "ACA": "SASTM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASTM,,"
     },
     {
-      "ACA": "SASTMC",
-      "": "SASTM",
-      "__1": 12
+      "ACA,,": "SASTMC,SASTM,12"
     },
     {
-      "ACA": "SASV1",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASV1,,"
     },
     {
-      "ACA": "SASZL",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASZL,,"
     },
     {
-      "ACA": "SASZLB",
-      "": "",
-      "__1": ""
+      "ACA,,": "SASZLB,,"
     },
     {
-      "ACA": "SAT60",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAT60,,"
     },
     {
-      "ACA": "SATA",
-      "": "",
-      "__1": ""
+      "ACA,,": "SATA,,"
     },
     {
-      "ACA": "SATAC",
-      "": "SATA",
-      "__1": 35
+      "ACA,,": "SATAC,SATA,35"
     },
     {
-      "ACA": "SATN",
-      "": "",
-      "__1": ""
+      "ACA,,": "SATN,,"
     },
     {
-      "ACA": "SATNC",
-      "": "SATN",
-      "__1": 35
+      "ACA,,": "SATNC,SATN,35"
     },
     {
-      "ACA": "SAV1",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAV1,,"
     },
     {
-      "ACA": "SAV3",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAV3,,"
     },
     {
-      "ACA": "SAVA",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVA,,"
     },
     {
-      "ACA": "SAVA1",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVA1,,"
     },
     {
-      "ACA": "SAVA1C",
-      "": "SAVA1",
-      "__1": 12
+      "ACA,,": "SAVA1C,SAVA1,12"
     },
     {
-      "ACA": "SAVA370",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVA370,,"
     },
     {
-      "ACA": "SAVA370C",
-      "": "SAVA370",
-      "__1": 24
+      "ACA,,": "SAVA370C,SAVA370,24"
     },
     {
-      "ACA": "SAVACC",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVACC,,"
     },
     {
-      "ACA": "SAVCM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVCM,,"
     },
     {
-      "ACA": "SAVCMC",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVCMC,,"
     },
     {
-      "ACA": "SAVCMR",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVCMR,,"
     },
     {
-      "ACA": "SAVFC",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVFC,,"
     },
     {
-      "ACA": "SAVGM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVGM,,"
     },
     {
-      "ACA": "SAVMT",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVMT,,"
     },
     {
-      "ACA": "SAVMTHRL",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVMTHRL,,"
     },
     {
-      "ACA": "SAVMVTH",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVMVTH,,"
     },
     {
-      "ACA": "SAVN1",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVN1,,"
     },
     {
-      "ACA": "SAVN1C",
-      "": "SAVN1",
-      "__1": 12
+      "ACA,,": "SAVN1C,SAVN1,12"
     },
     {
-      "ACA": "SAVN370",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVN370,,"
     },
     {
-      "ACA": "SAVN370C",
-      "": "SAVN370",
-      "__1": 24
+      "ACA,,": "SAVN370C,SAVN370,24"
     },
     {
-      "ACA": "SAVR2",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVR2,,"
     },
     {
-      "ACA": "SAVR2A",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVR2A,,"
     },
     {
-      "ACA": "SAVR2J",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVR2J,,"
     },
     {
-      "ACA": "SAVR2MH",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVR2MH,,"
     },
     {
-      "ACA": "SAVR2N",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVR2N,,"
     },
     {
-      "ACA": "SAVRH",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVRH,,"
     },
     {
-      "ACA": "SAVZA",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVZA,,"
     },
     {
-      "ACA": "SAVZC1",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVZC1,,"
     },
     {
-      "ACA": "SAVZCM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAVZCM,,"
     },
     {
-      "ACA": "SAY",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAY,,"
     },
     {
-      "ACA": "SAYG",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAYG,,"
     },
     {
-      "ACA": "SAYGC",
-      "": "SAYG",
-      "__1": 4
+      "ACA,,": "SAYGC,SAYG,4"
     },
     {
-      "ACA": "SAYL",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAYL,,"
     },
     {
-      "ACA": "SAYLC",
-      "": "SAYL",
-      "__1": 12
+      "ACA,,": "SAYLC,SAYL,12"
     },
     {
-      "ACA": "SAYM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAYM,,"
     },
     {
-      "ACA": "SAYMD",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAYMD,,"
     },
     {
-      "ACA": "SAYMF",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAYMF,,"
     },
     {
-      "ACA": "SAZ",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAZ,,"
     },
     {
-      "ACA": "SAZA",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAZA,,"
     },
     {
-      "ACA": "SAZAC",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAZAC,,"
     },
     {
-      "ACA": "SAZB",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAZB,,"
     },
     {
-      "ACA": "SAZBI",
-      "": "",
-      "__1": ""
+      "ACA,,": "SAZBI,,"
     },
     {
-      "ACA": "SAZMC",
-      "": "SABZM",
-      "__1": 12
+      "ACA,,": "SAZMC,SABZM,12"
     },
     {
-      "ACA": "SEM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SEM,,"
     },
     {
-      "ACA": "SENK",
-      "": "",
-      "__1": ""
+      "ACA,,": "SENK,,"
     },
     {
-      "ACA": "SENKP",
-      "": "",
-      "__1": ""
+      "ACA,,": "SENKP,,"
     },
     {
-      "ACA": "SENTM",
-      "": "",
-      "__1": ""
+      "ACA,,": "SENTM,,"
     },
     {
-      "ACA": "SOI",
-      "": "",
-      "__1": ""
+      "ACA,,": "SOI,,"
     },
     {
-      "ACA": "SOMC",
-      "": "",
-      "__1": ""
+      "ACA,,": "SOMC,,"
     },
     {
-      "ACA": "SOMCY",
-      "": "",
-      "__1": ""
+      "ACA,,": "SOMCY,,"
     },
     {
-      "ACA": "SPB",
-      "": "",
-      "__1": ""
+      "ACA,,": "SPB,,"
     },
     {
-      "ACA": "SUCC1",
-      "": "",
-      "__1": ""
+      "ACA,,": "SUCC1,,"
     },
     {
-      "ACA": "SUCC1C",
-      "": "SUCC1",
-      "__1": 12
+      "ACA,,": "SUCC1C,SUCC1,12"
     },
     {
-      "ACA": "TAI",
-      "": "",
-      "__1": ""
+      "ACA,,": "TAI,,"
     },
     {
-      "ACA": "TC355",
-      "": "",
-      "__1": ""
+      "ACA,,": "TC355,,"
     },
     {
-      "ACA": "TC6",
-      "": "",
-      "__1": ""
+      "ACA,,": "TC6,,"
     },
     {
-      "ACA": "TEC3",
-      "": "",
-      "__1": ""
+      "ACA,,": "TEC3,,"
     },
     {
-      "ACA": "TOCK",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOCK,,"
     },
     {
-      "ACA": "TOCKL",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOCKL,,"
     },
     {
-      "ACA": "TOD",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOD,,"
     },
     {
-      "ACA": "TODC",
-      "": "TOD",
-      "__1": 24
+      "ACA,,": "TODC,TOD,24"
     },
     {
-      "ACA": "TOEIP",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOEIP,,"
     },
     {
-      "ACA": "TOENJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOENJ,,"
     },
     {
-      "ACA": "TOHIR",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOHIR,,"
     },
     {
-      "ACA": "TOHIR1",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOHIR1,,"
     },
     {
-      "ACA": "TOHIR11",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOHIR11,,"
     },
     {
-      "ACA": "TOHIR12",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOHIR12,,"
     },
     {
-      "ACA": "TOHIRM",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOHIRM,,"
     },
     {
-      "ACA": "TOHTR",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOHTR,,"
     },
     {
-      "ACA": "TOHTRR",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOHTRR,,"
     },
     {
-      "ACA": "TOI",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOI,,"
     },
     {
-      "ACA": "TOIA",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOIA,,"
     },
     {
-      "ACA": "TOID",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOID,,"
     },
     {
-      "ACA": "TOIM",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOIM,,"
     },
     {
-      "ACA": "TOIP",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOIP,,"
     },
     {
-      "ACA": "TOIPM",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOIPM,,"
     },
     {
-      "ACA": "TOIS",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOIS,,"
     },
     {
-      "ACA": "TOISC",
-      "": "TOIS",
-      "__1": 30
+      "ACA,,": "TOISC,TOIS,30"
     },
     {
-      "ACA": "TOJI",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOJI,,"
     },
     {
-      "ACA": "TOJIM",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOJIM,,"
     },
     {
-      "ACA": "TOK",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOK,,"
     },
     {
-      "ACA": "TON",
-      "": "",
-      "__1": ""
+      "ACA,,": "TON,,"
     },
     {
-      "ACA": "TON1",
-      "": "",
-      "__1": ""
+      "ACA,,": "TON1,,"
     },
     {
-      "ACA": "TON170",
-      "": "",
-      "__1": ""
+      "ACA,,": "TON170,,"
     },
     {
-      "ACA": "TONI",
-      "": "",
-      "__1": ""
+      "ACA,,": "TONI,,"
     },
     {
-      "ACA": "TONIC",
-      "": "TONI",
-      "__1": 15
+      "ACA,,": "TONIC,TONI,15"
     },
     {
-      "ACA": "TONJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "TONJ,,"
     },
     {
-      "ACA": "TONO",
-      "": "",
-      "__1": ""
+      "ACA,,": "TONO,,"
     },
     {
-      "ACA": "TONOC",
-      "": "TONO",
-      "__1": 24
+      "ACA,,": "TONOC,TONO,24"
     },
     {
-      "ACA": "TONOT",
-      "": "",
-      "__1": ""
+      "ACA,,": "TONOT,,"
     },
     {
-      "ACA": "TONR",
-      "": "",
-      "__1": ""
+      "ACA,,": "TONR,,"
     },
     {
-      "ACA": "TONRR",
-      "": "",
-      "__1": ""
+      "ACA,,": "TONRR,,"
     },
     {
-      "ACA": "TOP",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOP,,"
     },
     {
-      "ACA": "TOPI",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOPI,,"
     },
     {
-      "ACA": "TOPR",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOPR,,"
     },
     {
-      "ACA": "TOREA",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOREA,,"
     },
     {
-      "ACA": "TOT",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOT,,"
     },
     {
-      "ACA": "TOZFR",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOZFR,,"
     },
     {
-      "ACA": "TOZFR1",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOZFR1,,"
     },
     {
-      "ACA": "TOZFRA",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOZFRA,,"
     },
     {
-      "ACA": "TOZN",
-      "": "",
-      "__1": ""
+      "ACA,,": "TOZN,,"
     },
     {
-      "ACA": "TR1",
-      "": "",
-      "__1": ""
+      "ACA,,": "TR1,,"
     },
     {
-      "ACA": "TRA",
-      "": "",
-      "__1": ""
+      "ACA,,": "TRA,,"
     },
     {
-      "ACA": "TRC",
-      "": "",
-      "__1": ""
+      "ACA,,": "TRC,,"
     },
     {
-      "ACA": "TRLN",
-      "": "",
-      "__1": ""
+      "ACA,,": "TRLN,,"
     },
     {
-      "ACA": "V8SC",
-      "": "",
-      "__1": ""
+      "ACA,,": "V8SC,,"
     },
     {
-      "ACA": "VAM1",
-      "": "",
-      "__1": ""
+      "ACA,,": "VAM1,,"
     },
     {
-      "ACA": "VAM120",
-      "": "",
-      "__1": ""
+      "ACA,,": "VAM120,,"
     },
     {
-      "ACA": "VAM120C",
-      "": "VAM120",
-      "__1": 24
+      "ACA,,": "VAM120C,VAM120,24"
     },
     {
-      "ACA": "VAM1C",
-      "": "VAM1",
-      "__1": 12
+      "ACA,,": "VAM1C,VAM1,12"
     },
     {
-      "ACA": "VAM250",
-      "": "",
-      "__1": ""
+      "ACA,,": "VAM250,,"
     },
     {
-      "ACA": "VAM250C",
-      "": "VAM250",
-      "__1": 24
+      "ACA,,": "VAM250C,VAM250,24"
     },
     {
-      "ACA": "VAM4",
-      "": "",
-      "__1": ""
+      "ACA,,": "VAM4,,"
     },
     {
-      "ACA": "VAM4C",
-      "": "VAM4",
-      "__1": 4
+      "ACA,,": "VAM4C,VAM4,4"
     },
     {
-      "ACA": "VAMC120",
-      "": "",
-      "__1": ""
+      "ACA,,": "VAMC120,,"
     },
     {
-      "ACA": "VAMC120C",
-      "": "VAMC120",
-      "__1": 24
+      "ACA,,": "VAMC120C,VAMC120,24"
     },
     {
-      "ACA": "VAMMC",
-      "": "CAMM",
-      "__1": 24
+      "ACA,,": "VAMMC,CAMM,24"
     },
     {
-      "ACA": "VAY125",
-      "": "",
-      "__1": ""
+      "ACA,,": "VAY125,,"
     },
     {
-      "ACA": "VAY125C",
-      "": "VAY125",
-      "__1": 24
+      "ACA,,": "VAY125C,VAY125,24"
     },
     {
-      "ACA": "VAZP1",
-      "": "",
-      "__1": ""
+      "ACA,,": "VAZP1,,"
     },
     {
-      "ACA": "VIB",
-      "": "",
-      "__1": ""
+      "ACA,,": "VIB,,"
     },
     {
-      "ACA": "VIBAG",
-      "": "",
-      "__1": ""
+      "ACA,,": "VIBAG,,"
     },
     {
-      "ACA": "VIBAGC",
-      "": "VIBAG",
-      "__1": 4
+      "ACA,,": "VIBAGC,VIBAG,4"
     },
     {
-      "ACA": "VIBB3",
-      "": "",
-      "__1": ""
+      "ACA,,": "VIBB3,,"
     },
     {
-      "ACA": "VIBB3C",
-      "": "VIBB3",
-      "__1": 4
+      "ACA,,": "VIBB3C,VIBB3,4"
     },
     {
-      "ACA": "VIBC1",
-      "": "",
-      "__1": ""
+      "ACA,,": "VIBC1,,"
     },
     {
-      "ACA": "VIBC1C",
-      "": "VIBC1",
-      "__1": 12
+      "ACA,,": "VIBC1C,VIBC1,12"
     },
     {
-      "ACA": "VIBCC",
-      "": "",
-      "__1": ""
+      "ACA,,": "VIBCC,,"
     },
     {
-      "ACA": "VIBCM",
-      "": "",
-      "__1": ""
+      "ACA,,": "VIBCM,,"
     },
     {
-      "ACA": "VIBCMC",
-      "": "VIBCM",
-      "__1": 12
+      "ACA,,": "VIBCMC,VIBCM,12"
     },
     {
-      "ACA": "VIMAG",
-      "": "",
-      "__1": ""
+      "ACA,,": "VIMAG,,"
     },
     {
-      "ACA": "VIMAGC",
-      "": "VIMAG",
-      "__1": 4
+      "ACA,,": "VIMAGC,VIMAG,4"
     },
     {
-      "ACA": "VIMC1",
-      "": "",
-      "__1": ""
+      "ACA,,": "VIMC1,,"
     },
     {
-      "ACA": "VIMC1C",
-      "": "VIMC1",
-      "__1": 12
+      "ACA,,": "VIMC1C,VIMC1,12"
     },
     {
-      "ACA": "VIZBCG",
-      "": "",
-      "__1": ""
+      "ACA,,": "VIZBCG,,"
     },
     {
-      "ACA": "YA",
-      "": "",
-      "__1": ""
+      "ACA,,": "YA,,"
     },
     {
-      "ACA": "YAMT",
-      "": "YA",
-      "__1": 15
+      "ACA,,": "YAMT,YA,15"
     },
     {
-      "ACA": "YAT",
-      "": "YA",
-      "__1": 30
+      "ACA,,": "YAT,YA,30"
     },
     {
-      "ACA": "YATM3",
-      "": "YA",
-      "__1": 30
+      "ACA,,": "YATM3,YA,30"
     },
     {
-      "ACA": "YATM31",
-      "": "YA",
-      "__1": 30
+      "ACA,,": "YATM31,YA,30"
     },
     {
-      "ACA": "YATM50",
-      "": "YA",
-      "__1": 30
+      "ACA,,": "YATM50,YA,30"
     },
     {
-      "ACA": "YODB",
-      "": "",
-      "__1": ""
+      "ACA,,": "YODB,,"
     },
     {
-      "ACA": "YOF",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOF,,"
     },
     {
-      "ACA": "YOG",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOG,,"
     },
     {
-      "ACA": "YOGB",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOGB,,"
     },
     {
-      "ACA": "YOGBSA",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOGBSA,,"
     },
     {
-      "ACA": "YOGC",
-      "": "YOG",
-      "__1": 12
+      "ACA,,": "YOGC,YOG,12"
     },
     {
-      "ACA": "YOGL1",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOGL1,,"
     },
     {
-      "ACA": "YOGMMM",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOGMMM,,"
     },
     {
-      "ACA": "YOGN1",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOGN1,,"
     },
     {
-      "ACA": "YOGV",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOGV,,"
     },
     {
-      "ACA": "YOGVS",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOGVS,,"
     },
     {
-      "ACA": "YOK",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOK,,"
     },
     {
-      "ACA": "YOKC",
-      "": "YOK",
-      "__1": 6
+      "ACA,,": "YOKC,YOK,6"
     },
     {
-      "ACA": "YOKMA",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOKMA,,"
     },
     {
-      "ACA": "YOLM",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOLM,,"
     },
     {
-      "ACA": "YOLN1",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOLN1,,"
     },
     {
-      "ACA": "YOLT1C",
-      "": "YOLY1",
-      "__1": 6
+      "ACA,,": "YOLT1C,YOLY1,6"
     },
     {
-      "ACA": "YOLY1",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOLY1,,"
     },
     {
-      "ACA": "YOM",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOM,,"
     },
     {
-      "ACA": "YOS1",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOS1,,"
     },
     {
-      "ACA": "YOY1",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOY1,,"
     },
     {
-      "ACA": "YOY1C",
-      "": "YOY1",
-      "__1": 6
+      "ACA,,": "YOY1C,YOY1,6"
     },
     {
-      "ACA": "YOY4",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOY4,,"
     },
     {
-      "ACA": "YOYBT",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOYBT,,"
     },
     {
-      "ACA": "YOYKR",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOYKR,,"
     },
     {
-      "ACA": "YOYKS",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOYKS,,"
     },
     {
-      "ACA": "YOYMC",
-      "": "",
-      "__1": ""
+      "ACA,,": "YOYMC,,"
     },
     {
-      "ACA": "ZADFMF",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZADFMF,,"
     },
     {
-      "ACA": "ZADM3CR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZADM3CR,,"
     },
     {
-      "ACA": "ZADRSJ",
-      "": "ADR",
-      "__1": 4
+      "ACA,,": "ZADRSJ,ADR,4"
     },
     {
-      "ACA": "ZADSVCCR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZADSVCCR,,"
     },
     {
-      "ACA": "ZADSVCR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZADSVCR,,"
     },
     {
-      "ACA": "ZATML",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZATML,,"
     },
     {
-      "ACA": "ZAV1",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZAV1,,"
     },
     {
-      "ACA": "ZAV3",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZAV3,,"
     },
     {
-      "ACA": "ZAVC",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZAVC,,"
     },
     {
-      "ACA": "ZAVCA",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZAVCA,,"
     },
     {
-      "ACA": "ZAVCP",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZAVCP,,"
     },
     {
-      "ACA": "ZCA5R",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCA5R,,"
     },
     {
-      "ACA": "ZCACUR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCACUR,,"
     },
     {
-      "ACA": "ZCALECR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCALECR,,"
     },
     {
-      "ACA": "ZCARAC",
-      "": "CARA",
-      "__1": 20
+      "ACA,,": "ZCARAC,CARA,20"
     },
     {
-      "ACA": "ZCARAR",
-      "": "CARA",
-      "__1": 20
+      "ACA,,": "ZCARAR,CARA,20"
     },
     {
-      "ACA": "ZCARBOC",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCARBOC,,"
     },
     {
-      "ACA": "ZCASVCHCR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCASVCHCR,,"
     },
     {
-      "ACA": "ZCASVCR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCASVCR,,"
     },
     {
-      "ACA": "ZCAT4R",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCAT4R,,"
     },
     {
-      "ACA": "ZCH3CR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCH3CR,,"
     },
     {
-      "ACA": "ZCHACR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCHACR,,"
     },
     {
-      "ACA": "ZCHC1R",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCHC1R,,"
     },
     {
-      "ACA": "ZCHC5R",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCHC5R,,"
     },
     {
-      "ACA": "ZCHCFR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCHCFR,,"
     },
     {
-      "ACA": "ZCHECR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCHECR,,"
     },
     {
-      "ACA": "ZCHGCR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCHGCR,,"
     },
     {
-      "ACA": "ZCHMB800R",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCHMB800R,,"
     },
     {
-      "ACA": "ZCHMBR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCHMBR,,"
     },
     {
-      "ACA": "ZCHP",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCHP,,"
     },
     {
-      "ACA": "ZCHPR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCHPR,,"
     },
     {
-      "ACA": "ZCHRC3C",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCHRC3C,,"
     },
     {
-      "ACA": "ZCHRCAOR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCHRCAOR,,"
     },
     {
-      "ACA": "ZCHRV3AOR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCHRV3AOR,,"
     },
     {
-      "ACA": "ZCRBT",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCRBT,,"
     },
     {
-      "ACA": "ZCRIC",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCRIC,,"
     },
     {
-      "ACA": "ZCRIR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCRIR,,"
     },
     {
-      "ACA": "ZCTC",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZCTC,,"
     },
     {
-      "ACA": "ZGOIF",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZGOIF,,"
     },
     {
-      "ACA": "ZJAAK",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZJAAK,,"
     },
     {
-      "ACA": "ZJACAF",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZJACAF,,"
     },
     {
-      "ACA": "ZJAPPVFA",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZJAPPVFA,,"
     },
     {
-      "ACA": "ZJAPPVFA1",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZJAPPVFA1,,"
     },
     {
-      "ACA": "ZJAPPVFP",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZJAPPVFP,,"
     },
     {
-      "ACA": "ZJUCCJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZJUCCJ,,"
     },
     {
-      "ACA": "ZJUSZJ",
-      "": "JUSZ1",
-      "__1": ""
+      "ACA,,": "ZJUSZJ,JUSZ1,"
     },
     {
-      "ACA": "ZLEDR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZLEDR,,"
     },
     {
-      "ACA": "ZMAM3CR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZMAM3CR,,"
     },
     {
-      "ACA": "ZMAPC",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZMAPC,,"
     },
     {
-      "ACA": "ZMASV13C",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZMASV13C,,"
     },
     {
-      "ACA": "ZMASVCHCR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZMASVCHCR,,"
     },
     {
-      "ACA": "ZMASVCR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZMASVCR,,"
     },
     {
-      "ACA": "ZMECUR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZMECUR,,"
     },
     {
-      "ACA": "ZMED24",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZMED24,,"
     },
     {
-      "ACA": "ZMICNC",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZMICNC,,"
     },
     {
-      "ACA": "ZMIP1",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZMIP1,,"
     },
     {
-      "ACA": "ZMIP350",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZMIP350,,"
     },
     {
-      "ACA": "ZMIP700",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZMIP700,,"
     },
     {
-      "ACA": "ZMOM3CR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZMOM3CR,,"
     },
     {
-      "ACA": "ZMOSV3CR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZMOSV3CR,,"
     },
     {
-      "ACA": "ZMOSVCHCR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZMOSVCHCR,,"
     },
     {
-      "ACA": "ZNAR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZNAR,,"
     },
     {
-      "ACA": "ZNEPC24",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZNEPC24,,"
     },
     {
-      "ACA": "ZPAFQ",
-      "": "PAFC",
-      "__1": 4
+      "ACA,,": "ZPAFQ,PAFC,4"
     },
     {
-      "ACA": "ZPAFZ",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZPAFZ,,"
     },
     {
-      "ACA": "ZPAFZC",
-      "": "ZPAFZ",
-      "__1": 5
+      "ACA,,": "ZPAFZC,ZPAFZ,5"
     },
     {
-      "ACA": "ZPATP3CR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZPATP3CR,,"
     },
     {
-      "ACA": "ZPERA3",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZPERA3,,"
     },
     {
-      "ACA": "ZPH180R",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZPH180R,,"
     },
     {
-      "ACA": "ZPH2CR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZPH2CR,,"
     },
     {
-      "ACA": "ZPHJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZPHJ,,"
     },
     {
-      "ACA": "ZPHJU",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZPHJU,,"
     },
     {
-      "ACA": "ZPIRA3CR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZPIRA3CR,,"
     },
     {
-      "ACA": "ZPIRC800CR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZPIRC800CR,,"
     },
     {
-      "ACA": "ZQUAF",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZQUAF,,"
     },
     {
-      "ACA": "ZQUAFE",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZQUAFE,,"
     },
     {
-      "ACA": "ZQUCHN200R",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZQUCHN200R,,"
     },
     {
-      "ACA": "ZQUCHN3R",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZQUCHN3R,,"
     },
     {
-      "ACA": "ZQUCHN400R",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZQUCHN400R,,"
     },
     {
-      "ACA": "ZQUCHR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZQUCHR,,"
     },
     {
-      "ACA": "ZQUCMR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZQUCMR,,"
     },
     {
-      "ACA": "ZQUGB",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZQUGB,,"
     },
     {
-      "ACA": "ZQUGVR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZQUGVR,,"
     },
     {
-      "ACA": "ZQUM3B",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZQUM3B,,"
     },
     {
-      "ACA": "ZQUMFR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZQUMFR,,"
     },
     {
-      "ACA": "ZQUMMR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZQUMMR,,"
     },
     {
-      "ACA": "ZQUPCPR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZQUPCPR,,"
     },
     {
-      "ACA": "ZSAABZCJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZSAABZCJ,,"
     },
     {
-      "ACA": "ZSAAMHZJ",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZSAAMHZJ,,"
     },
     {
-      "ACA": "ZSABACR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZSABACR,,"
     },
     {
-      "ACA": "ZSAFC2F",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZSAFC2F,,"
     },
     {
-      "ACA": "ZSAIZLR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZSAIZLR,,"
     },
     {
-      "ACA": "ZSAPF2J",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZSAPF2J,,"
     },
     {
-      "ACA": "ZSAPF2R",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZSAPF2R,,"
     },
     {
-      "ACA": "ZSAPRSR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZSAPRSR,,"
     },
     {
-      "ACA": "ZSAPSA2",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZSAPSA2,,"
     },
     {
-      "ACA": "ZSAVR2R",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZSAVR2R,,"
     },
     {
-      "ACA": "ZSOMCR",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZSOMCR,,"
     },
     {
-      "ACA": "ZYOK",
-      "": "",
-      "__1": ""
+      "ACA,,": "ZYOK,,"
     }
   ]

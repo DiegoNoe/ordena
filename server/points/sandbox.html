@@ -2,12 +2,13 @@
 <html>
 
 <head>
-    <title>SERVER ORDENA</title>
+    <title>SANDBOX</title>
 
     <script language="javascript" type="text/javascript" src="../js/jquery.min.js"></script>
     <script language="javascript" type="text/javascript" src="../js/firebase.js"></script>
     <script language="javascript" type="text/javascript" src="../js/facturama.api.js"></script>
     <script language="javascript" type="text/javascript" src="../js/defiant.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../js/relaciones.js"></script>
 
     <script>
 
@@ -48,44 +49,20 @@
             defiantProductsI = Defiant.getSnapshot(snapshot.val());
         });
 
-        //add/change/remove product on dbo if added/changed/removed on dbi
-        setTimeout(() => {
-            dbProductsI.on('child_added', function (snapshot) {
-                if(JSON.search(defiantProductsO, '//*[clave="' + snapshot.val().clave + '"]')[0] == undefined)
-                    changeProductOnDBO(snapshot.val());
-            });
-        }, 3000);
-
-        dbProductsI.on('child_changed', function (snapshot) {
-            changeProductOnDBO(snapshot.val());
-        });
-        dbProductsI.on('child_removed', function (snapshot) {
-            removeProductOnDBO(snapshot.val());
-        });
-
-        //add/change/remove product on dbi if added/changed/removed on dbo
-        setTimeout(() => {
-            dbProductsO.on('child_added', function (snapshot) {
-                if(JSON.search(defiantProductsI, '//*[clave="' + snapshot.val().clave + '"]')[0] == undefined)
-                    changeProductOnDBI(snapshot.val());
-            });
-        }, 6000);
-        dbProductsO.on('child_changed', function (snapshot) {
-            changeProductOnDBI(snapshot.val());
-        });
-        dbProductsO.on('child_removed', function (snapshot) {
-            removeProductOnDBI(snapshot.val());
-        });
-
-        //deletes orders after 6pm
-        var now = new Date();
-        var millisTill18;
-        setInterval(function() {
-            millisTill18 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0, 0) - now;
-            if(millisTill18 < 0) {
-                deleteOrders();
+        /*
+        for (const property in relacionesJSON) {
+            var currentString = Object.values(relacionesJSON[property])[0];
+            var currentValues = currentString.split(',');
+            if(currentValues[1] != "" && currentValues[2] != "") {
+                firebase.database().ref("relations/" + currentValues[0] + "/" + currentValues[1]).set(parseInt(currentValues[2]));
+                firebase.database().ref("relations/" + currentValues[1] + "/" + currentValues[0]).set((1 / parseInt(currentValues[2])).toFixed(3));
+                console.log("relations/" + currentValues[0] + "/" + currentValues[1] + " = " + (parseInt(currentValues[2])));
+                console.log("relations/" + currentValues[1] + "/" + currentValues[0] + " = " + (1 / parseInt(currentValues[2])).toFixed(3));
             }
-        }, 60 * 1000);
+        }
+        */
+
+
 
         //eraseInventory();
 
