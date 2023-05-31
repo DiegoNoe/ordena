@@ -1970,14 +1970,28 @@
                     currentLine = 0;
                 }
 
-                sOrderProducts[i.toString().padStart(3, '0') + order[i][0]] = {
-                    uc: Number(order[i][1]),
-                    n: order[i][4],
-                    p: order[i][7]
-                };
+                product = JSON.search(defiantProducts, '//*[clave="' + order[i][0] + '"]');
+
+                if(product[0].pesoN != undefined && product[0].pesoN != "") {
+                    sOrderProducts[i.toString().padStart(3, '0') + order[i][0]] = {
+                        uc: (Number(order[i][1]) / product[0].pesoN),
+                        n: order[i][4],
+                        p: order[i][7]
+                    };
+                } else {
+                    sOrderProducts[i.toString().padStart(3, '0') + order[i][0]] = {
+                        uc: Number(order[i][1]),
+                        n: order[i][4],
+                        p: order[i][7]
+                    };
+                }
+
+
 
                 console.log("order[i]");
                 console.log(order[i]);
+                console.log("product[0]");
+                console.log(product[0]);
 
                 //quantity and unit
                 doc.setFont("Gill Sans MT Condensed Negrita");
@@ -2042,7 +2056,6 @@
                 //product price * quantity
                 doc.setFont("Gill Sans MT Condensed Negrita");
                 doc.setFontSize(12.5);
-                product = JSON.search(defiantProducts, '//*[clave="' + order[i][0] + '"]');
                 if(product[0].pesoN == undefined)
                     var totalProduct = roundDecimals(Math.round(product[0].costo * order[i][1] * 10) / 10);
                 else
