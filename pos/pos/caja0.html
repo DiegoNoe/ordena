@@ -55,8 +55,9 @@
 
         var dbOrders = firebase.database().ref('orders/code0/');
         dbOrders.on('value', function (snapshot) {
-            if(snapshot.val() != undefined)
+            if(snapshot.val() != undefined) {
                 defiantOrders = Defiant.getSnapshot(snapshot.val());
+            }
         });
 
         var globalComputer = "POS0";
@@ -428,7 +429,7 @@
             $("#greenCheckW").css("visibility", "hidden");
             $("#greenCheckWN").css("visibility", "hidden");
 
-            firebase.database().ref("liveviews/" + globalComputer + '/sorder').remove();
+            //firebase.database().ref("liveviews/" + globalComputer + '/sorder').remove();
             $("#dynamic-list-2").html("");
             hideSugList();
 
@@ -442,9 +443,7 @@
                         if (searchResult == null) {
                             //searchResult = JSON.search(defiantClients, '//*[contains(nombre, "' + inputSearchValue[i] + '")]' + '|//*[contains(numero, "' + inputSearchValue[i] + '")]');
                             searchResult = JSON.search(defiantOrders, '//*[contains(name, "' + inputSearchValue[i] + '")]');
-
-                        }
-                        else {
+                        } else {
                             //searchResult = JSON.search(searchResult, '//*[contains(nombre, "' + inputSearchValue[i] + '")]' + '|//*[contains(numero, "' + inputSearchValue[i] + '")]');
                             searchResult = JSON.search(searchResult, '//*[contains(name, "' + inputSearchValue[i] + '")]');
                         } 
@@ -455,6 +454,14 @@
             else {
                 if ($('#inputName').val() != "") {
                     searchResult = JSON.search(defiantOrders, '//*[contains(name, "' + inputSearchValue + '")]');
+                    console.log("searchResult");
+                    console.log(searchResult);
+                    console.log("defiantOrders");
+                    console.log(defiantOrders);
+                    console.log("inputSearchValue");
+                    console.log(inputSearchValue);
+                    console.log("defiantProducts");
+                    console.log(defiantProducts);
                 }
             }
 
@@ -842,7 +849,7 @@
             var empleadosDB;
 			firebase.database().ref("employees").once('value', function(snapshot) {
 				empleadosDB = snapshot.val();
-                console.log(empleadosDB);
+                //console.log(empleadosDB);
 			}).then(function(){
 				$.each(empleadosDB, function(key, value) {
                     var select = document.getElementById('inputEmployeeNameCaja');
@@ -1926,7 +1933,6 @@
             //addPagePDF(doc, orderMethod, order.length);
             doc.setPage(1);
 
-            console.log("PAGADO");
             doc.setFontSize(70);
             doc.setFont("Gill Sans MT Condensed Negrita");
             doc.setTextColor(240, 240, 240);
@@ -1985,13 +1991,6 @@
                         p: order[i][7]
                     };
                 }
-
-
-
-                console.log("order[i]");
-                console.log(order[i]);
-                console.log("product[0]");
-                console.log(product[0]);
 
                 //quantity and unit
                 doc.setFont("Gill Sans MT Condensed Negrita");

@@ -58,6 +58,7 @@
 
         dbProductsI.on('child_changed', function (snapshot) {
             changeProductOnDBO(snapshot.val());
+            console.log("change");
         });
         dbProductsI.on('child_removed', function (snapshot) {
             removeProductOnDBO(snapshot.val());
