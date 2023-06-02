@@ -1,4 +1,54 @@
 var ordersJson = {
+  "A2D339H": {
+    "calculable": true,
+    "hour": 1685735393968,
+    "iftomorrow": false,
+    "name": "2D",
+    "products": {
+      "000ADB3": {
+        "n": "",
+        "uc": 3
+      }
+    },
+    "qr": "A2D339H",
+    "subtotal": "339",
+    "takenby": "ALE C0 #1"
+  },
+  "AALFREDO10185F": {
+    "calculable": false,
+    "hour": 1685726888879,
+    "iftomorrow": false,
+    "name": "ALFREDO",
+    "products": {
+      "000PEIG": {
+        "n": "",
+        "uc": 0.5
+      },
+      "001QUCI": {
+        "n": "",
+        "uc": 3
+      },
+      "002ADRBG": {
+        "n": "",
+        "uc": 1
+      },
+      "003CARIH1": {
+        "n": "",
+        "uc": 3
+      },
+      "004MOSV": {
+        "n": "",
+        "uc": 1
+      },
+      "005JPA": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "AALFREDO10185F",
+    "subtotal": "1018.5",
+    "takenby": "TERE C5 #6"
+  },
   "AANA110Y": {
     "calculable": true,
     "hour": 1685645042275,
@@ -57,6 +107,21 @@ var ordersJson = {
     "subtotal": "645.5",
     "takenby": "TERE C5 #8"
   },
+  "AARMANDO117S": {
+    "calculable": false,
+    "hour": 1685733598503,
+    "iftomorrow": false,
+    "name": "ARMANDO",
+    "products": {
+      "000ATM": {
+        "n": "",
+        "uc": 3
+      }
+    },
+    "qr": "AARMANDO117S",
+    "subtotal": "117",
+    "takenby": "ESTHELITA C4 #1"
+  },
   "AARMANDODIAZ49O": {
     "calculable": true,
     "hour": 1685634655716,
@@ -86,6 +151,77 @@ var ordersJson = {
     "qr": "ACARMENCASTILLO150E",
     "subtotal": "150",
     "takenby": "TERE C5 #1"
+  },
+  "ADANIELGARCIA2597F": {
+    "calculable": false,
+    "hour": 1685726578862,
+    "iftomorrow": false,
+    "name": "DANIEL GARCIA",
+    "products": {
+      "000ADFRM": {
+        "n": "",
+        "uc": 4
+      },
+      "001ADMOM": {
+        "n": "",
+        "uc": 4
+      },
+      "002CHZ": {
+        "n": "",
+        "uc": 1
+      },
+      "003QU": {
+        "n": "GRANDES",
+        "uc": 6
+      },
+      "004MAD1K": {
+        "n": "",
+        "uc": 2
+      },
+      "005PH190": {
+        "n": "",
+        "uc": 3
+      },
+      "006REIO": {
+        "n": "",
+        "uc": 0.5
+      },
+      "007SAPZA": {
+        "n": "",
+        "uc": 2
+      },
+      "008HUCA": {
+        "n": "",
+        "uc": 1
+      },
+      "009LENG": {
+        "n": "",
+        "uc": 1.5
+      },
+      "010ME1": {
+        "n": "",
+        "uc": 1
+      },
+      "011MIP2": {
+        "n": "",
+        "uc": 1
+      },
+      "012CRE": {
+        "n": "JUNTA",
+        "uc": 2
+      },
+      "013JAPT": {
+        "n": "",
+        "uc": 3
+      },
+      "014TOEIP": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "ADANIELGARCIA2597F",
+    "subtotal": "2597",
+    "takenby": "ESTHELITA C4 #15"
   },
   "AEDUARDO1225M": {
     "calculable": true,
@@ -228,6 +364,21 @@ var ordersJson = {
     "subtotal": "845",
     "takenby": "TERE C5 #4"
   },
+  "AFRANCISCO86Z": {
+    "calculable": true,
+    "hour": 1685733674730,
+    "iftomorrow": false,
+    "name": "FRANCISCO",
+    "products": {
+      "000CHCEL": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "AFRANCISCO86Z",
+    "subtotal": "86",
+    "takenby": "ESTHELITA C4 #1"
+  },
   "AGUADALUPESERRANO1091U": {
     "calculable": false,
     "hour": 1685720387643,
@@ -312,6 +463,21 @@ var ordersJson = {
     "qr": "AKARENOLMOS187Y",
     "subtotal": "187",
     "takenby": "DAVID C3 #5"
+  },
+  "ALAZARO87K": {
+    "calculable": true,
+    "hour": 1685734001075,
+    "iftomorrow": false,
+    "name": "LAZARO",
+    "products": {
+      "000QUCL": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "ALAZARO87K",
+    "subtotal": "87",
+    "takenby": "ESTHELITA C4 #1"
   },
   "ALUPITA79D": {
     "calculable": true,
@@ -410,6 +576,45 @@ var ordersJson = {
     "subtotal": "3902",
     "takenby": "ALE C4 #14"
   },
+  "AMARIRAMOS3514A": {
+    "calculable": false,
+    "hour": 1685738184689,
+    "iftomorrow": false,
+    "name": "MARI RAMOS",
+    "products": {
+      "000ADMO1": {
+        "n": "",
+        "uc": 14
+      },
+      "001EXMD90C": {
+        "n": "",
+        "uc": 2
+      },
+      "002SAPR2": {
+        "n": "",
+        "uc": 4
+      },
+      "003ASUPER": {
+        "n": "",
+        "uc": 4
+      },
+      "004YAT": {
+        "n": "",
+        "uc": 1
+      },
+      "005CRIO": {
+        "n": "EN KILOS",
+        "uc": 7
+      },
+      "006JAR": {
+        "n": "",
+        "uc": 5
+      }
+    },
+    "qr": "AMARIRAMOS3514A",
+    "subtotal": "3514",
+    "takenby": "DAVID C4 #7"
+  },
   "AMIGELGOMEZ1075U": {
     "calculable": true,
     "checked": true,
@@ -455,6 +660,21 @@ var ordersJson = {
     "subtotal": "355",
     "takenby": "ALAN C4 #2"
   },
+  "AOSCAR218D": {
+    "calculable": false,
+    "hour": 1685730664310,
+    "iftomorrow": false,
+    "name": "OSCAR",
+    "products": {
+      "000ADFOM": {
+        "n": "",
+        "uc": 4
+      }
+    },
+    "qr": "AOSCAR218D",
+    "subtotal": "218",
+    "takenby": "ESTHELITA C4 #1"
+  },
   "APIERRE323F": {
     "calculable": false,
     "hour": 1685634069718,
@@ -481,12 +701,27 @@ var ordersJson = {
     "name": "RAUL",
     "products": {
       "000YAT": {
-        "n": "",
-        "uc": 1
+        "n": "fresa",
+        "uc": 13
       }
     },
     "qr": "ARAUL198Q",
     "subtotal": "198",
+    "takenby": "TERE C5 #1"
+  },
+  "AREFUGIO59T": {
+    "calculable": true,
+    "hour": 1685727547434,
+    "iftomorrow": false,
+    "name": "REFUGIO",
+    "products": {
+      "000LENG": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "AREFUGIO59T",
+    "subtotal": "59",
     "takenby": "TERE C5 #1"
   },
   "ASALVADOR11645M": {
@@ -523,6 +758,76 @@ var ordersJson = {
     "qr": "ASALVADOR11645M",
     "subtotal": "1164.5",
     "takenby": "ALAN C4 #6"
+  },
+  "ASAYULAPAZ729B": {
+    "calculable": true,
+    "hour": 1685728148067,
+    "iftomorrow": false,
+    "name": "SAYU LA PAZ",
+    "products": {
+      "000MAD1": {
+        "n": "",
+        "uc": 3
+      },
+      "001SAPA": {
+        "n": "",
+        "uc": 1
+      },
+      "002PABC": {
+        "n": "",
+        "uc": 3
+      },
+      "003PAMNB": {
+        "n": "",
+        "uc": 2
+      },
+      "004EM1C": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "ASAYULAPAZ729B",
+    "subtotal": "729",
+    "takenby": "DAVID C3 #5"
+  },
+  "ASAYUTLAQUEPAQUE3446L": {
+    "calculable": false,
+    "hour": 1685728414123,
+    "iftomorrow": false,
+    "name": "SAYU TLAQUEPAQUE",
+    "products": {
+      "000PEIG": {
+        "n": "",
+        "uc": 1
+      },
+      "001QUCIM": {
+        "n": "",
+        "uc": 20
+      },
+      "002ELC430": {
+        "n": "",
+        "uc": 6
+      },
+      "003LET": {
+        "n": "",
+        "uc": 6
+      },
+      "004JAR": {
+        "n": "",
+        "uc": 1
+      },
+      "005ACC20": {
+        "n": "",
+        "uc": 1
+      },
+      "006EM1C": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "ASAYUTLAQUEPAQUE3446L",
+    "subtotal": "3446",
+    "takenby": "DAVID C3 #7"
   },
   "ASILVIA674L": {
     "calculable": false,
@@ -656,6 +961,41 @@ var ordersJson = {
     "subtotal": "314",
     "takenby": "TERE C5 #2"
   },
+  "AYOLANDA697A": {
+    "calculable": true,
+    "hour": 1685725872384,
+    "iftomorrow": false,
+    "name": "YOLANDA",
+    "products": {
+      "000QUMEVB": {
+        "n": "",
+        "uc": 1
+      },
+      "001REIO": {
+        "n": "",
+        "uc": 0.5
+      },
+      "002ADBL1": {
+        "n": "",
+        "uc": 1
+      },
+      "003CAH": {
+        "n": "",
+        "uc": 1
+      },
+      "004JAEA": {
+        "n": "",
+        "uc": 10
+      },
+      "005JPA": {
+        "n": "",
+        "uc": 0.5
+      }
+    },
+    "qr": "AYOLANDA697A",
+    "subtotal": "697",
+    "takenby": "ESTHELITA C4 #6"
+  },
   "AYONATHAMANZANO5225H": {
     "calculable": false,
     "hour": 1685627925903,
@@ -690,6 +1030,21 @@ var ordersJson = {
     "qr": "AYONATHAMANZANO5225H",
     "subtotal": "522.5",
     "takenby": "TERE C5 #6"
+  },
+  "BABRAHAMGARCIA518M": {
+    "calculable": true,
+    "hour": 1685728810459,
+    "iftomorrow": false,
+    "name": "ABRAHAM GARCIA",
+    "products": {
+      "000PUTC3C": {
+        "n": "",
+        "uc": 2
+      }
+    },
+    "qr": "BABRAHAMGARCIA518M",
+    "subtotal": "518",
+    "takenby": "TERE C5 #1"
   },
   "BALBERTOESTRADA20885W": {
     "calculable": false,
@@ -1053,6 +1408,29 @@ var ordersJson = {
     "subtotal": "209",
     "takenby": "ALE C4 #2"
   },
+  "BJOSECRUZ4035O": {
+    "calculable": false,
+    "hour": 1685732486795,
+    "iftomorrow": false,
+    "name": "JOSE CRUZ",
+    "products": {
+      "000ADMO2": {
+        "n": "",
+        "uc": 1
+      },
+      "001MAI": {
+        "n": "TROZO",
+        "uc": 0.6
+      },
+      "002ASUPER": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "BJOSECRUZ4035O",
+    "subtotal": "403.5",
+    "takenby": "ESTHELITA C4 #3"
+  },
   "BJOSEMANUEL995R": {
     "calculable": true,
     "hour": 1685718440486,
@@ -1138,6 +1516,21 @@ var ordersJson = {
     "qr": "BKARLA830H",
     "subtotal": "830",
     "takenby": "DAVID C5 #2"
+  },
+  "BKEVIN2118B": {
+    "calculable": true,
+    "hour": 1685724931335,
+    "iftomorrow": false,
+    "name": "KEVIN 2",
+    "products": {
+      "000CAH": {
+        "n": "",
+        "uc": 2
+      }
+    },
+    "qr": "BKEVIN2118B",
+    "subtotal": "118",
+    "takenby": "ESTHELITA C4 #1"
   },
   "BMARCOANTONIO1486S": {
     "calculable": false,
@@ -1242,6 +1635,89 @@ var ordersJson = {
     "qr": "BNANCY291N",
     "subtotal": "91",
     "takenby": "ALE C4 #2"
+  },
+  "BNORMARAMIREZ31735W": {
+    "calculable": false,
+    "hour": 1685736391018,
+    "iftomorrow": false,
+    "name": "NORMA RAMIREZ",
+    "products": {
+      "000QUFSMDM": {
+        "n": "",
+        "uc": 3
+      },
+      "001QUFSMD": {
+        "n": "",
+        "uc": 6
+      },
+      "002BEY242": {
+        "n": "3FRESA 3DURZ 3 PIÑA COCO",
+        "uc": 9
+      },
+      "003CRL200": {
+        "n": "",
+        "uc": 24
+      },
+      "004DAB": {
+        "n": "",
+        "uc": 8
+      },
+      "005DAPETIT": {
+        "n": "",
+        "uc": 30
+      },
+      "006EXMD90C": {
+        "n": "",
+        "uc": 1
+      },
+      "007GEILV": {
+        "n": "",
+        "uc": 5
+      },
+      "008PRQAV": {
+        "n": "",
+        "uc": 1
+      },
+      "009ASUPER": {
+        "n": "",
+        "uc": 6
+      },
+      "010YOK": {
+        "n": "2CERE 1 DURZ  1 MANZ ",
+        "uc": 4
+      },
+      "011CAIC": {
+        "n": "",
+        "uc": 6
+      },
+      "012SAM100": {
+        "n": "",
+        "uc": 4
+      },
+      "013MIC": {
+        "n": "",
+        "uc": 5
+      },
+      "014VAM120": {
+        "n": "",
+        "uc": 5
+      },
+      "015CAH": {
+        "n": "",
+        "uc": 1
+      },
+      "016JACV": {
+        "n": "",
+        "uc": 2
+      },
+      "017PAFIB": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "BNORMARAMIREZ31735W",
+    "subtotal": "3173.5",
+    "takenby": "ANGI C5 #18"
   },
   "BPATY85L": {
     "calculable": true,
@@ -1499,6 +1975,21 @@ var ordersJson = {
     "subtotal": "3035",
     "takenby": "DAVID C4 #5"
   },
+  "CCARLOS20Z": {
+    "calculable": true,
+    "hour": 1685727961739,
+    "iftomorrow": false,
+    "name": "CARLOS",
+    "products": {
+      "000REJ": {
+        "n": "",
+        "uc": 0.52
+      }
+    },
+    "qr": "CCARLOS20Z",
+    "subtotal": "20",
+    "takenby": "ESTHELITA C4 #1"
+  },
   "CCASPER19605H": {
     "calculable": true,
     "hour": 1685641384660,
@@ -1659,6 +2150,77 @@ var ordersJson = {
     "subtotal": "2287.5",
     "takenby": "ESTHELITA C4 #8"
   },
+  "CHGT6795A": {
+    "calculable": false,
+    "hour": 1685735146775,
+    "iftomorrow": false,
+    "name": "H .G .T",
+    "products": {
+      "000MAI": {
+        "n": "TROZ",
+        "uc": 0.5
+      },
+      "001JAPPVPAQ": {
+        "n": "",
+        "uc": 1
+      },
+      "002PH190": {
+        "n": "",
+        "uc": 1
+      },
+      "003QUCB": {
+        "n": "",
+        "uc": 1
+      },
+      "004SAZA": {
+        "n": "",
+        "uc": 1
+      },
+      "005TON": {
+        "n": "",
+        "uc": 0.5
+      },
+      "006YOK": {
+        "n": "CEREALES ",
+        "uc": 1
+      },
+      "007MASVL950": {
+        "n": "",
+        "uc": 1
+      },
+      "008MOSVCH": {
+        "n": "",
+        "uc": 1
+      },
+      "009CAH": {
+        "n": "",
+        "uc": 0.5
+      },
+      "010GAMI": {
+        "n": "",
+        "uc": 1
+      },
+      "011PAIBG": {
+        "n": "",
+        "uc": 1
+      },
+      "012PAMNI": {
+        "n": "",
+        "uc": 1
+      },
+      "013PATIB": {
+        "n": "",
+        "uc": 1
+      },
+      "014PAPKI": {
+        "n": "CAPISTRANO",
+        "uc": 0.3
+      }
+    },
+    "qr": "CHGT6795A",
+    "subtotal": "679.5",
+    "takenby": "TERE C5 #15"
+  },
   "CJORGE975K": {
     "calculable": true,
     "hour": 1685633506566,
@@ -1673,6 +2235,25 @@ var ordersJson = {
     "qr": "CJORGE975K",
     "subtotal": "97.5",
     "takenby": "ALAN C4 #1"
+  },
+  "CJOSESANCHES131I": {
+    "calculable": false,
+    "hour": 1685729832209,
+    "iftomorrow": false,
+    "name": "JOSE SANCHES",
+    "products": {
+      "000ADF1": {
+        "n": "",
+        "uc": 1
+      },
+      "001REJ": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "CJOSESANCHES131I",
+    "subtotal": "131",
+    "takenby": "ESTHELITA C4 #2"
   },
   "CJUAN332C": {
     "calculable": true,
@@ -1759,6 +2340,44 @@ var ordersJson = {
     "subtotal": "948",
     "takenby": "ESTHELITA C4 #1"
   },
+  "CLUIS406H": {
+    "calculable": false,
+    "hour": 1685731391089,
+    "iftomorrow": false,
+    "name": "LUIS",
+    "products": {
+      "000QUAMM": {
+        "n": "",
+        "uc": 2
+      },
+      "001REZ": {
+        "n": "",
+        "uc": 5
+      },
+      "002VIBAG": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "CLUIS406H",
+    "subtotal": "406",
+    "takenby": "ESTHELITA C4 #3"
+  },
+  "CLUISFERNANDO1662Y": {
+    "calculable": true,
+    "hour": 1685722946080,
+    "iftomorrow": false,
+    "name": "LUIS FERNANDO",
+    "products": {
+      "000PH2C": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "CLUISFERNANDO1662Y",
+    "subtotal": "1662",
+    "takenby": "ESTHELITA C4 #1"
+  },
   "CLURDES4175I": {
     "calculable": true,
     "hour": 1685718133320,
@@ -1781,6 +2400,25 @@ var ordersJson = {
     "qr": "CLURDES4175I",
     "subtotal": "417.5",
     "takenby": "TERE C5 #3"
+  },
+  "CMARTHA1904F": {
+    "calculable": true,
+    "hour": 1685729015491,
+    "iftomorrow": false,
+    "name": "MARTHA",
+    "products": {
+      "000ATML": {
+        "n": "",
+        "uc": 1
+      },
+      "001MASVC": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "CMARTHA1904F",
+    "subtotal": "1904",
+    "takenby": "ESTHELITA C4 #2"
   },
   "CSALVADORGUZMAN10725N": {
     "calculable": false,
@@ -1906,6 +2544,21 @@ var ordersJson = {
     "subtotal": "93",
     "takenby": "TERE C5 #1"
   },
+  "DANGELES108X": {
+    "calculable": false,
+    "hour": 1685723176737,
+    "iftomorrow": false,
+    "name": "ANGELES",
+    "products": {
+      "000CHZ": {
+        "n": "DEL ROJO",
+        "uc": 1.5
+      }
+    },
+    "qr": "DANGELES108X",
+    "subtotal": "108",
+    "takenby": "ESTHELITA C4 #1"
+  },
   "DANTONIOTORRES1155S": {
     "calculable": true,
     "hour": 1685634533077,
@@ -1928,6 +2581,33 @@ var ordersJson = {
     "qr": "DANTONIOTORRES1155S",
     "subtotal": "115.5",
     "takenby": "ALAN C4 #3"
+  },
+  "DCARINA2045N": {
+    "calculable": false,
+    "hour": 1685725425052,
+    "iftomorrow": false,
+    "name": "CARINA",
+    "products": {
+      "000QUOSJ": {
+        "n": "",
+        "uc": 1
+      },
+      "001CA1": {
+        "n": "",
+        "uc": 1
+      },
+      "002PRPY145": {
+        "n": "",
+        "uc": 1
+      },
+      "003TOEIP": {
+        "n": "",
+        "uc": 0.25
+      }
+    },
+    "qr": "DCARINA2045N",
+    "subtotal": "204.5",
+    "takenby": "ESTHELITA C4 #4"
   },
   "DCAROLINA451A": {
     "calculable": false,
@@ -1990,6 +2670,21 @@ var ordersJson = {
     "subtotal": "330",
     "takenby": "DAVID C3 #1"
   },
+  "DDIEGOSANCHEZ265O": {
+    "calculable": true,
+    "hour": 1685731120876,
+    "iftomorrow": false,
+    "name": "DIEGO SANCHEZ",
+    "products": {
+      "000JAPTP": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "DDIEGOSANCHEZ265O",
+    "subtotal": "265",
+    "takenby": "ESTHELITA C4 #1"
+  },
   "DDONRIGO345Z": {
     "calculable": true,
     "hour": 1685650348810,
@@ -2042,6 +2737,29 @@ var ordersJson = {
     "qr": "DELI1855D",
     "subtotal": "185.5",
     "takenby": "ALE C4 #3"
+  },
+  "DELOIDIA1335O": {
+    "calculable": false,
+    "hour": 1685730586962,
+    "iftomorrow": false,
+    "name": "ELOIDIA",
+    "products": {
+      "000QUPCO": {
+        "n": "",
+        "uc": 1
+      },
+      "001CHB": {
+        "n": "",
+        "uc": 1
+      },
+      "002CRIO": {
+        "n": "",
+        "uc": 0.5
+      }
+    },
+    "qr": "DELOIDIA1335O",
+    "subtotal": "133.5",
+    "takenby": "TERE C5 #3"
   },
   "DENRIQUELOPEZ199X": {
     "calculable": false,
@@ -2119,6 +2837,63 @@ var ordersJson = {
     "qr": "DGABY2855F",
     "subtotal": "285.5",
     "takenby": "DAVID C3 #5"
+  },
+  "DGABY523D": {
+    "calculable": false,
+    "hour": 1685733444037,
+    "iftomorrow": false,
+    "name": "GABY",
+    "products": {
+      "000QUFSMM1": {
+        "n": "",
+        "uc": 1
+      },
+      "001ASUPER": {
+        "n": "",
+        "uc": 1
+      },
+      "002CRCCHORRO": {
+        "n": "1K",
+        "uc": 2
+      },
+      "003JPA": {
+        "n": "",
+        "uc": 2
+      }
+    },
+    "qr": "DGABY523D",
+    "subtotal": "523",
+    "takenby": "TERE C5 #4"
+  },
+  "DHUJK19T": {
+    "calculable": true,
+    "hour": 1685737771801,
+    "iftomorrow": false,
+    "name": "HUJK",
+    "products": {
+      "000REJ": {
+        "n": "",
+        "uc": 0.5
+      }
+    },
+    "qr": "DHUJK19T",
+    "subtotal": "19",
+    "takenby": "ESTHELITA C4 #1"
+  },
+  "DISAK390M": {
+    "calculable": false,
+    "hour": 1685730039844,
+    "iftomorrow": false,
+    "name": "ISAK",
+    "products": {
+      "000ATM": {
+        "n": "",
+        "uc": 10
+      }
+    },
+    "qr": "DISAK390M",
+    "subtotal": "390",
+    "takenby": "TERE C5 #1"
   },
   "DJAIMEANGUIANO150X": {
     "calculable": true,
@@ -2219,6 +2994,48 @@ var ordersJson = {
     "subtotal": "174",
     "takenby": "TERE C5 #1"
   },
+  "DLUCIA2185N": {
+    "calculable": true,
+    "hour": 1685726708321,
+    "iftomorrow": false,
+    "name": "LUCIA 2",
+    "products": {
+      "000CHRZG": {
+        "n": "",
+        "uc": 0.5
+      }
+    },
+    "qr": "DLUCIA2185N",
+    "subtotal": "18.5",
+    "takenby": "ESTHELITA C4 #1"
+  },
+  "DLUIS184O": {
+    "calculable": false,
+    "hour": 1685725497322,
+    "iftomorrow": false,
+    "name": "LUIS",
+    "products": {
+      "000PEIG": {
+        "n": "",
+        "uc": 0.25
+      },
+      "001MAS1": {
+        "n": "",
+        "uc": 1
+      },
+      "002CHRZG": {
+        "n": "",
+        "uc": 0.5
+      },
+      "003QUMA": {
+        "n": "",
+        "uc": 0.25
+      }
+    },
+    "qr": "DLUIS184O",
+    "subtotal": "184",
+    "takenby": "ESTHELITA C4 #4"
+  },
   "DMARIACAMARENA2642P": {
     "calculable": true,
     "hour": 1685657015727,
@@ -2248,6 +3065,41 @@ var ordersJson = {
     "qr": "DMARIAGUADALUPETOPE2004B",
     "subtotal": "2004",
     "takenby": "ESTHELITA C4 #1"
+  },
+  "DMARIAMENDEZ12475P": {
+    "calculable": false,
+    "hour": 1685731919667,
+    "iftomorrow": false,
+    "name": "MARIA MENDEZ",
+    "products": {
+      "000EXQAS": {
+        "n": "",
+        "uc": 3
+      },
+      "001QUC1": {
+        "n": "",
+        "uc": 0.5
+      },
+      "002CHRCAO": {
+        "n": "",
+        "uc": 1
+      },
+      "003CAH": {
+        "n": "",
+        "uc": 1
+      },
+      "004LEI5": {
+        "n": "",
+        "uc": 1
+      },
+      "005CRE": {
+        "n": "3-3",
+        "uc": 6
+      }
+    },
+    "qr": "DMARIAMENDEZ12475P",
+    "subtotal": "1247.5",
+    "takenby": "ESTHELITA C4 #6"
   },
   "DMARYCALZADA765K": {
     "calculable": true,
@@ -2368,6 +3220,29 @@ var ordersJson = {
     "subtotal": "29.5",
     "takenby": "TERE C5 #1"
   },
+  "DROBERTOLOPEZ200U": {
+    "calculable": true,
+    "hour": 1685729949591,
+    "iftomorrow": false,
+    "name": "ROBERTO LOPEZ",
+    "products": {
+      "000RET": {
+        "n": "",
+        "uc": 1
+      },
+      "001TOD": {
+        "n": "",
+        "uc": 2
+      },
+      "002JPA": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "DROBERTOLOPEZ200U",
+    "subtotal": "200",
+    "takenby": "ESTHELITA C4 #3"
+  },
   "DRODOLFOPAREDES311S": {
     "calculable": true,
     "hour": 1685626807636,
@@ -2390,6 +3265,45 @@ var ordersJson = {
     "qr": "DRODOLFOPAREDES311S",
     "subtotal": "311",
     "takenby": "TERE C5 #3"
+  },
+  "DSALVADOR15235B": {
+    "calculable": false,
+    "hour": 1685729183964,
+    "iftomorrow": false,
+    "name": "SALVADOR",
+    "products": {
+      "000ADFC": {
+        "n": "",
+        "uc": 8
+      },
+      "001QUOIP": {
+        "n": "",
+        "uc": 2
+      },
+      "002QUCMY": {
+        "n": "",
+        "uc": 1
+      },
+      "003RECI": {
+        "n": "",
+        "uc": 10
+      },
+      "004ASUPER": {
+        "n": "",
+        "uc": 1
+      },
+      "005TOK": {
+        "n": "",
+        "uc": 2
+      },
+      "006CRCCHORRO": {
+        "n": "EN KILOS",
+        "uc": 2
+      }
+    },
+    "qr": "DSALVADOR15235B",
+    "subtotal": "1523.5",
+    "takenby": "ESTHELITA C4 #7"
   },
   "DSALVADORUREÑA11575C": {
     "calculable": false,
@@ -2456,6 +3370,57 @@ var ordersJson = {
     "qr": "DTERESAGOMEZ1295R",
     "subtotal": "129.5",
     "takenby": "DAVID C4 #3"
+  },
+  "EANGELICAIBARRA25345F": {
+    "calculable": false,
+    "hour": 1685726916197,
+    "iftomorrow": false,
+    "name": "ANGELICA IBARRA",
+    "products": {
+      "000QUFSMDM": {
+        "n": "",
+        "uc": 4
+      },
+      "001QUFSMD": {
+        "n": "",
+        "uc": 8
+      },
+      "002CHN": {
+        "n": "",
+        "uc": 2.5
+      },
+      "003MABI": {
+        "n": "",
+        "uc": 4
+      },
+      "004PRQAV": {
+        "n": "",
+        "uc": 3
+      },
+      "005PRQBV": {
+        "n": "",
+        "uc": 3
+      },
+      "006QUBV": {
+        "n": "",
+        "uc": 1
+      },
+      "007SAVMT": {
+        "n": "",
+        "uc": 10
+      },
+      "008TON": {
+        "n": "",
+        "uc": 1
+      },
+      "009QUAV": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "EANGELICAIBARRA25345F",
+    "subtotal": "2534.5",
+    "takenby": "ESTHELITA C4 #10"
   },
   "EDANIEL56I": {
     "calculable": false,
@@ -2540,6 +3505,33 @@ var ordersJson = {
     "qr": "EELISA219K",
     "subtotal": "219",
     "takenby": "ALE C4 #1"
+  },
+  "EELSA385U": {
+    "calculable": false,
+    "hour": 1685735452514,
+    "iftomorrow": false,
+    "name": "ELSA",
+    "products": {
+      "000QU": {
+        "n": "",
+        "uc": 1
+      },
+      "001QUC1": {
+        "n": "MOLIDO",
+        "uc": 1
+      },
+      "002JPA": {
+        "n": "",
+        "uc": 1
+      },
+      "003GOIB3R": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "EELSA385U",
+    "subtotal": "385",
+    "takenby": "ESTHELITA C4 #4"
   },
   "EERIK1636Y": {
     "calculable": false,
@@ -2844,6 +3836,37 @@ var ordersJson = {
     "subtotal": 412.5,
     "takenby": "LUIS C4 #2"
   },
+  "EJUAN416W": {
+    "calculable": true,
+    "hour": 1685737495100,
+    "iftomorrow": false,
+    "name": "JUAN",
+    "products": {
+      "000ZPAFZ": {
+        "n": "",
+        "uc": 1
+      },
+      "001ASUPER": {
+        "n": "",
+        "uc": 1
+      },
+      "002TOT": {
+        "n": "",
+        "uc": 2
+      },
+      "003CHRZG": {
+        "n": "",
+        "uc": 1
+      },
+      "004GAMI": {
+        "n": "",
+        "uc": 2
+      }
+    },
+    "qr": "EJUAN416W",
+    "subtotal": "416",
+    "takenby": "TERE C5 #5"
+  },
   "EMARGARITA47F": {
     "calculable": true,
     "hour": 1685655770009,
@@ -2964,6 +3987,52 @@ var ordersJson = {
     "subtotal": "732.5",
     "takenby": "ALE C4 #7"
   },
+  "ENATALIA1015Z": {
+    "calculable": true,
+    "hour": 1685732431268,
+    "iftomorrow": false,
+    "name": "NATALIA",
+    "products": {
+      "000SAPFG": {
+        "n": "",
+        "uc": 1
+      },
+      "001CRIO": {
+        "n": "",
+        "uc": 0.25
+      },
+      "002TOEIP": {
+        "n": "",
+        "uc": 0.25
+      }
+    },
+    "qr": "ENATALIA1015Z",
+    "subtotal": "101.5",
+    "takenby": "ESTHELITA C4 #3"
+  },
+  "ENORMA4007S": {
+    "calculable": true,
+    "hour": 1685725269101,
+    "iftomorrow": false,
+    "name": "NORMA",
+    "products": {
+      "000QUMM": {
+        "n": "",
+        "uc": 6
+      },
+      "001YOGL1": {
+        "n": "",
+        "uc": 1
+      },
+      "002CRIN": {
+        "n": "EN KILOS",
+        "uc": 40
+      }
+    },
+    "qr": "ENORMA4007S",
+    "subtotal": "4007",
+    "takenby": "ESTHELITA C4 #3"
+  },
   "EPASTORDELSOL2115E": {
     "calculable": false,
     "hour": 1685621063316,
@@ -3025,6 +4094,21 @@ var ordersJson = {
     "subtotal": "70.5",
     "takenby": "TERE C5 #2"
   },
+  "EPERLA299Y": {
+    "calculable": true,
+    "hour": 1685725699634,
+    "iftomorrow": false,
+    "name": "PERLA",
+    "products": {
+      "000CHRCA": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "EPERLA299Y",
+    "subtotal": "299",
+    "takenby": "TERE C5 #1"
+  },
   "ERAFAELMENDOZA1015D": {
     "calculable": true,
     "hour": 1685619878085,
@@ -3059,6 +4143,21 @@ var ordersJson = {
     "qr": "ERAFAELMENDOZA1015D",
     "subtotal": "1015",
     "takenby": "TERE C5 #6"
+  },
+  "EYANETH267F": {
+    "calculable": false,
+    "hour": 1685738589137,
+    "iftomorrow": false,
+    "name": "YANETH",
+    "products": {
+      "000QUCIOM": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "EYANETH267F",
+    "subtotal": "267",
+    "takenby": "DAVID C4 #1"
   },
   "FABELINOCASILLAS840P": {
     "calculable": true,
@@ -3133,6 +4232,91 @@ var ordersJson = {
     "subtotal": "934",
     "takenby": "TERE C5 #2"
   },
+  "FBLANCAWHATSAPP861D": {
+    "calculable": true,
+    "hour": 1685727293464,
+    "iftomorrow": false,
+    "name": "BLANCA WHATSAPP",
+    "products": {
+      "000CRBT": {
+        "n": "NATA ",
+        "uc": 1
+      },
+      "001DUCA3": {
+        "n": "",
+        "uc": 1
+      },
+      "002MECU": {
+        "n": "",
+        "uc": 1
+      },
+      "003PIC3K": {
+        "n": "",
+        "uc": 1
+      },
+      "004GOIB3R": {
+        "n": "",
+        "uc": 2
+      }
+    },
+    "qr": "FBLANCAWHATSAPP861D",
+    "subtotal": "861",
+    "takenby": "TERE C5 #5"
+  },
+  "FDAVIDGONZALEZ10685V": {
+    "calculable": true,
+    "hour": 1685737303262,
+    "iftomorrow": false,
+    "name": "DAVID GONZALEZ",
+    "products": {
+      "000MAS1": {
+        "n": "",
+        "uc": 1
+      },
+      "001MAD1": {
+        "n": "",
+        "uc": 4
+      },
+      "002QUCI": {
+        "n": "",
+        "uc": 5
+      },
+      "003TOI": {
+        "n": "VACIO",
+        "uc": 1
+      },
+      "004CAH": {
+        "n": "",
+        "uc": 3.5
+      }
+    },
+    "qr": "FDAVIDGONZALEZ10685V",
+    "subtotal": "1068.5",
+    "takenby": "ESTHELITA C4 #5"
+  },
+  "FELISA2189V": {
+    "calculable": false,
+    "hour": 1685725970097,
+    "iftomorrow": false,
+    "name": "ELISA",
+    "products": {
+      "000JAAP": {
+        "n": "",
+        "uc": 3
+      },
+      "001MAER1": {
+        "n": "",
+        "uc": 5
+      },
+      "002YOKC": {
+        "n": "NATURAL",
+        "uc": 1
+      }
+    },
+    "qr": "FELISA2189V",
+    "subtotal": "2189",
+    "takenby": "ESTHELITA C4 #3"
+  },
   "FELSAVALDIVIA225I": {
     "calculable": true,
     "hour": 1685629211364,
@@ -3151,6 +4335,25 @@ var ordersJson = {
     "qr": "FELSAVALDIVIA225I",
     "subtotal": "225",
     "takenby": "ALAN C4 #2"
+  },
+  "FENRIQUE563T": {
+    "calculable": true,
+    "hour": 1685728740643,
+    "iftomorrow": false,
+    "name": "ENRIQUE",
+    "products": {
+      "000PAFC": {
+        "n": "",
+        "uc": 4
+      },
+      "001TOK": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "FENRIQUE563T",
+    "subtotal": "563",
+    "takenby": "ESTHELITA C4 #2"
   },
   "FFER1161Q": {
     "calculable": true,
@@ -3261,6 +4464,33 @@ var ordersJson = {
     "qr": "FJESUS599J",
     "subtotal": "599",
     "takenby": "ALAN C4 #2"
+  },
+  "FKARINA944E": {
+    "calculable": false,
+    "hour": 1685732146504,
+    "iftomorrow": false,
+    "name": "KARINA",
+    "products": {
+      "000ADFM": {
+        "n": "",
+        "uc": 4
+      },
+      "001ADMO1": {
+        "n": "",
+        "uc": 2
+      },
+      "002QU": {
+        "n": "",
+        "uc": 4
+      },
+      "003RETM": {
+        "n": "1K",
+        "uc": 4
+      }
+    },
+    "qr": "FKARINA944E",
+    "subtotal": "944",
+    "takenby": "TERE C5 #4"
   },
   "FLILIANA4855T": {
     "calculable": false,
@@ -3383,6 +4613,64 @@ var ordersJson = {
     "qr": "FNOE330F",
     "subtotal": "330",
     "takenby": "ALE C4 #3"
+  },
+  "FNORMARENTERIAS6015B": {
+    "calculable": false,
+    "hour": 1685738721332,
+    "iftomorrow": false,
+    "name": "NORMA RENTERIAS",
+    "products": {
+      "000MAD1": {
+        "n": "",
+        "uc": 1
+      },
+      "001ADFN400G": {
+        "n": "",
+        "uc": 1
+      },
+      "002QUN1": {
+        "n": "",
+        "uc": 1
+      },
+      "003QUC2": {
+        "n": "",
+        "uc": 2
+      },
+      "004CHRZG": {
+        "n": "",
+        "uc": 1
+      },
+      "005MAMG": {
+        "n": "",
+        "uc": 1
+      },
+      "006QUNH": {
+        "n": "",
+        "uc": 1
+      },
+      "007CRCCHORRO": {
+        "n": "",
+        "uc": 2.5
+      }
+    },
+    "qr": "FNORMARENTERIAS6015B",
+    "subtotal": "601.5",
+    "takenby": "ALE C3 #8"
+  },
+  "FPAOLA109Y": {
+    "calculable": false,
+    "hour": 1685737101443,
+    "iftomorrow": false,
+    "name": "PAOLA",
+    "products": {
+      "000ADFO1": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "FPAOLA109Y",
+    "subtotal": "109",
+    "takenby": "TERE C5 #1"
   },
   "FPELONES178L": {
     "calculable": false,
@@ -3985,6 +5273,52 @@ var ordersJson = {
     "subtotal": "90",
     "takenby": "DAVID C4 #1"
   },
+  "GLUIS408N": {
+    "calculable": true,
+    "hour": 1685725001695,
+    "iftomorrow": false,
+    "name": "LUIS",
+    "products": {
+      "000SAV3": {
+        "n": "",
+        "uc": 3
+      },
+      "001PRPY145": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "GLUIS408N",
+    "subtotal": "408",
+    "takenby": "ESTHELITA C4 #2"
+  },
+  "GLUPITA885G": {
+    "calculable": true,
+    "hour": 1685726270701,
+    "iftomorrow": false,
+    "name": "LUPITA",
+    "products": {
+      "000CHRZG": {
+        "n": "",
+        "uc": 1.25
+      },
+      "001ELC430": {
+        "n": "",
+        "uc": 1
+      },
+      "002TONI": {
+        "n": "",
+        "uc": 1
+      },
+      "003JAR": {
+        "n": "",
+        "uc": 0.2
+      }
+    },
+    "qr": "GLUPITA885G",
+    "subtotal": "88.5",
+    "takenby": "DAVID C3 #4"
+  },
   "GMANUEL619E": {
     "calculable": false,
     "hour": 1685718423452,
@@ -4035,6 +5369,49 @@ var ordersJson = {
     "subtotal": "594",
     "takenby": "ALAN C4 #3"
   },
+  "GMARY992G": {
+    "calculable": false,
+    "hour": 1685735898283,
+    "iftomorrow": false,
+    "name": "MARY",
+    "products": {
+      "000QUAMMM": {
+        "n": "",
+        "uc": 2
+      },
+      "001CALDC1": {
+        "n": "",
+        "uc": 1
+      },
+      "002SAPSM": {
+        "n": "",
+        "uc": 1
+      },
+      "003CAH1": {
+        "n": "",
+        "uc": 2
+      },
+      "004LEA1": {
+        "n": "",
+        "uc": 2
+      },
+      "005SAZBI": {
+        "n": "BBQ",
+        "uc": 2
+      },
+      "006CRCCHORRO": {
+        "n": "2K",
+        "uc": 6
+      },
+      "007JPA": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "GMARY992G",
+    "subtotal": "992",
+    "takenby": "ESTHELITA C4 #8"
+  },
   "GMIGUEKL6325K": {
     "calculable": true,
     "hour": 1685717732362,
@@ -4083,6 +5460,21 @@ var ordersJson = {
     "qr": "GRAMIROASEVES889Q",
     "subtotal": "889",
     "takenby": "TERE C5 #1"
+  },
+  "GRIGO345Q": {
+    "calculable": true,
+    "hour": 1685737054630,
+    "iftomorrow": false,
+    "name": "RIGO",
+    "products": {
+      "000JACVP": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "GRIGO345Q",
+    "subtotal": "345",
+    "takenby": "ESTHELITA C4 #1"
   },
   "GRODRIGO5495M": {
     "calculable": false,
@@ -4196,6 +5588,33 @@ var ordersJson = {
     "subtotal": "641",
     "takenby": "LUIS C5 #2"
   },
+  "HABRAHAMMARES9055G": {
+    "calculable": false,
+    "hour": 1685735729453,
+    "iftomorrow": false,
+    "name": "ABRAHAM MARES",
+    "products": {
+      "000ADFOC": {
+        "n": "",
+        "uc": 10
+      },
+      "001SAPSAC": {
+        "n": "",
+        "uc": 2
+      },
+      "002TONIC": {
+        "n": "",
+        "uc": 2
+      },
+      "003JAR": {
+        "n": "",
+        "uc": 2
+      }
+    },
+    "qr": "HABRAHAMMARES9055G",
+    "subtotal": "905.5",
+    "takenby": "ALE C3 #4"
+  },
   "HALAMEDA1232U": {
     "calculable": false,
     "hour": 1685709631797,
@@ -4230,6 +5649,59 @@ var ordersJson = {
     "qr": "HALAMEDA1232U",
     "subtotal": "1232",
     "takenby": "DAVID C4 #6"
+  },
+  "HALEJANDRO465R": {
+    "calculable": false,
+    "hour": 1685728581956,
+    "iftomorrow": false,
+    "name": "ALEJANDRO",
+    "products": {
+      "000ADFM": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "HALEJANDRO465R",
+    "subtotal": "46.5",
+    "takenby": "TERE C5 #1"
+  },
+  "HANA160C": {
+    "calculable": false,
+    "hour": 1685733131046,
+    "iftomorrow": false,
+    "name": "ANA",
+    "products": {
+      "000QUCAI": {
+        "n": "",
+        "uc": 0.5
+      },
+      "001JAPC": {
+        "n": "",
+        "uc": 0.5
+      }
+    },
+    "qr": "HANA160C",
+    "subtotal": "160",
+    "takenby": "TERE C5 #2"
+  },
+  "HANTONIOSALMON3976Z": {
+    "calculable": false,
+    "hour": 1685724442421,
+    "iftomorrow": false,
+    "name": "ANTONIO SALMON",
+    "products": {
+      "000GOIB3": {
+        "n": "",
+        "uc": 8
+      },
+      "001QUCIMA": {
+        "n": "",
+        "uc": 8
+      }
+    },
+    "qr": "HANTONIOSALMON3976Z",
+    "subtotal": "3976",
+    "takenby": "ESTHELITA C4 #2"
   },
   "HBEATRIZPEREZ1895B": {
     "calculable": false,
@@ -4347,6 +5819,37 @@ var ordersJson = {
     "qr": "HDAVIDMARTINEZ6785H",
     "subtotal": "678.5",
     "takenby": "LUIS C5 #6"
+  },
+  "HGUILLERMOLOPEZ5587C": {
+    "calculable": true,
+    "hour": 1685734301749,
+    "iftomorrow": false,
+    "name": "GUILLERMO LOPEZ",
+    "products": {
+      "000EXQSC": {
+        "n": "",
+        "uc": 1
+      },
+      "001CACUL": {
+        "n": "",
+        "uc": 1
+      },
+      "002MECU": {
+        "n": "",
+        "uc": 1
+      },
+      "003MAM3C": {
+        "n": "",
+        "uc": 2
+      },
+      "004MAM3EC": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "HGUILLERMOLOPEZ5587C",
+    "subtotal": "5587",
+    "takenby": "TERE C5 #5"
   },
   "HJAVIERGONZALEZ8215N": {
     "calculable": false,
@@ -4483,6 +5986,56 @@ var ordersJson = {
     "subtotal": "1141.5",
     "takenby": "TERE C5 #7"
   },
+  "HMARIOMARQUEZ1009E": {
+    "calculable": true,
+    "hour": 1685737737505,
+    "iftomorrow": false,
+    "name": "MARIO MARQUEZ",
+    "products": {
+      "000QUMEV": {
+        "n": "",
+        "uc": 1
+      },
+      "001QUN1": {
+        "n": "",
+        "uc": 1
+      },
+      "002SAFC2": {
+        "n": "",
+        "uc": 3
+      },
+      "003CHRCA": {
+        "n": "",
+        "uc": 1
+      },
+      "004MASV": {
+        "n": "",
+        "uc": 1
+      },
+      "005TOZFR1": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "HMARIOMARQUEZ1009E",
+    "subtotal": "1009",
+    "takenby": "ESTHELITA C4 #6"
+  },
+  "HMARTIN1036T": {
+    "calculable": true,
+    "hour": 1685734325995,
+    "iftomorrow": false,
+    "name": "MARTIN",
+    "products": {
+      "000PUTC3C": {
+        "n": "",
+        "uc": 4
+      }
+    },
+    "qr": "HMARTIN1036T",
+    "subtotal": "1036",
+    "takenby": "TERE C5 #1"
+  },
   "HMAXIMINO6145A": {
     "calculable": false,
     "hour": 1685640993491,
@@ -4578,6 +6131,45 @@ var ordersJson = {
     "qr": "HPATYESTRADA867C",
     "subtotal": "867",
     "takenby": "ALAN C4 #3"
+  },
+  "HROBERTOBARRANGA1869R": {
+    "calculable": true,
+    "hour": 1685723799899,
+    "iftomorrow": false,
+    "name": "ROBERTO BARRANGA",
+    "products": {
+      "000CUMK": {
+        "n": "",
+        "uc": 4
+      },
+      "001MAD90C": {
+        "n": "",
+        "uc": 1
+      },
+      "002NUP": {
+        "n": "",
+        "uc": 1
+      },
+      "003PH9": {
+        "n": "",
+        "uc": 10
+      },
+      "004AST": {
+        "n": "",
+        "uc": 2
+      },
+      "005QUMM": {
+        "n": "",
+        "uc": 1
+      },
+      "006TODC": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "HROBERTOBARRANGA1869R",
+    "subtotal": "1869",
+    "takenby": "ESTHELITA C4 #7"
   },
   "HROBERTOMIRANDA6085S": {
     "calculable": false,
@@ -4777,6 +6369,45 @@ var ordersJson = {
     "subtotal": "58",
     "takenby": "DAVID C4 #1"
   },
+  "IBERTHA2175P": {
+    "calculable": false,
+    "hour": 1685724291634,
+    "iftomorrow": false,
+    "name": "BERTHA",
+    "products": {
+      "000ADFOM": {
+        "n": "",
+        "uc": 1
+      },
+      "001YOGV": {
+        "n": "MORA",
+        "uc": 2
+      },
+      "002REIO": {
+        "n": "",
+        "uc": 0.25
+      },
+      "003PABBG": {
+        "n": "",
+        "uc": 1
+      },
+      "004TONI": {
+        "n": "",
+        "uc": 1
+      },
+      "005CRIO": {
+        "n": "",
+        "uc": 0.5
+      },
+      "006JPA": {
+        "n": "",
+        "uc": 0.5
+      }
+    },
+    "qr": "IBERTHA2175P",
+    "subtotal": "217.5",
+    "takenby": "ESTHELITA C4 #7"
+  },
   "IELODIAWHASTSAPP673P": {
     "calculable": false,
     "hour": 1685632785997,
@@ -4815,6 +6446,41 @@ var ordersJson = {
     "qr": "IELODIAWHASTSAPP673P",
     "subtotal": "673",
     "takenby": "TERE C5 #7"
+  },
+  "IELSA313I": {
+    "calculable": false,
+    "hour": 1685733692444,
+    "iftomorrow": false,
+    "name": "ELSA",
+    "products": {
+      "000MAI": {
+        "n": "MOLI",
+        "uc": 0.5
+      },
+      "001MA1C": {
+        "n": "",
+        "uc": 1
+      },
+      "002SAPA": {
+        "n": "",
+        "uc": 1
+      },
+      "003CRCCHORRO": {
+        "n": "",
+        "uc": 0.5
+      },
+      "004COEM": {
+        "n": "",
+        "uc": 1
+      },
+      "005JPA": {
+        "n": ".5",
+        "uc": 1
+      }
+    },
+    "qr": "IELSA313I",
+    "subtotal": "313",
+    "takenby": "TERE C5 #6"
   },
   "IERIKA2877R": {
     "calculable": true,
@@ -4857,6 +6523,48 @@ var ordersJson = {
     "qr": "IFELIPE137P",
     "subtotal": "137",
     "takenby": "ESTHELITA C4 #3"
+  },
+  "IGABRIEL20W": {
+    "calculable": true,
+    "hour": 1685727935688,
+    "iftomorrow": false,
+    "name": "GABRIEL",
+    "products": {
+      "000REJ": {
+        "n": "",
+        "uc": 0.52
+      }
+    },
+    "qr": "IGABRIEL20W",
+    "subtotal": "20",
+    "takenby": "ESTHELITA C4 #1"
+  },
+  "IGABY344M": {
+    "calculable": true,
+    "hour": 1685736613202,
+    "iftomorrow": false,
+    "name": "GABY",
+    "products": {
+      "000QUCI": {
+        "n": "",
+        "uc": 1
+      },
+      "001PAFI": {
+        "n": "",
+        "uc": 10
+      },
+      "002CRP": {
+        "n": "",
+        "uc": 1
+      },
+      "003JPA": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "IGABY344M",
+    "subtotal": "344",
+    "takenby": "ANGI C5 #4"
   },
   "IGUILLERMO701N": {
     "calculable": false,
@@ -5134,6 +6842,25 @@ var ordersJson = {
     "subtotal": "26.5",
     "takenby": "TERE C5 #2"
   },
+  "IMOY1335T": {
+    "calculable": true,
+    "hour": 1685728605698,
+    "iftomorrow": false,
+    "name": "MOY",
+    "products": {
+      "000ARRI": {
+        "n": "",
+        "uc": 1
+      },
+      "001LEEC1": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "IMOY1335T",
+    "subtotal": "133.5",
+    "takenby": "ESTHELITA C4 #2"
+  },
   "INOE1765G": {
     "calculable": false,
     "hour": 1685714327875,
@@ -5156,6 +6883,29 @@ var ordersJson = {
     "qr": "INOE1765G",
     "subtotal": "176.5",
     "takenby": "DAVID C4 #3"
+  },
+  "IRAUL1864G": {
+    "calculable": true,
+    "hour": 1685737816687,
+    "iftomorrow": false,
+    "name": "RAUL",
+    "products": {
+      "000YOK": {
+        "n": "NATURAL",
+        "uc": 6
+      },
+      "001LEEC1C": {
+        "n": "",
+        "uc": 1
+      },
+      "002LEN387C": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "IRAUL1864G",
+    "subtotal": "1864",
+    "takenby": "ALAN C0 #3"
   },
   "IRICARDOBENTACUR46K": {
     "calculable": true,
@@ -5391,6 +7141,67 @@ var ordersJson = {
     "subtotal": "1980",
     "takenby": "TERE C5 #1"
   },
+  "JDANIELCRUZ3875A": {
+    "calculable": true,
+    "hour": 1685726770297,
+    "iftomorrow": false,
+    "name": "DANIEL CRUZ",
+    "products": {
+      "000MAC": {
+        "n": "",
+        "uc": 1
+      },
+      "001JAPF": {
+        "n": "",
+        "uc": 0.5
+      }
+    },
+    "qr": "JDANIELCRUZ3875A",
+    "subtotal": "387.5",
+    "takenby": "ESTHELITA C4 #2"
+  },
+  "JELENAGFA4025R": {
+    "calculable": false,
+    "hour": 1685724298131,
+    "iftomorrow": false,
+    "name": "ELENA GFA",
+    "products": {
+      "000QUOIM": {
+        "n": "",
+        "uc": 1
+      },
+      "001MAM32": {
+        "n": "",
+        "uc": 1
+      },
+      "002FRCC": {
+        "n": "",
+        "uc": 1
+      },
+      "003AHU": {
+        "n": "",
+        "uc": 0.25
+      }
+    },
+    "qr": "JELENAGFA4025R",
+    "subtotal": "402.5",
+    "takenby": "TERE C5 #4"
+  },
+  "JFLAVIOSANDOVAL630X": {
+    "calculable": true,
+    "hour": 1685732578795,
+    "iftomorrow": false,
+    "name": "FLAVIO SANDOVAL",
+    "products": {
+      "000CRBLL": {
+        "n": "",
+        "uc": 10
+      }
+    },
+    "qr": "JFLAVIOSANDOVAL630X",
+    "subtotal": "630",
+    "takenby": "ESTHELITA C4 #1"
+  },
   "JFRANCISCA99K": {
     "calculable": true,
     "hour": 1685638920122,
@@ -5466,6 +7277,64 @@ var ordersJson = {
     "qr": "JGRACIELACAMARENA3185J",
     "subtotal": "318.5",
     "takenby": "TERE C5 #4"
+  },
+  "JGUILLERMO437J": {
+    "calculable": true,
+    "hour": 1685725779081,
+    "iftomorrow": false,
+    "name": "GUILLERMO",
+    "products": {
+      "000CHPM220": {
+        "n": "",
+        "uc": 2
+      },
+      "001CRCCHORRO": {
+        "n": "EN KILOS",
+        "uc": 2
+      },
+      "002JPA": {
+        "n": "",
+        "uc": 1
+      },
+      "003QUMA": {
+        "n": "",
+        "uc": 1
+      },
+      "004REJ": {
+        "n": "",
+        "uc": 2
+      }
+    },
+    "qr": "JGUILLERMO437J",
+    "subtotal": "437",
+    "takenby": "ESTHELITA C4 #5"
+  },
+  "JISIS3015E": {
+    "calculable": false,
+    "hour": 1685735941273,
+    "iftomorrow": false,
+    "name": "ISIS",
+    "products": {
+      "000ADF1": {
+        "n": "",
+        "uc": 1
+      },
+      "001CHI": {
+        "n": "",
+        "uc": 2
+      },
+      "002SAG3": {
+        "n": "",
+        "uc": 1
+      },
+      "003CRP": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "JISIS3015E",
+    "subtotal": "301.5",
+    "takenby": "ANGI C5 #4"
   },
   "JJAVIERPEREZ9575V": {
     "calculable": true,
@@ -5714,6 +7583,53 @@ var ordersJson = {
     "subtotal": "404.5",
     "takenby": "TERE C5 #4"
   },
+  "JPAOLO6256W": {
+    "calculable": false,
+    "hour": 1685729861335,
+    "iftomorrow": false,
+    "name": "PAOLO",
+    "products": {
+      "000GOIB": {
+        "n": "TROZ",
+        "uc": 1
+      },
+      "001JAPFP": {
+        "n": "",
+        "uc": 1
+      },
+      "002PEIK": {
+        "n": "",
+        "uc": 3
+      },
+      "003QUCIM": {
+        "n": "",
+        "uc": 40
+      },
+      "004SAVFC": {
+        "n": "",
+        "uc": 8
+      },
+      "005COF": {
+        "n": "",
+        "uc": 6
+      },
+      "006PITC800": {
+        "n": "",
+        "uc": 8
+      },
+      "007VIBAG": {
+        "n": "",
+        "uc": 2
+      },
+      "008ACOG": {
+        "n": "",
+        "uc": 2
+      }
+    },
+    "qr": "JPAOLO6256W",
+    "subtotal": "6256",
+    "takenby": "TERE C5 #9"
+  },
   "JPEDRO501Q": {
     "calculable": false,
     "hour": 1685621731983,
@@ -5740,6 +7656,25 @@ var ordersJson = {
     "qr": "JPEDRO501Q",
     "subtotal": "501",
     "takenby": "TERE C5 #4"
+  },
+  "JSILVIA333R": {
+    "calculable": true,
+    "hour": 1685731223022,
+    "iftomorrow": false,
+    "name": "SILVIA",
+    "products": {
+      "000PAGB": {
+        "n": "",
+        "uc": 1
+      },
+      "001ZPAFZ1": {
+        "n": "PAPEL",
+        "uc": 2
+      }
+    },
+    "qr": "JSILVIA333R",
+    "subtotal": "333",
+    "takenby": "ESTHELITA C4 #2"
   },
   "JVIRIDIANA7395W": {
     "calculable": false,
@@ -5787,6 +7722,25 @@ var ordersJson = {
     "qr": "JVIRIDIANA7395W",
     "subtotal": "739.5",
     "takenby": "TERE C5 #9"
+  },
+  "KALEX305I": {
+    "calculable": false,
+    "hour": 1685737283833,
+    "iftomorrow": false,
+    "name": "ALEX",
+    "products": {
+      "000QUPCO": {
+        "n": "",
+        "uc": 1
+      },
+      "001YOY4": {
+        "n": "NATU ",
+        "uc": 2
+      }
+    },
+    "qr": "KALEX305I",
+    "subtotal": "305",
+    "takenby": "TERE C5 #2"
   },
   "KALMA62Q": {
     "calculable": true,
@@ -5837,6 +7791,76 @@ var ordersJson = {
     "qr": "KALTATA1002K",
     "subtotal": "1002",
     "takenby": "TERE C5 #5"
+  },
+  "KALVAROHERNANDEZ857C": {
+    "calculable": false,
+    "hour": 1685738865875,
+    "iftomorrow": false,
+    "name": "ALVARO HERNANDEZ",
+    "products": {
+      "000CHPI": {
+        "n": "",
+        "uc": 4
+      },
+      "001SAFC2": {
+        "n": "",
+        "uc": 2
+      },
+      "002SAV3": {
+        "n": "",
+        "uc": 1
+      },
+      "003JPA": {
+        "n": "",
+        "uc": 3
+      }
+    },
+    "qr": "KALVAROHERNANDEZ857C",
+    "subtotal": "857",
+    "takenby": "ALE C3 #4"
+  },
+  "KANDREA4615D": {
+    "calculable": false,
+    "hour": 1685730480063,
+    "iftomorrow": false,
+    "name": "ANDREA",
+    "products": {
+      "000MAI": {
+        "n": "TROZ",
+        "uc": 0.5
+      },
+      "001QU": {
+        "n": "",
+        "uc": 1
+      },
+      "002MAE90": {
+        "n": "",
+        "uc": 2
+      },
+      "003PH190": {
+        "n": "",
+        "uc": 3
+      },
+      "004QUCA": {
+        "n": "",
+        "uc": 1
+      },
+      "005QUC1": {
+        "n": "",
+        "uc": 0.4
+      },
+      "006CRIO": {
+        "n": "",
+        "uc": 1.5
+      },
+      "007QUPCAP": {
+        "n": "BOTANA ",
+        "uc": 0.5
+      }
+    },
+    "qr": "KANDREA4615D",
+    "subtotal": "461.5",
+    "takenby": "TERE C5 #8"
   },
   "KANTONITA76C": {
     "calculable": true,
@@ -6019,6 +8043,44 @@ var ordersJson = {
     "subtotal": "426.5",
     "takenby": "TERE C5 #3"
   },
+  "KESMERALDA226N": {
+    "calculable": true,
+    "hour": 1685729367134,
+    "iftomorrow": false,
+    "name": "ESMERALDA",
+    "products": {
+      "000SAV3": {
+        "n": "",
+        "uc": 2
+      }
+    },
+    "qr": "KESMERALDA226N",
+    "subtotal": "226",
+    "takenby": "TERE C5 #1"
+  },
+  "KFANCISCO3545I": {
+    "calculable": false,
+    "hour": 1685735846683,
+    "iftomorrow": false,
+    "name": "FANCISCO",
+    "products": {
+      "000QUAMM": {
+        "n": "",
+        "uc": 2
+      },
+      "001QUCMI": {
+        "n": "",
+        "uc": 2
+      },
+      "002QUC1": {
+        "n": "EN CUARTOS",
+        "uc": 0.5
+      }
+    },
+    "qr": "KFANCISCO3545I",
+    "subtotal": "354.5",
+    "takenby": "ANGI C5 #3"
+  },
   "KFRANCISCOCAMARENA502Q": {
     "calculable": true,
     "hour": 1685641449366,
@@ -6096,6 +8158,56 @@ var ordersJson = {
     "subtotal": "335",
     "takenby": "TERE C5 #7"
   },
+  "KJOSESANCHEZ1845N": {
+    "calculable": false,
+    "hour": 1685728474490,
+    "iftomorrow": false,
+    "name": "JOSE SANCHEZ",
+    "products": {
+      "000ADMO1": {
+        "n": "",
+        "uc": 6
+      },
+      "001CHI": {
+        "n": "",
+        "uc": 8
+      },
+      "002CHR": {
+        "n": "",
+        "uc": 10
+      },
+      "003SASM": {
+        "n": "",
+        "uc": 2
+      },
+      "004SAP": {
+        "n": "",
+        "uc": 2
+      }
+    },
+    "qr": "KJOSESANCHEZ1845N",
+    "subtotal": "1845",
+    "takenby": "ESTHELITA C4 #5"
+  },
+  "KJUAN161B": {
+    "calculable": true,
+    "hour": 1685738297597,
+    "iftomorrow": false,
+    "name": "JUAN",
+    "products": {
+      "000CAYG": {
+        "n": "",
+        "uc": 1
+      },
+      "001MOSV": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "KJUAN161B",
+    "subtotal": "161",
+    "takenby": "DAVID C4 #2"
+  },
   "KLILIANA439Z": {
     "calculable": true,
     "hour": 1685634148383,
@@ -6137,6 +8249,40 @@ var ordersJson = {
     "qr": "KLORENA56W",
     "subtotal": "56",
     "takenby": "DAVID C4 #2"
+  },
+  "KLUISFERNADO122I": {
+    "calculable": false,
+    "hour": 1685730004540,
+    "iftomorrow": false,
+    "name": "LUIS FERNADO",
+    "products": {
+      "000QUOSC": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "KLUISFERNADO122I",
+    "subtotal": "122",
+    "takenby": "TERE C5 #1"
+  },
+  "KMARTINGOMES479D": {
+    "calculable": false,
+    "hour": 1685732856150,
+    "iftomorrow": false,
+    "name": "MARTIN  GOMES",
+    "products": {
+      "000ADMO1": {
+        "n": "",
+        "uc": 4
+      },
+      "001CARIH1": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "KMARTINGOMES479D",
+    "subtotal": "479",
+    "takenby": "DAVID C3 #2"
   },
   "KMIGUELURIAS8225U": {
     "calculable": false,
@@ -6242,6 +8388,21 @@ var ordersJson = {
     "qr": "KNOE2257M",
     "subtotal": "257",
     "takenby": "ALE C4 #2"
+  },
+  "KOSCAR234E": {
+    "calculable": false,
+    "hour": 1685729219656,
+    "iftomorrow": false,
+    "name": "OSCAR",
+    "products": {
+      "000ADFGM": {
+        "n": "",
+        "uc": 4
+      }
+    },
+    "qr": "KOSCAR234E",
+    "subtotal": "234",
+    "takenby": "ESTHELITA C4 #1"
   },
   "KSALVADORLOPEZ3381R": {
     "calculable": true,
@@ -6371,6 +8532,21 @@ var ordersJson = {
     "subtotal": "139.5",
     "takenby": "LUIS C3 #3"
   },
+  "KULICES516K": {
+    "calculable": true,
+    "hour": 1685731532466,
+    "iftomorrow": false,
+    "name": "ULICES",
+    "products": {
+      "000CRZPC": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "KULICES516K",
+    "subtotal": "516",
+    "takenby": "TERE C5 #1"
+  },
   "KULISES2364E": {
     "calculable": false,
     "hour": 1685706766373,
@@ -6464,6 +8640,21 @@ var ordersJson = {
     "subtotal": "450",
     "takenby": "ALE C4 #1"
   },
+  "LAGELICA59I": {
+    "calculable": true,
+    "hour": 1685728896470,
+    "iftomorrow": false,
+    "name": "AGELICA",
+    "products": {
+      "000CRIO": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "LAGELICA59I",
+    "subtotal": "59",
+    "takenby": "TERE C5 #1"
+  },
   "LANDRES88L": {
     "calculable": true,
     "hour": 1685644838792,
@@ -6478,6 +8669,29 @@ var ordersJson = {
     "qr": "LANDRES88L",
     "subtotal": "88",
     "takenby": "ALE C4 #1"
+  },
+  "LANGELBERTO1084V": {
+    "calculable": true,
+    "hour": 1685738792938,
+    "iftomorrow": false,
+    "name": "ANGELBERTO",
+    "products": {
+      "000CRBTC": {
+        "n": "VAINILLA",
+        "uc": 1
+      },
+      "001MAD1K": {
+        "n": "",
+        "uc": 2
+      },
+      "002LEEC1": {
+        "n": "",
+        "uc": 8
+      }
+    },
+    "qr": "LANGELBERTO1084V",
+    "subtotal": "1084",
+    "takenby": "TERE C5 #3"
   },
   "LANGELFERNANDEZ2685L": {
     "calculable": false,
@@ -6545,6 +8759,29 @@ var ordersJson = {
     "subtotal": "525.5",
     "takenby": "TERE C5 #5"
   },
+  "LEDUARDO4335X": {
+    "calculable": true,
+    "hour": 1685736995541,
+    "iftomorrow": false,
+    "name": "EDUARDO",
+    "products": {
+      "000CUP1M": {
+        "n": "",
+        "uc": 5
+      },
+      "001EXMD90C": {
+        "n": "",
+        "uc": 2
+      },
+      "002JPA": {
+        "n": "",
+        "uc": 2
+      }
+    },
+    "qr": "LEDUARDO4335X",
+    "subtotal": "433.5",
+    "takenby": "TERE C5 #3"
+  },
   "LEDUARDO86I": {
     "calculable": true,
     "hour": 1685643640663,
@@ -6564,6 +8801,33 @@ var ordersJson = {
     "subtotal": "86",
     "takenby": "ALE C4 #2"
   },
+  "LERIK5069A": {
+    "calculable": false,
+    "hour": 1685727841003,
+    "iftomorrow": false,
+    "name": "ERIK",
+    "products": {
+      "000CHEP": {
+        "n": "",
+        "uc": 5
+      },
+      "001GOIB3": {
+        "n": "",
+        "uc": 6
+      },
+      "002ARRIM": {
+        "n": "SIN ETIQUETA",
+        "uc": 25
+      },
+      "003TOJI": {
+        "n": "",
+        "uc": 3
+      }
+    },
+    "qr": "LERIK5069A",
+    "subtotal": "5069",
+    "takenby": "ESTHELITA C4 #4"
+  },
   "LEUGENIAGUERRA1064P": {
     "calculable": true,
     "hour": 1685645387420,
@@ -6578,6 +8842,107 @@ var ordersJson = {
     "qr": "LEUGENIAGUERRA1064P",
     "subtotal": "1064",
     "takenby": "ALE C4 #1"
+  },
+  "LGMI122075Z": {
+    "calculable": false,
+    "hour": 1685726815567,
+    "iftomorrow": false,
+    "name": "GMI",
+    "products": {
+      "000GOIB3": {
+        "n": "",
+        "uc": 29.92
+      }
+    },
+    "qr": "LGMI122075Z",
+    "subtotal": "12207.5",
+    "takenby": "DAVID C3 #1"
+  },
+  "LGUADALUPE72N": {
+    "calculable": true,
+    "hour": 1685737381547,
+    "iftomorrow": false,
+    "name": "GUADALUPE",
+    "products": {
+      "000BOR": {
+        "n": "",
+        "uc": 1
+      },
+      "001CUE1": {
+        "n": "",
+        "uc": 1
+      },
+      "002CRE": {
+        "n": "",
+        "uc": 0.25
+      },
+      "003JAPCPR": {
+        "n": "",
+        "uc": 0.25
+      }
+    },
+    "qr": "LGUADALUPE72N",
+    "subtotal": "72",
+    "takenby": "TERE C5 #4"
+  },
+  "LGUADALUPEGARCIA16638F": {
+    "calculable": false,
+    "hour": 1685738154190,
+    "iftomorrow": false,
+    "name": "GUADALUPE GARCIA",
+    "products": {
+      "000JAEC": {
+        "n": "",
+        "uc": 6
+      },
+      "001MADMD": {
+        "n": "",
+        "uc": 3
+      },
+      "002QUCEMDC": {
+        "n": "",
+        "uc": 50
+      },
+      "003QUMIG": {
+        "n": "",
+        "uc": 70
+      },
+      "004ADSV": {
+        "n": "",
+        "uc": 2
+      },
+      "005GABM": {
+        "n": "",
+        "uc": 10
+      },
+      "006PABCM": {
+        "n": "",
+        "uc": 10
+      },
+      "007PATP3": {
+        "n": "",
+        "uc": 3
+      },
+      "008EM1C": {
+        "n": "",
+        "uc": 8
+      },
+      "009MASVCHC": {
+        "n": "",
+        "uc": 1
+      },
+      "010MASVC": {
+        "n": "",
+        "uc": 1
+      },
+      "011PUTC3C": {
+        "n": "",
+        "uc": 2
+      }
+    },
+    "qr": "LGUADALUPEGARCIA16638F",
+    "subtotal": "16638",
+    "takenby": "TERE C5 #12"
   },
   "LIVAN21455N": {
     "calculable": false,
@@ -6629,6 +8994,21 @@ var ordersJson = {
     "qr": "LIVAN21455N",
     "subtotal": "2145.5",
     "takenby": "TERE C5 #10"
+  },
+  "LJANETTE198D": {
+    "calculable": true,
+    "hour": 1685728553213,
+    "iftomorrow": false,
+    "name": "JANETTE",
+    "products": {
+      "000LEEC1": {
+        "n": "",
+        "uc": 4
+      }
+    },
+    "qr": "LJANETTE198D",
+    "subtotal": "198",
+    "takenby": "ESTHELITA C4 #1"
   },
   "LJOSEMANUEL138K": {
     "calculable": true,
@@ -6761,6 +9141,96 @@ var ordersJson = {
     "subtotal": "426",
     "takenby": "TERE C5 #6"
   },
+  "LMARTHARPONCE2195B": {
+    "calculable": false,
+    "hour": 1685731896101,
+    "iftomorrow": false,
+    "name": "MARTHAR PONCE",
+    "products": {
+      "000ADMOM": {
+        "n": "",
+        "uc": 1
+      },
+      "001BEY242": {
+        "n": "SURTIDO",
+        "uc": 4
+      },
+      "002GEIL": {
+        "n": "",
+        "uc": 5
+      },
+      "003QUC1": {
+        "n": "",
+        "uc": 0.5
+      },
+      "004TONI": {
+        "n": "",
+        "uc": 1
+      },
+      "005TOIS": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "LMARTHARPONCE2195B",
+    "subtotal": "219.5",
+    "takenby": "TERE C5 #6"
+  },
+  "LMARTHARUIZ6595D": {
+    "calculable": false,
+    "hour": 1685726441023,
+    "iftomorrow": false,
+    "name": "MARTHA RUIZ",
+    "products": {
+      "000ADF1": {
+        "n": "",
+        "uc": 1
+      },
+      "001CHZ": {
+        "n": "ROJO",
+        "uc": 0.5
+      },
+      "002QUAFG": {
+        "n": "",
+        "uc": 0.5
+      },
+      "003SAPAC800": {
+        "n": "",
+        "uc": 1
+      },
+      "004YOLY1": {
+        "n": "FRESA",
+        "uc": 2
+      },
+      "005MAI1": {
+        "n": "",
+        "uc": 1
+      },
+      "006PAIBG": {
+        "n": "",
+        "uc": 2
+      },
+      "007CRCCHORRO": {
+        "n": "",
+        "uc": 1.5
+      },
+      "008COEM": {
+        "n": "",
+        "uc": 1
+      },
+      "009JAPA": {
+        "n": "",
+        "uc": 0.5
+      },
+      "010JPA": {
+        "n": "EN MEDIOS",
+        "uc": 1
+      }
+    },
+    "qr": "LMARTHARUIZ6595D",
+    "subtotal": "659.5",
+    "takenby": "ESTHELITA C4 #11"
+  },
   "LMARTINGOMEZ265T": {
     "calculable": false,
     "hour": 1685624953793,
@@ -6779,6 +9249,21 @@ var ordersJson = {
     "qr": "LMARTINGOMEZ265T",
     "subtotal": "265",
     "takenby": "TERE C5 #2"
+  },
+  "LMIGUEL116G": {
+    "calculable": false,
+    "hour": 1685727597697,
+    "iftomorrow": false,
+    "name": "MIGUEL",
+    "products": {
+      "000CHPI": {
+        "n": "",
+        "uc": 2
+      }
+    },
+    "qr": "LMIGUEL116G",
+    "subtotal": "116",
+    "takenby": "TERE C5 #1"
   },
   "LMOISGUZMAN208G": {
     "calculable": true,
@@ -6837,6 +9322,29 @@ var ordersJson = {
     "qr": "LNARCISOCARDENAZ2744E",
     "subtotal": "2744",
     "takenby": "ALE C4 #7"
+  },
+  "LPEPE538C": {
+    "calculable": true,
+    "hour": 1685728942790,
+    "iftomorrow": false,
+    "name": "PEPE",
+    "products": {
+      "000EXMD90C": {
+        "n": "",
+        "uc": 1
+      },
+      "001MAE90A": {
+        "n": "",
+        "uc": 2
+      },
+      "002MIC": {
+        "n": "",
+        "uc": 10
+      }
+    },
+    "qr": "LPEPE538C",
+    "subtotal": "538",
+    "takenby": "TERE C5 #3"
   },
   "LPERLAVILLARUEL554L": {
     "calculable": true,
@@ -6927,6 +9435,37 @@ var ordersJson = {
     "subtotal": "658.5",
     "takenby": "TERE C5 #9"
   },
+  "LSAYUBUFFET13615C": {
+    "calculable": true,
+    "hour": 1685727982593,
+    "iftomorrow": false,
+    "name": "SAYU BUFFET",
+    "products": {
+      "000QUCI": {
+        "n": "",
+        "uc": 3
+      },
+      "001LEEC1": {
+        "n": "",
+        "uc": 5
+      },
+      "002PUTC3": {
+        "n": "",
+        "uc": 2
+      },
+      "003CRIO": {
+        "n": "EN KILOS",
+        "uc": 3
+      },
+      "004JUPMC": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "LSAYUBUFFET13615C",
+    "subtotal": "1361.5",
+    "takenby": "DAVID C3 #5"
+  },
   "LSILVIA7345R": {
     "calculable": true,
     "hour": 1685645281850,
@@ -7000,6 +9539,21 @@ var ordersJson = {
     "qr": "LSRAVEROCHAVARIN2762J",
     "subtotal": "2762",
     "takenby": "TERE C5 #8"
+  },
+  "LT129J": {
+    "calculable": true,
+    "hour": 1685733074482,
+    "iftomorrow": false,
+    "name": "T",
+    "products": {
+      "000TOZFR1": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "LT129J",
+    "subtotal": "129",
+    "takenby": "TERE C5 #1"
   },
   "LTERE59S": {
     "calculable": true,
@@ -7224,6 +9778,21 @@ var ordersJson = {
     "qr": "MCESARRAMIREZ600H",
     "subtotal": "600",
     "takenby": "DAVID C4 #5"
+  },
+  "MCR978P": {
+    "calculable": true,
+    "hour": 1685723049608,
+    "iftomorrow": false,
+    "name": "CR",
+    "products": {
+      "000SAAMHZC": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "MCR978P",
+    "subtotal": "978",
+    "takenby": "TERE C5 #1"
   },
   "MERIKAMALLORGA817W": {
     "calculable": true,
@@ -7538,6 +10107,76 @@ var ordersJson = {
     "subtotal": "1030",
     "takenby": "ALAN C4 #1"
   },
+  "MMARY238D": {
+    "calculable": false,
+    "hour": 1685724808114,
+    "iftomorrow": false,
+    "name": "MARY",
+    "products": {
+      "000QUAFG": {
+        "n": "",
+        "uc": 0.25
+      },
+      "001MAD90": {
+        "n": "",
+        "uc": 2
+      },
+      "002PH9": {
+        "n": "",
+        "uc": 1
+      },
+      "003CHRC380R": {
+        "n": "",
+        "uc": 1
+      },
+      "004DU800": {
+        "n": "",
+        "uc": 1
+      },
+      "005CAH": {
+        "n": "",
+        "uc": 1
+      },
+      "006CRE": {
+        "n": "TRAJO BOTE",
+        "uc": 0.5
+      },
+      "007JPA": {
+        "n": "",
+        "uc": 0.5
+      }
+    },
+    "qr": "MMARY238D",
+    "subtotal": "238",
+    "takenby": "ESTHELITA C4 #8"
+  },
+  "MMARYCRUZ13375W": {
+    "calculable": false,
+    "hour": 1685731266806,
+    "iftomorrow": false,
+    "name": "MARYCRUZ",
+    "products": {
+      "000GOIB3": {
+        "n": "",
+        "uc": 1
+      },
+      "001ZPAFZC": {
+        "n": "",
+        "uc": 1
+      },
+      "002QUMO": {
+        "n": "",
+        "uc": 1
+      },
+      "003SAPRS": {
+        "n": "",
+        "uc": 3
+      }
+    },
+    "qr": "MMARYCRUZ13375W",
+    "subtotal": "1337.5",
+    "takenby": "TERE C5 #4"
+  },
   "MPATY118R": {
     "calculable": false,
     "hour": 1685632787257,
@@ -7769,6 +10408,29 @@ var ordersJson = {
     "subtotal": "180",
     "takenby": "LUIS C4 #2"
   },
+  "NFERNANFLOO418D": {
+    "calculable": false,
+    "hour": 1685735384217,
+    "iftomorrow": false,
+    "name": "FERNANFLOO",
+    "products": {
+      "000ADF1": {
+        "n": "",
+        "uc": 1
+      },
+      "001DEQUI": {
+        "n": "",
+        "uc": 1
+      },
+      "002ADB3": {
+        "n": "",
+        "uc": 2
+      }
+    },
+    "qr": "NFERNANFLOO418D",
+    "subtotal": "418",
+    "takenby": "ALE C0 #3"
+  },
   "NFRANCISCOZANCHEZ7955G": {
     "calculable": false,
     "hour": 1685620127666,
@@ -7869,6 +10531,48 @@ var ordersJson = {
     "subtotal": "395",
     "takenby": "TERE C5 #2"
   },
+  "NISRRAEL336Z": {
+    "calculable": true,
+    "hour": 1685726704979,
+    "iftomorrow": false,
+    "name": "ISRRAEL",
+    "products": {
+      "000ARRI": {
+        "n": "",
+        "uc": 4
+      }
+    },
+    "qr": "NISRRAEL336Z",
+    "subtotal": "336",
+    "takenby": "TERE C5 #1"
+  },
+  "NJOSEAVILA5685P": {
+    "calculable": true,
+    "hour": 1685733716611,
+    "iftomorrow": false,
+    "name": "JOSE AVILA",
+    "products": {
+      "000CRB5": {
+        "n": "",
+        "uc": 1
+      },
+      "001GEILV": {
+        "n": "",
+        "uc": 15
+      },
+      "002MIPGP": {
+        "n": "",
+        "uc": 12
+      },
+      "003SAF2": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "NJOSEAVILA5685P",
+    "subtotal": "568.5",
+    "takenby": "DAVID C3 #4"
+  },
   "NJOSEMORALES5875F": {
     "calculable": false,
     "hour": 1685652923012,
@@ -7926,6 +10630,72 @@ var ordersJson = {
     "qr": "NJUANPABLO158Q",
     "subtotal": "158",
     "takenby": "ALE C4 #1"
+  },
+  "NJULIOCASTELLANOS2881T": {
+    "calculable": true,
+    "hour": 1685724582916,
+    "iftomorrow": false,
+    "name": "JULIO CASTELLANOS",
+    "products": {
+      "000JAPTP": {
+        "n": "",
+        "uc": 2
+      },
+      "001CAP8C": {
+        "n": "",
+        "uc": 2
+      },
+      "002CAH": {
+        "n": "",
+        "uc": 3
+      },
+      "003MASV": {
+        "n": "",
+        "uc": 3
+      },
+      "004MOSV": {
+        "n": "",
+        "uc": 3
+      },
+      "005ACL20": {
+        "n": "",
+        "uc": 1
+      },
+      "006CARBOC": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "NJULIOCASTELLANOS2881T",
+    "subtotal": "2881",
+    "takenby": "ESTHELITA C4 #7"
+  },
+  "NKARINA1132P": {
+    "calculable": false,
+    "hour": 1685732797638,
+    "iftomorrow": false,
+    "name": "KARINA",
+    "products": {
+      "000ADFM": {
+        "n": "",
+        "uc": 4
+      },
+      "001ADMO1": {
+        "n": "",
+        "uc": 2
+      },
+      "002QU": {
+        "n": "",
+        "uc": 4
+      },
+      "003RETMD": {
+        "n": "",
+        "uc": 4
+      }
+    },
+    "qr": "NKARINA1132P",
+    "subtotal": "1132",
+    "takenby": "DAVID C3 #4"
   },
   "NLEO2095J": {
     "calculable": true,
@@ -8063,6 +10833,21 @@ var ordersJson = {
     "qr": "NOCTAVIO10445Q",
     "subtotal": "1044.5",
     "takenby": "ALAN C4 #5"
+  },
+  "NREYNA132R": {
+    "calculable": true,
+    "hour": 1685729512156,
+    "iftomorrow": false,
+    "name": "REYNA",
+    "products": {
+      "000CRCCHORRO": {
+        "n": "EN KILOS",
+        "uc": 3
+      }
+    },
+    "qr": "NREYNA132R",
+    "subtotal": "132",
+    "takenby": "ESTHELITA C4 #1"
   },
   "NROSIOLIVAS2065L": {
     "calculable": true,
@@ -8218,6 +11003,25 @@ var ordersJson = {
     "subtotal": "819.5",
     "takenby": "ALE C4 #4"
   },
+  "OAMELIAGOMEZ540M": {
+    "calculable": true,
+    "hour": 1685738273699,
+    "iftomorrow": false,
+    "name": "AMELIA GOMEZ",
+    "products": {
+      "000PRQAV": {
+        "n": "",
+        "uc": 4
+      },
+      "001JAAA": {
+        "n": "",
+        "uc": 4
+      }
+    },
+    "qr": "OAMELIAGOMEZ540M",
+    "subtotal": "540",
+    "takenby": "TERE C5 #2"
+  },
   "OANDRES112X": {
     "calculable": true,
     "hour": 1685637905992,
@@ -8284,6 +11088,60 @@ var ordersJson = {
     "subtotal": "1868",
     "takenby": "LUIS C5 #10"
   },
+  "OARACELI18135P": {
+    "calculable": false,
+    "hour": 1685727300413,
+    "iftomorrow": false,
+    "name": "ARACELI",
+    "products": {
+      "000ADMO1": {
+        "n": "",
+        "uc": 1
+      },
+      "001QUFSMM1": {
+        "n": "",
+        "uc": 4
+      },
+      "002REIO": {
+        "n": "",
+        "uc": 1
+      },
+      "003MOM3": {
+        "n": "",
+        "uc": 1
+      },
+      "004CRP": {
+        "n": "2.5",
+        "uc": 5
+      },
+      "005JPA": {
+        "n": "",
+        "uc": 0.25
+      },
+      "006ACC20": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "OARACELI18135P",
+    "subtotal": "1813.5",
+    "takenby": "ESTHELITA C4 #7"
+  },
+  "OARACELI95A": {
+    "calculable": true,
+    "hour": 1685723510532,
+    "iftomorrow": false,
+    "name": "ARACELI",
+    "products": {
+      "000SAV1": {
+        "n": "",
+        "uc": 0.25
+      }
+    },
+    "qr": "OARACELI95A",
+    "subtotal": "9.5",
+    "takenby": "ESTHELITA C4 #1"
+  },
   "OCASIMIRO1265P": {
     "calculable": false,
     "hour": 1685653620757,
@@ -8302,6 +11160,37 @@ var ordersJson = {
     "qr": "OCASIMIRO1265P",
     "subtotal": "1265",
     "takenby": "DAVID C5 #2"
+  },
+  "OCREMERIACHUY32715B": {
+    "calculable": true,
+    "hour": 1685738491168,
+    "iftomorrow": false,
+    "name": "CREMERIA CHUY",
+    "products": {
+      "000MAD90C": {
+        "n": "",
+        "uc": 1
+      },
+      "001YOLT1C": {
+        "n": "",
+        "uc": 1
+      },
+      "002YOK": {
+        "n": "NATURA",
+        "uc": 18
+      },
+      "003YOK": {
+        "n": "MANZA",
+        "uc": 3
+      },
+      "004CREC": {
+        "n": "",
+        "uc": 3
+      }
+    },
+    "qr": "OCREMERIACHUY32715B",
+    "subtotal": "3271.5",
+    "takenby": "DAVID C4 #5"
   },
   "OELI61G": {
     "calculable": false,
@@ -8509,6 +11398,21 @@ var ordersJson = {
     "subtotal": "2307",
     "takenby": "LUIS C5 #15"
   },
+  "OHELIODORO289C": {
+    "calculable": true,
+    "hour": 1685732218434,
+    "iftomorrow": false,
+    "name": "HELIODORO",
+    "products": {
+      "000SAACC": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "OHELIODORO289C",
+    "subtotal": "289",
+    "takenby": "ESTHELITA C4 #1"
+  },
   "OJOHANA212X": {
     "calculable": true,
     "hour": 1685637871436,
@@ -8683,6 +11587,25 @@ var ordersJson = {
     "qr": "OMIGUEL376E",
     "subtotal": "376",
     "takenby": "DAVID C5 #3"
+  },
+  "ONATALIACORONA2293O": {
+    "calculable": false,
+    "hour": 1685729366203,
+    "iftomorrow": false,
+    "name": "NATALIA CORONA 2",
+    "products": {
+      "000MAI": {
+        "n": "TROZO",
+        "uc": 1
+      },
+      "001QUCMI": {
+        "n": "",
+        "uc": 2
+      }
+    },
+    "qr": "ONATALIACORONA2293O",
+    "subtotal": "293",
+    "takenby": "ESTHELITA C4 #2"
   },
   "OPATRICIA2975E": {
     "calculable": true,
@@ -8972,6 +11895,21 @@ var ordersJson = {
     "qr": "PCESARPEREZ2590C",
     "subtotal": "2590",
     "takenby": "DAVID C5 #11"
+  },
+  "PESTHELA10X": {
+    "calculable": true,
+    "hour": 1685728794485,
+    "iftomorrow": false,
+    "name": "ESTHELA",
+    "products": {
+      "000ADBL1": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "PESTHELA10X",
+    "subtotal": "10",
+    "takenby": "ESTHELITA C4 #1"
   },
   "PESTHER44M": {
     "calculable": true,
@@ -9282,6 +12220,33 @@ var ordersJson = {
     "subtotal": "278",
     "takenby": "TERE C5 #4"
   },
+  "PLETICIAMUÑIZ711D": {
+    "calculable": true,
+    "hour": 1685724007609,
+    "iftomorrow": false,
+    "name": "LETICIA MUNIZ",
+    "products": {
+      "000ARRI": {
+        "n": "",
+        "uc": 5
+      },
+      "001QUDCV": {
+        "n": "",
+        "uc": 1
+      },
+      "002ADM3": {
+        "n": "",
+        "uc": 1
+      },
+      "003MOM3": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "PLETICIAMUÑIZ711D",
+    "subtotal": "711",
+    "takenby": "ESTHELITA C4 #4"
+  },
   "PLUISFERNANDOGONZAL5096J": {
     "calculable": false,
     "hour": 1685658068284,
@@ -9415,6 +12380,33 @@ var ordersJson = {
     "subtotal": "149",
     "takenby": "DAVID C4 #5"
   },
+  "PSAYUURBANO601Q": {
+    "calculable": false,
+    "hour": 1685728501599,
+    "iftomorrow": false,
+    "name": "SAYU URBANO",
+    "products": {
+      "000PEIG": {
+        "n": "",
+        "uc": 1
+      },
+      "001QUCMI": {
+        "n": "",
+        "uc": 4
+      },
+      "002QUN1": {
+        "n": "",
+        "uc": 1
+      },
+      "003SAPA": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "PSAYUURBANO601Q",
+    "subtotal": "601",
+    "takenby": "DAVID C3 #4"
+  },
   "PSELENEWHASTAPP6335G": {
     "calculable": true,
     "hour": 1685624463363,
@@ -9449,6 +12441,100 @@ var ordersJson = {
     "qr": "PSELENEWHASTAPP6335G",
     "subtotal": "633.5",
     "takenby": "TERE C5 #6"
+  },
+  "PSILVIA405Y": {
+    "calculable": false,
+    "hour": 1685732829629,
+    "iftomorrow": false,
+    "name": "SILVIA",
+    "products": {
+      "000ADFO1": {
+        "n": "",
+        "uc": 1
+      },
+      "001ADMO1": {
+        "n": "",
+        "uc": 1
+      },
+      "002QUPCB": {
+        "n": "",
+        "uc": 1
+      },
+      "003SAPZC1": {
+        "n": "",
+        "uc": 1
+      },
+      "004CAH": {
+        "n": "",
+        "uc": 1
+      },
+      "005CRIO": {
+        "n": "",
+        "uc": 0.25
+      }
+    },
+    "qr": "PSILVIA405Y",
+    "subtotal": "405",
+    "takenby": "TERE C5 #6"
+  },
+  "PTERESAMONTAÑO342R": {
+    "calculable": true,
+    "hour": 1685724744912,
+    "iftomorrow": false,
+    "name": "TERESA MONTANO",
+    "products": {
+      "000SAV1": {
+        "n": "",
+        "uc": 0.5
+      },
+      "001CHEC380": {
+        "n": "",
+        "uc": 1
+      },
+      "002MAIC": {
+        "n": "",
+        "uc": 1
+      },
+      "003SAZB": {
+        "n": "",
+        "uc": 3
+      },
+      "004SARGU": {
+        "n": "",
+        "uc": 1
+      },
+      "005VIBAG": {
+        "n": "",
+        "uc": 1
+      },
+      "006PAMNI": {
+        "n": "",
+        "uc": 1
+      },
+      "007TONI": {
+        "n": "",
+        "uc": 1
+      },
+      "008TOIS": {
+        "n": "",
+        "uc": 2
+      },
+      "009CRCCHORRO": {
+        "n": "",
+        "uc": 0.5
+      },
+      "010JPA": {
+        "n": "",
+        "uc": 0.25
+      },
+      "011JPA": {
+        "n": "",
+        "uc": 0.25
+      }
+    },
+    "qr": "PTERESAMONTAÑO342R",
+    "subtotal": "342",
+    "takenby": "ESTHELITA C4 #12"
   },
   "PVANESAGONZALEZ2065B": {
     "calculable": false,
@@ -9576,6 +12662,29 @@ var ordersJson = {
     "subtotal": "88",
     "takenby": "DAVID C4 #1"
   },
+  "QAMPARO1165I": {
+    "calculable": true,
+    "hour": 1685729338193,
+    "iftomorrow": false,
+    "name": "AMPARO",
+    "products": {
+      "000CUE1": {
+        "n": "",
+        "uc": 1
+      },
+      "001SAPFG": {
+        "n": "",
+        "uc": 1
+      },
+      "002CRCCHORRO": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "QAMPARO1165I",
+    "subtotal": "116.5",
+    "takenby": "TERE C5 #3"
+  },
   "QANTONIOTORREZ110R": {
     "calculable": true,
     "hour": 1685636219141,
@@ -9617,6 +12726,29 @@ var ordersJson = {
     "qr": "QCARINA1695D",
     "subtotal": "169.5",
     "takenby": "ALE C4 #4"
+  },
+  "QCARLOS325N": {
+    "calculable": true,
+    "hour": 1685726107261,
+    "iftomorrow": false,
+    "name": "CARLOS",
+    "products": {
+      "000ASUPER": {
+        "n": "",
+        "uc": 1
+      },
+      "001SAV3": {
+        "n": "",
+        "uc": 1
+      },
+      "002ZPAFZ1": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "QCARLOS325N",
+    "subtotal": "325",
+    "takenby": "ESTHELITA C4 #3"
   },
   "QEMILIORICHAUD2805Y": {
     "calculable": false,
@@ -9707,6 +12839,33 @@ var ordersJson = {
     "subtotal": "242",
     "takenby": "TERE C5 #4"
   },
+  "QGABRIEL9826Z": {
+    "calculable": false,
+    "hour": 1685737070912,
+    "iftomorrow": false,
+    "name": "GABRIEL",
+    "products": {
+      "000QUGF": {
+        "n": "",
+        "uc": 8
+      },
+      "001PEIB": {
+        "n": "",
+        "uc": 2
+      },
+      "002QUCIMA": {
+        "n": "",
+        "uc": 20
+      },
+      "003QUCMMD": {
+        "n": "",
+        "uc": 40
+      }
+    },
+    "qr": "QGABRIEL9826Z",
+    "subtotal": "9826",
+    "takenby": "TERE C5 #4"
+  },
   "QGABRIELJUAREZ675V": {
     "calculable": true,
     "hour": 1685628616830,
@@ -9791,6 +12950,96 @@ var ordersJson = {
     "subtotal": "327",
     "takenby": "TERE C5 #3"
   },
+  "QMARTIN20585W": {
+    "calculable": false,
+    "hour": 1685727964775,
+    "iftomorrow": false,
+    "name": "MARTIN",
+    "products": {
+      "000CHR": {
+        "n": "",
+        "uc": 6
+      },
+      "001QUOIC": {
+        "n": "",
+        "uc": 2
+      },
+      "002CHTI": {
+        "n": "",
+        "uc": 2
+      },
+      "003CUP1": {
+        "n": "",
+        "uc": 3
+      },
+      "004QUAFE": {
+        "n": "",
+        "uc": 1
+      },
+      "005SASM": {
+        "n": "",
+        "uc": 2
+      },
+      "006SAVA370": {
+        "n": "",
+        "uc": 6
+      },
+      "007SAVN370": {
+        "n": "",
+        "uc": 6
+      },
+      "008TOHIR": {
+        "n": "",
+        "uc": 10
+      },
+      "009CAIG": {
+        "n": "",
+        "uc": 1
+      },
+      "010CHEM3": {
+        "n": "",
+        "uc": 1
+      },
+      "011MACH": {
+        "n": "",
+        "uc": 1
+      },
+      "012TONIC": {
+        "n": "",
+        "uc": 1
+      },
+      "013CRCCHORRO": {
+        "n": "JUNTA ",
+        "uc": 3
+      },
+      "014JAA": {
+        "n": "",
+        "uc": 3
+      },
+      "015AGBL": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "QMARTIN20585W",
+    "subtotal": "2058.5",
+    "takenby": "TERE C5 #16"
+  },
+  "QOCTAVIOREYNOSO354S": {
+    "calculable": true,
+    "hour": 1685726974866,
+    "iftomorrow": false,
+    "name": "OCTAVIO REYNOSO",
+    "products": {
+      "000CRIO": {
+        "n": "2-2",
+        "uc": 6
+      }
+    },
+    "qr": "QOCTAVIOREYNOSO354S",
+    "subtotal": "354",
+    "takenby": "TERE C5 #1"
+  },
   "QSANDRA12M": {
     "calculable": true,
     "hour": 1685572263848,
@@ -9832,6 +13081,29 @@ var ordersJson = {
     "qr": "QSANDRO496W",
     "subtotal": "496",
     "takenby": "TERE C5 #4"
+  },
+  "QSANTIAGO932I": {
+    "calculable": true,
+    "hour": 1685733241683,
+    "iftomorrow": false,
+    "name": "SANTIAGO",
+    "products": {
+      "000ADRB": {
+        "n": "",
+        "uc": 1
+      },
+      "001BBHG": {
+        "n": "",
+        "uc": 2
+      },
+      "002SAARHG": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "QSANTIAGO932I",
+    "subtotal": "932",
+    "takenby": "TERE C5 #3"
   },
   "RABELINOCASILLAS182P": {
     "calculable": true,
@@ -9988,6 +13260,21 @@ var ordersJson = {
     "subtotal": "7763.5",
     "takenby": "ALE C4 #13"
   },
+  "RANGELICA471Z": {
+    "calculable": true,
+    "hour": 1685723697987,
+    "iftomorrow": false,
+    "name": "ANGELICA",
+    "products": {
+      "000SAPAHB": {
+        "n": "",
+        "uc": 3
+      }
+    },
+    "qr": "RANGELICA471Z",
+    "subtotal": "471",
+    "takenby": "TERE C5 #1"
+  },
   "RARMANDO103R": {
     "calculable": true,
     "hour": 1685572547269,
@@ -10002,6 +13289,21 @@ var ordersJson = {
     "qr": "RARMANDO103R",
     "subtotal": "103",
     "takenby": "ALAN C3 #1"
+  },
+  "RARMANDO129O": {
+    "calculable": true,
+    "hour": 1685725308492,
+    "iftomorrow": false,
+    "name": "ARMANDO",
+    "products": {
+      "000ZAVCP": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "RARMANDO129O",
+    "subtotal": "129",
+    "takenby": "TERE C5 #1"
   },
   "RARTURO216A": {
     "calculable": false,
@@ -10199,6 +13501,49 @@ var ordersJson = {
     "subtotal": "608.5",
     "takenby": "DAVID C3 #6"
   },
+  "RFLORMIRELES1025X": {
+    "calculable": false,
+    "hour": 1685736867299,
+    "iftomorrow": false,
+    "name": "FLOR MIRELES",
+    "products": {
+      "000CALDCM": {
+        "n": "",
+        "uc": 1
+      },
+      "001NUP": {
+        "n": "",
+        "uc": 1
+      },
+      "002ASUPER": {
+        "n": "",
+        "uc": 1
+      },
+      "003YOY4": {
+        "n": "NATU",
+        "uc": 2
+      },
+      "004DU800": {
+        "n": "",
+        "uc": 2
+      },
+      "005LENG": {
+        "n": "",
+        "uc": 1
+      },
+      "006ADRBG": {
+        "n": "",
+        "uc": 1
+      },
+      "007CRP": {
+        "n": "1K",
+        "uc": 7
+      }
+    },
+    "qr": "RFLORMIRELES1025X",
+    "subtotal": "1025",
+    "takenby": "TERE C5 #8"
+  },
   "RGERARDOGAITAN354X": {
     "calculable": false,
     "hour": 1685719058117,
@@ -10233,6 +13578,25 @@ var ordersJson = {
     "qr": "RGERARDOGAITAN354X",
     "subtotal": "354",
     "takenby": "DAVID C3 #6"
+  },
+  "RIRMA72N": {
+    "calculable": true,
+    "hour": 1685728499306,
+    "iftomorrow": false,
+    "name": "IRMA",
+    "products": {
+      "000PRMVY90": {
+        "n": "",
+        "uc": 1
+      },
+      "001FRC": {
+        "n": "",
+        "uc": 4
+      }
+    },
+    "qr": "RIRMA72N",
+    "subtotal": "72",
+    "takenby": "ESTHELITA C4 #2"
   },
   "RJIULIADELGADO287Q": {
     "calculable": true,
@@ -10355,6 +13719,44 @@ var ordersJson = {
     "subtotal": "825",
     "takenby": "TERE C5 #1"
   },
+  "RJUANCARLOS505O": {
+    "calculable": true,
+    "hour": 1685729039554,
+    "iftomorrow": false,
+    "name": "JUAN CARLOS",
+    "products": {
+      "000QUNH": {
+        "n": "",
+        "uc": 4
+      },
+      "001CAP": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "RJUANCARLOS505O",
+    "subtotal": "505",
+    "takenby": "TERE C5 #2"
+  },
+  "RJUANPABLO6975D": {
+    "calculable": true,
+    "hour": 1685734475773,
+    "iftomorrow": false,
+    "name": "JUAN PABLO",
+    "products": {
+      "000CRLL": {
+        "n": "",
+        "uc": 2
+      },
+      "001SAPSAC": {
+        "n": "",
+        "uc": 7
+      }
+    },
+    "qr": "RJUANPABLO6975D",
+    "subtotal": "697.5",
+    "takenby": "TERE C5 #2"
+  },
   "RLEOGONZALEZ19Q": {
     "calculable": true,
     "hour": 1685572948820,
@@ -10435,6 +13837,40 @@ var ordersJson = {
     "qr": "RMARIACAMARENA2987D",
     "subtotal": "2987",
     "takenby": "DAVID C4 #7"
+  },
+  "RMARIAESTER135E": {
+    "calculable": true,
+    "hour": 1685730630504,
+    "iftomorrow": false,
+    "name": "MARIA ESTER",
+    "products": {
+      "000REJ": {
+        "n": "",
+        "uc": 0.35
+      }
+    },
+    "qr": "RMARIAESTER135E",
+    "subtotal": "13.5",
+    "takenby": "TERE C5 #1"
+  },
+  "RMARIAISABEL1065I": {
+    "calculable": true,
+    "hour": 1685724908709,
+    "iftomorrow": false,
+    "name": "MARIA ISABEL",
+    "products": {
+      "000ACC1": {
+        "n": "",
+        "uc": 1
+      },
+      "001CAH": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "RMARIAISABEL1065I",
+    "subtotal": "106.5",
+    "takenby": "ESTHELITA C4 #2"
   },
   "RMARIALFARO2215L": {
     "calculable": false,
@@ -10625,6 +14061,29 @@ var ordersJson = {
     "subtotal": "119",
     "takenby": "ALAN C4 #2"
   },
+  "ROSVALDO502I": {
+    "calculable": true,
+    "hour": 1685732798449,
+    "iftomorrow": false,
+    "name": "OSVALDO",
+    "products": {
+      "000RODM1": {
+        "n": "",
+        "uc": 2
+      },
+      "001ADM3": {
+        "n": "",
+        "uc": 2
+      },
+      "002CARA": {
+        "n": "",
+        "uc": 3
+      }
+    },
+    "qr": "ROSVALDO502I",
+    "subtotal": "502",
+    "takenby": "ESTHELITA C4 #3"
+  },
   "RPEDRO6095S": {
     "calculable": false,
     "hour": 1685707947038,
@@ -10786,6 +14245,25 @@ var ordersJson = {
     "subtotal": "538",
     "takenby": "DAVID C5 #4"
   },
+  "SALWJANDRAAGUILAR79D": {
+    "calculable": true,
+    "hour": 1685723259908,
+    "iftomorrow": false,
+    "name": "ALWJANDRA AGUILAR",
+    "products": {
+      "000ADFN400G": {
+        "n": "",
+        "uc": 1
+      },
+      "001TONI": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "SALWJANDRAAGUILAR79D",
+    "subtotal": "79",
+    "takenby": "ESTHELITA C4 #2"
+  },
   "SBLANCASANDOVAL98Z": {
     "calculable": true,
     "hour": 1685624524809,
@@ -10923,6 +14401,29 @@ var ordersJson = {
     "subtotal": "57",
     "takenby": "ALAN C4 #1"
   },
+  "SFILIMON1293L": {
+    "calculable": false,
+    "hour": 1685728050656,
+    "iftomorrow": false,
+    "name": "FILIMON",
+    "products": {
+      "000ADFM": {
+        "n": "",
+        "uc": 12
+      },
+      "001CHPI": {
+        "n": "",
+        "uc": 2
+      },
+      "002HUCA": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "SFILIMON1293L",
+    "subtotal": "1293",
+    "takenby": "TERE C5 #3"
+  },
   "SFRANCISCORIVERA277H": {
     "calculable": true,
     "hour": 1685714392314,
@@ -10969,6 +14470,48 @@ var ordersJson = {
     "subtotal": "533",
     "takenby": "TERE C5 #4"
   },
+  "SGIL309Z": {
+    "calculable": true,
+    "hour": 1685728112897,
+    "iftomorrow": false,
+    "name": "GIL",
+    "products": {
+      "000AST": {
+        "n": "",
+        "uc": 3
+      }
+    },
+    "qr": "SGIL309Z",
+    "subtotal": "309",
+    "takenby": "TERE C5 #1"
+  },
+  "SJESUSTORRES353F": {
+    "calculable": false,
+    "hour": 1685727133643,
+    "iftomorrow": false,
+    "name": "JESUS TORRES",
+    "products": {
+      "000ADFOM": {
+        "n": "",
+        "uc": 4
+      },
+      "001ADMIM": {
+        "n": "",
+        "uc": 1
+      },
+      "002MA1C": {
+        "n": "",
+        "uc": 1
+      },
+      "003JPA": {
+        "n": "",
+        "uc": 0.75
+      }
+    },
+    "qr": "SJESUSTORRES353F",
+    "subtotal": "353",
+    "takenby": "TERE C5 #4"
+  },
   "SJOHANA96G": {
     "calculable": false,
     "hour": 1685638681215,
@@ -10998,6 +14541,57 @@ var ordersJson = {
     "qr": "SJOSESANCHEZ6595H",
     "subtotal": "659.5",
     "takenby": "DAVID C3 #1"
+  },
+  "SKAWUA6515V": {
+    "calculable": false,
+    "hour": 1685731556686,
+    "iftomorrow": false,
+    "name": "KAWUA",
+    "products": {
+      "000QUFSMDM": {
+        "n": "",
+        "uc": 2
+      },
+      "001QUFSMM1": {
+        "n": "",
+        "uc": 1
+      },
+      "002QUOSMM": {
+        "n": "",
+        "uc": 1
+      },
+      "003QUPCB": {
+        "n": "CHICA",
+        "uc": 1
+      },
+      "004PRBMY": {
+        "n": "",
+        "uc": 1
+      },
+      "005PRMVY90": {
+        "n": "",
+        "uc": 1
+      },
+      "006CRCCHORRO": {
+        "n": "",
+        "uc": 0.5
+      },
+      "007CRCCHORRO": {
+        "n": "",
+        "uc": 1
+      },
+      "008JPA": {
+        "n": "",
+        "uc": 1
+      },
+      "009TOEIP": {
+        "n": "",
+        "uc": 0.25
+      }
+    },
+    "qr": "SKAWUA6515V",
+    "subtotal": "651.5",
+    "takenby": "ESTHELITA C4 #10"
   },
   "SLUIS40N": {
     "calculable": true,
@@ -11075,6 +14669,25 @@ var ordersJson = {
     "subtotal": "429",
     "takenby": "TERE C5 #3"
   },
+  "SMAYRA118D": {
+    "calculable": true,
+    "hour": 1685723924586,
+    "iftomorrow": false,
+    "name": "MAYRA",
+    "products": {
+      "000LENG": {
+        "n": "",
+        "uc": 1
+      },
+      "001CRIO": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "SMAYRA118D",
+    "subtotal": "118",
+    "takenby": "ESTHELITA C4 #2"
+  },
   "SMIKEESTRADA1696T": {
     "calculable": false,
     "hour": 1685711521944,
@@ -11113,6 +14726,89 @@ var ordersJson = {
     "qr": "SMIKEESTRADA1696T",
     "subtotal": "1696",
     "takenby": "LUIS C5 #7"
+  },
+  "SNORMARAMIREZ34235F": {
+    "calculable": false,
+    "hour": 1685735571741,
+    "iftomorrow": false,
+    "name": "NORMA RAMIREZ",
+    "products": {
+      "000QUFSMDM": {
+        "n": "",
+        "uc": 3
+      },
+      "001QUFSMD": {
+        "n": "",
+        "uc": 6
+      },
+      "002BEY242": {
+        "n": "3FRESA 3 DURZ 3 PINA COCO",
+        "uc": 9
+      },
+      "003CRL200": {
+        "n": "",
+        "uc": 24
+      },
+      "004DAB": {
+        "n": "",
+        "uc": 8
+      },
+      "005DAPETIT": {
+        "n": "",
+        "uc": 30
+      },
+      "006EXMD90C": {
+        "n": "",
+        "uc": 1
+      },
+      "007GEILV": {
+        "n": "",
+        "uc": 5
+      },
+      "008PRQAV": {
+        "n": "",
+        "uc": 1
+      },
+      "009ASUPER": {
+        "n": "",
+        "uc": 6
+      },
+      "010YOK": {
+        "n": "2CERE 1 DURZ 1 MAZ",
+        "uc": 4
+      },
+      "011HUM": {
+        "n": "",
+        "uc": 1
+      },
+      "012CAIC": {
+        "n": "",
+        "uc": 6
+      },
+      "013SAM100": {
+        "n": "",
+        "uc": 4
+      },
+      "014MIC": {
+        "n": "",
+        "uc": 5
+      },
+      "015VAM120": {
+        "n": "",
+        "uc": 5
+      },
+      "016JACV": {
+        "n": "",
+        "uc": 2
+      },
+      "017PAFIB": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "SNORMARAMIREZ34235F",
+    "subtotal": "3423.5",
+    "takenby": "TERE C5 #18"
   },
   "SRICARDO188F": {
     "calculable": true,
@@ -11265,6 +14961,36 @@ var ordersJson = {
     "subtotal": "630",
     "takenby": "ALAN C4 #2"
   },
+  "TFILIMONGONZALEZ2464Y": {
+    "calculable": false,
+    "hour": 1685730723405,
+    "iftomorrow": false,
+    "name": "FILIMON GONZALEZ",
+    "products": {
+      "000QUC2P": {
+        "n": "",
+        "uc": 16
+      }
+    },
+    "qr": "TFILIMONGONZALEZ2464Y",
+    "subtotal": "2464",
+    "takenby": "TERE C5 #1"
+  },
+  "TGABY825D": {
+    "calculable": true,
+    "hour": 1685722859112,
+    "iftomorrow": false,
+    "name": "GABY",
+    "products": {
+      "000MIP": {
+        "n": "NO PIÑA",
+        "uc": 5
+      }
+    },
+    "qr": "TGABY825D",
+    "subtotal": "82.5",
+    "takenby": "ESTHELITA C4 #1"
+  },
   "TJLUCIANO1500J": {
     "calculable": true,
     "hour": 1685715585567,
@@ -11298,6 +15024,25 @@ var ordersJson = {
     "qr": "TJULIAMACIAS305T",
     "subtotal": "30.5",
     "takenby": "TERE C5 #2"
+  },
+  "TLIZPEREZ915K": {
+    "calculable": false,
+    "hour": 1685738255036,
+    "iftomorrow": false,
+    "name": "LIZ PEREZ",
+    "products": {
+      "000ADFM": {
+        "n": "",
+        "uc": 1
+      },
+      "001QU": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "TLIZPEREZ915K",
+    "subtotal": "91.5",
+    "takenby": "ALE C3 #2"
   },
   "TLOPEZ174K": {
     "calculable": false,
@@ -11568,6 +15313,21 @@ var ordersJson = {
     "subtotal": "122",
     "takenby": "ESTHELITA C4 #1"
   },
+  "UALEX39F": {
+    "calculable": true,
+    "hour": 1685737551785,
+    "iftomorrow": false,
+    "name": "ALEX",
+    "products": {
+      "000SABHM": {
+        "n": "ORIGINAL",
+        "uc": 1
+      }
+    },
+    "qr": "UALEX39F",
+    "subtotal": "39",
+    "takenby": "TERE C5 #1"
+  },
   "UAMPAROAMEZOLAGUTIE906B": {
     "calculable": false,
     "hour": 1685653614282,
@@ -11790,6 +15550,21 @@ var ordersJson = {
     "qr": "UDIEGOSANCHEZ3663Y",
     "subtotal": "3663",
     "takenby": "ESTHELITA C4 #17"
+  },
+  "UENRIQUE291L": {
+    "calculable": true,
+    "hour": 1685728769581,
+    "iftomorrow": false,
+    "name": "ENRIQUE 2",
+    "products": {
+      "000QUAFE": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "UENRIQUE291L",
+    "subtotal": "91",
+    "takenby": "ESTHELITA C4 #1"
   },
   "UEVITA935L": {
     "calculable": true,
@@ -12038,6 +15813,25 @@ var ordersJson = {
     "subtotal": "210",
     "takenby": "LUIS C5 #1"
   },
+  "UMARY553E": {
+    "calculable": true,
+    "hour": 1685730555672,
+    "iftomorrow": false,
+    "name": "MARY",
+    "products": {
+      "000CRBTC": {
+        "n": "VAIN",
+        "uc": 1
+      },
+      "001EXMD90C": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "UMARY553E",
+    "subtotal": "553",
+    "takenby": "ESTHELITA C4 #2"
+  },
   "UMOY5535I": {
     "calculable": true,
     "hour": 1685720014803,
@@ -12083,6 +15877,21 @@ var ordersJson = {
     "qr": "UNATALIACORONA4395U",
     "subtotal": "439.5",
     "takenby": "DAVID C4 #2"
+  },
+  "UOSCAR66I": {
+    "calculable": true,
+    "hour": 1685729890600,
+    "iftomorrow": false,
+    "name": "OSCAR",
+    "products": {
+      "000PABS": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "UOSCAR66I",
+    "subtotal": "66",
+    "takenby": "TERE C5 #1"
   },
   "URICARDOVERNAL1495Q": {
     "calculable": true,
@@ -12141,6 +15950,49 @@ var ordersJson = {
     "qr": "UROBERTOTREGO2155A",
     "subtotal": "215.5",
     "takenby": "TERE C5 #7"
+  },
+  "USRAMARY5675S": {
+    "calculable": false,
+    "hour": 1685734168357,
+    "iftomorrow": false,
+    "name": "SRA MARY",
+    "products": {
+      "000REZ": {
+        "n": "",
+        "uc": 2
+      },
+      "001QUM": {
+        "n": "",
+        "uc": 1
+      },
+      "002YOY1": {
+        "n": "CERE DURAZ FRESA",
+        "uc": 3
+      },
+      "003CHMB380": {
+        "n": "",
+        "uc": 1
+      },
+      "004LEEC1": {
+        "n": "",
+        "uc": 2
+      },
+      "005QUME": {
+        "n": "",
+        "uc": 1
+      },
+      "006CASV": {
+        "n": "",
+        "uc": 1
+      },
+      "007CRCCHORRO": {
+        "n": "EN KILOS",
+        "uc": 2
+      }
+    },
+    "qr": "USRAMARY5675S",
+    "subtotal": "567.5",
+    "takenby": "DAVID C3 #8"
   },
   "VALE2535A": {
     "calculable": false,
@@ -12222,6 +16074,21 @@ var ordersJson = {
     "qr": "VALFREDOGARCIA1222X",
     "subtotal": "1222",
     "takenby": "TERE C5 #6"
+  },
+  "VARACELI225K": {
+    "calculable": false,
+    "hour": 1685723395185,
+    "iftomorrow": false,
+    "name": "ARACELI",
+    "products": {
+      "000QUOIMK": {
+        "n": "MOLIDO",
+        "uc": 1
+      }
+    },
+    "qr": "VARACELI225K",
+    "subtotal": "22.5",
+    "takenby": "ESTHELITA C4 #1"
   },
   "VAURRA253D": {
     "calculable": true,
@@ -12478,6 +16345,21 @@ var ordersJson = {
     "subtotal": "2288",
     "takenby": "TERE C5 #3"
   },
+  "VJOSEAVILA122I": {
+    "calculable": true,
+    "hour": 1685734988140,
+    "iftomorrow": false,
+    "name": "JOSE AVILA",
+    "products": {
+      "000CAVM": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "VJOSEAVILA122I",
+    "subtotal": "122",
+    "takenby": "ESTHELITA C4 #1"
+  },
   "VJOSEMANUELMONTEZ2177C": {
     "calculable": true,
     "hour": 1685633923151,
@@ -12504,6 +16386,68 @@ var ordersJson = {
     "qr": "VJOSEMANUELMONTEZ2177C",
     "subtotal": "2177",
     "takenby": "TERE C5 #4"
+  },
+  "VJOSERAMIREZ508W": {
+    "calculable": false,
+    "hour": 1685733789182,
+    "iftomorrow": false,
+    "name": "JOSE RAMIREZ",
+    "products": {
+      "000CHCI": {
+        "n": "",
+        "uc": 1
+      },
+      "001LO": {
+        "n": "",
+        "uc": 2
+      },
+      "002JACNPK": {
+        "n": "",
+        "uc": 2
+      },
+      "003ASUPER": {
+        "n": "",
+        "uc": 1
+      },
+      "004CRIO": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "VJOSERAMIREZ508W",
+    "subtotal": "508",
+    "takenby": "ESTHELITA C4 #5"
+  },
+  "VKATYDOMINGUEZ3075N": {
+    "calculable": false,
+    "hour": 1685737242883,
+    "iftomorrow": false,
+    "name": "KATY DOMINGUEZ",
+    "products": {
+      "000ADFM": {
+        "n": "",
+        "uc": 1
+      },
+      "001QUOSJ1": {
+        "n": "",
+        "uc": 3
+      },
+      "002NUP": {
+        "n": "",
+        "uc": 1
+      },
+      "003SAAP": {
+        "n": "",
+        "uc": 1
+      },
+      "004CRIO": {
+        "n": "",
+        "uc": 0.25
+      }
+    },
+    "qr": "VKATYDOMINGUEZ3075N",
+    "subtotal": "307.5",
+    "takenby": "TERE C5 #5"
   },
   "VLOSPASTE988A": {
     "calculable": true,
@@ -12543,6 +16487,45 @@ var ordersJson = {
     "subtotal": "399",
     "takenby": "TERE C5 #2"
   },
+  "VMARISCOSELCARNAL1355Q": {
+    "calculable": false,
+    "hour": 1685737973601,
+    "iftomorrow": false,
+    "name": "MARISCOS EL CARNAL",
+    "products": {
+      "000ADFO1": {
+        "n": "",
+        "uc": 5
+      },
+      "001QUPCB": {
+        "n": "",
+        "uc": 2
+      },
+      "002MAD1": {
+        "n": "",
+        "uc": 3
+      },
+      "003TOVP": {
+        "n": "",
+        "uc": 4
+      },
+      "004CRIO": {
+        "n": "EN BOTE",
+        "uc": 4
+      },
+      "005JAFI": {
+        "n": "",
+        "uc": 0.5
+      },
+      "006TOZFR1": {
+        "n": "",
+        "uc": 2
+      }
+    },
+    "qr": "VMARISCOSELCARNAL1355Q",
+    "subtotal": "1355",
+    "takenby": "ESTHELITA C4 #7"
+  },
   "VMIGUEL215M": {
     "calculable": true,
     "hour": 1685719452802,
@@ -12556,6 +16539,21 @@ var ordersJson = {
     },
     "qr": "VMIGUEL215M",
     "subtotal": "215",
+    "takenby": "TERE C5 #1"
+  },
+  "VP118Y": {
+    "calculable": true,
+    "hour": 1685726407019,
+    "iftomorrow": false,
+    "name": "P",
+    "products": {
+      "000CAH": {
+        "n": "",
+        "uc": 2
+      }
+    },
+    "qr": "VP118Y",
+    "subtotal": "118",
     "takenby": "TERE C5 #1"
   },
   "VPATYESTRADA552J": {
@@ -12580,6 +16578,21 @@ var ordersJson = {
     "qr": "VPATYESTRADA552J",
     "subtotal": "552",
     "takenby": "LUIS C4 #3"
+  },
+  "VREYNA44G": {
+    "calculable": true,
+    "hour": 1685729558878,
+    "iftomorrow": false,
+    "name": "REYNA",
+    "products": {
+      "000CRCCHORRO": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "VREYNA44G",
+    "subtotal": "44",
+    "takenby": "ESTHELITA C4 #1"
   },
   "VROSA46Y": {
     "calculable": true,
@@ -12614,6 +16627,21 @@ var ordersJson = {
     "qr": "VROSARIO94P",
     "subtotal": "94",
     "takenby": "ESTHELITA C4 #2"
+  },
+  "VSALVADOR117E": {
+    "calculable": true,
+    "hour": 1685738836238,
+    "iftomorrow": false,
+    "name": "SALVADOR",
+    "products": {
+      "000ZAVC": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "VSALVADOR117E",
+    "subtotal": "117",
+    "takenby": "TERE C5 #1"
   },
   "VVANESSAWHATSAPP7105I": {
     "calculable": true,
@@ -12710,6 +16738,25 @@ var ordersJson = {
     "subtotal": "627",
     "takenby": "ESTHELITA C4 #2"
   },
+  "WANGELINA1635K": {
+    "calculable": false,
+    "hour": 1685723060205,
+    "iftomorrow": false,
+    "name": "ANGELINA",
+    "products": {
+      "000ADFOM": {
+        "n": "",
+        "uc": 1
+      },
+      "001ADFO1": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "WANGELINA1635K",
+    "subtotal": "163.5",
+    "takenby": "ESTHELITA C4 #2"
+  },
   "WARMANDO63B": {
     "calculable": true,
     "hour": 1685572644895,
@@ -12759,6 +16806,25 @@ var ordersJson = {
     "subtotal": "39.5",
     "takenby": "ALAN C4 #2"
   },
+  "WCONCHITA1890I": {
+    "calculable": false,
+    "hour": 1685735637286,
+    "iftomorrow": false,
+    "name": "CONCHITA",
+    "products": {
+      "000QUAMMM": {
+        "n": "",
+        "uc": 7
+      },
+      "001QUOSM": {
+        "n": "",
+        "uc": 7
+      }
+    },
+    "qr": "WCONCHITA1890I",
+    "subtotal": "1890",
+    "takenby": "ESTHELITA C4 #2"
+  },
   "WDIEGOARMANDOFLORES315E": {
     "calculable": true,
     "hour": 1685651909987,
@@ -12777,6 +16843,21 @@ var ordersJson = {
     "qr": "WDIEGOARMANDOFLORES315E",
     "subtotal": "315",
     "takenby": "ALE C4 #2"
+  },
+  "WENRIQUE234U": {
+    "calculable": true,
+    "hour": 1685729942845,
+    "iftomorrow": false,
+    "name": "ENRIQUE",
+    "products": {
+      "000ACC5": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "WENRIQUE234U",
+    "subtotal": "234",
+    "takenby": "TERE C5 #1"
   },
   "WEUGENIO510F": {
     "calculable": true,
@@ -12803,6 +16884,33 @@ var ordersJson = {
     },
     "qr": "WEUGENIO510F",
     "subtotal": "510",
+    "takenby": "TERE C5 #4"
+  },
+  "WGABYMUÑOS439N": {
+    "calculable": true,
+    "hour": 1685734629674,
+    "iftomorrow": false,
+    "name": "GABY MUNOS",
+    "products": {
+      "000DEQUI": {
+        "n": "",
+        "uc": 1
+      },
+      "001PEBP": {
+        "n": "",
+        "uc": 1
+      },
+      "002SAS3": {
+        "n": "",
+        "uc": 1
+      },
+      "003ARCI": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "WGABYMUÑOS439N",
+    "subtotal": "439",
     "takenby": "TERE C5 #4"
   },
   "WHECTORBOTELLO194J": {
@@ -12838,6 +16946,76 @@ var ordersJson = {
     "qr": "WILDA335A",
     "subtotal": "33.5",
     "takenby": "DAVID C3 #2"
+  },
+  "WJOSEANTONIORODRIG5325Z": {
+    "calculable": false,
+    "hour": 1685728474677,
+    "iftomorrow": false,
+    "name": "JOSE ANTONIO RODRIG",
+    "products": {
+      "000QUAMK": {
+        "n": "",
+        "uc": 1
+      },
+      "001CALDCM": {
+        "n": "",
+        "uc": 1
+      },
+      "002MAEA1": {
+        "n": "",
+        "uc": 1
+      },
+      "003QUCB": {
+        "n": "",
+        "uc": 1
+      },
+      "004QUC1": {
+        "n": "",
+        "uc": 0.25
+      },
+      "005MEC": {
+        "n": "",
+        "uc": 2
+      },
+      "006CRIO": {
+        "n": "",
+        "uc": 1
+      },
+      "007JAPF": {
+        "n": "",
+        "uc": 0.5
+      }
+    },
+    "qr": "WJOSEANTONIORODRIG5325Z",
+    "subtotal": "532.5",
+    "takenby": "TERE C5 #8"
+  },
+  "WJOSEMORALES1455I": {
+    "calculable": false,
+    "hour": 1685739098516,
+    "iftomorrow": false,
+    "name": "JOSE MORALES",
+    "products": {
+      "000CHR": {
+        "n": "",
+        "uc": 0.5
+      },
+      "001GOIB": {
+        "n": "",
+        "uc": 0.5
+      },
+      "002SAPFG": {
+        "n": "",
+        "uc": 0.5
+      },
+      "003PAMNI": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "WJOSEMORALES1455I",
+    "subtotal": "145.5",
+    "takenby": "TERE C5 #4"
   },
   "WJUANARIAS80U": {
     "calculable": false,
@@ -12904,6 +17082,25 @@ var ordersJson = {
     "qr": "WJUANPANTOJA14625A",
     "subtotal": "1462.5",
     "takenby": "ALAN C4 #7"
+  },
+  "WKEVIN1385M": {
+    "calculable": false,
+    "hour": 1685724872765,
+    "iftomorrow": false,
+    "name": "KEVIN",
+    "products": {
+      "000ADFO1": {
+        "n": "",
+        "uc": 1
+      },
+      "001CRIO": {
+        "n": "",
+        "uc": 0.5
+      }
+    },
+    "qr": "WKEVIN1385M",
+    "subtotal": "138.5",
+    "takenby": "ESTHELITA C4 #2"
   },
   "WLOSPELONES29T": {
     "calculable": true,
@@ -12984,6 +17181,25 @@ var ordersJson = {
     "qr": "WMARIAROCHA113U",
     "subtotal": "113",
     "takenby": "TERE C5 #1"
+  },
+  "WMIGUELTELEFONO438E": {
+    "calculable": false,
+    "hour": 1685727668057,
+    "iftomorrow": false,
+    "name": "MIGUEL TELEFONO",
+    "products": {
+      "000ADMM1": {
+        "n": "",
+        "uc": 2
+      },
+      "001TOEIP": {
+        "n": "",
+        "uc": 2
+      }
+    },
+    "qr": "WMIGUELTELEFONO438E",
+    "subtotal": "438",
+    "takenby": "TERE C5 #2"
   },
   "WOMARGALLEGO342F": {
     "calculable": true,
@@ -13167,6 +17383,37 @@ var ordersJson = {
     "subtotal": "2149",
     "takenby": "TERE C5 #18"
   },
+  "WVICTOR277X": {
+    "calculable": false,
+    "hour": 1685734093616,
+    "iftomorrow": false,
+    "name": "VICTOR",
+    "products": {
+      "000REZ": {
+        "n": "",
+        "uc": 0.5
+      },
+      "001SAPZC1": {
+        "n": "",
+        "uc": 1
+      },
+      "002CAH": {
+        "n": "",
+        "uc": 1
+      },
+      "003JAPSRA": {
+        "n": "",
+        "uc": 0.5
+      },
+      "004JASTM": {
+        "n": "",
+        "uc": 0.25
+      }
+    },
+    "qr": "WVICTOR277X",
+    "subtotal": "277",
+    "takenby": "TERE C5 #5"
+  },
   "WVIRIDIANA9845J": {
     "calculable": false,
     "hour": 1685624242362,
@@ -13217,6 +17464,45 @@ var ordersJson = {
     "qr": "WVIRIDIANA9845J",
     "subtotal": "984.5",
     "takenby": "LUIS C4 #10"
+  },
+  "XALEJANDROECHEVERRIA1736Z": {
+    "calculable": true,
+    "hour": 1685725492909,
+    "iftomorrow": false,
+    "name": "ALEJANDRO ECHEVERRIA",
+    "products": {
+      "000CRL4": {
+        "n": "",
+        "uc": 1
+      },
+      "001TON": {
+        "n": "",
+        "uc": 6
+      },
+      "002POSLM": {
+        "n": "",
+        "uc": 1
+      },
+      "003ADR": {
+        "n": "",
+        "uc": 1
+      },
+      "004MOSV": {
+        "n": "",
+        "uc": 1
+      },
+      "005PIC3K": {
+        "n": "",
+        "uc": 2
+      },
+      "006SABA": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "XALEJANDROECHEVERRIA1736Z",
+    "subtotal": "1736",
+    "takenby": "TERE C5 #7"
   },
   "XALICIA395I": {
     "calculable": true,
@@ -13502,6 +17788,45 @@ var ordersJson = {
     "qr": "XMARICELA445V",
     "subtotal": "44.5",
     "takenby": "ALE C4 #1"
+  },
+  "XMARYWATSAPP1212N": {
+    "calculable": true,
+    "hour": 1685727484916,
+    "iftomorrow": false,
+    "name": "MARY WATSAPP",
+    "products": {
+      "000QUM": {
+        "n": "",
+        "uc": 2
+      },
+      "001QUN1": {
+        "n": "",
+        "uc": 2
+      },
+      "002SASM3": {
+        "n": "",
+        "uc": 6
+      },
+      "003CAH": {
+        "n": "1",
+        "uc": 1
+      },
+      "004CAR4": {
+        "n": "",
+        "uc": 1
+      },
+      "005CRCCHORRO": {
+        "n": "2-2",
+        "uc": 4
+      },
+      "006CRP": {
+        "n": "1-1",
+        "uc": 3
+      }
+    },
+    "qr": "XMARYWATSAPP1212N",
+    "subtotal": "1212",
+    "takenby": "TERE C5 #7"
   },
   "XNANCY148W": {
     "calculable": true,
@@ -13846,6 +18171,33 @@ var ordersJson = {
     "subtotal": "109",
     "takenby": "ESTHELITA C4 #2"
   },
+  "YCYN156H": {
+    "calculable": true,
+    "hour": 1685725252025,
+    "iftomorrow": false,
+    "name": "CYN",
+    "products": {
+      "000MAD1": {
+        "n": "",
+        "uc": 1
+      },
+      "001QUN1": {
+        "n": "",
+        "uc": 2
+      },
+      "002MOB950": {
+        "n": "",
+        "uc": 1
+      },
+      "003CRE": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "YCYN156H",
+    "subtotal": "156",
+    "takenby": "TERE C5 #4"
+  },
   "YEDUARDOX303V": {
     "calculable": true,
     "hour": 1685715110741,
@@ -13930,6 +18282,25 @@ var ordersJson = {
     "qr": "YEMI125O",
     "subtotal": "125",
     "takenby": "TERE C5 #3"
+  },
+  "YEMI1455H": {
+    "calculable": true,
+    "hour": 1685737810984,
+    "iftomorrow": false,
+    "name": "EMI",
+    "products": {
+      "000YOY4": {
+        "n": "NATURA",
+        "uc": 1
+      },
+      "001JAR": {
+        "n": "",
+        "uc": 0.5
+      }
+    },
+    "qr": "YEMI1455H",
+    "subtotal": "145.5",
+    "takenby": "ESTHELITA C4 #2"
   },
   "YESTHER915X": {
     "calculable": true,
@@ -14023,6 +18394,63 @@ var ordersJson = {
     "subtotal": "1047",
     "takenby": "ALAN C4 #5"
   },
+  "YGMIFOODS40895V": {
+    "calculable": false,
+    "hour": 1685727089417,
+    "iftomorrow": false,
+    "name": "GMI FOODS",
+    "products": {
+      "000ZGOI3R": {
+        "n": "",
+        "uc": 29.92
+      },
+      "001PITA3C": {
+        "n": "",
+        "uc": 2
+      }
+    },
+    "qr": "YGMIFOODS40895V",
+    "subtotal": "4089.5",
+    "takenby": "DAVID C3 #2"
+  },
+  "YGONZALO239Y": {
+    "calculable": false,
+    "hour": 1685725102531,
+    "iftomorrow": false,
+    "name": "GONZALO",
+    "products": {
+      "000MAI": {
+        "n": "TROZO",
+        "uc": 1
+      },
+      "001CAH": {
+        "n": "",
+        "uc": 1
+      },
+      "002TONI": {
+        "n": "",
+        "uc": 4
+      }
+    },
+    "qr": "YGONZALO239Y",
+    "subtotal": "239",
+    "takenby": "ESTHELITA C4 #3"
+  },
+  "YHGT15O": {
+    "calculable": true,
+    "hour": 1685736519122,
+    "iftomorrow": false,
+    "name": "H. G .T",
+    "products": {
+      "000TONO": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "YHGT15O",
+    "subtotal": "15",
+    "takenby": "ANGI C5 #1"
+  },
   "YHUMBERTO340C": {
     "calculable": false,
     "hour": 1685623099135,
@@ -14069,6 +18497,25 @@ var ordersJson = {
     "subtotal": "286.5",
     "takenby": "ALAN C4 #5"
   },
+  "YLUCIA100F": {
+    "calculable": true,
+    "hour": 1685726642165,
+    "iftomorrow": false,
+    "name": "LUCIA",
+    "products": {
+      "000MAMG": {
+        "n": "",
+        "uc": 0.5
+      },
+      "001CRIO": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "YLUCIA100F",
+    "subtotal": "100",
+    "takenby": "ESTHELITA C4 #2"
+  },
   "YLUPITA137Y": {
     "calculable": false,
     "hour": 1685634238697,
@@ -14087,6 +18534,21 @@ var ordersJson = {
     "qr": "YLUPITA137Y",
     "subtotal": "137",
     "takenby": "ALAN C4 #2"
+  },
+  "YMAGDALIA219Q": {
+    "calculable": true,
+    "hour": 1685727995976,
+    "iftomorrow": false,
+    "name": "MAGDALIA",
+    "products": {
+      "000CRL4": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "YMAGDALIA219Q",
+    "subtotal": "219",
+    "takenby": "ESTHELITA C4 #1"
   },
   "YMARINA109Y": {
     "calculable": false,
@@ -14558,6 +19020,56 @@ var ordersJson = {
     "subtotal": "4404",
     "takenby": "DAVID C4 #2"
   },
+  "ZDAVID148J": {
+    "calculable": false,
+    "hour": 1685731747762,
+    "iftomorrow": false,
+    "name": "DAVID",
+    "products": {
+      "000GOIB": {
+        "n": "TROZ",
+        "uc": 0.5
+      },
+      "001CAH": {
+        "n": "",
+        "uc": 1
+      },
+      "002CRCCHORRO": {
+        "n": "",
+        "uc": 0.5
+      }
+    },
+    "qr": "ZDAVID148J",
+    "subtotal": "148",
+    "takenby": "TERE C5 #3"
+  },
+  "ZDAVID7325B": {
+    "calculable": false,
+    "hour": 1685730847902,
+    "iftomorrow": false,
+    "name": "DAVID",
+    "products": {
+      "000PEIG": {
+        "n": "",
+        "uc": 1.5
+      },
+      "001MAI": {
+        "n": "TROZ",
+        "uc": 1
+      },
+      "002QUCMI": {
+        "n": "",
+        "uc": 2
+      },
+      "003JAAN": {
+        "n": "",
+        "uc": 3
+      }
+    },
+    "qr": "ZDAVID7325B",
+    "subtotal": "732.5",
+    "takenby": "TERE C5 #4"
+  },
   "ZEVELIN3535U": {
     "calculable": true,
     "hour": 1685639024825,
@@ -14618,6 +19130,21 @@ var ordersJson = {
     "qr": "ZGILLERMO701O",
     "subtotal": "701",
     "takenby": "TERE C5 #2"
+  },
+  "ZGMIFOODS38595X": {
+    "calculable": false,
+    "hour": 1685726872703,
+    "iftomorrow": false,
+    "name": "GMI FOODS",
+    "products": {
+      "000ZGOI3R": {
+        "n": "",
+        "uc": 29.92
+      }
+    },
+    "qr": "ZGMIFOODS38595X",
+    "subtotal": "3859.5",
+    "takenby": "DAVID C3 #1"
   },
   "ZISMAEL5625F": {
     "calculable": true,
@@ -14710,6 +19237,52 @@ var ordersJson = {
     "subtotal": "267",
     "takenby": "TERE C5 #1"
   },
+  "ZLOURDES3755K": {
+    "calculable": false,
+    "hour": 1685727913466,
+    "iftomorrow": false,
+    "name": "LOURDES",
+    "products": {
+      "000ADFSME": {
+        "n": "",
+        "uc": 1
+      },
+      "001PH190": {
+        "n": "",
+        "uc": 1
+      },
+      "002QUMR": {
+        "n": "",
+        "uc": 1
+      },
+      "003SAPCM": {
+        "n": "",
+        "uc": 1
+      },
+      "004JPA": {
+        "n": "",
+        "uc": 0.5
+      }
+    },
+    "qr": "ZLOURDES3755K",
+    "subtotal": "375.5",
+    "takenby": "ESTHELITA C4 #5"
+  },
+  "ZLUIS45R": {
+    "calculable": true,
+    "hour": 1685725887509,
+    "iftomorrow": false,
+    "name": "LUIS",
+    "products": {
+      "000AHU": {
+        "n": "",
+        "uc": 0.25
+      }
+    },
+    "qr": "ZLUIS45R",
+    "subtotal": "45",
+    "takenby": "ESTHELITA C4 #1"
+  },
   "ZLUISENRIQUE761E": {
     "calculable": true,
     "hour": 1685712428336,
@@ -14740,6 +19313,44 @@ var ordersJson = {
     "qr": "ZLUISENRIQUE761E",
     "subtotal": "761",
     "takenby": "LUIS C5 #5"
+  },
+  "ZMARCOANTONIO420Q": {
+    "calculable": false,
+    "hour": 1685733136787,
+    "iftomorrow": false,
+    "name": "MARCO ANTONIO",
+    "products": {
+      "000ADMO1": {
+        "n": "",
+        "uc": 4
+      }
+    },
+    "qr": "ZMARCOANTONIO420Q",
+    "subtotal": "420",
+    "takenby": "ESTHELITA C4 #1"
+  },
+  "ZMARGARITA1035U": {
+    "calculable": true,
+    "hour": 1685738391500,
+    "iftomorrow": false,
+    "name": "MARGARITA",
+    "products": {
+      "000SAPZAG": {
+        "n": "",
+        "uc": 1
+      },
+      "001MASVCH": {
+        "n": "",
+        "uc": 1
+      },
+      "002REJ": {
+        "n": "",
+        "uc": 0.67
+      }
+    },
+    "qr": "ZMARGARITA1035U",
+    "subtotal": "103.5",
+    "takenby": "DAVID C4 #3"
   },
   "ZMARIA171M": {
     "calculable": false,
@@ -14806,6 +19417,52 @@ var ordersJson = {
     "qr": "ZMARIOLOPEZ661B",
     "subtotal": "661",
     "takenby": "TERE C5 #6"
+  },
+  "ZMAYRA74Q": {
+    "calculable": true,
+    "hour": 1685723836708,
+    "iftomorrow": false,
+    "name": "MAYRA",
+    "products": {
+      "000LENG": {
+        "n": "",
+        "uc": 0.75
+      },
+      "001CRIO": {
+        "n": "",
+        "uc": 0.5
+      }
+    },
+    "qr": "ZMAYRA74Q",
+    "subtotal": "74",
+    "takenby": "ESTHELITA C4 #2"
+  },
+  "ZMIGUEL3975O": {
+    "calculable": false,
+    "hour": 1685726684394,
+    "iftomorrow": false,
+    "name": "MIGUEL",
+    "products": {
+      "000ADFOM": {
+        "n": "",
+        "uc": 1
+      },
+      "001ADFO1": {
+        "n": "",
+        "uc": 2
+      },
+      "002LEEC360": {
+        "n": "",
+        "uc": 4
+      },
+      "003LEN387": {
+        "n": "",
+        "uc": 2
+      }
+    },
+    "qr": "ZMIGUEL3975O",
+    "subtotal": "397.5",
+    "takenby": "ESTHELITA C4 #4"
   },
   "ZMIRIAMCAPUCHINO302F": {
     "calculable": true,
@@ -14884,6 +19541,29 @@ var ordersJson = {
     "qr": "ZMOISESALVAREZ10075F",
     "subtotal": "1007.5",
     "takenby": "ALE C4 #12"
+  },
+  "ZPEPE1011D": {
+    "calculable": false,
+    "hour": 1685726682090,
+    "iftomorrow": false,
+    "name": "PEPE",
+    "products": {
+      "000CHZ": {
+        "n": "",
+        "uc": 5
+      },
+      "001JAAP": {
+        "n": "",
+        "uc": 1
+      },
+      "002MAE90A": {
+        "n": "",
+        "uc": 1
+      }
+    },
+    "qr": "ZPEPE1011D",
+    "subtotal": "1011",
+    "takenby": "TERE C5 #3"
   },
   "ZRAUL1978F": {
     "calculable": false,

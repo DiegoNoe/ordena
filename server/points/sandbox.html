@@ -63,14 +63,19 @@
         }
         */
 
-        /*
+        
         var data = ordersJson;
         for (let key in data) {
             delete data[key]["products"];
+            delete data[key]["calculable"];
+            delete data[key]["hour"];
+            delete data[key]["iftomorrow"];
+            delete data[key]["qr"];
+            delete data[key]["subtotal"];
+            delete data[key]["takenby"];
         }
         var datajson = JSON.stringify(data);
         console.log(datajson);
-        */
 
         //eraseInventory();
 

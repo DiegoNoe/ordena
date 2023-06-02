@@ -29,7 +29,6 @@
         var relationsSnapshot;
         var defiantClients,
             defiantOrders;
-        var defiantOrders2;
         var orderRefID = "";
         var globalID = "";
 
@@ -55,16 +54,13 @@
         });
 
         var dbOrders = firebase.database().ref('orders/code0/');
+
+        var separatedSnapshot;
         dbOrders.on('value', function (snapshot) {
             if(snapshot.val() != undefined) {
+                //console.log(Object.keys(snapshot.val()).length);
                 defiantOrders = Defiant.getSnapshot(snapshot.val());
-            }
-        });
-
-        var dbOrders2 = firebase.database().ref('orders/code00/');
-        dbOrders2.on('value', function (snapshot) {
-            if(snapshot.val() != undefined) {
-                defiantOrders2 = Defiant.getSnapshot(snapshot.val());
+                separatedSnapshot = separateObject(snapshot.val());
             }
         });
 
@@ -83,6 +79,27 @@
 
         var globalCode1 = 0,
             globalCode2 = 1;
+
+        function separateObject(obj) {
+            const keys = Object.keys(obj);
+            const chunkSize = Math.ceil(keys.length / 10); // Divide the keys into chunks
+
+            const separatedObjects = [];
+            let currentChunk = [];
+
+            keys.forEach((key, index) => {
+                currentChunk.push({
+                    [key]: obj[key]
+                });
+
+                if (currentChunk.length === chunkSize || index === keys.length - 1) {
+                    separatedObjects.push(Defiant.getSnapshot(Object.assign({}, ...currentChunk)));
+                    currentChunk = [];
+                }
+            });
+
+            return separatedObjects;
+        }
 
     </script>
 
@@ -449,10 +466,13 @@
                 for (i = 0; i < inputSearchValue.length; i++) {
                     if (inputSearchValue[i] != "") {
                         if (searchResult == null) {
-                            //searchResult = JSON.search(defiantClients, '//*[contains(nombre, "' + inputSearchValue[i] + '")]' + '|//*[contains(numero, "' + inputSearchValue[i] + '")]');
-                            searchResult = JSON.search(defiantOrders, '//*[contains(name, "' + inputSearchValue[i] + '")]');
+                            var concatenatedArray = [];
+                            for (let j = 0; j < 10; j++) {
+                                if(separatedSnapshot[j] != undefined)
+                                    concatenatedArray = concatenatedArray.concat(JSON.search(separatedSnapshot[j], '//*[contains(name, "' + inputSearchValue[i] + '")]'));
+                            }
+                            searchResult = concatenatedArray;
                         } else {
-                            //searchResult = JSON.search(searchResult, '//*[contains(nombre, "' + inputSearchValue[i] + '")]' + '|//*[contains(numero, "' + inputSearchValue[i] + '")]');
                             searchResult = JSON.search(searchResult, '//*[contains(name, "' + inputSearchValue[i] + '")]');
                         } 
                     }
@@ -461,28 +481,12 @@
             //search one word... posible id
             else {
                 if ($('#inputName').val() != "") {
-                    searchResult = JSON.search(defiantOrders, '//*[contains(name, "' + inputSearchValue + '")]');
-                    //var searchResult2 = JSON.search(defiantOrders, '*[contains(name, "' + inputSearchValue + '")]');
-                    var searchResult2 = JSON.search(defiantOrders2, '//*[contains(name, "' + "RAUL ALCALA" + '")]');
-
-
-                    //ORAULALCALA1864G
-                    //ARAUL198Q
-
-                    console.log("searchResult");
-                    console.log(searchResult);
-                    console.log("searchResult2");
-                    console.log(searchResult2);
-
-
-                    /*
-                    console.log("defiantOrders");
-                    console.log(defiantOrders);
-                    console.log("inputSearchValue");
-                    console.log(inputSearchValue);
-                    console.log("defiantProducts");
-                    console.log(defiantProducts);
-                    */
+                    var concatenatedArray = [];
+                    for (let i = 0; i < 10; i++) {
+                        if(separatedSnapshot[i] != undefined)
+                            concatenatedArray = concatenatedArray.concat(JSON.search(separatedSnapshot[i], '//*[contains(name, "' + inputSearchValue + '")]'));
+                    }
+                    searchResult = concatenatedArray;
                 }
             }
 
