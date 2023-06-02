@@ -29,6 +29,7 @@
         var relationsSnapshot;
         var defiantClients,
             defiantOrders;
+        var defiantOrders2;
         var orderRefID = "";
         var globalID = "";
 
@@ -57,6 +58,13 @@
         dbOrders.on('value', function (snapshot) {
             if(snapshot.val() != undefined) {
                 defiantOrders = Defiant.getSnapshot(snapshot.val());
+            }
+        });
+
+        var dbOrders2 = firebase.database().ref('orders/code00/');
+        dbOrders2.on('value', function (snapshot) {
+            if(snapshot.val() != undefined) {
+                defiantOrders2 = Defiant.getSnapshot(snapshot.val());
             }
         });
 
@@ -454,14 +462,27 @@
             else {
                 if ($('#inputName').val() != "") {
                     searchResult = JSON.search(defiantOrders, '//*[contains(name, "' + inputSearchValue + '")]');
+                    //var searchResult2 = JSON.search(defiantOrders, '*[contains(name, "' + inputSearchValue + '")]');
+                    var searchResult2 = JSON.search(defiantOrders2, '//*[contains(name, "' + "RAUL ALCALA" + '")]');
+
+
+                    //ORAULALCALA1864G
+                    //ARAUL198Q
+
                     console.log("searchResult");
                     console.log(searchResult);
+                    console.log("searchResult2");
+                    console.log(searchResult2);
+
+
+                    /*
                     console.log("defiantOrders");
                     console.log(defiantOrders);
                     console.log("inputSearchValue");
                     console.log(inputSearchValue);
                     console.log("defiantProducts");
                     console.log(defiantProducts);
+                    */
                 }
             }
 
