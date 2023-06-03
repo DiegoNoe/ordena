@@ -758,7 +758,7 @@
             var dataTotal = round(notesAndQuantity.uc * product.costo)
 
             if(product.pesoN != undefined) {
-                totalCost =notesAndQuantity.uc * (product.costo / product.pesoN);
+                totalCost = notesAndQuantity.uc * (product.costo / product.pesoN);
                 totalCost = "$" + Math.round(totalCost * 10) / 10;
                 dataTotal = round(notesAndQuantity.uc * (product.costo / product.pesoN));
                 product.unidad = "KILO";

@@ -64,6 +64,7 @@
             removeProductOnDBO(snapshot.val());
         });
 
+        /*
         //add/change/remove product on dbi if added/changed/removed on dbo
         setTimeout(() => {
             dbProductsO.on('child_added', function (snapshot) {
@@ -77,6 +78,7 @@
         dbProductsO.on('child_removed', function (snapshot) {
             removeProductOnDBI(snapshot.val());
         });
+        */
 
         //deletes orders after 6pm
         var now = new Date();
