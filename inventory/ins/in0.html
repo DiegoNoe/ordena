@@ -545,29 +545,24 @@
                 color = "rgba(51, 204, 51, 80%)";
                 backgroundColor = "#111111";
             }
+
             var totalCost = "";
-            var dataTotal = "";
             if($("#quantityInput").val() != "") {
                 totalCost = $("#quantityInput").val() * product.costo;
                 totalCost = "$" + Math.round(totalCost * 10) / 10;
-                dataTotal = round($("#quantityInput").val() * product.costo);
-            }
-
-            if(product.pesoN != undefined) {
-                totalCost = $("#quantityInput").val() * (product.costo / product.pesoN);
-                totalCost = "$" + Math.round(totalCost * 10) / 10;
-                dataTotal = round($("#quantityInput").val() * (product.costo / product.pesoN));
-                product.unidad = "KILO";
             }
                 
             var productListItem =
-                '<li class="list-group-item row product-row product-total" style= "background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;" data-id="' + product.clave + '" data-date="' + date + '" data-total="' + dataTotal + '">' +
+                '<li class="list-group-item row product-row product-total" style= "background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;" data-id="' + product.clave + '" data-date="' + date + '" data-total="' + round($("#quantityInput").val() * product.costo) + '">' +
                     '<div class="col-sm-1 product-quantity">' +
                         '<input class="form-control" type="number" min="0" style= "color: ' + color + '; background-color: ' + backgroundColor + '; border-color: #555555; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;"></input>' +
                     '</div>' +
                     '<div class="col-sm-1 product-info">' + product.unidad + '</div>' +
-                    '<div class="col-sm-6 product-info">' + product.descripcion + '</div>' +
+                    '<div class="col-sm-5 product-info">' + product.descripcion + '</div>' +
                     '<div id="localCost" class="col-sm-1 product-info">' + totalCost + '</div>' +
+                    '<div class="col-sm-1 product-notes-container">' +
+                        '<input class="form-control product-price" type="input" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;" oninput="this.value = this.value.toUpperCase()" maxlength="48" placeholder="PRECIO" value="' + product.costo + '"> </input>' +
+                    '</div>' +
                     '<div class="col-sm-2 product-notes-container">' +
                         '<input class="form-control product-notes" type="input" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;" oninput="this.value = this.value.toUpperCase()" maxlength="48" placeholder="NOTAS"> </input>' +
                     '</div>' +
@@ -594,26 +589,16 @@
 
             $('#dynamic-list').find('input').first().on('change', function (e) {
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
-                if(product.pesoN == undefined) {
-                    thisRow.data("total", (round($(this).val() * product.costo)));
-                    thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
-                } else {
-                    thisRow.data("total", (round($(this).val() * (product.costo / product.pesoN))));
-                    thisRow.children().eq(3).text("$" + round($(this).val() * (product.costo / product.pesoN)));
-                }
+                thisRow.data("total", (round($(this).val() * thisRow.children().eq(4).children().val())));
+                thisRow.children().eq(3).text("$" + round($(this).val() * thisRow.children().eq(4).children().val()));
                 updateTotal();
             })
 
             //inputQuantity enter sequence (to notes)
             $('#dynamic-list').find('input').first().on('keyup', function (e) {
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
-                if(product.pesoN == undefined) {
-                    thisRow.data("total", (round($(this).val() * product.costo)));
-                    thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
-                } else {
-                    thisRow.data("total", (round($(this).val() * (product.costo / product.pesoN))));
-                    thisRow.children().eq(3).text("$" + round($(this).val() * (product.costo / product.pesoN)));
-                }
+                thisRow.data("total", (round($(this).val() * thisRow.children().eq(4).children().val())));
+                thisRow.children().eq(3).text("$" + round($(this).val() * thisRow.children().eq(4).children().val()));
                 updateTotal();
                 if (e.keyCode == 13)
                     $(this).parent().nextAll().eq(3).children().focus();
@@ -693,23 +678,11 @@
                 backgroundColor = "#111111";
             }
 
-            if(product.pesoN != undefined) {
-                notesAndQuantity.uc = notesAndQuantity.uc * product.pesoN;
-            }
-
-            var totalCost = notesAndQuantity.uc * product.costo;
-            totalCost = "$" + Math.round(totalCost * 10) / 10
-            var dataTotal = round(notesAndQuantity.uc * product.costo)
-
-            if(product.pesoN != undefined) {
-                totalCost = notesAndQuantity.uc * (product.costo / product.pesoN);
-                totalCost = "$" + Math.round(totalCost * 10) / 10;
-                dataTotal = round(notesAndQuantity.uc * (product.costo / product.pesoN));
-                product.unidad = "KILO";
-            }
+            var totalCost = notesAndQuantity.uc * notesAndQuantity.p;
+            totalCost = "$" + Math.round(totalCost * 10) / 10;
                
             var productListItem =
-                '<li class="list-group-item row product-row product-total" style= "background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;" data-id="' + product.clave + '" data-date="' + date + '" data-total="' + dataTotal + '">' +
+                '<li class="list-group-item row product-row product-total" style= "background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;" data-id="' + product.clave + '" data-date="' + date + '" data-total="' + round(notesAndQuantity.uc * notesAndQuantity.p) + '">' +
                     '<div class="col-sm-1 product-quantity">' +
                         '<input class="form-control" type="number" min="0" style= "color: ' + color + '; background-color: ' + backgroundColor + '; border-color: #555555; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;"></input>' +
                     '</div>' +
@@ -743,26 +716,16 @@
 
             $('#dynamic-list').find('input').first().on('change', function (e) {
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
-                if(product.pesoN == undefined) {
-                    thisRow.data("total", (round($(this).val() * product.costo)));
-                    thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
-                } else {
-                    thisRow.data("total", (round($(this).val() * (product.costo / product.pesoN))));
-                    thisRow.children().eq(3).text("$" + round($(this).val() * (product.costo / product.pesoN)));
-                } 
+                thisRow.data("total", (round($(this).val() * thisRow.children().eq(4).children().val())));
+                thisRow.children().eq(3).text("$" + round($(this).val() * thisRow.children().eq(4).children().val()));
                 updateTotal();
             })
 
             //inputQuantity enter sequence (to notes)
             $('#dynamic-list').find('input').first().on('keyup', function (e) {
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
-                if(product.pesoN == undefined) {
-                    thisRow.data("total", (round($(this).val() * product.costo)));
-                    thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
-                } else {
-                    thisRow.data("total", (round($(this).val() * (product.costo / product.pesoN))));
-                    thisRow.children().eq(3).text("$" + round($(this).val() * (product.costo / product.pesoN)));
-                }
+                thisRow.data("total", (round($(this).val() * thisRow.children().eq(4).children().val())));
+                thisRow.children().eq(3).text("$" + round($(this).val() * thisRow.children().eq(4).children().val()));
                 updateTotal();
                 if (e.keyCode == 13)
                     $(this).parent().nextAll().eq(3).children().focus();
@@ -872,7 +835,7 @@
                         '<div class="col-sm-1">' + searchResult[i].unidad + '</div>' +
                         '<div class="col-sm-7">' + searchResult[i].descripcion + '</div>' +
                         '<div class="col-sm-1">' + searchResult[i].costo + '</div>' +
-                        '<div class="btn btn-sm col-sm-1 edit-button" type="button" style="display:none;" onclick="editProductModal(&#39;' + searchResult[i].clave + '&#39;)">' +
+                        '<div class="btn btn-sm col-sm-1 edit-button" type="button" onclick="editProductModal(&#39;' + searchResult[i].clave + '&#39;)">' +
                         '<span id="editButton" style="color:' + buttonColor + ';"> EDITAR </span>' +
                         '</div>' +
                     '</button>';
@@ -1366,12 +1329,7 @@
                 doc.setFont("Gill Sans MT Condensed Negrita");
                 doc.setFontSize(12.5);
                 product = JSON.search(defiantProducts, '//*[clave="' + order[i][0] + '"]');
-                
-                if(product[0].pesoN == undefined)
-                    var totalProduct = roundDecimals(Math.round(product[0].costo * order[i][1] * 10) / 10);
-                else
-                    var totalProduct = roundDecimals(Math.round((product[0].costo / product[0].pesoN) * order[i][1] * 10) / 10);
-
+                var totalProduct = roundDecimals(Math.round(order[i][4] * order[i][1] * 10) / 10);
                 if (order[i][5] != "porPesarCamara" && order[i][5] != "porPesarAfuera") {
                     doc.text(115 + xOffset, firstLineYPosition + (currentLine * lineHeight), totalProduct.toLocaleString('en-US'), null, null, "left");
                 } else {
@@ -1383,15 +1341,11 @@
                 
                 //calculating current total
                 var productTotal;
+                if (order[i][1] < 0)
+                    productTotal = order[i][4] * order[i][1] * (-1);
+                else
+                    productTotal = order[i][4] * order[i][1];
                 
-                if(product[0].pesoN == undefined) {
-                    if (order[i][1] < 0) productTotal = product[0].costo * order[i][1] * (-1);
-                    else productTotal = product[0].costo * order[i][1];
-                } else {
-                    if (order[i][1] < 0) productTotal = (product[0].costo / product[0].pesoN) * order[i][1] * (-1);
-                    else productTotal = (product[0].costo / product[0].pesoN) * order[i][1];
-                }
-
                 total += productTotal;
                 
                 //notes and description
