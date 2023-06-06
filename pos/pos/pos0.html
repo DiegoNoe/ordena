@@ -1116,7 +1116,10 @@
                     backgroundColor = "#111111";
                 }
 
-                var localTotal = searchResult[i].costo;
+                var localTotal = (searchResult[i].costo);
+                if(parseFloat(localTotal) % 1 != 0) {
+                    localTotal = parseFloat(parseFloat(localTotal).toFixed(2));
+                }
 
                 searchItem =
                     '<button class="list-group-item row btn-default search-options-item" onclick="addProductObjectGetter(&#39;' + searchResult[i].clave + '&#39;)" style="background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;">' +
@@ -1148,9 +1151,8 @@
             form.elements[1].value = productToEdit.clave;
             form.elements[2].value = productToEdit.xpcode;
             form.elements[3].value = productToEdit.costo;
-            //aqui 00
             if(productToEdit.pesoN != undefined && productToEdit.pesoN != "")
-                form.elements[3].value = (productToEdit.costo / productToEdit.pesoN).toString();
+                form.elements[3].value = ((productToEdit.costo / productToEdit.pesoN).toFixed(2)).toString();
             form.elements[4].value = productToEdit.pesoN;
             $("#unitSelect").val(productToEdit.unidad);
             $("#stockSelect").val(productToEdit.existencia);

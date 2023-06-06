@@ -749,15 +749,16 @@
                 backgroundColor = "#111111";
             }
 
-            if(product.pesoN != undefined) {
+            if(product.pesoN != undefined && product.pesoN != "") {
                 notesAndQuantity.uc = notesAndQuantity.uc * product.pesoN;
             }
 
             var totalCost = notesAndQuantity.uc * product.costo;
+
             totalCost = "$" + Math.round(totalCost * 10) / 10
             var dataTotal = round(notesAndQuantity.uc * product.costo)
 
-            if(product.pesoN != undefined) {
+            if(product.pesoN != undefined && product.pesoN != "") {
                 totalCost = notesAndQuantity.uc * (product.costo / product.pesoN);
                 totalCost = "$" + Math.round(totalCost * 10) / 10;
                 dataTotal = round(notesAndQuantity.uc * (product.costo / product.pesoN));
@@ -798,7 +799,8 @@
 
             $('#dynamic-list').find('input').first().on('change', function (e) {
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
-                if(product.pesoN == undefined) {
+                console.log("cambio el peso");
+                if(product.pesoN == undefined || product.pesoN == "") {
                     thisRow.data("total", (round($(this).val() * product.costo)));
                     thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
                 } else {
@@ -812,7 +814,7 @@
             //inputQuantity enter sequence (to notes)
             $('#dynamic-list').find('input').first().on('keyup', function (e) {
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
-                if(product.pesoN == undefined) {
+                if(product.pesoN == undefined || product.pesoN == "") {
                     thisRow.data("total", (round($(this).val() * product.costo)));
                     thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
                 } else {
@@ -1681,7 +1683,7 @@
                 dataTotal = round($("#quantityInput").val() * product.costo);
             }
 
-            if(product.pesoN != undefined) {
+            if(product.pesoN != undefined && product.pesoN != "") {
                 totalCost = $("#quantityInput").val() * (product.costo / product.pesoN);
                 totalCost = "$" + Math.round(totalCost * 10) / 10;
                 dataTotal = round($("#quantityInput").val() * (product.costo / product.pesoN));
@@ -1726,7 +1728,7 @@
 
             $('#dynamic-list').find('input').first().on('change', function (e) {
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
-                if(product.pesoN == undefined) {
+                if(product.pesoN == undefined || product.pesoN == "") {
                     thisRow.data("total", (round($(this).val() * product.costo)));
                     thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
                 } else {
@@ -1740,7 +1742,7 @@
             //inputQuantity enter sequence (to notes)
             $('#dynamic-list').find('input').first().on('keyup', function (e) {
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
-                if(product.pesoN == undefined) {
+                if(product.pesoN == undefined || product.pesoN == "") {
                     thisRow.data("total", (round($(this).val() * product.costo)));
                     thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
                 } else {
@@ -2045,6 +2047,7 @@
                 }
 
                 //doc.setPage(pagesQuantity * 2 - 1);
+                //UNIDAD Y CANTIDAD
                 doc.text(5.5 + xOffset, firstLineYPosition + (currentLine * lineHeight), quantityAndUnit, null, null, "left");
                 //doc.setPage(pagesQuantity * 2);
                 //doc.text(5.5  + xOffset, firstLineYPosition + (currentLine * lineHeight), quantityAndUnit, null, null, "left");
@@ -2080,7 +2083,7 @@
                 //product price * quantity
                 doc.setFont("Gill Sans MT Condensed Negrita");
                 doc.setFontSize(12.5);
-                if(product[0].pesoN == undefined)
+                if(product[0].pesoN == undefined || product[0].pesoN == "")
                     var totalProduct = roundDecimals(Math.round(product[0].costo * order[i][1] * 10) / 10);
                 else
                     var totalProduct = roundDecimals(Math.round((product[0].costo / product[0].pesoN) * order[i][1] * 10) / 10);
@@ -2107,7 +2110,7 @@
                 //calculating current total
                 var productTotal;
 
-                if(product[0].pesoN == undefined) {
+                if(product[0].pesoN == undefined || product[0].pesoN == "") {
                     if (order[i][1] < 0) productTotal = product[0].costo * order[i][1] * (-1);
                     else productTotal = product[0].costo * order[i][1];
                 } else {
@@ -2132,7 +2135,7 @@
                     doc.setFontSize(10);
                     //doc.setPage(pagesQuantity * 2 - 1);
 
-                    if(product[0].pesoN == undefined)
+                    if(product[0].pesoN == undefined || product[0].pesoN == "")
                         doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) + 1.5, product[0].costo + " - " + replaceAEIOUN(order[i][4]));
                     else
                         doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) + 1.5, (product[0].costo / product[0].pesoN) + " - " + replaceAEIOUN(order[i][4]));
@@ -2149,7 +2152,7 @@
                     //just description
                     doc.setFontSize(10);
                     
-                    if(product[0].pesoN == undefined)
+                    if(product[0].pesoN == undefined || product[0].pesoN == "")
                         doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) + 1.5, product[0].costo);
                     else
                         doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) + 1.5, (product[0].costo / product[0].pesoN).toString());
