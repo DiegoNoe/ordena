@@ -677,7 +677,10 @@
 
             firebase.database().ref("orders/code0/" + globalID + "/checked").set(true);
             firebase.database().ref("orders/code0/" + globalID + "/products").set(sOrderProducts);
-            firebase.database().ref("orders/code0/" + globalID + "/subtotal").set(total)
+            firebase.database().ref("orders/code0/" + globalID + "/subtotal").set(total);
+
+            console.log("globalID");
+            console.log(globalID);
 
             if($("#inputEmployeeNameCaja").val() != undefined && $("#inputEmployeeNameCaja").val() != "")
                 firebase.database().ref("orders/code0/" + globalID + "/fulfiller").set($("#inputEmployeeNameCaja").val());
@@ -712,16 +715,19 @@
                 $("#greenCheckClient").css("visibility", "hidden");
             }
 
+            var localChecked = false;
+            if(order.checked) localChecked = true;
+
             (function iterateOverProductsWithDelay (i) {          
                 setTimeout(function () {   
-                    addProductFromSavedOrder(Object.keys(order.products)[i - 1], Object.values(order.products)[i - 1]);
+                    addProductFromSavedOrder(Object.keys(order.products)[i - 1], Object.values(order.products)[i - 1], localChecked);
                     if (--i) iterateOverProductsWithDelay(i);
                     else $("#inputCasillero").focus();
                 }, 1)
             })(Object.keys(order.products).length);
         }
 
-        function addProductFromSavedOrder(id, product) {
+        function addProductFromSavedOrder(id, product, checked) {
             id = id.substring(3);
 
             var notesAndQuantity = product;
@@ -748,8 +754,8 @@
                 color = "rgba(51, 204, 51, 80%)";
                 backgroundColor = "#111111";
             }
-
-            if(product.pesoN != undefined && product.pesoN != "") {
+            
+            if(product.pesoN != undefined && product.pesoN != "" && !checked) {
                 notesAndQuantity.uc = notesAndQuantity.uc * product.pesoN;
             }
 
@@ -758,6 +764,7 @@
             totalCost = "$" + Math.round(totalCost * 10) / 10
             var dataTotal = round(notesAndQuantity.uc * product.costo)
 
+            
             if(product.pesoN != undefined && product.pesoN != "") {
                 totalCost = notesAndQuantity.uc * (product.costo / product.pesoN);
                 totalCost = "$" + Math.round(totalCost * 10) / 10;

@@ -97,7 +97,7 @@
             console.log("changeProductOnDBO");
             firebase.database().ref("products/" + product.clave).set(product);
         }
-        function removeProductOnDBO(product) {
+        function removeProductOnDBO(product) { 
             console.log("removeProductOnDBO");
             firebase.database().ref("products/" + product.clave).remove();
         }
