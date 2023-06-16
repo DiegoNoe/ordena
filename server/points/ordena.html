@@ -48,6 +48,32 @@
             defiantProductsI = Defiant.getSnapshot(snapshot.val());
         });
 
+        function eraseCode0() {
+            firebase.database().ref('orders/code0').remove();
+        }
+
+        function eraseProdsInTablets() {
+            firebase.database().ref('tablets/arriba/pendientes').remove();
+            firebase.database().ref('tablets/bodega/pendientes').remove();
+            firebase.database().ref('tablets/cremas/pendientes').remove();
+            firebase.database().ref('tablets/jamonens/pendientes').remove();
+        }
+
+        function checkTimeAndRun() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            console.log(hours);
+            console.log(minutes);
+            if (hours === 5 && minutes === 0) {
+                eraseCode0();
+                eraseProdsInTablets();
+            }
+        }
+
+        checkTimeAndRun();
+        setInterval(checkTimeAndRun, 60000);
+        
         //add/change/remove product on dbo if added/changed/removed on dbi
         setTimeout(() => {
             dbProductsI.on('child_added', function (snapshot) {
@@ -60,6 +86,7 @@
             changeProductOnDBO(snapshot.val());
             console.log("change");
         });
+        
         dbProductsI.on('child_removed', function (snapshot) {
             removeProductOnDBO(snapshot.val());
         });
