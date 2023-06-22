@@ -623,9 +623,9 @@ body {
 .product-row {
     margin-left: 0px;
     margin-right: 0px;
-    padding-top: 0px;
+    padding-top: 1.5px;
     padding-bottom: 0px;
-    font-size: 23px !important;
+    font-size: 22px !important;
     line-height: 22px;
     background-color: #111111;
     border-color: #555555;
@@ -799,5 +799,5 @@ input, button:not(.cross), label, span:not(.cross) {
     font-size: 13px !important;
     background-color: #111111;
     border-color: #555555;
-    margin-top: 2px;
+    margin-top: .5px;
 }

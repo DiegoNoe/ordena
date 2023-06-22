@@ -22,8 +22,20 @@
             appId: "1:862495808627:web:09d8f34bdb206056f1de06"
         };
 
+        const firebaseConfig2 = {
+            apiKey: "AIzaSyDrVZ3499rhvfFpxfRbU-wqJ-ZUN0-_ez0",
+            authDomain: "cremeria-imperial.firebaseapp.com",
+            databaseURL: "https://cremeria-imperial.firebaseio.com",
+            projectId: "cremeria-imperial",
+            storageBucket: "cremeria-imperial.appspot.com",
+            messagingSenderId: "445465872507"
+        };  
+
         firebase.initializeApp(config);
         var database = firebase.database().ref('tablets/jamones');
+
+        var secondaryApp = firebase.initializeApp(firebaseConfig2, "secondary");
+        var database2 = secondaryApp.database().ref('aJamones');
 
         var shortenedUnits = {
             KILO: "KG",
@@ -186,6 +198,7 @@
 
         getUserToFullscreen();
         populatePorSurtir();
+        populatePorSurtirI();
         populatePorEntregar();
         startClockTime();
         setTimeout(function () {
@@ -220,6 +233,7 @@
 		}
 
         function populatePorSurtir() {
+            const ids = ["AHU", "JAPPSR"];
             database.child("pendientes").on('child_added', function(snapshot) {
                 var quantityAndUnit = snapshot.child("quantity").val() + shortenedUnits[snapshot.child("unit").val()];
                 var description = snapshot.child("description").val();
@@ -229,6 +243,9 @@
                 if(description.substr(0, 3) == " DE")
                     description = description.substr(4, description.length);
                 var notes = snapshot.child("notes").val();
+                if (ids.includes(snapshot.child("id").val()))
+                    notes = "PARA IMP1 " + snapshot.child("notes").val();                 
+
                 var hour = snapshot.child("hour").val().slice(0, -3);
 
                 var productListItem =
@@ -267,14 +284,51 @@
             });
         }
 
+
+        function populatePorSurtirI() {
+            const ids = ["JACR", "JAR", "JAYR", "JAEA", "JASTM", "QUGA1", "GOIB3R", "JAPR", "QUPF"];
+            database2.child("pendientes").on('child_added', function(snapshot) {
+                if (ids.includes(snapshot.child("id").val())) {                    
+                    var quantityAndUnit = snapshot.child("quantity").val() + shortenedUnits[snapshot.child("unit").val()];
+                    var description = snapshot.child("description").val();
+                    var indexOfJamon = description.indexOf('JAMON');
+                    if(indexOfJamon >= 0)
+                        description = description.replace(description.substring(indexOfJamon, indexOfJamon + 5), "");
+                    if(description.substr(0, 3) == " DE")
+                        description = description.substr(4, description.length);
+                    var notes = "DE IMP1 " + snapshot.child("notes").val();
+                    var hour = snapshot.child("hour").val().slice(0, -3);
+                    
+                    var productListItem =
+                    '<button class="list-group-item row product-row btn-default" style="padding-left: 12px; padding-right: 12px;" data-id="' + snapshot.key + '"">' +
+                        '<h3 class="col-xs-2 product-info" style="padding: 0px; margin: 0px;">' + quantityAndUnit + '</h3>' +
+                        '<h3 class="col-xs-6 product-info" style="padding: 0px; margin: 0px;">' + description + '</h3>' +
+                        '<h3 class="col-xs-3 product-info" style="padding: 0px; margin: 0px;">' + notes + '</h3>' +
+                        '<h3 class="col-xs-1 product-info" style="padding: 0px; margin: 0px; text-align: center;">' + hour + '</h3>' +
+                        '</button>';
+                        
+                    $('#dynamic-list-porsurtir').append(productListItem);
+                    $("#dynamic-list-porsurtir").on("click", "button", function(e) {
+                        //uploadToSurtidas($(this).data("id"));
+                        e.preventDefault();
+                        $(this).remove();
+                    });
+                    
+                    playSound();
+                } 
+            });
+        }
+
         function uploadToSurtidas(productID) {
             var time = new Date();
             database.child("pendientes").child(productID).once('value', function(snapshot) {
-                var doneProduct = snapshot.val();
-                doneProduct["hourDone"] = time.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true}).slice(0, -3);
-                database.child("hechas/" + productID).set(doneProduct).then(function(){
-                    firebase.database().ref('tablets/jamones/pendientes/' + productID).remove();
-                });
+                if(snapshot.val() != undefined) {
+                    var doneProduct = snapshot.val();
+                    doneProduct["hourDone"] = time.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true}).slice(0, -3);
+                    database.child("hechas/" + productID).set(doneProduct).then(function(){
+                        firebase.database().ref('tablets/jamones/pendientes/' + productID).remove();
+                    });
+                }
             });
         }
 

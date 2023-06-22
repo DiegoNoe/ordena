@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>&nbsp;</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+
+    <script language="javascript" type="text/javascript" src="./js/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="./js/bootstrap.min.js"></script>
+    <script language="javascript" type="text/javascript" src="./js/firebase.js"></script>
+    <script language="javascript" type="text/javascript" src="./js/array_nombres.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhhniDRtbUoE1SGVCTZzVUPTbd5k-mfnI",
+            authDomain: "cremeria-ordena.firebaseapp.com",
+            databaseURL: "https://cremeria-ordena-default-rtdb.firebaseio.com",
+            projectId: "cremeria-ordena",
+            storageBucket: "cremeria-ordena.appspot.com",
+            messagingSenderId: "862495808627",
+            appId: "1:862495808627:web:09d8f34bdb206056f1de06"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        firebase.database().ref('products').on('value', function (snapshot) {
+            //document.getElementById("DOLAR").innerHTML = "$" + snapshot.val().DOLAR.costo;
+        });
+
+        // global variables
+        var animationState = false;
+        var priceCorrection = "";
+        var localUncheckedOrders = 0;
+        var namesDictonary = {};
+
+    </script>
+
+    <style>
+        @font-face {
+            font-family: GillSansMTCondBold;
+            src: url(GillSansMTCondensedBold.ttf);
+        }
+
+        @font-face {
+            font-family: GillSansMTCond;
+            src: url(GillSansStd-Condensed.otf);
+        }
+
+        html {
+            zoom: 90%;
+        }
+
+        .container-fluid {
+            padding-top: 20px;
+            padding-left: 30px;
+            padding-right: 0px;
+        }
+
+        ul {
+            margin-left: 18px;
+            list-style-type: none;
+            height: 690px;
+            margin-bottom: 0px;
+            -webkit-columns: 6;
+            -moz-columns: 6;
+            columns: 6;
+            -moz-column-fill: auto;
+            column-fill: auto;
+            padding-left: 0px;
+        }
+
+        .title {
+            font-family: GillSansMTCondBold;
+            font-size: 90px;
+            background-color: black;
+            color: white;
+            line-height: 80%;
+            margin-top: 5px;
+            margin-bottom: 12px;
+            padding-left: 1035px;
+        }
+
+        .product {
+            height: 52px;
+        }
+
+        .name {
+            font-family: GillSansMTCondBold;
+            font-size: 40px;
+            color: white;
+        }
+
+        .totalName {
+            font-family: GillSansMTCondBold;
+            font-size: 30px;
+            color: rgb(199, 199, 199);
+            padding-left: 4px;;
+            line-height: 0px;
+        }
+
+        html {
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+        
+        body {
+            background-color: black;
+        }
+
+        #dynamic-list {
+            margin-left: 0px;
+        }
+
+        .elapsed-time {
+            font-size: 30px;
+            padding-left: 4px;;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <input id="inputName" style="position: absolute; left: -9999px;"></input>
+        <h3 class="title">PEDIDOS&nbsp;RECIENTES</h3>
+        <ul id="dynamic-list"></ul>
+    </div>
+
+    <script>
+        reloadOnUpdate();
+        countUncheckedOrders();
+
+        populateDictonary(namesArray);
+
+        var latestOrderID = "";
+        var databaseCode0 = firebase.database().ref('orders/code0/');
+
+        //main
+        setTimeout(function () {
+            databaseCode0.on('child_added', function (snapshot) {
+                var localChecked = false;
+                if(snapshot.val().checked) localChecked = true;
+                
+                if(!localChecked) {
+                    console.log("no está checked");     
+                    
+                    if($("#dynamic-list li").length > 77)
+                    deleteOldestName();
+                    
+                    //agrego a lista con ET, calculo ET con hour, al final pongo preguntar
+                    insertAlphabeticallyET(snapshot.key, snapshot.val().name, calculateET(snapshot.val()));
+                    updateFElapsedTime($('#dynamic-list').children().last());
+                    sortList();
+                    
+                    //child_changed
+                    //modifico el ET para poner total
+                } else {
+                    console.log("sí está checked");
+                    
+                    if($("#dynamic-list li").length > 77)
+                    deleteOldestName();
+                    
+                    //si sí, agrego con el total 
+                    insertAlphabeticallyWithTotal(snapshot.key, snapshot.val().name, snapshot.val().subtotal);
+                    speakName(snapshot.val().name);
+                    sortList();
+                }
+            });
+        }, 3000);
+
+        //child_removed a code0
+        //borro de la lista
+        function countUncheckedOrders() {
+            firebase.database().ref('orders/code0/').on('value', function (snapshot) {
+                var obj = snapshot.val();
+                localUncheckedOrders = 0;
+                for (let key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        let value = obj[key];
+                        var localChecked = false;
+                        if(value.checked) localChecked = true;
+                        if(!localChecked) {
+                            localUncheckedOrders = localUncheckedOrders + 1;
+                        }
+                    }
+                }
+            });
+        }
+
+        function calculateET(order) {
+            var productCount = countProducts(order.products);
+            return Math.round(localUncheckedOrders + (productCount * 5));
+        }
+        
+        function countProducts(products) {
+            return Object.keys(products).length;
+        }
+
+        function deleteLatestOrder() {
+            if(latestOrderID != "") {
+                $("#dynamic-list #" + latestOrderID.replace(/[^A-Z0-9]/g,'')).remove();
+                latestOrderID = "";
+            }
+        }
+
+        function sendWhatsapp(orderid, priceCorrection) {
+            if(priceCorrection != "") {
+                firebase.database().ref('process/whatsapp/' + orderid + '/total').set(priceCorrection).then(function () {
+                    firebase.database().ref('process/whatsapp/' + orderid + '/stage').set(2);
+                });
+            } else {
+                firebase.database().ref('process/whatsapp/' + orderid + '/stage').set(2);
+            }
+        }
+        
+        function insertAlphabetically(key, name) {
+            var words = name.split(" ");
+            
+            if(!isNaN(words[words.length - 1]) && words[words.length - 1] != "") {
+                var limitTotal = words[words.length - 1];
+                if(priceCorrection != "")
+                    limitTotal = priceCorrection;
+                limitTotal = limitTotal.replace(",", ".");
+                
+                if(limitTotal < 1500) {
+                    var justName = name.substring(0, name.lastIndexOf(" "));
+                    var justTotal = words[words.length - 1];
+                    if(priceCorrection != "")
+                        justTotal = priceCorrection;
+                    justTotal = justTotal.replace(",", ".");
+                    justTotal = (Math.round(justTotal * 100) / 100) + "";
+                    var nameListItem =
+                        '<li id="' + key.replace(/[^A-Z0-9]/g,'') + '" data-hour="' + new Date() + '" data-ready="true" class="product">' +
+                            '<span class="name">' + justName.substring(0, 18 - justTotal.length) + '</span>' +
+                            '<span class="totalName" style="color: #66CC00;">$' + justTotal + '</span>' +
+                        '</li>';
+                } else {
+                    var justName = name.substring(0, name.lastIndexOf(" "));
+                    var nameListItem =
+                    '<li id="' + key.replace(/[^A-Z0-9]/g,'') + '" data-hour="' + new Date() + '" data-ready="true" class="product">' +
+                        '<span class="name">' + justName.substring(0, 19) + '</span>' +
+                        '<span class="totalName" style="color: #66CC00;">&#10003;</span>' +
+                    '</li>';
+                }
+            } else {
+                var nameListItem =
+                    '<li id="' + key.replace(/[^A-Z0-9]/g,'') + '" data-hour="' + new Date() + '" data-ready="true" class="product">' +
+                        '<span class="name">' + name.substring(0, 19) + '</span>' +
+                        '<span class="totalName" style="color: #66CC00;">&#10003;</span>' +
+                    '</li>';
+                //check
+            }
+            var listItem = document.createElement('div');
+            listItem.innerHTML = nameListItem.trim();
+            document.getElementById("dynamic-list").appendChild(listItem.firstElementChild);
+            sortList();
+        }
+
+        function insertAlphabeticallyET(key, name, etime) {
+            if(parseInt(etime) > 30)
+                etime = "30";
+            var nameListItem =
+                '<li id="' + key + '" data-hour="' + new Date() + ' " data-ready="false" class="product">' +
+                    '<span class="name">' + name.substring(0, 18) + '</span>' +
+                    '<span class="totalName elapsed-time" style="color: red;">' + etime + 'M</span>' +
+                '</li>';
+              
+            var listItem = document.createElement('div');
+            listItem.innerHTML = nameListItem.trim();
+            document.getElementById("dynamic-list").appendChild(listItem.firstElementChild);
+        }
+
+        function insertAlphabeticallyWithTotal(key, name, total) {
+            /*
+            var preguntar = "PREGUNTAR";
+            if(name.length > 11)
+                preguntar = "PREG";
+            */
+            if(total < 1500) {
+                var nameListItem =
+                    '<li id="' + key + '" data-hour="' + new Date() + ' " data-ready="false" class="product">' +
+                        '<span class="name">' + name.substring(0, 18) + '</span>' +
+                        '<span class="totalName elapsed-time" style="color: #66CC00;">$' + total + '</span>' +
+                    '</li>';
+            } else {
+                var nameListItem =
+                    '<li id="' + key + '" data-hour="' + new Date() + ' " data-ready="false" class="product">' +
+                        '<span class="name">' + name.substring(0, 18) + '</span>' +
+                        '<span class="totalName elapsed-time" style="color: #66CC00;">&#10003;</span>' +
+                    '</li>';
+            } 
+              
+            var listItem = document.createElement('div');
+            listItem.innerHTML = nameListItem.trim();
+            document.getElementById("dynamic-list").appendChild(listItem.firstElementChild);
+        }
+
+        function updateFElapsedTime(orderListItem) {
+			var etField = orderListItem.find(".elapsed-time");
+            if(etField.css("color") == "rgb(255, 0, 0)") {
+                etField.text((parseInt(etField.text().slice(0, -1))) + "MIN");
+                if(etField.text() == "undefinedM" || etField.text() == "NaNM")
+                    etField.html("&#8226;");
+            }
+			var interval = setInterval(function() {
+                //.data("ready")
+                if(etField.css("color") == "rgb(255, 0, 0)") {
+				    etField.text((parseInt(etField.text().slice(0, -1)) - 1) + "MIN");
+                    if(etField.text() == "undefinedM" || etField.text() == "NaNM")
+                        etField.html("&#8226;");
+                }
+                if(etField.text() == "0MIN") {
+                    if(orderListItem.children().eq(0).html().length <= 11)
+                        etField.html("PREGUNTAR");
+                    else
+                        etField.html("PREG");
+                    clearInterval(interval);	
+                    //etField.html("&#8226;");
+                }
+			}, 60 * 1000);
+		}
+        
+        function sortList() {
+            var list, i, switching, b, shouldSwitch;
+            list = document.getElementById("dynamic-list");
+            switching = true;
+            while (switching) {
+                switching = false;
+                b = list.getElementsByTagName("LI");
+                for (i = 0; i < (b.length - 1); i++) {
+                    shouldSwitch = false;
+                    if (b[i].firstElementChild.innerHTML.toLowerCase() > b[i + 1].firstElementChild.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                if (shouldSwitch) {
+                    b[i].parentNode.insertBefore(b[i + 1], b[i]);
+                    switching = true;
+                }
+            }
+        }
+        
+        function checkForOldNames() {
+            currentDate = new Date();
+            $('#dynamic-list li').each(function (index) {
+                nameDate = new Date($(this).data("hour"));
+                var timeDiff = Math.abs(currentDate.getTime() - nameDate.getTime());
+                var diffMinutes = Math.ceil(timeDiff / (1000 * 60));
+                if (diffMinutes > 150)
+                    $(this).remove();
+            });
+            setTimeout(function () {
+                checkForOldNames();
+            }, 60000);
+        }
+
+        function deleteOldestName() {
+            var currentDate = new Date();
+            var longestTime = 0;
+            var oldestName;
+            $('#dynamic-list li').each(function (index) {
+                nameDate = new Date($(this).data("hour"));
+                var timeDiff = Math.abs(currentDate.getTime() - nameDate.getTime());
+                var diff = Math.ceil(timeDiff);
+                if (diff > longestTime){ 
+                    longestTime = diff;
+                    oldestName = $(this);
+                }
+            });
+            oldestName.remove();
+        }
+
+        function speakName(name) {
+            console.log("SPEAK " + name);
+            var justName = name;
+            var justTotal;
+            var words = name.split(" ");
+            if(!isNaN(words[words.length - 1])) {
+                //FIX
+                var limitTotal = words[words.length - 1];
+                if(priceCorrection != "")
+                    limitTotal = priceCorrection;
+                limitTotal = limitTotal.replace(",", ".");
+
+                if(limitTotal < 1500) {
+                    justName = name.substring(0, name.lastIndexOf(" "));
+                    justTotal = words[words.length - 1];
+                    if(priceCorrection != "")
+                        justTotal = priceCorrection;
+                    justTotal = justTotal.replace(",", ".");
+                    justTotal = (Math.round(justTotal * 100) / 100) + "";
+
+                    if(justTotal.includes(".5"))
+                        justTotal = justTotal.substring(0, justTotal.length - 2) + " con 50";
+                } else
+                    justName = name.substring(0, name.lastIndexOf(" "));
+            }
+
+            var synUtterance = new SpeechSynthesisUtterance(addAccent(justName));
+            synUtterance.rate = parseFloat(.9);
+            synUtterance.pitch = parseFloat(1.1);
+            synUtterance.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Juan')];
+            window.speechSynthesis.speak(synUtterance);
+            window.speechSynthesis.speak(synUtterance);
+
+            if(!isNaN(words[words.length - 1])) {
+                if(limitTotal < 1500) {
+                    var synUtterance2 = new SpeechSynthesisUtterance(justTotal);
+                    synUtterance2.rate = parseFloat(.9);
+                    synUtterance2.pitch = parseFloat(1.1);
+                    synUtterance2.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Juan')];
+                    window.speechSynthesis.speak(synUtterance2);
+                }
+            }
+        }
+
+        function toTitleCase(str) {
+            return str.replace(/\w\S*/g, function (txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
+        }
+
+        $.fn.scrollList = function (delay) {
+            delay = delay || 200;
+            var animateList = function ($list) {
+                if (animationState) {
+                    //get first child
+                    var $first = $list.children('li:first');
+                    var height = $first.outerHeight(true);
+                    //animate first two off the screen
+                    $first.animate({
+                        'margin-top': $list.children('li:first').height() * -1
+                    },
+                        // on animation complete
+                        function () {
+                            //reset and move to the end of the list
+                            $(this).css('margin-top', 0).add($(this)).appendTo($list);
+                            //start again after delay
+                            setTimeout(function () {
+                                animateList($list)
+                            }, delay);
+                        });
+                }
+            };
+            if (animationState) {
+                return this.each(function () {
+                    var $that = $(this)
+                    setTimeout(function () {
+                        animateList($that);
+                    }, delay);
+                });
+            } else {
+                return;
+            }
+        };
+
+        function reloadOnUpdate() {
+            firebase.database().ref("updates/screen1").on('value', function(snapshot) {
+                if(snapshot.val()){
+                    firebase.database().ref("updates/screen1").set(false).then(function() {
+                        location.reload();
+                    });
+                }
+            });
+        }
+
+        function addAccent(name) {
+            name = name.toUpperCase();
+            var newName = "";
+            var words = name.split(" ");
+            words.forEach(function (value, i) {
+                if(namesDictonary[value] != null) 
+                    newName = newName + " " + namesDictonary[value];
+                else 
+                    newName = newName +  " " + value;
+            });
+            return newName;
+        }
+
+        function populateDictonary(names) {
+            names = removeDups(names);
+            names = names.sort();
+
+            namesArray.forEach(function (value, i) {
+                namesDictonary[value.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toUpperCase()] = value.toUpperCase();
+            });
+        }
+
+        function removeDups(names) {
+            let unique = {};
+            names.forEach(function(i) {
+                if(!unique[i]) {
+                    unique[i] = true;
+                }
+            });
+            return Object.keys(unique);
+        }
+
+        document.onclick = function () {
+            $("#inputName").focus();
+        }
+
+        checkForOldNames();
+    </script>
+</body>
+
+</html>

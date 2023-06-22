@@ -50,8 +50,38 @@
         var defiantProductsI;
         dbProductsI.on('value', function (snapshot) {
             defiantProductsI = Defiant.getSnapshot(snapshot.val());
+            localProductsI = snapshot.val();
+            console.log(localProductsI);
         });
 
+
+
+
+        /*
+        //erase all orders but current day or day before made for tomorrow
+        var dbOrdersO = firebase.database().ref('orders/code0');
+        dbOrdersO.once('value', function (snapshot) {
+            var obj = snapshot.val();
+            for (let key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    let value = obj[key];
+                    var dayOfMonth = (new Date(value.hour)).getUTCDate();
+                    var currentDayOfMonth = (new Date()).getUTCDate();
+                    if(dayOfMonth == currentDayOfMonth - 1 && !Number.isNaN(dayOfMonth)) {
+                        if(!value.iftomorrow) {
+                            firebase.database().ref('orders/code0/' + key).remove();
+                        }
+                    }
+                    if(dayOfMonth < currentDayOfMonth - 1 && !Number.isNaN(dayOfMonth)) {
+                        firebase.database().ref('orders/code0/' + key).remove();
+                    }
+                }
+            }
+        });
+        */
+
+        /*
+        //get all products sold
         var allSellsByDate = "";
         var dbOrdersO = firebase.database().ref('orders/code1');
         dbOrdersO.once('value', function (snapshot) {
@@ -67,6 +97,7 @@
             }
             console.log(allSellsByDate);
         });
+        */
 
         /*
         for (const property in relacionesJSON) {

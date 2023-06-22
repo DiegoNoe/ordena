@@ -585,7 +585,9 @@
             updateNP(productCounter);
 
             //inputSearch sequence
-            $('#dynamic-list').find('input').eq(1).focus();
+            var costInput = $('#dynamic-list').find('input').eq(1);
+            costInput[0].setSelectionRange(costInput.val().length, costInput.val().length);
+            costInput.focus();        
 
             $('#dynamic-list').find('input').first().on('change', function (e) {
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");

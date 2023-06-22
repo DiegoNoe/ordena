@@ -57,6 +57,7 @@
             firebase.database().ref('tablets/bodega/pendientes').remove();
             firebase.database().ref('tablets/cremas/pendientes').remove();
             firebase.database().ref('tablets/jamonens/pendientes').remove();
+            firebase.database().ref('pending').remove();
         }
 
         function checkTimeAndRun() {
@@ -86,7 +87,7 @@
             changeProductOnDBO(snapshot.val());
             console.log("change");
         });
-        
+
         dbProductsI.on('child_removed', function (snapshot) {
             removeProductOnDBO(snapshot.val());
         });
