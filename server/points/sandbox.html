@@ -55,6 +55,23 @@
         });
 
 
+        /*
+        firebase.database().ref('orders/code1').once('value', function (snapshot) {
+            var obj = snapshot.val();
+            var names = [];
+            for (let key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    let value = obj[key];
+                    names.push(key.substring(1));
+                }
+            }
+            names = names.sort();
+            console.log(names[2438]);
+            console.log(names[2638]);
+            console.log(names[2838]);
+        })
+        */
+
 
 
         /*
@@ -80,7 +97,7 @@
         });
         */
 
-        /*
+        
         //get all products sold
         var allSellsByDate = "";
         var dbOrdersO = firebase.database().ref('orders/code1');
@@ -97,7 +114,7 @@
             }
             console.log(allSellsByDate);
         });
-        */
+        
 
         /*
         for (const property in relacionesJSON) {

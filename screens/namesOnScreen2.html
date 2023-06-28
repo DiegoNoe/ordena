@@ -79,7 +79,7 @@
             line-height: 80%;
             margin-top: 5px;
             margin-bottom: 12px;
-            padding-left: 2070px;
+            padding-left: 0px;
         }
 
         .product {
@@ -124,7 +124,7 @@
 <body>
     <div class="container-fluid">
         <input id="inputName" style="position: absolute; left: -9999px;"></input>
-        <h3 class="title">PEDIDOS&nbsp;</h3>
+        <h3 class="title">&nbsp;RECIENTES</h3>
         <ul id="dynamic-list"></ul>
     </div>
 
@@ -144,7 +144,7 @@
                 if(snapshot.val().checked) localChecked = true;
 
                 if(!localChecked) {
-                    if(snapshot.val().name.charAt(0) <= 'J') {
+                    if(!(snapshot.val().name.charAt(0) <= 'J')) {
                         console.log("child_added, no está checked, inserto con ET");
                         
                         if($("#dynamic-list li").length > 77)
@@ -156,7 +156,7 @@
                         sortList();
                     } 
                 } else {
-                    if(snapshot.val().name.charAt(0) <= 'J') {
+                    if(!(snapshot.val().name.charAt(0) <= 'J')) {
                         console.log("child_added, sí está checked, inserto con total, nombro con total");     
                         if($("#dynamic-list li").length > 77)
                         deleteOldestName();
@@ -165,7 +165,7 @@
                         insertAlphabeticallyWithTotal(snapshot.key, snapshot.val().name, snapshot.val().subtotal);
                         sortList();
                     }
-                    speakName(snapshot.val().name + " " + snapshot.val().subtotal);
+                    //speakName(snapshot.val().name + " " + snapshot.val().subtotal);
                 }
             });
             databaseCode0.on('child_changed', function (snapshot) {
@@ -173,7 +173,7 @@
                 if(snapshot.val().checked) localChecked = true;
                 
                 if(localChecked) {
-                    if(snapshot.val().name.charAt(0) <= 'J') {
+                    if(!(snapshot.val().name.charAt(0) <= 'J')) {
                         console.log("child_changed, sí está checked, inserto con total, nombro con total");     
                         $("#dynamic-list #" + snapshot.key).remove();     
                         
@@ -184,11 +184,11 @@
                         insertAlphabeticallyWithTotal(snapshot.key, snapshot.val().name, snapshot.val().subtotal);
                         sortList(); 
                     }
-                    speakName(snapshot.val().name + " " + snapshot.val().subtotal);
+                    //speakName(snapshot.val().name + " " + snapshot.val().subtotal);
                 }
             });
             databaseCode0.on('child_removed', function (snapshot) {
-                if(snapshot.val().name.charAt(0) <= 'J') {
+                if(!(snapshot.val().name.charAt(0) <= 'J')) {
                     console.log("child_removed, borro de la lista");     
                     $("#dynamic-list #" + snapshot.key).remove();     
                 }

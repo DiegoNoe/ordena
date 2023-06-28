@@ -675,17 +675,23 @@
             for(var i = 0; i < sOrderProducts.length; i++)
             sOrderProducts[i] = sOrderProducts[i].map(v => v === undefined ? '1' : v);
 
-            firebase.database().ref("orders/code0/" + globalID + "/checked").set(true);
+            //firebase.database().ref("orders/code0/" + globalID + "/checked").set(false);
             firebase.database().ref("orders/code0/" + globalID + "/products").set(sOrderProducts);
             firebase.database().ref("orders/code0/" + globalID + "/subtotal").set(total);
-
+            
             console.log("globalID");
             console.log(globalID);
-
+            
             if($("#inputEmployeeNameCaja").val() != undefined && $("#inputEmployeeNameCaja").val() != "")
                 firebase.database().ref("orders/code0/" + globalID + "/fulfiller").set($("#inputEmployeeNameCaja").val());
             if($("#inputCasillero").val() != undefined && $("#inputCasillero").val() != "")
                 firebase.database().ref("orders/code0/" + globalID + "/locker").set($("#inputCasillero").val());
+
+            const localGlobalID = globalID;
+            setTimeout(() => {
+                console.log("orders/code0/" + localGlobalID + "/checked");
+                firebase.database().ref("orders/code0/" + localGlobalID + "/checked").set(true);
+            }, 100);
 
             eraseOrder();
         }
