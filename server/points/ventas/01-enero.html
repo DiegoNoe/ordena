@@ -35,7 +35,7 @@
 
         //get all products sold
         var allSellsByDate = "";
-        var dbOrdersO = firebase.database().ref('orders/code1');
+        var dbOrdersO = firebase.database().ref("orders/code1-" + "01");
         dbOrdersO.once('value', function (snapshot) {
             var obj = snapshot.val();
             for (let key in obj) {

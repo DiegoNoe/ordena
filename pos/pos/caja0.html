@@ -2405,12 +2405,16 @@
                 if(globalID != "")
                     firebase.database().ref("orders/code0/" + globalID).remove();
                 
-                if(orderMethod == "MOSTRADOR" || orderMethod == "TELEFONO") {
-                    uploadCompleteOrderWithCode(replaceAEIOUN($("#inputName").val().trim()), sOrderProducts, total, productsRefID, "code1", globalCode1);
+                if(orderMethod == "MOSTRADOR") {
+                    uploadCompleteOrderWithCode(replaceAEIOUN($("#inputName").val().trim()), sOrderProducts, total, productsRefID, "CASH", globalCode1);
                     globalCode1 = globalCode1 + 1;
                     firebase.database().ref('extras/code1').set(globalCode1);
+                } else if(orderMethod == "TELEFONO") {
+                    uploadCompleteOrderWithCode(replaceAEIOUN($("#inputName").val().trim()), sOrderProducts, total, productsRefID, "CARD", globalCode2);
+                    globalCode2 = globalCode2 + 1;
+                    firebase.database().ref('extras/code2').set(globalCode2);
                 } else if(orderMethod == "WHATSAPP") {
-                    uploadCompleteOrderWithCode(replaceAEIOUN($("#inputName").val().trim()), sOrderProducts, total, productsRefID, "code2", globalCode2);
+                    uploadCompleteOrderWithCode(replaceAEIOUN($("#inputName").val().trim()), sOrderProducts, total, productsRefID, "INVOICE", globalCode2);
                     globalCode2 = globalCode2 + 1;
                     firebase.database().ref('extras/code2').set(globalCode2);
                 }
@@ -2682,17 +2686,20 @@
 
 
         //uploads order when invoice is needed
-        function uploadCompleteOrderWithCode(name, products, total, id, globalCodeType, code) {
+        function uploadCompleteOrderWithCode(name, products, total, id, paymentMethod, code) {
             id = id.replaceAll(".", "").replaceAll(" ", "");
             total = total.replace(/\,/g,'');
 
             for(var i = 0; i < products.length; i++)
                 products[i] = products[i].map(v => v === undefined ? '1' : v);
-            
-            firebase.database().ref("orders/" + globalCodeType + "/" + id).set({
+
+            var monthNumber = (new Date()).getMonth() + 1;
+            monthNumber = ('0' + monthNumber).slice(-2);
+            firebase.database().ref("orders/code1-" + monthNumber + "/" + id).set({
                 name: name,
                 code: code,
                 products: products,
+                pmethod: paymentMethod,
                 subtotal: total,
                 hour: Date.now()
             });

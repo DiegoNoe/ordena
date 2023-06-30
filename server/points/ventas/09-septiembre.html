@@ -35,7 +35,7 @@
 
         //get all products sold
         var allSellsByDate = "";
-        var dbOrdersO = firebase.database().ref('orders/code1');
+        var dbOrdersO = firebase.database().ref("orders/code1-" + "09");
         dbOrdersO.once('value', function (snapshot) {
             var obj = snapshot.val();
             for (let key in obj) {
@@ -48,7 +48,7 @@
                 }
             }
             console.log(allSellsByDate);
-            saveStringToFile(allSellsByDate, "enero.csv");
+            saveStringToFile(allSellsByDate, "septiembre.csv");
         });
 
         function saveStringToFile(str, filename) {
