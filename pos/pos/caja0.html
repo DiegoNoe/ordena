@@ -23,6 +23,8 @@
     <script language="javascript" type="text/javascript" src="../js/facturama.api.js"></script>
     <script language="javascript" type="text/javascript" src="../js/default_vfs.js"></script>
     <script language="javascript" type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../js/aes.js"></script>
+    <script language="javascript" type="text/javascript" src="../js/crypto-js.min.js"></script>
 
     <script>
         var defiantProducts;
@@ -2690,11 +2692,20 @@
             id = id.replaceAll(".", "").replaceAll(" ", "");
             total = total.replace(/\,/g,'');
 
+            for (const key in products) {
+                products[key].uc = encryptCryptoJS(products[key].uc);
+                products[key].p = encryptCryptoJS(products[key].p);
+            }
+
             for(var i = 0; i < products.length; i++)
                 products[i] = products[i].map(v => v === undefined ? '1' : v);
 
             var monthNumber = (new Date()).getMonth() + 1;
             monthNumber = ('0' + monthNumber).slice(-2);
+
+            id = encryptCryptoJS(id);
+            total = encryptCryptoJS(total);
+
             firebase.database().ref("orders/code1-" + monthNumber + "/" + id).set({
                 name: name,
                 code: code,
@@ -2703,6 +2714,31 @@
                 subtotal: total,
                 hour: Date.now()
             });
+        }
+
+        function encryptCryptoJS(string) {
+            var key = '11A1764225B11AA1'; 
+
+            var text = CryptoJS.enc.Utf8.parse(string); 
+            key = CryptoJS.enc.Utf8.parse(key); 
+
+            var encrypted = CryptoJS.AES.encrypt(text, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.ZeroPadding }); 
+            encrypted = encrypted.ciphertext.toString(CryptoJS.enc.Hex);
+
+            return encrypted;
+        }
+
+        function decryptCryptoJS(string) {
+            var key = '11A1764225B11AA1'; 
+            key = CryptoJS.enc.Utf8.parse(key); 
+
+            var encrypted = CryptoJS.AES.encrypt(string, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.ZeroPadding }); 
+            encrypted = encrypted.ciphertext.toString(CryptoJS.enc.Hex);
+
+            var decrypted =  CryptoJS.AES.decrypt({ciphertext: CryptoJS.enc.Hex.parse(string)}, key, {mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.ZeroPadding }); 
+            decrypted = decrypted.toString(CryptoJS.enc.Utf8); 
+
+            return decrypted;
         }
 
         function increaseEmployeeCounter(employee) {

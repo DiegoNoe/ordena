@@ -646,6 +646,15 @@
 			for (const [key, value] of Object.entries(localEmployees)) {
 				pushEmployeeByHour(key, key, value);
 			}
+
+			var timeAndEmployees = $("#main-wrapper").children();
+			$.each(timeAndEmployees, function(key, value) {
+				if(key % 2 == 1) {
+					if(timeAndEmployees.eq(key).children().length == 0) {
+						timeAndEmployees.eq(key - 1).css("display", "none");
+					}
+				}
+			});
 		}
 
 		function pushEmployeeByHour(name, pronunciation, breaks) {	
