@@ -2703,8 +2703,7 @@
                 products[i] = products[i].map(v => v === undefined ? '1' : v);
 
             var monthNumber = (new Date()).getMonth() + 1;
-            //monthNumber = ('0' + monthNumber).slice(-2);
-            monthNumber = "08";
+            monthNumber = ('0' + monthNumber).slice(-2);
 
             id = encryptCryptoJS(id);
             total = encryptCryptoJS(total);
