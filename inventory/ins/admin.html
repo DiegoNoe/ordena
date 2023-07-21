@@ -33,8 +33,10 @@
         var globalID = "";
 
         firebase.initializeApp(firebaseConfig);
+        var secondaryApp = firebase.initializeApp(firebaseConfig2, "secondary");
 
-        var dbProducts = firebase.database().ref('products/');
+        //var dbProducts = firebase.database().ref('products/');
+        var dbProducts = secondaryApp.database().ref('productos/');
         dbProducts.on('value', function (snapshot) {
             defiantProducts = Defiant.getSnapshot(snapshot.val());
         });
@@ -1716,8 +1718,9 @@
             var costoLocal = inputs[3];
             if(inputs[4] != undefined && inputs[4] != "")
                 costoLocal = (inputs[3] * inputs[4]).toString();
+                
 
-            firebase.database().ref('products/' + inputs[1]).set({
+            secondaryApp.database().ref('productos/' + inputs[1]).set({
                 clave: inputs[1],
                 costo: costoLocal,
                 descripcion: inputs[0],

@@ -33,8 +33,10 @@
         var globalID = "";
 
         firebase.initializeApp(firebaseConfig);
+        var secondaryApp = firebase.initializeApp(firebaseConfig2, "secondary");
 
-        var dbProducts = firebase.database().ref('products/');
+        //var dbProducts = firebase.database().ref('products/');
+        var dbProducts = secondaryApp.database().ref('productos/');
         dbProducts.on('value', function (snapshot) {
             defiantProducts = Defiant.getSnapshot(snapshot.val());
         });
@@ -838,7 +840,7 @@
                         '<div class="col-sm-7">' + searchResult[i].descripcion + '</div>' +
                         '<div class="col-sm-1">' + searchResult[i].costo + '</div>' +
                         '<div class="btn btn-sm col-sm-1 edit-button" type="button" onclick="editProductModal(&#39;' + searchResult[i].clave + '&#39;)">' +
-                        '<span id="editButton" style="color:' + buttonColor + ';"> EDITAR </span>' +
+                        '<span id="editButton" style="color:' + buttonColor + '; display: none;"> EDITAR </span>' +
                         '</div>' +
                     '</button>';
 
