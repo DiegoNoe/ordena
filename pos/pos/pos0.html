@@ -33,9 +33,12 @@
         firebase.initializeApp(firebaseConfig);
         var secondaryApp = firebase.initializeApp(firebaseConfig2, "secondary");
 
-        var dbProducts = firebase.database().ref('products/');
+        //var dbProducts = firebase.database().ref('products/');
+        
+        var dbProducts = secondaryApp.database().ref('productos/');
         dbProducts.on('value', function (snapshot) {
             defiantProducts = Defiant.getSnapshot(snapshot.val());
+            console.log(snapshot.val());
         });
 
         firebase.database().ref('relations').on('value', function (snapshot) {
@@ -98,7 +101,7 @@
             <button id="printButton" class="btn btn-danger interface-button glyphicon glyphicon-user" type="button" onclick="generatePDF('MOSTRADOR')"></button>
             <button id="printByPhoneButton" class="btn btn-danger interface-button glyphicon glyphicon-phone-alt" type="button" onclick="generatePDF('TELEFONO')"></button>
             <button id="printByWhatsButton" class="btn btn-danger interface-button fa fa-whatsapp" type="button" onclick="generatePDF('WHATSAPP')"><i aria-hidden="true"></i></button>
-            <button id="addProductButton" type="button" class="btn btn-secondary interface-button glyphicon glyphicon-plus-sign" onclick="addProductModal()"></button>
+            <button id="addProductButton" type="button" style="display: none;" class="btn btn-secondary interface-button glyphicon glyphicon-plus-sign" onclick="addProductModal()"></button>
             <button id="callClientButton" type="button" class="btn btn-secondary interface-button glyphicon glyphicon-bullhorn" onclick="callClients()"></button>
             <button id="lastOrderButton" type="button" class="btn btn-secondary interface-button glyphicon glyphicon-repeat" onclick="retrieveLastOrder()"></button>
 
@@ -1128,7 +1131,7 @@
                         '<div class="col-sm-7">' + searchResult[i].descripcion + '</div>' +
                         '<div class="col-sm-1">' + localTotal + '</div>' +
                         '<div class="btn btn-sm col-sm-1 edit-button" type="button" onclick="editProductModal(&#39;' + searchResult[i].clave + '&#39;)">' +
-                        '<span id="editButton" style="color:' + buttonColor + ';"> EDITAR </span>' +
+                        '<span id="editButton" style="color:' + buttonColor + '; display: none;> EDITAR </span>' +
                         '</div>' +
                     '</button>';
 
