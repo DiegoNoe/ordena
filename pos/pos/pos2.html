@@ -1923,17 +1923,17 @@
                     if (order[i][5] == "aCremas")
                         withPendingProducts = aCremasOrder(cleanName, order[i], i);
                     else if (order[i][5] == "aJamones")
-                        withPendingProducts = aJamonesOrder(order[i], i);
+                        withPendingProducts = aJamonesOrder(cleanName, order[i], i);
                     else if (order[i][5] == "aBodega")
                         withPendingProducts = aBodegaOrder(order[i], i);
                     else if (order[i][5] == "aBodegaAbajo")
                         withPendingProducts = aBodegaAbajoOrder(order[i], i);
                     else if (aJamonesSpecialProducts.includes(order[i][0]) && order[i][4] != "") 
-                        withPendingProducts = aJamonesOrder(order[i], i);
+                        withPendingProducts = aJamonesOrder(cleanName, order[i], i);
                     else if (aJamonesSpecialProducts.includes(order[i][0]) && order[i][1] % 1 != 0) {
                         var tempProduct = order[i];
                         tempProduct[1] = ((order[i][1] * 100) % 100) / 100;
-                        withPendingProducts = aJamonesOrder(tempProduct, i);
+                        withPendingProducts = aJamonesOrder(cleanName, tempProduct, i);
                     }
                     currentLine++;
                 }
@@ -2649,10 +2649,13 @@
         }
 
         //uploads the aJamones product
-        function aJamonesOrder(productOrder, i) {
+        function aJamonesOrder(cleanName, productOrder, i) {
             var time = new Date();
             if ($("#tomorrowCheckbox").is(':checked'))
                 productOrder[4] = "MAÑANA " + productOrder[4];
+            
+            console.log("productOrder");
+            console.log(productOrder);
             
             var productJSON = {
                 id: productOrder[0],
@@ -2660,7 +2663,8 @@
                 unit: productOrder[2],
                 description: productOrder[3],
                 notes: productOrder[4],
-                hour: time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+                hour: time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
+                name: cleanName
             };
             var productRef = firebase.database().ref('pending/' + orderRefID + '/aJamones').push(productJSON);
             firebase.database().ref('tablets/jamones/pendientes/' + productRef.key ).set(productJSON);

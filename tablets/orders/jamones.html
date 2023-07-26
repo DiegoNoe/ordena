@@ -237,6 +237,9 @@
             database.child("pendientes").on('child_added', function(snapshot) {
                 var quantityAndUnit = snapshot.child("quantity").val() + shortenedUnits[snapshot.child("unit").val()];
                 var description = snapshot.child("description").val();
+                var name = snapshot.child("name").val();
+                if(name == null || name == undefined)
+                    name = "";
                 var indexOfJamon = description.indexOf('JAMON');
                 if(indexOfJamon >= 0)
                     description = description.replace(description.substring(indexOfJamon, indexOfJamon + 5), "");
@@ -254,6 +257,8 @@
                     '<h3 class="col-xs-6 product-info" style="padding: 0px; margin: 0px;">' + description + '</h3>' +
                     '<h3 class="col-xs-3 product-info" style="padding: 0px; margin: 0px;">' + notes + '</h3>' +
                     '<h3 class="col-xs-1 product-info" style="padding: 0px; margin: 0px; text-align: center;">' + hour + '</h3>' +
+                    '<h3 class="col-xs-2 product-info" style="padding: 0px; margin: 0px;">' + '</h3>' +
+                    '<h3 class="col-xs-6 product-info" style="padding: 0px; margin: 0px;">' + name + '</h3>' +
                 '</button>';
 
                 $('#dynamic-list-porsurtir').append(productListItem);
@@ -338,6 +343,9 @@
                 snapshot.forEach(function(childSnapshot) {
                     var quantityAndUnit = childSnapshot.child("quantity").val() + shortenedUnits[childSnapshot.child("unit").val()];
                     var description = childSnapshot.child("description").val();
+                    var name = childSnapshot.child("name").val();
+                    if(name == null || name == undefined)
+                        name = "";
                     var indexOfJamon = description.indexOf('JAMON');
                     if(indexOfJamon >= 0)
                         description = description.replace(description.substring(indexOfJamon, indexOfJamon + 5), "");
@@ -354,6 +362,8 @@
                             '<h4 class="col-xs-2 product-info" style="padding: 0px; margin: 0px;">' + notes + '</h4>' +
                             '<h4 class="col-xs-1 product-info" style="padding: 0px; margin: 0px; text-align: center;">' + hour + '</h4>' +
                             '<h4 class="col-xs-1 product-info" style="padding: 0px; margin: 0px; text-align: center;">' + hourDone + '</h4>' +
+                            '<h4 class="col-xs-2 product-info" style="padding: 0px; margin: 0px;;">' + '</h4>' +
+                            '<h4 class="col-xs-6 product-info" style="padding: 0px; margin: 0px;;">' + name + '</h4>' +
                         '</li>';
 
                     $('#dynamic-list-surtidas').prepend(productListItem);
