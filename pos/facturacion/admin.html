@@ -1548,8 +1548,8 @@
                 newCfdi.Items = items;
 
                 console.log(newCfdi);
-
                 disableUX();
+
                 if (event.srcElement.id == "sendInvoiceButton") {
                     Facturama.Cfdi.Create3(newCfdi, function(result){ 
                         Facturama.Cfdi.Send("?cfdiType=" + "issued" + "&cfdiId=" + result.Id + "&email=" + clientEmail, function(result){ 
