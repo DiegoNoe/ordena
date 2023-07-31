@@ -129,7 +129,7 @@
                 <span id="greenCheckClient" class="glyphicon glyphicon-ok"></span>
 
             </div>
-            <div id="casilleroContainer" class="col-md-3">
+            <div id="casilleroContainer" class="col-md-2">
                 <input id="inputCasillero" class="form-control" type="text" maxlength="8" placeholder="#"> </input>
                 <select id="inputEmployeeNameCaja" class="form-control">
                     <option disabled selected>SURTIDOR</option>
@@ -145,6 +145,8 @@
             <button id="printButton" class="btn btn-danger interface-button glyphicon glyphicon-usd" style="font-size: 20px !important; padding-top: 10px;" type="button" onclick="verifyOrder('MOSTRADOR')"></button>
             <button id="printByPhoneButton" class="btn btn-danger interface-button glyphicon glyphicon-credit-card" style="padding-top: 10px; width: 48px;" type="button" onclick="verifyOrder('TELEFONO')"></button>
             <button id="printByWhatsButton" class="btn btn-danger interface-button glyphicon glyphicon-file" style="font-size: 20px !important; padding-top: 2px; margin-top: 0px;" type="button" onclick="verifyOrder('WHATSAPP')"><i aria-hidden="true"></i></button>
+            <button id="printByWhatsButton" class="btn btn-danger interface-button glyphicon glyphicon-erase" style="font-size: 20px !important; padding-top: 2px; margin-top: 0px;" type="button" onclick="deleteRecord()"><i aria-hidden="true"></i></button>
+
             <button id="addProductButton" type="button" style="display: none;" class="btn btn-secondary interface-button glyphicon glyphicon-plus-sign" onclick="addProductModal()"></button>
             <button id="callClientButton" type="button" class="btn btn-secondary interface-button glyphicon glyphicon-bullhorn" style="display: none;" onclick="callClients()"></button>
             <button id="lastOrderButton" type="button" class="btn btn-secondary interface-button glyphicon glyphicon-repeat" style="display: none;" onclick="retrieveLastOrder()"></button>
@@ -607,6 +609,23 @@
                 };
             }
         };
+
+        function deleteRecord() {
+            if(confirm("SE BORRARÁN LOS REGISTROS DE AYER. ¿SEGURA?")) {
+                firebase.database().ref("tablets/jamones").remove();
+                firebase.database().ref("tablets/cremas").remove();
+                firebase.database().ref("tablets/bodega").remove();
+                firebase.database().ref("tablets/arriba").remove();
+
+                firebase.database().ref("liveView0").remove();
+                firebase.database().ref("pending").remove();
+                firebase.database().ref("process").remove();
+
+                firebase.database().ref("orders/code0").remove();
+            } else {
+                console.log("no estoy segura");
+            }
+        }
 
         function prepareToScan() {
             $('#inputName').val("");
