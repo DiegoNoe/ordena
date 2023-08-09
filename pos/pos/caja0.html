@@ -622,6 +622,11 @@
                 firebase.database().ref("process").remove();
 
                 firebase.database().ref("orders/code0").remove();
+                
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+
             } else {
                 console.log("no estoy segura");
             }

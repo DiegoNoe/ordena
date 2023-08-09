@@ -66,6 +66,11 @@
             newCfdi.Receiver.Rfc = "XAXX010101000";              
             newCfdi.Receiver.TaxZipCode = "44530";
 
+            newCfdi.GlobalInformation = {};
+            newCfdi.GlobalInformation.Periodicity = "04";
+            newCfdi.GlobalInformation.Months = "07";
+            newCfdi.GlobalInformation.Year = "2023";
+
             newCfdi.CfdiType = "I";
             newCfdi.ExpeditionPlace = "44530";
             newCfdi.PaymentForm = "01";
@@ -74,7 +79,8 @@
             newCfdi.Currency = "MXN";
 
             var today = new Date();
-            var formattedDate = today.getFullYear() + "-" + ("0" + (today.getMonth() + 1)).slice(-2) + "-" + ("0" + today.getDate()).slice(-2);
+            //var formattedDate = today.getFullYear() + "-" + ("0" + (today.getMonth() + 1)).slice(-2) + "-" + ("0" + today.getDate()).slice(-2);
+            var formattedDate = today.getFullYear() + "-07-31";
             formattedDate = formattedDate + " " + ("0" + today.getHours()).slice(-2) + ":" + ("0" + today.getMinutes()).slice(-2) + ":" + ("0" + today.getSeconds()).slice(-2);
             newCfdi.Date = formattedDate;
 
@@ -82,7 +88,7 @@
 
             console.log("newCfdi");
             console.log(newCfdi);
-
+            
             Facturama.Cfdi.Create3(newCfdi, function(result) { 
                 Facturama.Cfdi.Download("pdf", "issued", result.Id, function(resultPDF) {
                     blob = converBase64toBlob(resultPDF.Content, 'application/pdf');
@@ -92,6 +98,7 @@
                     manageError(error) 
                 });
             });
+            
         }
 
         function manageError(error) {
@@ -147,7 +154,7 @@
             const resultArray = Object.values(separatedOrders);
             
             for (const dailyOrders of resultArray) {
-                generateInvoice(dailyOrders);
+                generateInvoice(dailyOrders, );
             }
         } 
 
