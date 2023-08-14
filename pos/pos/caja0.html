@@ -62,10 +62,9 @@
         var separatedSnapshot;
         dbOrders.on('value', function (snapshot) {
             if(snapshot.val() != undefined) {
-                //console.log(Object.keys(snapshot.val()).length);
                 defiantOrders = Defiant.getSnapshot(snapshot.val());
                 separatedSnapshot = separateObject(snapshot.val());
-            }
+            } 
         });
 
         var globalComputer = "POS0";
@@ -145,7 +144,6 @@
             <button id="printButton" class="btn btn-danger interface-button glyphicon glyphicon-usd" style="font-size: 20px !important; padding-top: 10px;" type="button" onclick="verifyOrder('MOSTRADOR')"></button>
             <button id="printByPhoneButton" class="btn btn-danger interface-button glyphicon glyphicon-credit-card" style="padding-top: 10px; width: 48px;" type="button" onclick="verifyOrder('TELEFONO')"></button>
             <button id="printByWhatsButton" class="btn btn-danger interface-button glyphicon glyphicon-file" style="font-size: 20px !important; padding-top: 2px; margin-top: 0px;" type="button" onclick="verifyOrder('WHATSAPP')"><i aria-hidden="true"></i></button>
-            <button id="printByWhatsButton" class="btn btn-danger interface-button glyphicon glyphicon-erase" style="font-size: 20px !important; padding-top: 2px; margin-top: 0px;" type="button" onclick="deleteRecord()"><i aria-hidden="true"></i></button>
 
             <button id="addProductButton" type="button" style="display: none;" class="btn btn-secondary interface-button glyphicon glyphicon-plus-sign" onclick="addProductModal()"></button>
             <button id="callClientButton" type="button" class="btn btn-secondary interface-button glyphicon glyphicon-bullhorn" style="display: none;" onclick="callClients()"></button>
@@ -3137,6 +3135,17 @@
                     document.getElementById("noConnectionAlert").style.display = "none";
                 else
                     document.getElementById("noConnectionAlert").style.display = "block";
+            });
+        }
+
+        reloadOnUpdate();
+		function reloadOnUpdate() {
+            firebase.database().ref("updates/caja1").on('value', function(snapshot) {
+                if(snapshot.val()) {
+                    firebase.database().ref("updates/caja1").set(false).then(function() {
+                        location.reload();
+                    });
+                }
             });
         }
 

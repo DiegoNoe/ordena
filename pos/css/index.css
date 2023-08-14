@@ -264,6 +264,16 @@ body {
     color: #EEEEEE;
 }
 
+#deleteRecordButton {
+    float: right; 
+    margin-top: 1px; 
+    margin-right: 5px; 
+    font-weight: bold; 
+    font-size: 28px !important; 
+    color: #EEEEEE;
+    -webkit-text-stroke: 1px; 
+}
+
 #printByWhatsButton {
     float: right; 
     margin-top: 1px; 

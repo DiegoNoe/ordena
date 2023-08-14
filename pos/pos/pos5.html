@@ -104,6 +104,7 @@
             <button id="addProductButton" type="button" style="display: none;" class="btn btn-secondary interface-button glyphicon glyphicon-plus-sign" onclick="addProductModal()"></button>
             <button id="callClientButton" type="button" class="btn btn-secondary interface-button glyphicon glyphicon-bullhorn" onclick="callClients()"></button>
             <button id="lastOrderButton" type="button" class="btn btn-secondary interface-button glyphicon glyphicon-repeat" onclick="retrieveLastOrder()"></button>
+            <button id="deleteRecordButton" class="btn btn-danger interface-button glyphicon glyphicon-erase" style="font-size: 20px !important; padding-top: 2px; margin-top: 0px; visibility: hidden;" type="button" onclick="deleteRecord()"><i aria-hidden="true"></i></button>
 
         </div>
 
@@ -311,6 +312,10 @@
         //if POS1 call client on speaker when POS are ready
         if(globalComputer == "POS0" || globalComputer == "POS1")
             callClientsToReadyPOS();
+
+        if(globalComputer == "POS5") {
+            $("#deleteRecordButton").css("visibility", "visible");
+        }
 
         /*
         //inputName on enter sequence
@@ -533,8 +538,32 @@
                                 '</div>' +
                             '</div>'
                         '</div>';
-
             $("#addNewProductDBFormWrapper").append(fields);
+        }
+
+        function deleteRecord() {
+            if(confirm("SE BORRARÁN LOS REGISTROS DE AYER. ¿SEGURA?")) {
+                firebase.database().ref("tablets/jamones").remove();
+                firebase.database().ref("tablets/cremas").remove();
+                firebase.database().ref("tablets/bodega").remove();
+                firebase.database().ref("tablets/arriba").remove();
+
+                firebase.database().ref("liveView0").remove();
+                firebase.database().ref("pending").remove();
+                firebase.database().ref("process").remove();
+
+                firebase.database().ref("orders/code0").remove();
+
+                firebase.database().ref('updates/caja1').set(true);
+                firebase.database().ref('updates/caja2').set(true);
+                
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+
+            } else {
+                console.log("no estoy segura");
+            }
         }
 
         //looks for id in code0
