@@ -391,6 +391,7 @@
 
         //inputName on enter sequence
         $("#inputName").on('keyup', function (e) {
+            console.log($("#inputName").val());
             if (e.keyCode == 13) {
                 if(!isNumeric($("#inputName").val().slice(-1)) && isNumeric($("#inputName").val().charAt($("#inputName").val().length - 2))) {
                     searchOrderById($("#inputName").val());
@@ -2077,9 +2078,14 @@
                     quantityAndUnit = quantityAndUnit.replace(".25", ".250");
 
                 if (quantityAndUnit.slice(0, 4) == ".500")
-                    quantityAndUnit = quantityAndUnit.replace(".500", "1/2");
+                    quantityAndUnit = "1/2" + shortenedUnits[order[i][2]];
                 else if (quantityAndUnit.slice(0, 4) == ".250")
-                    quantityAndUnit = quantityAndUnit.replace(".250", "1/4");
+                    quantityAndUnit = "1/4" + shortenedUnits[order[i][2]];
+
+                if (quantityAndUnit.slice(0, 5) == "0.500")
+                    quantityAndUnit = "1/2" + shortenedUnits[order[i][2]];
+                else if (quantityAndUnit.slice(0, 5) == "0.250")
+                    quantityAndUnit = "1/4" + shortenedUnits[order[i][2]];
 
                 if(quantityAndUnit.charAt(0) == '.') {
                     quantityAndUnit = "0" + quantityAndUnit;
