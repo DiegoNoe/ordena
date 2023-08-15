@@ -211,7 +211,7 @@ body {
 }
 
 #inputCasillero {
-    width: 40px;
+    width: 55px;
     height: 34px;
     float:left; 
     margin-top: 1px; 
@@ -222,7 +222,7 @@ body {
 }
 
 #inputEmployeeNameCaja {
-    width: 114px;
+    width: 99px;
     height: 34px;
     margin-top: 1px; 
     padding-top: .5px;

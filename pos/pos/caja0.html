@@ -419,8 +419,9 @@
         });
 
         $(document).on('keyup', function (e) {
-            if (e.keyCode == 187) 
+            if (e.keyCode == 192) {
                 prepareToScan();
+            }
         });
 
         /*
@@ -497,18 +498,17 @@
             //loads the results into the list
             $("#clientOptions").empty();
             if ($('#inputName').val() != "") {
-                //$("#dynamic-list").css("opacity", "0.25");
                 //populateLiveClientList(searchResult);
+                
                 populateLiveOrderList(searchResult);
-
                 //on enter the first search item is selected
                 if (e.keyCode == 13 && searchResult.length > 0) {
                     //addClientObjectGetter(searchResult[0].Id);
-                    addOrderObjectGetter(searchResult[0].Id);
-
+                    console.log("hop");
+                    $("#clientOptions").empty();
+                    //addOrderObjectGetter(searchResult[0].Id);
                 }
-            }// else
-                //$("#dynamic-list").css("opacity", "1");
+            }
         });
 
         //products live search
@@ -667,6 +667,7 @@
             id = id.replaceAll(".", "").replaceAll(" ", "");
             firebase.database().ref("orders/code0/" + id).once('value', function (snapshot) {
                 if(snapshot.val() != null) {
+                    console.log("hip");
                     populateOrder(snapshot.val());
                 } else {
                     console.log("no encontré nada");
