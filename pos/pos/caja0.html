@@ -118,7 +118,7 @@
     <div class="container-fluid">
         <div class="form-group row first-row">
             <div id="inputNameContainer" class="col-md-7">
-                <input id="inputName" class="form-control" type="input" oninput="this.value = this.value.toUpperCase()" maxlength="20" placeholder="NOMBRE"> </input>
+                <input id="inputName" class="form-control" type="input" oninput="this.value = this.value.toUpperCase()" maxlength="22" placeholder="NOMBRE"> </input>
                 <button id="saveOrderButton" class="btn btn-danger interface-button glyphicon glyphicon glyphicon-floppy-saved" style="visibility: hidden;" type="button" onclick="saveOrder()"> </button>
                 <button id="showAddClientButton" class="btn btn-danger interface-button glyphicon glyphicon-plus-sign" style="display: none;" type="button" onclick="showAddClientModal()"> </button>
                 <ul id="clientOptions" class="list-group client-options"></ul>
@@ -392,8 +392,9 @@
         //inputName on enter sequence
         $("#inputName").on('keyup', function (e) {
             if (e.keyCode == 13) {
-                if(!isNumeric($("#inputName").val().slice(-1)) && isNumeric($("#inputName").val().charAt($("#inputName").val().length - 2)))
+                if(!isNumeric($("#inputName").val().slice(-1)) && isNumeric($("#inputName").val().charAt($("#inputName").val().length - 2))) {
                     searchOrderById($("#inputName").val());
+                } 
                 else {
                     $("#quantityInput").focus();
                 } 
@@ -504,7 +505,6 @@
                 //on enter the first search item is selected
                 if (e.keyCode == 13 && searchResult.length > 0) {
                     //addClientObjectGetter(searchResult[0].Id);
-                    console.log("hop");
                     $("#clientOptions").empty();
                     //addOrderObjectGetter(searchResult[0].Id);
                 }
@@ -667,7 +667,6 @@
             id = id.replaceAll(".", "").replaceAll(" ", "");
             firebase.database().ref("orders/code0/" + id).once('value', function (snapshot) {
                 if(snapshot.val() != null) {
-                    console.log("hip");
                     populateOrder(snapshot.val());
                 } else {
                     console.log("no encontré nada");
