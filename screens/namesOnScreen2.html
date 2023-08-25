@@ -527,6 +527,18 @@
         }
 
         checkForOldNames();
+
+        reloadOnUpdate();
+		function reloadOnUpdate() {
+            firebase.database().ref("updates/pantallaDer").on('value', function(snapshot) {
+                if(snapshot.val()) {
+                    firebase.database().ref("updates/pantallaDer").set(false).then(function() {
+                        location.reload();
+                    });
+                }
+            });
+        }
+
     </script>
 </body>
 

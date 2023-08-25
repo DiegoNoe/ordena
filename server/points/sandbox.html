@@ -52,6 +52,14 @@
             defiantProductsI = Defiant.getSnapshot(snapshot.val());
             localProductsI = snapshot.val();
             console.log(localProductsI);
+            for (const property in localProductsI) {
+                //console.log(`${property}: ${localProductsI[property]}`);
+                //console.log(localProductsI[property].tipo);
+                if(localProductsI[property].tipo == "aBodega") {
+                    console.log(localProductsI[property].clave + "   " + localProductsI[property].descripcion);
+                }
+            }
+
         });
 
 

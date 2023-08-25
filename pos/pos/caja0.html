@@ -2045,6 +2045,8 @@
 
                 product = JSON.search(defiantProducts, '//*[clave="' + order[i][0] + '"]');
 
+                //AQUI CAMBIO PRECIO DE PANELA
+
                 if(product[0].pesoN != undefined && product[0].pesoN != "") {
                     sOrderProducts[i.toString().padStart(3, '0') + order[i][0]] = {
                         uc: (Number(order[i][1]) / product[0].pesoN),

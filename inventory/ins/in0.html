@@ -96,6 +96,8 @@
             <button id="printButton" class="btn btn-primary interface-button glyphicon glyphicon-download" type="button" onclick="generatePDF('MOSTRADOR')"></button>
             <button id="printByPhoneButton" class="btn btn-danger interface-button glyphicon glyphicon-download" type="button" onclick="generatePDF('TELEFONO')"></button>
             <button id="printByPhoneButton" class="btn btn-danger interface-button glyphicon glyphicon-upload" type="button" onclick="generatePDF('WHATSAPP')"></button>
+            <button id="printByPhoneButton" class="btn btn-danger interface-button glyphicon glyphicon-floppy-save" type="button" onclick="loadSavedOrder('WHATSAPP')"></button>
+            <button id="printByPhoneButton" class="btn btn-danger interface-button glyphicon glyphicon-floppy-open" type="button" onclick="saveCurrentOrder()"></button>
         </div>
 
         <div id="searchContainer" class="row">
@@ -440,6 +442,59 @@
             }
         };
 
+        function saveCurrentOrder() {
+            var order = getOrderProducts();
+
+            var sOrderProducts = {};
+            var total = 0;
+            for (var i = 0; i < order.length; i++) {
+                sOrderProducts[i.toString().padStart(3, '0') + order[i][0]] = {
+                    uc: Number(order[i][1]),
+                    p: Number(order[i][4]),
+                    n: order[i][5]
+                };
+
+                var productTotal;
+
+                if (Number(order[i][1]) < 0) productTotal = Number(order[i][1]) * Number(order[i][4]) * (-1);
+                else productTotal = Number(order[i][1]) * Number(order[i][4]);
+                total += productTotal;
+            }
+
+            total = roundDecimals(Math.round(total * 10) / 10);
+
+            for(var i = 0; i < sOrderProducts.length; i++)
+                sOrderProducts[i] = sOrderProducts[i].map(v => v === undefined ? '1' : v);
+            
+            firebase.database().ref("providers/" + "SAVEDORDER" + "/products").set(sOrderProducts);
+            firebase.database().ref("providers/" + "SAVEDORDER" + "/subtotal").set(total);
+            firebase.database().ref("providers/" + "SAVEDORDER" + "/whatsapp").set($("#inputNameWhatsapp").val());
+            firebase.database().ref("providers/" + "SAVEDORDER" + "/name").set($("#inputName").val());
+            firebase.database().ref("providers/" + "SAVEDORDER" + "/qr").set(globalID);
+
+            /*
+            firebase.database().ref("providers/" + "SAVEDORDER").once('value', function(snapshot) {
+				if(snapshot.val() != undefined) {
+                    console.log(snapshot.val());
+                }
+			});
+            */
+            console.log("saveCurrentOrder()");
+
+        }
+
+        function loadSavedOrder() {
+            firebase.database().ref("providers/" + "SAVEDORDER").once('value', function (snapshot) {
+                if(snapshot.val() != null) {
+                    populateOrder(snapshot.val());
+                } else {
+                    console.log("no hay nada guardado");
+                    //emptyForm(document.getElementById("searchOrderForm"), 3);
+                    //document.getElementById("verificationMessageId").innerHTML = "NO SE GUARDÓ NINGUNA NOTA CON ESE CODIGO.";
+                }
+            });
+        }
+
         function prepareToScan() {
             $('#inputName').val("");
             $('#inputName').focus();
@@ -614,8 +669,10 @@
                 thisRow.data("total", (round($(this).val() * thisRow.children().eq(0).children().val())));
                 thisRow.children().eq(3).text("$" + round($(this).val() * thisRow.children().eq(0).children().val()));
                 updateTotal();
-                if (e.keyCode == 13)
-                    $("#quantityInput").focus();
+                if (e.keyCode == 13) {
+                    $(this).parent().nextAll().first().children().focus();
+                    //$("#quantityInput").focus();
+                }
             })
 
             //inputNotes enter sequence with shortcuts (to outter quantity)
@@ -741,8 +798,10 @@
                 thisRow.data("total", (round($(this).val() * thisRow.children().eq(0).children().val())));
                 thisRow.children().eq(3).text("$" + round($(this).val() * thisRow.children().eq(0).children().val()));
                 updateTotal();
-                if (e.keyCode == 13)
-                    $("#quantityInput").focus();
+                if (e.keyCode == 13) {
+                    $(this).parent().nextAll().first().children().focus()
+                    //$("#quantityInput").focus();
+                }
             })
 
             //inputNotes enter sequence with shortcuts (to outter quantity)

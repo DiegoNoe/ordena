@@ -117,6 +117,12 @@
             font-size: 30px;
             padding-left: 4px;;
         }
+
+        #animation-name {
+
+
+        }
+
     </style>
 
 </head>
@@ -126,6 +132,7 @@
         <input id="inputName" style="position: absolute; left: -9999px;"></input>
         <h3 class="title">PEDIDOS&nbsp;</h3>
         <ul id="dynamic-list"></ul>
+        <div id="animation-name">DIEGO VARGAS $318</div>
     </div>
 
     <script>
@@ -164,6 +171,8 @@
                         //si sí, agrego con el total 
                         insertAlphabeticallyWithTotal(snapshot.key, snapshot.val().name, snapshot.val().subtotal);
                         sortList();
+
+                        animateName($("#dynamic-list").children().index($("#" + snapshot.key)), snapshot.val().name, snapshot.val().subtotal);
                     }
                     speakName(snapshot.val().name + " " + snapshot.val().subtotal);
                 }
@@ -182,7 +191,10 @@
                         
                         //si sí, agrego con el total 
                         insertAlphabeticallyWithTotal(snapshot.key, snapshot.val().name, snapshot.val().subtotal);
-                        sortList(); 
+                        sortList();
+
+                        animateName($("#dynamic-list").children().index($("#" + snapshot.key)), snapshot.val().name, snapshot.val().subtotal)
+
                     }
                     speakName(snapshot.val().name + " " + snapshot.val().subtotal);
                 }
@@ -215,6 +227,11 @@
         function calculateET(order) {
             var productCount = countProducts(order.products);
             return Math.round(localUncheckedOrders + (productCount * 5));
+        }
+
+        function animateName(index, name, total) {
+            console.log("ANIMATE " + index + " " + name + " " + total);
+
         }
         
         function countProducts(products) {
@@ -425,7 +442,9 @@
             var synUtterance = new SpeechSynthesisUtterance(addAccent(justName));
             synUtterance.rate = parseFloat(.9);
             synUtterance.pitch = parseFloat(1.1);
+            //synUtterance.voice = speechSynthesis.getVoices()[69];
             synUtterance.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Juan')];
+            console.log(speechSynthesis.getVoices());
             window.speechSynthesis.speak(synUtterance);
             window.speechSynthesis.speak(synUtterance);
 
@@ -434,6 +453,7 @@
                     var synUtterance2 = new SpeechSynthesisUtterance(justTotal);
                     synUtterance2.rate = parseFloat(.9);
                     synUtterance2.pitch = parseFloat(1.1);
+                    //synUtterance.voice = speechSynthesis.getVoices()[69];
                     synUtterance2.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Juan')];
                     window.speechSynthesis.speak(synUtterance2);
                 }
@@ -524,6 +544,17 @@
 
         document.onclick = function () {
             $("#inputName").focus();
+        }
+
+        reloadOnUpdate();
+		function reloadOnUpdate() {
+            firebase.database().ref("updates/pantallaIzq").on('value', function(snapshot) {
+                if(snapshot.val()) {
+                    firebase.database().ref("updates/pantallaIzq").set(false).then(function() {
+                        location.reload();
+                    });
+                }
+            });
         }
 
         checkForOldNames();
