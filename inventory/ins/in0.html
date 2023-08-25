@@ -97,7 +97,7 @@
             <button id="printByPhoneButton" class="btn btn-danger interface-button glyphicon glyphicon-download" type="button" onclick="generatePDF('TELEFONO')"></button>
             <button id="printByPhoneButton" class="btn btn-danger interface-button glyphicon glyphicon-upload" type="button" onclick="generatePDF('WHATSAPP')"></button>
             <button id="printByPhoneButton" class="btn btn-danger interface-button glyphicon glyphicon-floppy-save" type="button" onclick="loadSavedOrder('WHATSAPP')"></button>
-            <button id="printByPhoneButton" class="btn btn-danger interface-button glyphicon glyphicon-floppy-open" type="button" onclick="saveCurrentOrder()"></button>
+            <!--<button id="printByPhoneButton" class="btn btn-danger interface-button glyphicon glyphicon-floppy-open" type="button" onclick="saveCurrentOrder()"></button>-->
         </div>
 
         <div id="searchContainer" class="row">
@@ -486,7 +486,7 @@
         function loadSavedOrder() {
             firebase.database().ref("providers/" + "SAVEDORDER").once('value', function (snapshot) {
                 if(snapshot.val() != null) {
-                    populateOrder(snapshot.val());
+                    populateOrderFree(snapshot.val());
                 } else {
                     console.log("no hay nada guardado");
                     //emptyForm(document.getElementById("searchOrderForm"), 3);
@@ -546,6 +546,38 @@
                 firebase.database().ref("providers/" + globalID).remove();
             }
             eraseOrder();
+        }
+
+        function populateOrderFree(order) {
+            eraseOrder();
+
+            $("#quantityInput").val("");
+            $("#inputSearch").val("");
+            $("#searchOptions").empty();
+            
+            $("#inputName").val(order.name);
+            globalID = order.qr;
+
+            $("#inputNameWhatsapp").val(order.whatsapp);
+
+            $("#saveOrderButton").css("visibility", "visible");
+
+            if(order.calculable) {
+                $("#greenCheckClient").css("visibility", "visible");
+            } else {
+                $("#greenCheckClient").css("visibility", "hidden");
+            }
+
+            (function iterateOverProductsWithDelay (i) {          
+                setTimeout(function () {   
+                    addProductFromSavedOrderFree(Object.keys(order.products)[i - 1], Object.values(order.products)[i - 1]);
+                    if (--i) {
+                        iterateOverProductsWithDelay(i);
+                    } else {
+                        $("#quantityInput").focus();
+                    }
+                }, 1)
+            })(Object.keys(order.products).length);
         }
         
         function populateOrder(order) {
@@ -671,6 +703,137 @@
                 updateTotal();
                 if (e.keyCode == 13) {
                     $(this).parent().nextAll().first().children().focus();
+                    //$("#quantityInput").focus();
+                }
+            })
+
+            //inputNotes enter sequence with shortcuts (to outter quantity)
+            var inputNotes = $('#dynamic-list').find('input').eq(2);
+            inputNotes.on('keyup', function (e) {
+                if (e.keyCode == 13) {
+                    if (inputNotes.val() == "S")
+                        inputNotes.val("SURTIDO");
+                    else if (inputNotes.val() == "K")
+                        inputNotes.val("EN KILOS");
+                    else if (inputNotes.val() == "M")
+                        inputNotes.val("EN MEDIOS");
+                    else if (inputNotes.val() == "C")
+                        inputNotes.val("EN CUARTOS");
+                    else if (inputNotes.val() == "2")
+                        inputNotes.val("2-2");
+                    else if (inputNotes.val() == "3")
+                        inputNotes.val("3-3");
+                    else if (inputNotes.val() == "4")
+                        inputNotes.val("4-4");
+                    else if (inputNotes.val() == "5")
+                        inputNotes.val("5-5");
+                    else if (inputNotes.val() == "J")
+                        inputNotes.val("JUNTA");
+                    $("#quantityInput").focus();
+                }
+            });
+
+            $('#dynamic-list').children().first().on("mouseup", "button", function (e) {
+                e.preventDefault();
+                
+                $(this).parent().remove();
+                
+                updateTotal();
+                productCounter--;
+                updateNP(productCounter);
+            });
+
+            saveCurrentOrder();
+        }
+
+        function addProductFromSavedOrderFree(id, product) {
+            id = id.substring(3);
+
+            var notesAndQuantity = product;
+            product = JSON.search(defiantProducts, '//*[clave="' + id + '"]')[0];
+
+            $("#searchOptions").empty();
+            $("#dynamic-list").css("opacity", "1");
+            $("#inputSearch").val("");
+
+            var date = (new Date()).getTime();
+            var color,
+                backgroundColor;
+
+            if(product.existencia == "siHay") {
+                color = "#EEEEEE";
+                backgroundColor = "#111111";
+            }
+            else if(product.existencia == "noHay") {
+                color = "rgba(216, 61, 52, 95%)";
+                backgroundColor = "#111111";
+            }
+            else if(product.existencia == "pedido") {
+                color = "rgba(51, 204, 51, 80%)";
+                backgroundColor = "#111111";
+            }
+
+            var totalCost = notesAndQuantity.uc * notesAndQuantity.p;
+            totalCost = "$" + Math.round(totalCost * 10) / 10;
+               
+            var productListItem =
+                '<li class="list-group-item row product-row product-total" style= "background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;" data-id="' + product.clave + '" data-date="' + date + '" data-total="' + round(notesAndQuantity.uc * notesAndQuantity.p) + '">' +
+                    '<div class="col-sm-1 product-quantity">' +
+                        '<input class="form-control" type="number" min="0" style= "color: ' + color + '; background-color: ' + backgroundColor + '; border-color: #555555; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;"></input>' +
+                    '</div>' +
+                    '<div class="col-sm-1 product-info">' + product.unidad + '</div>' +
+                    '<div class="col-sm-5 product-info">' + product.descripcion + '</div>' +
+                    '<div id="localCost" class="col-sm-1 product-info">' + totalCost + '</div>' +
+                    '<div class="col-sm-1 product-notes-container">' +
+                        '<input class="form-control product-price" type="input" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;" oninput="this.value = this.value.toUpperCase()" maxlength="48" placeholder="PRECIO" value="' + notesAndQuantity.p + '"> </input>' +
+                    '</div>' +
+                    '<div class="col-sm-2 product-notes-container">' +
+                        '<input class="form-control product-notes" type="input" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;" oninput="this.value = this.value.toUpperCase()" maxlength="48" placeholder="NOTAS" value="' + notesAndQuantity.n + '"> </input>' +
+                    '</div>' +
+                    '<button class="btn btn-default btn-sm col-sm-1 remove-button cross" type="button" style="background-color: ' + backgroundColor + '; border-color: ' + backgroundColor + ';">' +
+                        '<span class="glyphicon glyphicon-remove cross" style="color:grey; padding-top: 4.5px;"></span>' +
+                    '</button>' +
+                '</li>';
+
+            //add list element
+            $('#dynamic-list').prepend(productListItem);
+            updateTotal();
+
+            var inputQuantity = $('#dynamic-list').find('input').first();
+            inputQuantity.val(notesAndQuantity.uc);
+            
+            //populate quantity and clean original (outter) input
+            productCounter++;
+            updateNP(productCounter);
+
+            //inputSearch sequence
+            $('#dynamic-list').find('input').eq(1).focus();
+
+            $('#dynamic-list').find('input').first().on('change', function (e) {
+                let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
+                thisRow.data("total", (round($(this).val() * thisRow.children().eq(4).children().val())));
+                thisRow.children().eq(3).text("$" + round($(this).val() * thisRow.children().eq(4).children().val()));
+                updateTotal();
+            })
+
+            //inputQuantity enter sequence (to notes)
+            $('#dynamic-list').find('input').first().on('keyup', function (e) {
+                let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
+                thisRow.data("total", (round($(this).val() * thisRow.children().eq(4).children().val())));
+                thisRow.children().eq(3).text("$" + round($(this).val() * thisRow.children().eq(4).children().val()));
+                updateTotal();
+                if (e.keyCode == 13)
+                    $(this).parent().nextAll().eq(3).children().focus();
+            });
+
+            //price enter
+            $('#dynamic-list').find('input').eq(1).on('keyup', function (e) {
+                let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
+                thisRow.data("total", (round($(this).val() * thisRow.children().eq(0).children().val())));
+                thisRow.children().eq(3).text("$" + round($(this).val() * thisRow.children().eq(0).children().val()));
+                updateTotal();
+                if (e.keyCode == 13) {
+                    $(this).parent().nextAll().first().children().focus()
                     //$("#quantityInput").focus();
                 }
             })
