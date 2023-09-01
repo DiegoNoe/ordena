@@ -28,12 +28,6 @@
 
         function generateInvoice(orders) {
 
-            for (const dailyOrders of orders) {
-                console.log(dailyOrders);
-                
-            }
-
-            /*
             var items = [];    
 
             for (var i = 0; i < orders.length; i++) {                
@@ -105,7 +99,7 @@
                     manageError(error) 
                 });
             });
-            */
+            
         }
 
         function manageError(error) {
@@ -154,19 +148,15 @@
                 if (!acc[day]) {
                     acc[day] = [];
                 }
-                acc[day].push([order, "" + Math.round(total.replace('\r','') * 100) / 100, day + "/" + month + "/" + year]);
+                acc[day].push([order, total.replace('\r',''), day + "/" + month + "/" + year]);
                 return acc;
             }, {});
-            
+
             const resultArray = Object.values(separatedOrders);
-            
-            var monthlyOrders = [];
-            
+
             for (const dailyOrders of resultArray) {
-                monthlyOrders = monthlyOrders.concat(dailyOrders)
+                generateInvoice(dailyOrders);
             }
-            
-            generateInvoice(monthlyOrders);
         } 
 
         function parseCSV(data) {

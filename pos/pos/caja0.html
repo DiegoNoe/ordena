@@ -2002,8 +2002,8 @@
 
             doc.setFontSize(70);
             doc.setFont("Gill Sans MT Condensed Negrita");
-            doc.setTextColor(240, 240, 240);
-            doc.text(105, 120, "PAGADO", "center");
+            doc.setTextColor(180, 180, 180);
+            doc.text(105, 180, "PAGADO", "center");
 
             var shortenedUnits = {
                 KILO: "KG",
@@ -2144,7 +2144,7 @@
                     //doc.setPage(pagesQuantity * 2 - 1);
                     doc.text(115 + xOffset, firstLineYPosition + (currentLine * lineHeight), totalProduct.toLocaleString('en-US'));
                     doc.setDrawColor(255, 0, 0);
-                    doc.line(128 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8, 135  + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8);
+                    //doc.line(128 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8, 135  + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8);
                     doc.setDrawColor(0, 0, 0);
 
                     //doc.setPage(pagesQuantity * 2);
@@ -2220,7 +2220,7 @@
                     doc.setLineWidth(0.35);
                     //doc.setPage(pagesQuantity * 2 - 1);
                     doc.setDrawColor(255, 0, 0);
-                    doc.line(93 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8, 110 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8);
+                    //doc.line(93 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8, 110 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8);
                     //doc.setPage(pagesQuantity * 2);
                     //doc.setDrawColor(255, 0, 0);
                     //doc.line(93 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8, 110 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8);
@@ -2315,7 +2315,7 @@
                     doc.addImage(generateQR(productsRefID), 'JPEG', 6 + xOffset, 194  + yOffset, 15, 15);
                 }
                 doc.setPage(pagesQuantity * 2 - 1);
-                doc.text(130.5 + xOffset, 200  + yOffset, "APROX  " + total.toLocaleString('en-US'), "right");
+                doc.text(130.5 + xOffset, 200  + yOffset, "TOTAL  " + total.toLocaleString('en-US'), "right");
                 //doc.setPage(pagesQuantity * 2);
                 //doc.text(129.5 + xOffset, 200  + yOffset, "APROX  " + total.toLocaleString('en-US'), "right");
 

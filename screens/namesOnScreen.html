@@ -66,9 +66,13 @@
             -webkit-columns: 6;
             -moz-columns: 6;
             columns: 6;
-            -moz-column-fill: auto;
-            column-fill: auto;
             padding-left: 0px;
+            column-fill: auto;
+            direction: rtl;
+        }
+
+        ul li{
+            direction: ltr;
         }
 
         .title {
@@ -79,7 +83,7 @@
             line-height: 80%;
             margin-top: 5px;
             margin-bottom: 12px;
-            padding-left: 2070px;
+            padding-left: 3310px;
         }
 
         .product {
@@ -118,9 +122,44 @@
             padding-left: 4px;;
         }
 
-        #animation-name {
+        #animation-name-1 {
+            left: 0px;
+        } 
 
+        #animation-name-2 {
+            left: 50%;
+        } 
+        
 
+        .elementToFadeInAndOut {
+            animation: fadeinout 4s linear forwards;
+            -webkit-animation: fadeinout 8s linear forwards;
+            font-family: GillSansMTCondBold;
+            font-size: 125px;
+            color: white;
+            position: absolute;
+            z-index: 1;
+            top: 300px;
+            text-shadow: 0 0 100px black, 0 0 100px black, 0 0 100px black, 0 0 100px black, 0 0 100px black, 0 0 100px black, 0 0 100px black;
+            width: 50%;
+            text-align: center;
+        }
+
+        .totalNameAnim {
+            color: rgb(199, 199, 199);
+            padding-left: 4px;
+        }
+
+        @-webkit-keyframes fadeinout {
+            0%,100% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+        }
+
+        @keyframes fadeinout {
+            0%,100% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
         }
 
     </style>
@@ -132,7 +171,18 @@
         <input id="inputName" style="position: absolute; left: -9999px;"></input>
         <h3 class="title">PEDIDOS&nbsp;</h3>
         <ul id="dynamic-list"></ul>
-        <div id="animation-name">DIEGO VARGAS $318</div>
+        <!--
+
+            <div id="animation-name-1"class="elementToFadeInAndOut">
+                <span>FERNANDO</span>
+                <span class="totalNameAnim" style="color: #66CC00;">$10</span>
+            </div>
+            <div id="animation-name-2" class="elementToFadeInAndOut">
+                <span>FERNANDITO</span>
+                <span class="totalNameAnim" style="color: #66CC00;">$20</span>
+            </div>
+        -->
+        
     </div>
 
     <script>
@@ -152,7 +202,7 @@
 
                 if(!localChecked) {
                     if(snapshot.val().name.charAt(0) <= 'J') {
-                        console.log("child_added, no está checked, inserto con ET");
+                        //console.log("child_added, no está checked, inserto con ET");
                         
                         if($("#dynamic-list li").length > 77)
                         deleteOldestName();
@@ -161,18 +211,21 @@
                         insertAlphabeticallyET(snapshot.key, snapshot.val().name, calculateET(snapshot.val()));
                         updateFElapsedTime($('#dynamic-list').children().last());
                         sortList();
+                        specialSort();
                     } 
                 } else {
                     if(snapshot.val().name.charAt(0) <= 'J') {
-                        console.log("child_added, sí está checked, inserto con total, nombro con total");     
+                        //console.log("child_added, sí está checked, inserto con total, nombro con total");     
                         if($("#dynamic-list li").length > 77)
                         deleteOldestName();
                         
                         //si sí, agrego con el total 
                         insertAlphabeticallyWithTotal(snapshot.key, snapshot.val().name, snapshot.val().subtotal);
                         sortList();
+                        specialSort();
 
-                        animateName($("#dynamic-list").children().index($("#" + snapshot.key)), snapshot.val().name, snapshot.val().subtotal);
+                        
+                        animateName($("#dynamic-list").children().index($("#" + snapshot.key)), $("#dynamic-list").children().length, snapshot.val().name, snapshot.val().subtotal);
                     }
                     speakName(snapshot.val().name + " " + snapshot.val().subtotal);
                 }
@@ -183,7 +236,7 @@
                 
                 if(localChecked) {
                     if(snapshot.val().name.charAt(0) <= 'J') {
-                        console.log("child_changed, sí está checked, inserto con total, nombro con total");     
+                        //console.log("child_changed, sí está checked, inserto con total, nombro con total");     
                         $("#dynamic-list #" + snapshot.key).remove();     
                         
                         if($("#dynamic-list li").length > 77)
@@ -192,8 +245,9 @@
                         //si sí, agrego con el total 
                         insertAlphabeticallyWithTotal(snapshot.key, snapshot.val().name, snapshot.val().subtotal);
                         sortList();
+                        specialSort();
 
-                        animateName($("#dynamic-list").children().index($("#" + snapshot.key)), snapshot.val().name, snapshot.val().subtotal)
+                        animateName($("#dynamic-list").children().index($("#" + snapshot.key)), $("#dynamic-list").children().length, snapshot.val().name, snapshot.val().subtotal);
 
                     }
                     speakName(snapshot.val().name + " " + snapshot.val().subtotal);
@@ -201,7 +255,7 @@
             });
             databaseCode0.on('child_removed', function (snapshot) {
                 if(snapshot.val().name.charAt(0) <= 'J') {
-                    console.log("child_removed, borro de la lista");     
+                    //console.log("child_removed, borro de la lista");     
                     $("#dynamic-list #" + snapshot.key).remove();     
                 }
             });
@@ -229,8 +283,20 @@
             return Math.round(localUncheckedOrders + (productCount * 5));
         }
 
-        function animateName(index, name, total) {
-            console.log("ANIMATE " + index + " " + name + " " + total);
+        function animateName(index, length, name, total) {
+            Math.ceil(length / 6);
+            var leftSide = (index / Math.ceil(length / 6)) >= 4;
+
+            /*
+            $("#animation-name-2").children().eq(0).val();
+            $("#animation-name-2").children().eq(1).val();
+            $("#animation-name-2").children().addClass("elementToFadeInAndOut");  
+            */
+
+            
+            console.log("ANIMATE: index " + index + "  length " + length + "  " + name + "  " + total);
+
+
 
         }
         
@@ -296,6 +362,7 @@
             listItem.innerHTML = nameListItem.trim();
             document.getElementById("dynamic-list").appendChild(listItem.firstElementChild);
             sortList();
+            specialSort();
         }
 
         function insertAlphabeticallyET(key, name, etime) {
@@ -371,7 +438,7 @@
                 b = list.getElementsByTagName("LI");
                 for (i = 0; i < (b.length - 1); i++) {
                     shouldSwitch = false;
-                    if (b[i].firstElementChild.innerHTML.toLowerCase() > b[i + 1].firstElementChild.innerHTML.toLowerCase()) {
+                    if (b[i].firstElementChild.innerHTML.toLowerCase() < b[i + 1].firstElementChild.innerHTML.toLowerCase()) {
                         shouldSwitch = true;
                         break;
                     }
@@ -381,6 +448,39 @@
                     switching = true;
                 }
             }
+        }
+
+        function specialSort() {
+            var list, i, switching, b, shouldSwitch;
+            list = document.getElementById("dynamic-list");
+            console.log("SORT");
+
+            var selectedRange = [];
+            for(let i = 0; i <= 12; i++) {
+                selectedRange.push(list.children[i]);
+            }
+            
+            console.log(selectedRange);
+
+
+            /*
+            switching = true;
+            while (switching) {
+                switching = false;
+                b = list.getElementsByTagName("LI");
+                for (i = 0; i < (b.length - 1); i++) {
+                    shouldSwitch = false;
+                    if (b[i].firstElementChild.innerHTML.toLowerCase() < b[i + 1].firstElementChild.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                if (shouldSwitch) {
+                    b[i].parentNode.insertBefore(b[i + 1], b[i]);
+                    switching = true;
+                }
+            }
+            */
         }
         
         function checkForOldNames() {
@@ -414,7 +514,7 @@
         }
 
         function speakName(name) {
-            console.log("SPEAK " + name);
+            //("SPEAK " + name);
             var justName = name;
             var justTotal;
             var words = name.split(" ");
@@ -444,7 +544,7 @@
             synUtterance.pitch = parseFloat(1.1);
             //synUtterance.voice = speechSynthesis.getVoices()[69];
             synUtterance.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Juan')];
-            console.log(speechSynthesis.getVoices());
+            //console.log(speechSynthesis.getVoices());
             window.speechSynthesis.speak(synUtterance);
             window.speechSynthesis.speak(synUtterance);
 
