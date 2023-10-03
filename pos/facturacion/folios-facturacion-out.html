@@ -69,7 +69,7 @@
 
             newCfdi.GlobalInformation = {};
             newCfdi.GlobalInformation.Periodicity = "04";
-            newCfdi.GlobalInformation.Months = "07";
+            newCfdi.GlobalInformation.Months = "08";
             newCfdi.GlobalInformation.Year = "2023";
 
             newCfdi.CfdiType = "I";
@@ -81,7 +81,7 @@
 
             var today = new Date();
             //var formattedDate = today.getFullYear() + "-" + ("0" + (today.getMonth() + 1)).slice(-2) + "-" + ("0" + today.getDate()).slice(-2);
-            var formattedDate = today.getFullYear() + "-07-31";
+            var formattedDate = today.getFullYear() + "-08-31";
             formattedDate = formattedDate + " " + ("0" + today.getHours()).slice(-2) + ":" + ("0" + today.getMinutes()).slice(-2) + ":" + ("0" + today.getSeconds()).slice(-2);
             newCfdi.Date = formattedDate;
 
@@ -148,7 +148,7 @@
                 if (!acc[day]) {
                     acc[day] = [];
                 }
-                acc[day].push([order, total.replace('\r',''), day + "/" + month + "/" + year]);
+                acc[day].push([order,  "" + Math.round(total.replace('\r','') * 100) / 100, day + "/" + month + "/" + year]);
                 return acc;
             }, {});
 

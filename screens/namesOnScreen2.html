@@ -49,25 +49,24 @@
         }
 
         html {
-            zoom: 90%;
+            zoom: 147%;
         }
 
         .container-fluid {
-            padding-top: 20px;
-            padding-left: 30px;
+            padding-top: 5px;
+            padding-left: 40px;
             padding-right: 0px;
         }
 
         ul {
-            margin-left: 18px;
             list-style-type: none;
             height: 690px;
             margin-bottom: 0px;
             -webkit-columns: 6;
             -moz-columns: 6;
             columns: 6;
-            column-fill: auto;
             padding-left: 0px;
+            column-fill: auto;
         }
 
         .title {
@@ -76,9 +75,10 @@
             background-color: black;
             color: white;
             line-height: 80%;
-            margin-top: 5px;
-            margin-bottom: 12px;
+            margin-top: 13px;
+            margin-bottom: 2px;
             padding-left: 0px;
+            margin-left: 0px;
         }
 
         .product {
@@ -116,6 +116,33 @@
             font-size: 30px;
             padding-left: 4px;;
         }
+
+        #animation-name-1 {
+            left: 1%;
+        } 
+        
+        #animation-name-2 {
+            left: 51%;
+        } 
+        
+
+        .elementToFadeInAndOut {
+            font-family: GillSansMTCondBold;
+            font-size: 125px;
+            color: white;
+            position: absolute;
+            z-index: 1;
+            top: 300px;
+            text-shadow: 0 0 100px black, 0 0 100px black, 0 0 100px black, 0 0 100px black, 0 0 100px black, 0 0 100px black, 0 0 100px black;
+            width: 50%;
+            text-align: center;
+        }
+
+        .totalNameAnim {
+            color: rgb(199, 199, 199);
+            padding-left: 4px;
+        }
+
     </style>
 
 </head>
@@ -125,9 +152,28 @@
         <input id="inputName" style="position: absolute; left: -9999px;"></input>
         <h3 class="title">&nbsp;RECIENTES</h3>
         <ul id="dynamic-list"></ul>
+
+        <div id="animation-name-1"class="elementToFadeInAndOut">
+            <span></span>
+            <span class="totalNameAnim" style="color: #66CC00;"></span>
+        </div>
+        <div id="animation-name-2" class="elementToFadeInAndOut">
+            <span></span>
+            <span class="totalNameAnim" style="color: #66CC00;"></span>
+        </div>
+        
     </div>
 
     <script>
+
+        $("#inputName").focus();
+        $("#inputName").on('keyup', function (e) {
+            if (e.keyCode == 13) {
+                manageScannerInput();
+            }
+        });
+
+
         reloadOnUpdate();
         countUncheckedOrders();
 
@@ -143,8 +189,8 @@
                 if(snapshot.val().checked) localChecked = true;
 
                 if(!localChecked) {
-                    if(!(snapshot.val().name.charAt(0) <= 'J')) {
-                        console.log("child_added, no está checked, inserto con ET");
+                    if(snapshot.val().name.charAt(0) >= 'K') {
+                        //console.log("child_added, no está checked, inserto con ET");
                         
                         if($("#dynamic-list li").length > 77)
                         deleteOldestName();
@@ -153,16 +199,20 @@
                         insertAlphabeticallyET(snapshot.key, snapshot.val().name, calculateET(snapshot.val()));
                         updateFElapsedTime($('#dynamic-list').children().last());
                         sortList();
+                        //specialSort();
                     } 
                 } else {
-                    if(!(snapshot.val().name.charAt(0) <= 'J')) {
-                        console.log("child_added, sí está checked, inserto con total, nombro con total");     
+                    if(snapshot.val().name.charAt(0) >= 'K') {
+                        //console.log("child_added, sí está checked, inserto con total, nombro con total");     
                         if($("#dynamic-list li").length > 77)
                         deleteOldestName();
                         
                         //si sí, agrego con el total 
                         insertAlphabeticallyWithTotal(snapshot.key, snapshot.val().name, snapshot.val().subtotal);
                         sortList();
+                       //specialSort();
+                        
+                        animateName($("#dynamic-list").children().index($("#" + snapshot.key)), $("#dynamic-list").children().length, snapshot.val().name, snapshot.val().subtotal);
                     }
                     //speakName(snapshot.val().name + " " + snapshot.val().subtotal);
                 }
@@ -172,8 +222,8 @@
                 if(snapshot.val().checked) localChecked = true;
                 
                 if(localChecked) {
-                    if(!(snapshot.val().name.charAt(0) <= 'J')) {
-                        console.log("child_changed, sí está checked, inserto con total, nombro con total");     
+                    if(snapshot.val().name.charAt(0) >= 'K') {
+                        //console.log("child_changed, sí está checked, inserto con total, nombro con total");     
                         $("#dynamic-list #" + snapshot.key).remove();     
                         
                         if($("#dynamic-list li").length > 77)
@@ -181,18 +231,35 @@
                         
                         //si sí, agrego con el total 
                         insertAlphabeticallyWithTotal(snapshot.key, snapshot.val().name, snapshot.val().subtotal);
-                        sortList(); 
+                        sortList();
+                        //specialSort();
+
+                        animateName($("#dynamic-list").children().index($("#" + snapshot.key)), $("#dynamic-list").children().length, snapshot.val().name, snapshot.val().subtotal);
                     }
                     //speakName(snapshot.val().name + " " + snapshot.val().subtotal);
                 }
             });
             databaseCode0.on('child_removed', function (snapshot) {
-                if(!(snapshot.val().name.charAt(0) <= 'J')) {
-                    console.log("child_removed, borro de la lista");     
-                    $("#dynamic-list #" + snapshot.key).remove();     
+                if(snapshot.val().name.charAt(0) >= 'K') {
+                    //console.log("child_removed, borro de la lista");     
+                    $("#dynamic-list #" + snapshot.key).remove();    
+                    sortList();
+                    //specialSort(); 
                 }
             });
         }, 3000);
+
+        function manageScannerInput() {
+                var name = $("#inputName").val();
+                var id = $("#inputName").val();
+                $("#inputName").val("");
+
+                name = name.slice(1, name.length - 1);
+                name = name.toUpperCase().replace("Ñ", ":").replace("NN", "Ñ");
+                name = name.substring(0, name.lastIndexOf(" "));
+                
+                speakName(name);
+        }
 
         function countUncheckedOrders() {
             firebase.database().ref('orders/code0/').on('value', function (snapshot) {
@@ -213,7 +280,33 @@
 
         function calculateET(order) {
             var productCount = countProducts(order.products);
-            return Math.round(localUncheckedOrders + (productCount * 5));
+            return Math.round((localUncheckedOrders * .5) + (productCount * .5));
+        }
+
+        function animateName(index, length, name, total) {
+            console.log("animateName(" + index + " , " + length + ", '" + name + "', " + total + ")");
+            
+            var leftSide = (index / (Math.ceil(length / 6) * 13)) <= 3;
+
+            if(leftSide) {
+                $("#animation-name-1").children()[0].textContent = name;
+                if(total <= 1500) $("#animation-name-1").children()[1].textContent = "$" + total;
+                else $("#animation-name-1").children()[1].innerHTML = "&#10003;";
+
+                $("#animation-name-1").fadeIn(1000);
+                setTimeout(function() {
+                    $("#animation-name-1").fadeOut(1000);
+                }, 7000);
+            } else {
+                $("#animation-name-2").children()[0].textContent = name;
+                if(total <= 1500) $("#animation-name-2").children()[1].textContent = "$" + total;
+                else $("#animation-name-2").children()[1].innerHTML = "&#10003;";
+
+                $("#animation-name-2").fadeIn(1000);
+                setTimeout(function() {
+                    $("#animation-name-2").fadeOut(1000);
+                }, 7000);
+            }
         }
         
         function countProducts(products) {
@@ -224,6 +317,8 @@
             if(latestOrderID != "") {
                 $("#dynamic-list #" + latestOrderID.replace(/[^A-Z0-9]/g,'')).remove();
                 latestOrderID = "";
+                sortList();
+                //specialSort();
             }
         }
 
@@ -278,6 +373,7 @@
             listItem.innerHTML = nameListItem.trim();
             document.getElementById("dynamic-list").appendChild(listItem.firstElementChild);
             sortList();
+            //specialSort();
         }
 
         function insertAlphabeticallyET(key, name, etime) {
@@ -351,9 +447,10 @@
             while (switching) {
                 switching = false;
                 b = list.getElementsByTagName("LI");
+
                 for (i = 0; i < (b.length - 1); i++) {
                     shouldSwitch = false;
-                    if (b[i].firstElementChild.innerHTML.toLowerCase() > b[i + 1].firstElementChild.innerHTML.toLowerCase()) {
+                    if (b[i].firstElementChild.innerHTML.toLowerCase() < b[i + 1].firstElementChild.innerHTML.toLowerCase()) {
                         shouldSwitch = true;
                         break;
                     }
@@ -364,6 +461,27 @@
                 }
             }
         }
+
+        function specialSort() {
+            var list = document.getElementById("dynamic-list");
+            var numberOfColumn = Math.floor(list.children.length / 13) + 1;
+
+            for(var i = numberOfColumn; i > 0; i--) {
+                var lowerLimit = (i - 1) * 13;
+                var upperLimit = i * 13;
+                if(i == numberOfColumn)
+                    upperLimit = list.children.length;
+
+                let elementsToReplace = [];
+                for (let i = lowerLimit; i < upperLimit; i++)
+                    elementsToReplace.push(list.children[i]);
+                
+                elementsToReplace.reverse();
+
+                for (let i = lowerLimit; i < upperLimit; i++)
+                    list.replaceChild(elementsToReplace[i - lowerLimit].cloneNode(true), list.children[i]);
+            }
+        }
         
         function checkForOldNames() {
             currentDate = new Date();
@@ -371,8 +489,9 @@
                 nameDate = new Date($(this).data("hour"));
                 var timeDiff = Math.abs(currentDate.getTime() - nameDate.getTime());
                 var diffMinutes = Math.ceil(timeDiff / (1000 * 60));
-                if (diffMinutes > 150)
+                if (diffMinutes > 150) {
                     $(this).remove();
+                }
             });
             setTimeout(function () {
                 checkForOldNames();
@@ -393,10 +512,12 @@
                 }
             });
             oldestName.remove();
+            sortList();
+            //specialSort();
         }
 
         function speakName(name) {
-            console.log("SPEAK " + name);
+            //("SPEAK " + name);
             var justName = name;
             var justTotal;
             var words = name.split(" ");
@@ -422,9 +543,11 @@
             }
 
             var synUtterance = new SpeechSynthesisUtterance(addAccent(justName));
-            synUtterance.rate = parseFloat(.9);
+            synUtterance.rate = parseFloat(.8);
             synUtterance.pitch = parseFloat(1.1);
-            synUtterance.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Juan')];
+            synUtterance.voice = speechSynthesis.getVoices()[69];
+            //synUtterance.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Juan')];
+            console.log(speechSynthesis.getVoices());
             window.speechSynthesis.speak(synUtterance);
             window.speechSynthesis.speak(synUtterance);
 
@@ -433,6 +556,7 @@
                     var synUtterance2 = new SpeechSynthesisUtterance(justTotal);
                     synUtterance2.rate = parseFloat(.9);
                     synUtterance2.pitch = parseFloat(1.1);
+                    //synUtterance.voice = speechSynthesis.getVoices()[69];
                     synUtterance2.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Juan')];
                     window.speechSynthesis.speak(synUtterance2);
                 }
@@ -525,8 +649,6 @@
             $("#inputName").focus();
         }
 
-        checkForOldNames();
-
         reloadOnUpdate();
 		function reloadOnUpdate() {
             firebase.database().ref("updates/pantallaDer").on('value', function(snapshot) {
@@ -538,6 +660,7 @@
             });
         }
 
+        //checkForOldNames();
     </script>
 </body>
 

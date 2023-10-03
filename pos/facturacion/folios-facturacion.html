@@ -27,13 +27,6 @@
         document.getElementById('csvFileInput').addEventListener('change', handleFileSelect, false);
 
         function generateInvoice(orders) {
-
-            for (const dailyOrders of orders) {
-                console.log(dailyOrders);
-                
-            }
-
-            /*
             var items = [];    
 
             for (var i = 0; i < orders.length; i++) {                
@@ -75,7 +68,7 @@
 
             newCfdi.GlobalInformation = {};
             newCfdi.GlobalInformation.Periodicity = "04";
-            newCfdi.GlobalInformation.Months = "07";
+            newCfdi.GlobalInformation.Months = "09";
             newCfdi.GlobalInformation.Year = "2023";
 
             newCfdi.CfdiType = "I";
@@ -87,7 +80,7 @@
 
             var today = new Date();
             //var formattedDate = today.getFullYear() + "-" + ("0" + (today.getMonth() + 1)).slice(-2) + "-" + ("0" + today.getDate()).slice(-2);
-            var formattedDate = today.getFullYear() + "-07-31";
+            var formattedDate = "2023-09-30";
             formattedDate = formattedDate + " " + ("0" + today.getHours()).slice(-2) + ":" + ("0" + today.getMinutes()).slice(-2) + ":" + ("0" + today.getSeconds()).slice(-2);
             newCfdi.Date = formattedDate;
 
@@ -105,7 +98,6 @@
                     manageError(error) 
                 });
             });
-            */
         }
 
         function manageError(error) {
@@ -164,8 +156,11 @@
             
             for (const dailyOrders of resultArray) {
                 monthlyOrders = monthlyOrders.concat(dailyOrders)
+                //one invoice per day
+                //generateInvoice(dailyOrders);
             }
-            
+
+            // one invoice with all the orders
             generateInvoice(monthlyOrders);
         } 
 

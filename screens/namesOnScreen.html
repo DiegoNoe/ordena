@@ -49,12 +49,12 @@
         }
 
         html {
-            zoom: 90%;
+            zoom: 160%;
         }
 
         .container-fluid {
-            padding-top: 20px;
-            padding-left: 30px;
+            padding-top: 5px;
+            padding-left: 10px;
             padding-right: 0px;
         }
 
@@ -73,6 +73,7 @@
 
         ul li{
             direction: ltr;
+            text-align: left;
         }
 
         .title {
@@ -81,9 +82,9 @@
             background-color: black;
             color: white;
             line-height: 80%;
-            margin-top: 5px;
-            margin-bottom: 12px;
-            padding-left: 3310px;
+            margin-top: 0px;
+            margin-bottom: 2px;
+            padding-left: 2552px;
         }
 
         .product {
@@ -123,17 +124,15 @@
         }
 
         #animation-name-1 {
-            left: 0px;
+            left: 1%;
         } 
-
+        
         #animation-name-2 {
-            left: 50%;
+            left: 51%;
         } 
         
 
         .elementToFadeInAndOut {
-            animation: fadeinout 4s linear forwards;
-            -webkit-animation: fadeinout 8s linear forwards;
             font-family: GillSansMTCondBold;
             font-size: 125px;
             color: white;
@@ -150,18 +149,6 @@
             padding-left: 4px;
         }
 
-        @-webkit-keyframes fadeinout {
-            0%,100% { opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-        }
-
-        @keyframes fadeinout {
-            0%,100% { opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-        }
-
     </style>
 
 </head>
@@ -171,17 +158,15 @@
         <input id="inputName" style="position: absolute; left: -9999px;"></input>
         <h3 class="title">PEDIDOS&nbsp;</h3>
         <ul id="dynamic-list"></ul>
-        <!--
 
-            <div id="animation-name-1"class="elementToFadeInAndOut">
-                <span>FERNANDO</span>
-                <span class="totalNameAnim" style="color: #66CC00;">$10</span>
-            </div>
-            <div id="animation-name-2" class="elementToFadeInAndOut">
-                <span>FERNANDITO</span>
-                <span class="totalNameAnim" style="color: #66CC00;">$20</span>
-            </div>
-        -->
+        <div id="animation-name-1"class="elementToFadeInAndOut">
+            <span></span>
+            <span class="totalNameAnim" style="color: #66CC00;"></span>
+        </div>
+        <div id="animation-name-2" class="elementToFadeInAndOut">
+            <span></span>
+            <span class="totalNameAnim" style="color: #66CC00;"></span>
+        </div>
         
     </div>
 
@@ -190,6 +175,15 @@
         countUncheckedOrders();
 
         populateDictonary(namesArray);
+
+        /*
+        $("#inputName").focus();
+        $("#inputName").on('keyup', function (e) {
+            if (e.keyCode == 13) {
+                manageScannerInput();
+            }
+        });
+        */
 
         var latestOrderID = "";
         var databaseCode0 = firebase.database().ref('orders/code0/');
@@ -223,7 +217,6 @@
                         insertAlphabeticallyWithTotal(snapshot.key, snapshot.val().name, snapshot.val().subtotal);
                         sortList();
                         specialSort();
-
                         
                         animateName($("#dynamic-list").children().index($("#" + snapshot.key)), $("#dynamic-list").children().length, snapshot.val().name, snapshot.val().subtotal);
                     }
@@ -248,7 +241,6 @@
                         specialSort();
 
                         animateName($("#dynamic-list").children().index($("#" + snapshot.key)), $("#dynamic-list").children().length, snapshot.val().name, snapshot.val().subtotal);
-
                     }
                     speakName(snapshot.val().name + " " + snapshot.val().subtotal);
                 }
@@ -256,7 +248,9 @@
             databaseCode0.on('child_removed', function (snapshot) {
                 if(snapshot.val().name.charAt(0) <= 'J') {
                     //console.log("child_removed, borro de la lista");     
-                    $("#dynamic-list #" + snapshot.key).remove();     
+                    $("#dynamic-list #" + snapshot.key).remove();    
+                    sortList();
+                    specialSort(); 
                 }
             });
         }, 3000);
@@ -280,24 +274,35 @@
 
         function calculateET(order) {
             var productCount = countProducts(order.products);
-            return Math.round(localUncheckedOrders + (productCount * 5));
+            return Math.round((localUncheckedOrders * .5) + (productCount * .5));
         }
 
         function animateName(index, length, name, total) {
-            Math.ceil(length / 6);
-            var leftSide = (index / Math.ceil(length / 6)) >= 4;
-
-            /*
-            $("#animation-name-2").children().eq(0).val();
-            $("#animation-name-2").children().eq(1).val();
-            $("#animation-name-2").children().addClass("elementToFadeInAndOut");  
-            */
-
+            console.log("animateName(" + index + " , " + length + ", '" + name + "', " + total + ")");
             
-            console.log("ANIMATE: index " + index + "  length " + length + "  " + name + "  " + total);
+            var leftSide = (index / (Math.ceil(length / 6) * 13)) >= 4;
 
+            if(leftSide) {
+                console.log("leftSide");
+                $("#animation-name-1").children()[0].textContent = name;
+                if(total <= 1500) $("#animation-name-1").children()[1].textContent = "$" + total;
+                else $("#animation-name-1").children()[1].innerHTML = "&#10003;";
 
+                $("#animation-name-1").fadeIn(1000);
+                setTimeout(function() {
+                    $("#animation-name-1").fadeOut(1000);
+                }, 7000);
+            } else {
+                console.log("rightSide");
+                $("#animation-name-2").children()[0].textContent = name;
+                if(total <= 1500) $("#animation-name-2").children()[1].textContent = "$" + total;
+                else $("#animation-name-2").children()[1].innerHTML = "&#10003;";
 
+                $("#animation-name-2").fadeIn(1000);
+                setTimeout(function() {
+                    $("#animation-name-2").fadeOut(1000);
+                }, 7000);
+            }
         }
         
         function countProducts(products) {
@@ -308,6 +313,8 @@
             if(latestOrderID != "") {
                 $("#dynamic-list #" + latestOrderID.replace(/[^A-Z0-9]/g,'')).remove();
                 latestOrderID = "";
+                sortList();
+                specialSort();
             }
         }
 
@@ -436,6 +443,7 @@
             while (switching) {
                 switching = false;
                 b = list.getElementsByTagName("LI");
+
                 for (i = 0; i < (b.length - 1); i++) {
                     shouldSwitch = false;
                     if (b[i].firstElementChild.innerHTML.toLowerCase() < b[i + 1].firstElementChild.innerHTML.toLowerCase()) {
@@ -451,36 +459,24 @@
         }
 
         function specialSort() {
-            var list, i, switching, b, shouldSwitch;
-            list = document.getElementById("dynamic-list");
-            console.log("SORT");
+            var list = document.getElementById("dynamic-list");
+            var numberOfColumn = Math.floor(list.children.length / 13) + 1;
 
-            var selectedRange = [];
-            for(let i = 0; i <= 12; i++) {
-                selectedRange.push(list.children[i]);
+            for(var i = numberOfColumn; i > 0; i--) {
+                var lowerLimit = (i - 1) * 13;
+                var upperLimit = i * 13;
+                if(i == numberOfColumn)
+                    upperLimit = list.children.length;
+
+                let elementsToReplace = [];
+                for (let i = lowerLimit; i < upperLimit; i++)
+                    elementsToReplace.push(list.children[i]);
+                
+                elementsToReplace.reverse();
+
+                for (let i = lowerLimit; i < upperLimit; i++)
+                    list.replaceChild(elementsToReplace[i - lowerLimit].cloneNode(true), list.children[i]);
             }
-            
-            console.log(selectedRange);
-
-
-            /*
-            switching = true;
-            while (switching) {
-                switching = false;
-                b = list.getElementsByTagName("LI");
-                for (i = 0; i < (b.length - 1); i++) {
-                    shouldSwitch = false;
-                    if (b[i].firstElementChild.innerHTML.toLowerCase() < b[i + 1].firstElementChild.innerHTML.toLowerCase()) {
-                        shouldSwitch = true;
-                        break;
-                    }
-                }
-                if (shouldSwitch) {
-                    b[i].parentNode.insertBefore(b[i + 1], b[i]);
-                    switching = true;
-                }
-            }
-            */
         }
         
         function checkForOldNames() {
@@ -489,8 +485,9 @@
                 nameDate = new Date($(this).data("hour"));
                 var timeDiff = Math.abs(currentDate.getTime() - nameDate.getTime());
                 var diffMinutes = Math.ceil(timeDiff / (1000 * 60));
-                if (diffMinutes > 150)
+                if (diffMinutes > 150) {
                     $(this).remove();
+                }
             });
             setTimeout(function () {
                 checkForOldNames();
@@ -511,6 +508,8 @@
                 }
             });
             oldestName.remove();
+            sortList();
+            specialSort();
         }
 
         function speakName(name) {
@@ -657,7 +656,7 @@
             });
         }
 
-        checkForOldNames();
+        //checkForOldNames();
     </script>
 </body>
 

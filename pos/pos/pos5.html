@@ -541,8 +541,33 @@
             $("#addNewProductDBFormWrapper").append(fields);
         }
 
+		function saveCurrentStateNow() {
+			secondaryApp.database().ref('empleados/').once('value', function(snapshot) {
+				if(snapshot.val() != null) {
+					$.each(snapshot.val(), function(key, value) {
+						secondaryApp.database().ref("employees/" + key).once('value', function(childSnapshot) {
+                            console.log(childSnapshot.val());
+							if(childSnapshot.val().comments != undefined)
+                                secondaryApp.database().ref("employeesA/" + key + "/comments").set(childSnapshot.val().comments);
+							if(childSnapshot.val().performance != undefined)
+                                secondaryApp.database().ref("employeesA/" + key + "/performance").set(childSnapshot.val().performance);
+							if(childSnapshot.val().extraTimeT != undefined && childSnapshot.val().extraTimeT != 0) {
+								secondaryApp.database().ref("employees/" + key + "/extraTimeTT").set(childSnapshot.val().extraTimeT);
+								secondaryApp.database().ref("employees/" + key + "/extraTime").set(0);
+								secondaryApp.database().ref("employees/" + key + "/extraTimeT").set(0);
+							}
+						});	
+					});
+				}
+			});
+		}
+
         function deleteRecord() {
             if(confirm("SE BORRARÁN LOS REGISTROS DE AYER. ¿SEGURA?")) {
+                if(new Date().getDay() == 1) {
+                    saveCurrentStateNow();
+                }
+
                 firebase.database().ref("tablets/jamones").remove();
                 firebase.database().ref("tablets/cremas").remove();
                 firebase.database().ref("tablets/bodega").remove();
@@ -556,6 +581,8 @@
 
                 firebase.database().ref('updates/caja1').set(true);
                 firebase.database().ref('updates/caja2').set(true);
+
+                secondaryApp.database().ref('updates/medias').set(true);
                 
                 setTimeout(function () {
                     location.reload();

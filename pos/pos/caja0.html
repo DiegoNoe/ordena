@@ -133,7 +133,6 @@
                 <select id="inputEmployeeNameCaja" class="form-control">
                     <option disabled selected>SURTIDOR</option>
                 </select>
-
                 <!--
                     <input id="tomorrowCheckbox" class="form-check-input" type="checkbox">
                     <label id="tomorrowCheckboxLabel" class="form-check-label" for="tomorrowCheckbox">M</label>
@@ -700,7 +699,7 @@
             total = roundDecimals(Math.round(total * 10) / 10);
             
             for(var i = 0; i < sOrderProducts.length; i++)
-            sOrderProducts[i] = sOrderProducts[i].map(v => v === undefined ? '1' : v);
+                sOrderProducts[i] = sOrderProducts[i].map(v => v === undefined ? '1' : v);
 
             //firebase.database().ref("orders/code0/" + globalID + "/checked").set(false);
             firebase.database().ref("orders/code0/" + globalID + "/products").set(sOrderProducts);
