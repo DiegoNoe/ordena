@@ -166,8 +166,8 @@
 		</div>
 		<div class="list-group-item row employee-row headTitle">
 			<h2 class="col-xs-4 employee-name" style="padding: 0px; margin: 0px; padding-left: 0px;"> NOMBRE </h2>
-			<h2 class="col-xs-1 employee-name" style="padding: 0px; margin: 0px; padding-left: 2px;"> D</h2>
-			<h2 class="col-xs-5 employee-id" style="padding: 0px; margin: 0px; padding-left: 16px;"> COMENTARIOS </h2>
+			<h2 class="col-xs-1 employee-name" style="padding: 0px; margin: 0px; padding-left: 2px;"> TIEMPO</h2>
+			<h2 class="col-xs-3 employee-name" style="padding: 0px; margin: 0px; padding-left: 2px;"> D &nbsp;&nbsp; COMENTARIOS</h2>
 		</div>
 		<ul id="dynamic-list" class="list-group" style="display:block;"> </ul>
 	</div>
@@ -500,6 +500,10 @@
 				if(value.performance != undefined)
 					localPerformance = value.performance;
 
+				var extraTimeTT = "";
+				if(value.extraTimeTT != undefined)
+					extraTimeTT = value.extraTimeTT;
+
 				var performanceQuery = "";
 				if(localPerformance == "NA")
 					performanceQuery = '<option value="NA" selected>NT</option>' +
@@ -548,12 +552,13 @@
 				var employeeListItem =
 					'<li class="list-group-item row employee-row">' +
 					'<h2 class="col-xs-4 employee-name" style="padding: 0px; margin: 0px; padding-left: 0px;">' + key + '</h2>' +
+					'<h2 class="col-xs-1 employee-name" style="padding: 0px; margin: 0px; padding-left: 0px;">' + extraTimeTT + '</h2>' +
 					'<div class="col-xs-2" style="padding: 0px; margin-right: 10px; width: 36px;">' +
 						'<select class="form-control performance-select" id="' + key + 'Performance" onchange="savePerformance(&apos;' + key + '&apos;)" style="padding: 0px;">' +
 							performanceQuery + 
 						'</select>' +
 					'</div>' +									
-					'<input id="' + key + '" oninput="this.value = this.value.toUpperCase()" class="col-xs-5 form-control comments-box" type="text" style="width: 140px;" onkeydown="uploadComment(this)" onfocusout="uploadCommentFocusOut(this)" placeholder="COMENTARIOS" value="' + localComments + '">' +
+					'<input id="' + key + '" oninput="this.value = this.value.toUpperCase()" class="col-xs-4 form-control comments-box" type="text" style="width: 140px;" onkeydown="uploadComment(this)" onfocusout="uploadCommentFocusOut(this)" placeholder="COMENTARIOS" value="' + localComments + '">' +
 					'<button type="button" class="col-xs-1 btn glyphicon glyphicon-pencil" style="background-color:white; padding-top:2px; padding-bottom:0px;" onclick="editEmployeeModal(event)"' + 
 					'data-name="' + key + '" data-pronunciation="' + value.pronunciation + '" data-sigma="' + sigmaEmployee + '" data-id="' + value.id + '">' + '</button>' + 
 					'</li>';

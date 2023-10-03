@@ -265,7 +265,7 @@
 		<button type="button" id="secundaryButton" class="btn btn-secondary" onclick="showProducts(event)">PRODS</button>
 		<button type="button" id="thirdButton" class="btn btn-secondary" onclick="showOOSProducts(event)">NO HAY</button>
 		<h1 class="modal-title" id="mediasTitle" style="margin-bottom:1.5%; margin-top:.5px; color: #EEEEEE;">M: 0</h1>
-		<h1 class="modal-title" id="outTitle" style="position:absolute; left: 100px;px; top:0px; color: #EEEEEE;">A: 0</h1>
+		<h1 class="modal-title" id="outTitle" style="position:absolute; left: 100px; top:0px; color: #EEEEEE;">A: 0</h1>
 		<h1 class="modal-title" id="time" style="position:absolute; left:180px; top:0px; color: #EEEEEE;"> </h1>
 		<div class='wrapper'>
 			<div id="main-wrapper" class='tabcontent'></div>
@@ -439,7 +439,7 @@
 			$('#main-wrapper').prepend(breaksQuery);
 		}
 
-		window.setInterval(saveCurrentState, 60 * 1000);
+		//window.setInterval(saveCurrentState, 60 * 1000);
 
 		startClockTime();
 		checkConnection();
