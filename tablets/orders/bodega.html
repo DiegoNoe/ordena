@@ -527,6 +527,7 @@
                 msg.rate = .95;
                 //msg.voice = window.speechSynthesis.getVoices()[36]; //15
                 msg.text = message;
+                console.log("SPEAK");
                 window.speechSynthesis.speak(msg);
                 setTimeout(function () {
                     globalSpeaking = false;
@@ -589,6 +590,17 @@
             setTimeout(function () {
                 checkUpdatedStatus();
             }, 60000);
+        }
+
+        reloadOnUpdate();
+		function reloadOnUpdate() {
+            firebase.database().ref("updates/bodega").on('value', function(snapshot) {
+                if(snapshot.val()) {
+                    firebase.database().ref("updates/bodega").set(false).then(function() {
+                        location.reload();
+                    });
+                }
+            });
         }
 
     </script>

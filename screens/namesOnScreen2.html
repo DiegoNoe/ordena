@@ -250,6 +250,10 @@
         }, 3000);
 
         function manageScannerInput() {
+                var input = $("#inputName").val();
+
+                console.log("input " + input);
+
                 var name = $("#inputName").val();
                 var id = $("#inputName").val();
                 $("#inputName").val("");
@@ -259,6 +263,74 @@
                 name = name.substring(0, name.lastIndexOf(" "));
                 
                 speakName(name);
+
+                //search order then access first child (searched order)
+                console.log("voy a buscar");
+                firebase.database().ref('pending').orderByChild('id').equalTo(input).once("value", function(snapshot) {
+                    if(snapshot.val()) {
+                        console.log("busco orden " + input + " en pending");
+                        snapshot.forEach(function(childSnapshot) {
+                            if(!childSnapshot.val().porEntregar) {
+                                console.log("encontré productos pendientes");
+
+                                addToPorEntregar(childSnapshot, "aCremas", "cremas");
+                                addToPorEntregar(childSnapshot, "aJamones", "jamones");
+                                addToPorEntregar(childSnapshot, "aBodega", "bodega");
+                                firebase.database().ref('pending/' + childSnapshot.key + '/porEntregar').set(true);
+                            } else {
+                                backFromPorEntregar(childSnapshot, "aCremas", "cremas");
+                                backFromPorEntregar(childSnapshot, "aJamones", "jamones");
+                                backFromPorEntregar(childSnapshot, "aBodega", "bodega");
+                                firebase.database().ref('pending/' + childSnapshot.key + '/porEntregar').set(false);
+                            }
+                        });
+                    }
+                });
+        }
+
+        function addToPorEntregar(childSnapshot, pendingArea, area) {
+            
+            console.log("entro a addToPorEntregar con " + pendingArea + " " + area);
+            console.log(childSnapshot);
+
+            childSnapshot.child(pendingArea).forEach(function(specificOrderChild) {
+                // check for served status
+                console.log("entro al foreach con " + pendingArea + " de pending");
+                firebase.database().ref('tablets/' + area + '/pendientes/' + specificOrderChild.key).once('value', function(servedChild) {
+                    console.log("encontre en tablets/ " + area + " /pendientes");
+
+                    var jsonProduct = specificOrderChild.val(); 
+                    jsonProduct.porSurtir = servedChild.exists();
+                    // upload the product with served status
+                    firebase.database().ref('pending/' + childSnapshot.key + '/' + pendingArea + '/' + specificOrderChild.key).set(jsonProduct);
+                    firebase.database().ref('tablets/' + area + '/porEntregar/' + specificOrderChild.key).set(jsonProduct).then(function() {
+                        // delete old product
+                        if(servedChild.exists())
+                            firebase.database().ref('tablets/' + area + '/pendientes/' + specificOrderChild.key).remove();
+                        else
+                            firebase.database().ref('tablets/' + area + '/hechas/' + specificOrderChild.key).remove();
+                    });
+                });                        
+            });
+        }
+
+        function backFromPorEntregar(childSnapshot, pendingArea, area) {
+            childSnapshot.child(pendingArea).forEach(function(specificOrderChild) {
+                // check for served status
+                if(specificOrderChild.val().porSurtir) {
+                    // adds the product to porSurtir and then deletes the porEntregar or entregadas product
+                    firebase.database().ref(area + '/pendientes/' + specificOrderChild.key).set(specificOrderChild.val()).then(function() {
+                        firebase.database().ref(area + '/porEntregar/' + specificOrderChild.key).remove();
+                        firebase.database().ref(area + '/entregadas/' + specificOrderChild.key).remove();
+                    });
+                } else {
+                    // adds the product to surtidas and then deletes the porEntregar or entregadas product
+                    firebase.database().ref(area + '/hechas/' + specificOrderChild.key).set(specificOrderChild.val()).then(function() {
+                        firebase.database().ref(area + '/porEntregar/' + specificOrderChild.key).remove();
+                        firebase.database().ref(area + '/entregadas/' + specificOrderChild.key).remove();
+                    });
+                }                
+            });
         }
 
         function countUncheckedOrders() {
@@ -543,11 +615,11 @@
             }
 
             var synUtterance = new SpeechSynthesisUtterance(addAccent(justName));
-            synUtterance.rate = parseFloat(.8);
+            synUtterance.rate = parseFloat(.9);
             synUtterance.pitch = parseFloat(1.1);
-            synUtterance.voice = speechSynthesis.getVoices()[69];
-            //synUtterance.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Juan')];
-            console.log(speechSynthesis.getVoices());
+            //synUtterance.voice = speechSynthesis.getVoices()[69];
+            synUtterance.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Juan')];
+            console.log("SPEAK " );
             window.speechSynthesis.speak(synUtterance);
             window.speechSynthesis.speak(synUtterance);
 
@@ -614,6 +686,7 @@
         }
 
         function addAccent(name) {
+            console.log("addAccent " + name);
             name = name.toUpperCase();
             var newName = "";
             var words = name.split(" ");
@@ -623,6 +696,7 @@
                 else 
                     newName = newName +  " " + value;
             });
+            console.log("return " + newName);
             return newName;
         }
 

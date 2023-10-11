@@ -2641,6 +2641,7 @@
 
         //uploads or updates an order product
         function uploadOrderProduct(date, quantity, unit, description, notes, price, stock, type, id) {
+            console.log("uploadOrderProduct");
             firebase.database().ref("liveviews/" + globalComputer + '/order/' + date).set({
                 cantidad: quantity,
                 unidad: unit,

@@ -23,7 +23,7 @@
         };
 
         firebase.initializeApp(config);
-        var database = firebase.database().ref('tablets/arriba');
+        var database = firebase.database().ref('tablets/abajo');
 
         var shortenedUnits = {
             KILO: "KG",
@@ -270,7 +270,7 @@
                 var doneProduct = snapshot.val();
                 doneProduct["hourDone"] = time.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true}).slice(0, -3);
                 database.child("hechas/" + productID).set(doneProduct).then(function(){
-                    firebase.database().ref('tablets/arriba/pendientes/' + productID).remove();
+                    firebase.database().ref('tablets/abajo/pendientes/' + productID).remove();
                 });
             });
         }
@@ -347,7 +347,7 @@
                 var doneProduct = snapshot.val();
                 doneProduct["hourDone"] = time.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true}).slice(0, -3);
                 database.child("entregadas/" + productID).set(doneProduct).then(function(){
-                    firebase.database().ref('tablets/arriba/porEntregar/' + productID).remove();
+                    firebase.database().ref('tablets/abajo/porEntregar/' + productID).remove();
                 });
             });
         }
