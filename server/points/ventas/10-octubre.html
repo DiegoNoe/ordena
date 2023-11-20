@@ -39,7 +39,8 @@
                             var localDescription = localProductsO[key2.slice(3)];
                             if(localDescription != undefined)localDescription = localProductsO[key2.slice(3)].descripcion;
                             else localDescription = "LA CLAVE CAMBIO";
-                            allSellsByDate = allSellsByDate + (new Date(value.hour)).getUTCDate() + ", " + value.code + ", " +  key2.slice(3) + ", " + localDescription + ", " + decryptCryptoJS(obj2[key2].p) + ", " + decryptCryptoJS(obj2[key2].uc) + "\n";
+                            var orderDate = new Date(value.hour);
+                            allSellsByDate = allSellsByDate + orderDate.getUTCDate() + ", " + formatAMPM(orderDate) + ", " + value.code + ", " +  key2.slice(3) + ", " + localDescription + ", " + decryptCryptoJS(obj2[key2].p) + ", " + decryptCryptoJS(obj2[key2].uc) + "\n";
                         }
                     }
                 }
@@ -48,6 +49,16 @@
             });
         });
 
+        function formatAMPM(date) {
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            var ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            minutes = minutes < 10 ? '0'+minutes : minutes;
+            var strTime = hours + ':' + minutes + ' ' + ampm;
+            return strTime;
+        }
 
         function encryptCryptoJS(string) {
             var key = '11A1764225B11AA1'; 
