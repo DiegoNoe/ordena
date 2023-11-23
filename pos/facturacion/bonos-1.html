@@ -516,7 +516,7 @@
 			var doc = new jsPDF({
                 orientation: 'p',
                 unit: 'mm',
-                format: [297, 210]
+                format: [279, 216]
             });
 
 			doc.addFont('GILC____.TTF', "Gill Sans Std Condensed", "normal");
@@ -526,13 +526,13 @@
 			
             doc.setPage(1);
 
-			var lineHeight = 148.5;
-			var bonusWidth = 105;
+			var lineHeight = 139.5;
+			var bonusWidth = 108;
             var pagesQuantity = 1;
 
 			//LINEA DIVISORA
-			doc.line(0, 297/2, 210, 297/2);
-			doc.line(210/2, 0, 210/2, 297);
+			doc.line(0, 279/2, 216, 279/2);
+			doc.line(216/2, 0, 216/2, 279);
 
 			var localIndex = 0;
 			$("#dynamic-list").children().each(function (index) {
