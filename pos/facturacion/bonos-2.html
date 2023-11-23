@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" style="background-color: white;">
 <head>
-	<title>BONOS IMPERIAL 1</title>
+	<title>BONOS IMPERIAL 2</title>
 
 	<meta charset="utf-8">
     <meta name="viewport" content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
@@ -26,12 +26,13 @@
 	<script>
 		
 		const config = {
-			apiKey: "AIzaSyDrVZ3499rhvfFpxfRbU-wqJ-ZUN0-_ez0",
-			authDomain: "cremeria-imperial.firebaseapp.com",
-			databaseURL: "https://cremeria-imperial.firebaseio.com",
-			projectId: "cremeria-imperial",
-			storageBucket: "cremeria-imperial.appspot.com",
-			messagingSenderId: "445465872507"
+			apiKey: "AIzaSyBhhniDRtbUoE1SGVCTZzVUPTbd5k-mfnI",
+			authDomain: "cremeria-ordena.firebaseapp.com",
+			databaseURL: "https://cremeria-ordena-default-rtdb.firebaseio.com",
+			projectId: "cremeria-ordena",
+			storageBucket: "cremeria-ordena.appspot.com",
+			messagingSenderId: "862495808627",
+			appId: "1:862495808627:web:09d8f34bdb206056f1de06"
 		};
 
 		var fullEmployeeData;
@@ -42,12 +43,8 @@
 		database.once('value', function (snapshot) {
 			fullEmployeeData = snapshot.val();
 		}).then(function() {
-				//FUTURE FIX employees are being kept in two different places
-				firebase.database().ref('empleados/').on('value', function (childSnapshot) {
-					justEmployeesNames = childSnapshot.val();
-					populateEmployeesList(fullEmployeeData, justEmployeesNames);
-				});
-			});
+			populateEmployeesList(fullEmployeeData);
+		});
 
 		var employeesSnapshot;
 
@@ -176,7 +173,7 @@
 	</div>
 	<div class="container-fluid" style="background-color: white;">
 		<div class="row"> 
-			<h1 class="modal-title col-xs-8" style="margin-bottom:1.5%; margin-top:.5px">BONOS IMPERIAL 1</h1>
+			<h1 class="modal-title col-xs-8" style="margin-bottom:1.5%; margin-top:.5px">BONOS IMPERIAL 2</h1>
 			<div class="col-xs-4">
 				<button onclick="generatePDF();" class="btn btn-danger glyphicon glyphicon-list-alt" style="float: right; margin-top: 7px; margin-left: 10px; padding-left: 6.4px; padding-top: 7px; height: 34px; width: 34px; font-size: 25px; line-height: 10px; font-size: 19px;"></button>
 				<button onclick="sortEmployees(event);" class="btn btn-alert" id="orderButton" style="float: right; margin-top: 8px; margin-left: 10px; padding-left: 10px; padding-top: 2.5px; height: 34px; width: 34px; font-size: 20px;">#</button>
@@ -797,14 +794,10 @@
 			
 		}
 		
-		function populateEmployeesList(employeesLocal, justEmployeesNames) {
+		function populateEmployeesList(employeesLocal) {
 			
 			$('#dynamic-list').empty();
 			for (const [key, value] of Object.entries(employeesLocal)) {
-
-				//is employee in empleados repository?
-				if(justEmployeesNames[key] == undefined)
-					continue;
 
 				//is employee a sigma employee
 				var sigmaEmployee = value.issigma;
