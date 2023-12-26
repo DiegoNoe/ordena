@@ -439,7 +439,7 @@
 			$('#main-wrapper').prepend(breaksQuery);
 		}
 
-		//window.setInterval(saveCurrentState, 60 * 1000);
+		window.setInterval(saveCurrentState, 60 * 1000);
 
 		startClockTime();
 		checkConnection();
@@ -552,6 +552,7 @@
 		}
 
 		function saveCurrentState() {
+			console.log("saveCurrentState no");
 			//mondays in the morning
 			if(newDate.getDay() == 1 && newDate.getHours() == 8 && newDate.getMinutes() < 40) {
 				console.log("reinicio");
@@ -563,9 +564,9 @@
 									firebase.database().ref("employeesA/" + key + "/comments").set(childSnapshot.val().comments);
 								if(childSnapshot.val().performance != undefined)
 									firebase.database().ref("employeesA/" + key + "/performance").set(childSnapshot.val().performance);
-								if(childSnapshot.val().extraTimeT != undefined && childSnapshot.val().extraTimeT != 0) {
-									console.log("extraTimeTT = " + childSnapshot.val().extraTimeT);
-									firebase.database().ref("employees/" + key + "/extraTimeTT").set(childSnapshot.val().extraTimeT);
+								if(childSnapshot.val().extraTime != undefined && childSnapshot.val().extraTime != 0) {
+									console.log("extraTimeTT = " + childSnapshot.val().extraTime);
+									firebase.database().ref("employees/" + key + "/extraTimeTT").set(childSnapshot.val().extraTime);
 									console.log("extraTime y extraTimeT = 0");
 									firebase.database().ref("employees/" + key + "/extraTime").set(0);
 									firebase.database().ref("employees/" + key + "/extraTimeT").set(0);
@@ -643,6 +644,7 @@
 		}
 
 		function pushEmployeeByHour(name, pronunciation, breaks) {	
+			console.log(breaks);
 			globalCounter = 30;
 			if(newDate.getDay() == 6)
 				globalCounter = 40;
@@ -704,8 +706,8 @@
 				employeesOnBreak--;
 				document.getElementById('mediasTitle').innerText = "M: " + employeesOnBreak;
 			} else if (event.target.style.backgroundColor == "rgb(253, 151, 66)") {
-				//uploadExtraTime(event.srcElement.innerHTML, event.target.getAttribute("data-name"));
-				//uploadExtraTimeTotal(event.target.getAttribute("data-name"));
+				uploadExtraTime(event.srcElement.innerHTML, event.target.getAttribute("data-name"));
+				uploadExtraTimeTotal(event.srcElement.innerHTML, event.target.getAttribute("data-name"));
 				event.target.style.backgroundColor = "#111111";
 				event.target.style.borderColor = "#555555";
 				event.target.style.borderWidth = "1px";
@@ -714,8 +716,8 @@
 				employeesOnBreak--;
 				document.getElementById('mediasTitle').innerText = "M: " + employeesOnBreak;
 			} else if (event.target.style.backgroundColor == "rgb(229, 57, 53)") {
-				//uploadExtraTime(event.srcElement.innerHTML, event.target.getAttribute("data-name"));
-				//uploadExtraTimeTotal(event.target.getAttribute("data-name"));
+				uploadExtraTime(event.srcElement.innerHTML, event.target.getAttribute("data-name"));
+				uploadExtraTimeTotal(event.srcElement.innerHTML, event.target.getAttribute("data-name"));
 				event.target.style.backgroundColor = "#111111";
 				event.target.style.borderColor = "#555555";
 				event.target.style.borderWidth = "1px";
@@ -751,12 +753,13 @@
 			});
 		}
 
-		function uploadExtraTimeTotal(employee) {
+		function uploadExtraTimeTotal(time, employee) {
+			time = parseInt(time.slice(1, time.length));
 			firebase.database().ref('employees/' + employee + '/extraTimeT').once('value', function(snapshot) {
 				if(snapshot.val() == undefined) {
-					firebase.database().ref('employees/' + employee + '/extraTimeT').set(1);
+					firebase.database().ref('employees/' + employee + '/extraTimeT').set(time);
 				} else {
-					firebase.database().ref('employees/' + employee + '/extraTimeT').set(snapshot.val() + 1);
+					firebase.database().ref('employees/' + employee + '/extraTimeT').set(snapshot.val() + time);
 				}
 			});
 		}		
