@@ -1824,6 +1824,7 @@
                 var sOrderProducts = {};
 
                 var calculable = true;
+                var direct = 0;
                 var total = 0;
                 var category = 0;
                 var categories = [.05, .10, .15, .20, .25];
@@ -2004,6 +2005,10 @@
                     //drawline if product needs to be weighted
                     if (order[i][5] == "porPesarCamara" || order[i][5] == "porPesarAfuera") {
                         calculable = false;
+                        console.log("order[i]");
+                        console.log(order[i]);
+                        if(order[i][1] <= 5) direct++;
+                        else direct = 4;
                         doc.setLineWidth(0.35);
                         //doc.setPage(pagesQuantity * 2 - 1);
                         doc.setDrawColor(255, 0, 0);
@@ -2081,6 +2086,7 @@
                 else
                     total = total.toString();
 
+                calculable = direct <= 3;
                 if (calculable) {
                     //doc.setPage(pagesQuantity * 2 - 1);
                     doc.text(130.5 + xOffset, 209  + yOffset, "TOTAL  " + total.toLocaleString('en-US'), "right");
@@ -2160,15 +2166,16 @@
 
                 
                 //if ($("#invoiceCheckbox").is(':checked'))
-                uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), sOrderProducts, total, productsRefID, anotoLabel, calculable, iftomorrow);
+                uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), sOrderProducts, total, productsRefID, anotoLabel, calculable, direct, iftomorrow);
                 
                 //autoprints PDF in a new tab
-                doc.autoPrint();
+                if(!direct <= 3)
+                    doc.autoPrint();
 
                 //uploadLastOrder($("#inputName").val(), sOrderProducts, total);
                 lastOrderID = productsRefID;
 
-                if(window.open(doc.output('bloburl'), '_blank') != null) { 
+                if(direct <= 3 || window.open(doc.output('bloburl'), '_blank') != null) { 
                     var ncomputer = globalComputer.slice(-1);
                     var etime = calculateWTime(Math.ceil(nproducts));
                     
@@ -2185,6 +2192,7 @@
                         iftomorrow: iftomorrow,
                         ordertype: ordertype,
                         ftotal: calculable,
+                        direct: direct,
                         ncomputer: ncomputer,
                         etime: etime,
                         justName: justNameFlag
@@ -2209,6 +2217,9 @@
                     increaseEmployeeCounter($("#inputEmployeeName").val());
                     uploadSurvey(surveyValues);
                     */
+
+                    if(direct <= 3 )
+                        alert("✔ NOTA DIRECTA, COBRAR EN CAJA");
                     
                     eraseOrder();
                     retrievedLastOrder = false;
@@ -2466,7 +2477,7 @@
         }
 
         //uploads order when invoice is needed
-        function uploadCompleteOrder(name, products, total, id, anotoLabel, calculable, tomorrow) {
+        function uploadCompleteOrder(name, products, total, id, anotoLabel, calculable, direct, tomorrow) {
             id = id.replaceAll(".", "").replaceAll(" ", "");
             total = total.replace(/\,/g,'');
 
@@ -2487,7 +2498,8 @@
                 subtotal: total,
                 hour: Date.now(),
                 calculable: calculable,
-                iftomorrow: tomorrow
+                iftomorrow: tomorrow,
+                direct: direct
             });
         }
 

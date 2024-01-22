@@ -193,6 +193,7 @@
             databaseCode0.on('child_added', function (snapshot) {
                 var localChecked = false;
                 if(snapshot.val().checked) localChecked = true;
+                if(snapshot.val().direct != undefined && snapshot.val().direct <= 3) localChecked = true;
 
                 if(!localChecked) {
                     if(snapshot.val().name.charAt(0) <= 'J') {
@@ -220,9 +221,14 @@
                         
                         animateName($("#dynamic-list").children().index($("#" + snapshot.key)), $("#dynamic-list").children().length, snapshot.val().name, snapshot.val().subtotal);
                     }
-                    speakName(snapshot.val().name + " " + snapshot.val().subtotal);
+                    console.log(snapshot.val());
+                    if(snapshot.val().direct != undefined && snapshot.val().direct <= 3)
+                        speakName(snapshot.val().name + " " + snapshot.val().subtotal, " pase a pagar.");
+                    else 
+                        speakName(snapshot.val().name + " " + snapshot.val().subtotal, "");
                 }
             });
+
             databaseCode0.on('child_changed', function (snapshot) {
                 var localChecked = false;
                 if(snapshot.val().checked) localChecked = true;
@@ -242,7 +248,7 @@
 
                         animateName($("#dynamic-list").children().index($("#" + snapshot.key)), $("#dynamic-list").children().length, snapshot.val().name, snapshot.val().subtotal);
                     }
-                    speakName(snapshot.val().name + " " + snapshot.val().subtotal);
+                    speakName(snapshot.val().name + " " + snapshot.val().subtotal, "");
                 }
             });
             databaseCode0.on('child_removed', function (snapshot) {
@@ -512,7 +518,7 @@
             specialSort();
         }
 
-        function speakName(name) {
+        function speakName(name, complement) {
             //("SPEAK " + name);
             var justName = name;
             var justTotal;
@@ -540,7 +546,7 @@
 
             var synUtterance = new SpeechSynthesisUtterance(addAccent(justName));
             synUtterance.rate = parseFloat(.9);
-            synUtterance.pitch = parseFloat(1.1);
+            synUtterance.pitch = parseFloat(1.05);
             //synUtterance.voice = speechSynthesis.getVoices()[69];
             synUtterance.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Juan')];
             //console.log(speechSynthesis.getVoices());
@@ -551,11 +557,20 @@
                 if(limitTotal < 1500) {
                     var synUtterance2 = new SpeechSynthesisUtterance(justTotal);
                     synUtterance2.rate = parseFloat(.9);
-                    synUtterance2.pitch = parseFloat(1.1);
+                    synUtterance2.pitch = parseFloat(1.05);
                     //synUtterance.voice = speechSynthesis.getVoices()[69];
                     synUtterance2.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Juan')];
                     window.speechSynthesis.speak(synUtterance2);
                 }
+            }
+
+            if(complement != "") {
+                var synUtterance3 = new SpeechSynthesisUtterance(complement);
+                    synUtterance3.rate = parseFloat(.9);
+                    synUtterance3.pitch = parseFloat(1.05);
+                    //synUtterance.voice = speechSynthesis.getVoices()[69];
+                    synUtterance3.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Juan')];
+                    window.speechSynthesis.speak(synUtterance3);
             }
         }
 

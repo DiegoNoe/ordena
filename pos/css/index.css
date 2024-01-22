@@ -125,7 +125,6 @@ body {
 }
 
 #greenCheckClient {
-    color: #5cb85c;
     z-index: 1;
     position: absolute;
     top: 7px;
@@ -134,7 +133,6 @@ body {
 }
 
 #greenCheckClientLive {
-    color: #5cb85c;
     z-index: 1;
     position: absolute;
     top: 7px;

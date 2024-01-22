@@ -602,9 +602,9 @@
 
         reloadOnUpdate();
 		function reloadOnUpdate() {
-            firebase.database().ref("updates/jamones").on('value', function(snapshot) {
+            firebase.database().ref("updates/jamones2").on('value', function(snapshot) {
                 if(snapshot.val()) {
-                    firebase.database().ref("updates/jamones").set(false).then(function() {
+                    firebase.database().ref("updates/jamones2").set(false).then(function() {
                         location.reload();
                     });
                 }

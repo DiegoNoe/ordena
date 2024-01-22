@@ -173,7 +173,6 @@
             }
         });
 
-
         reloadOnUpdate();
         countUncheckedOrders();
 
@@ -187,6 +186,7 @@
             databaseCode0.on('child_added', function (snapshot) {
                 var localChecked = false;
                 if(snapshot.val().checked) localChecked = true;
+                if(snapshot.val().direct != undefined && snapshot.val().direct <= 3) localChecked = true;
 
                 if(!localChecked) {
                     if(snapshot.val().name.charAt(0) >= 'K') {

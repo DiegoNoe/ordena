@@ -130,7 +130,7 @@
             </div>
             <div id="casilleroContainer" class="col-md-2">
                 <input id="inputCasillero" class="form-control" type="text" maxlength="8" placeholder="#"> </input>
-                <select id="inputEmployeeNameCaja" class="form-control">
+                <select id="inputEmployeeNameCaja" class="form-control" onchange="employeeSelected()">
                     <option disabled selected>SURTIDOR</option>
                 </select>
                 <!--
@@ -347,33 +347,33 @@
     </div>
 
     <!--
-        <div id="addInvoiceModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addInvoiceModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 id="addInvoiceModalLabel" class="modal-title">¿REQUIERE FACTURA?</h4>
-                    </div>
-                    <div id="addInvoiceFromContainer" class="modal-body">
-                        <form id="addInvoiceForm">
-                            <div class="form-group">
-                                <label id="addInvoiceMessage"></label>
-                                <div id="formInvoiceNameInputContainer" class="row">
-                                    <div class="col-sm-9">
-                                        <label for="formInvoiceNameInputLabel">NOMBRE FISCAL O RFC</label>
-                                        <input id="formInvoiceNameInput" class="form-control" oninput="this.value = this.value.toUpperCase()" type="text" placeholder="" maxlength="20" required>
-                                    </div>
+    <div id="addInvoiceModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addInvoiceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="addInvoiceModalLabel" class="modal-title">¿REQUIERE FACTURA?</h4>
+                </div>
+                <div id="addInvoiceFromContainer" class="modal-body">
+                    <form id="addInvoiceForm">
+                        <div class="form-group">
+                            <label id="addInvoiceMessage"></label>
+                            <div id="formInvoiceNameInputContainer" class="row">
+                                <div class="col-sm-9">
+                                    <label for="formInvoiceNameInputLabel">NOMBRE FISCAL O RFC</label>
+                                    <input id="formInvoiceNameInput" class="form-control" oninput="this.value = this.value.toUpperCase()" type="text" placeholder="" maxlength="20" required>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="cancelClientButton" class="btn btn-secondary" type="button" data-dismiss="modal">CANCELAR</button>
-                        <button id="deleteClientButton" class="btn btn-danger" type="button" data-dismiss="modal" onclick="deleteClientDB();">ELIMINAR</button>
-                        <button id="addClientButton" class="btn btn-danger" type="button" data-type="newClient"  onclick="verifyNewClient();" form="addClientForm">GUARDAR</button>
-                    </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="cancelClientButton" class="btn btn-secondary" type="button" data-dismiss="modal">CANCELAR</button>
+                    <button id="deleteClientButton" class="btn btn-danger" type="button" data-dismiss="modal" onclick="deleteClientDB();">ELIMINAR</button>
+                    <button id="addClientButton" class="btn btn-danger" type="button" data-type="newClient"  onclick="verifyNewClient();" form="addClientForm">GUARDAR</button>
                 </div>
             </div>
         </div>
+    </div>
     -->
 
     <script>
@@ -390,7 +390,6 @@
 
         //inputName on enter sequence
         $("#inputName").on('keyup', function (e) {
-            console.log($("#inputName").val());
             if (e.keyCode == 13) {
                 if(!isNumeric($("#inputName").val().slice(-1)) && isNumeric($("#inputName").val().charAt($("#inputName").val().length - 2))) {
                     searchOrderById($("#inputName").val());
@@ -409,6 +408,15 @@
         $("#formNameInput").on('keyup', function (e) {
             if (e.keyCode == 13) $("#formNumberInput").focus();
         });
+
+        //inputCasillerp enter sequence
+        $("#inputCasillero").on('keyup', function (e) {
+            if (e.keyCode == 13) $("#inputEmployeeNameCaja").focus();
+        });
+
+        function employeeSelected() {
+            $("#inputName").focus();
+        }
 
         $("#formNumberInput").on('keyup', function (e) {
             if (e.keyCode == 13) verifyNewClient();
@@ -1068,6 +1076,7 @@
             var orderHours,
                 orderMinutes;
             var calculableCheckMark;
+            var colorCheckMark = "#5cb85c";
             for (var i = 0; i < searchResult.length && i < 51; i++) {
                 //UPDATE create orderHours and orderMinutes in defiantOrders for efficiency
                 orderDate = new Date(searchResult[i].hour);
@@ -1078,11 +1087,17 @@
                 if(searchResult[i].checked)
                     calculableCheckMark = "glyphicon-ok";
 
+                if(searchResult[i].direct != undefined && searchResult[i].direct <= 3) {
+                    calculableCheckMark = "glyphicon glyphicon-ok-sign";
+                    //colorCheckMark = "#e4ae5e";
+                }
+
+
                 clientItem = '<button class="list-group-item list-width client-options-item row btn-default" onclick="searchOrderById(&#39;' + searchResult[i].qr + '&#39;)">' +
                     '<div id="clientNameResult" class="col-sm-7">' + searchResult[i].name + '</div>' + 
                     '<div class="col-sm-2 no-horizontal-padding">$' + searchResult[i].subtotal + '</div>' + 
                     '<div class="col-sm-2 no-horizontal-padding" style="padding-left: 7px;">' + orderHours + ':' + orderMinutes.toString().padStart(2, '0') + '</div>' +
-                    '<span id="greenCheckClientLive" class="glyphicon ' + calculableCheckMark + '"></span>';
+                    '<span id="greenCheckClientLive" class="glyphicon ' + calculableCheckMark + '" style="color:' + colorCheckMark + ';"></span>';
                 
                 /*
                 clientItem = clientItem + 
@@ -1897,7 +1912,6 @@
             $(".product-total").each(function(index) {
                 total = total + ($(this).data("total") * 1);
             });
-
             $("#totalTextField").text("$" + round(total));
         }
         
