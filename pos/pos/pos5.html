@@ -80,7 +80,7 @@
     <div class="container-fluid">
         <div class="form-group row first-row">
             <div id="inputNameContainer" class="col-md-5">
-                <input id="inputName" class="form-control" type="input" oninput="this.value = this.value.toUpperCase()" maxlength="20" placeholder="NOMBRE"> </input>
+                <input id="inputName" class="form-control" type="input" oninput="this.value = this.value.toUpperCase()" maxlength="20" placeholder="NOMBRE Y APELLIDO"> </input>
                 <button id="showAddClientButton" class="btn btn-danger interface-button glyphicon glyphicon-plus-sign" style="display: none;" type="button" onclick="showAddClientModal()"> </button>
                 <ul id="clientOptions" class="list-group client-options"></ul>
                 <span id="greenCheck" class="glyphicon glyphicon-ok"></span>
@@ -1841,6 +1841,9 @@
                 var onlyafuera = true;
                 var hasBidon = false;
 
+                if(orderMethod != "MOSTRADOR")
+                    direct = 4;
+
                 for (var i = 0; i < order.length; i++) {
                     //adds new page if necessary
                     if (currentLine == 17) {
@@ -1924,6 +1927,9 @@
                         if(order[i][1] <= 5) direct++;
                         else direct = 4;
                     }
+
+                    if(order[i][0] == "QUCAI" || order[i][0] == "QUCAIP" || order[i][0] == "QUC1PG" || order[i][0] == "QUC2PG"|| order[i][0] == "ADMM")
+                        direct = 4;
 
                     if(order[i][0] == "QU")
                         haspanela = true;
