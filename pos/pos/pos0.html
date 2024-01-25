@@ -1851,6 +1851,21 @@
                         currentLine = 0;
                     }
 
+                    if(order[i][0] == "CHN" || order[i][0] == "CHN1")
+                        order[i][1] = "" + (order[i][1] * 1.18);
+                    else if(order[i][0] == "ADMS2")
+                        order[i][1] = "" + (order[i][1] * 1.03);
+                    
+                    /*
+                    else if(order[i][0] == "HUCA") {
+                        //order[i][1] = "" + (order[i][1] * 1.03);
+                        var precioHuevoC = JSON.search(defiantProducts, '//*[clave="' + "HUC" + '"]')[0];
+                        console.log("canitad huevo");
+                        console.log((((precioHuevoC.costo * 23) / order[i][7]) * order[i][1]) + "");
+                        console.log(order[i]);
+                    }
+                    */
+
                     sOrderProducts[i.toString().padStart(3, '0') + order[i][0]] = {
                         uc: Number(order[i][1]),
                         n: order[i][4]
@@ -1897,6 +1912,8 @@
                         nproducts = nproducts + Math.ceil(parseFloat(order[i][1]));
                         ndiversity++;
                         onlyafuera = false;
+                        if(order[i][1] <= 5) direct++;
+                        else direct = 4;
                     } else if (order[i][5] == "porPesarAfuera" || order[i][5] == "yaPesadoAfuera") {
                         //doc.setPage(pagesQuantity * 2 - 1);
                         drawCricle(doc, firstLineYPosition + (currentLine * lineHeight), "red");
@@ -1904,6 +1921,8 @@
                         //drawCricle(doc, firstLineYPosition + (currentLine * lineHeight), "red");
                         nproducts = nproducts + Math.ceil(parseFloat(order[i][1]));
                         ndiversity++;
+                        if(order[i][1] <= 5) direct++;
+                        else direct = 4;
                     }
 
                     if(order[i][0] == "QU")
@@ -2005,10 +2024,6 @@
                     //drawline if product needs to be weighted
                     if (order[i][5] == "porPesarCamara" || order[i][5] == "porPesarAfuera") {
                         calculable = false;
-                        console.log("order[i]");
-                        console.log(order[i]);
-                        if(order[i][1] <= 5) direct++;
-                        else direct = 4;
                         doc.setLineWidth(0.35);
                         //doc.setPage(pagesQuantity * 2 - 1);
                         doc.setDrawColor(255, 0, 0);
@@ -2219,7 +2234,7 @@
                     */
 
                     if(direct <= 3 )
-                        alert("✔ NOTA DIRECTA, COBRAR EN CAJA");
+                        alert("✔ NOTA DIRECTA, COBRAR EN CAJA. TOTAL $" + total);
                     
                     eraseOrder();
                     retrievedLastOrder = false;

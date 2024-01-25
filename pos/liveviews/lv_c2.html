@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+
+<head>
+    <title>EN VIVO 7</title>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+
+    <style>
+        @font-face {
+            font-family: GillSansMTCondBold;
+            src: url(../css/GillSansMTCondensedBold.ttf);
+        }
+
+        @font-face {
+            font-family: GillSansMTCond;
+            src: url(../css/GillSansStd-Condensed.otf);
+        }
+        
+        body {
+            background-color: #111111;
+        }
+
+        #welcomeMessage {
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            z-index: 1;
+            padding-top: 50%;
+            font-family: GillSansMTCondBold;
+            text-align: center;
+            font-size: 85px;
+            background-color: #111111; 
+            color: white;
+        }
+
+        #welcomeImage {
+            position: absolute; 
+            width: 400px;
+            top: 60px; 
+            padding-left: 25px;
+        }
+
+        .container-fluid {
+            position: relative;
+            margin-top: 30px;
+            margin-left: 1%;
+            margin-right: 1%;
+            background-color: #111111;
+        }
+        
+        #totalTitleLabel {
+            position: fixed;
+            bottom: 35%;
+            right: 5%;
+            font-family: GillSansMTCondBold;
+            font-size: 50px;
+            color: white;
+        }
+
+        .product-row {
+            margin-left: 0px;
+            margin-right: 0px;
+            padding-left: 12px; 
+            padding-right: 12px; 
+            padding-bottom: 9px;
+            background-color: #111111;
+            border-color: #404040;
+            color: lightgrey; 
+        }
+
+        #dynamic-list {
+            height: 515px;
+            overflow: scroll;
+            font-family: GillSansMTCondBold;
+            font-size: 40px;
+            margin-bottom: 60px;
+        }
+
+        #dynamic-list-2 {
+            height: 540px;
+            overflow: scroll;
+            font-family: GillSansMTCondBold;
+            font-size: 40px;
+            margin-bottom: 0px;
+        }
+
+        .product-quantity {
+            padding: 0px;
+        }
+
+        .product-notes {
+            border: 0;
+            box-shadow: none;
+        }
+
+        .product-notes-container {
+            padding: 0px;
+        }
+
+        #nameLabel {
+            font-family: GillSansMTCondBold;
+            font-size: 50px;
+            line-height: 35px;
+        }
+
+        #pleaseLabel {
+            font-family: GillSansMTCondBold;
+            font-size: 30px;
+            margin-bottom: 1%;
+        }
+
+        #sugLabel {
+            font-family: GillSansMTCondBold;
+            font-size: 30px;
+            color: white;
+        }
+ 
+        #thankyouMessage {
+            background-color: #111111;
+            color: white;
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            z-index: 1;
+            text-align: center;
+            padding-top: 20%;
+            display: none;
+            font-family: GillSansMTCondBold;
+            font-size: 70px;
+        }
+
+    </style>
+
+    <script>
+        const config = {
+            apiKey: "AIzaSyBhhniDRtbUoE1SGVCTZzVUPTbd5k-mfnI",
+            authDomain: "cremeria-ordena.firebaseapp.com",
+            databaseURL: "https://cremeria-ordena-default-rtdb.firebaseio.com",
+            projectId: "cremeria-ordena",
+            storageBucket: "cremeria-ordena.appspot.com",
+            messagingSenderId: "862495808627",
+            appId: "1:862495808627:web:09d8f34bdb206056f1de06"
+        };
+
+        firebase.initializeApp(config);
+        var database = firebase.database().ref('liveviews/CAJA2');
+        var globalName;
+
+        var shortenedUnits = {
+            KILO: "KG",
+            PIEZA: "PZ",
+            CAJA: "CJ",
+            CUB: "CUB",
+            EXB: "EXB"
+        };
+    </script>
+
+    <!-- android interface -->
+    <script type="text/javascript">
+        function playSound() {
+            //Android.playSound();
+        }
+    </script>
+
+</head>
+
+<body style="zoom:140%;">
+    <h1 id="thankyouMessage"> </h1>
+    <h1 id="welcomeMessage">
+        <img id="welcomeImage" src="images/logo_fondo_rojo.png" alt="logo">
+            BIENVENIDO
+    </h1>
+    <div id="noConnectionAlert" class="alert alert-danger" style="display: none" role="alert">
+        <strong>No hay conexión.</strong>
+    </div>
+    <div class="container-fluid">
+        <h2 id="nameLabel" class="modal-title" style="color: white;">BIENVENIDO</h2>
+        <h2 id="pleaseLabel" class="modal-title" style="color: white;">POR FAVOR REVISA TU PEDIDO</h2>
+
+        <ul id="dynamic-list" class="list-group" > </ul>
+
+        <h2 id="sugLabel" class="modal-title">SUGERENCIAS</h2>
+        <ul id="dynamic-list-2" class="list-group" > </ul>
+        <h2 id="totalTitleLabel" class="modal-title"> </h2>
+    </div>
+
+    <script>
+
+        function populateName() {
+            database.child('/name').on('value', function (snapshot) {
+                if(snapshot.val() != null) {
+                    $('#nameLabel').text("BIENVENIDO " + snapshot.val());
+                    globalName = snapshot.val();
+                    $("#welcomeMessage").hide();
+                } else {
+                    $('#nameLabel').text("BIENVENIDO");
+                }
+            });
+        }
+
+        //loads suggested order
+        function populateSuggestedOrder()  {
+            database.child('/sorder').on('value', function (snapshot) {
+                if(snapshot.val() != null) {
+                    $('#dynamic-list-2').empty();
+                    showSugList();
+
+                    snapshot.forEach(function (childSnapshot) {                    
+                        var quantity = childSnapshot.child("cantidad").val();
+                        var quantityAndUnit = quantity + shortenedUnits[childSnapshot.child("unidad").val()];
+                        var description = childSnapshot.child("descripcion").val();
+                        var notes = childSnapshot.child("notas").val();
+                        var tipo = childSnapshot.child("tipo").val();                
+                        var cost =  quantity * childSnapshot.child("precio").val();
+                        cost = "" + Math.round(cost * 10) / 10;
+                        
+                        /*
+                        //enhance quantities
+                        if (quantityAndUnit.includes(".500"))
+                            quantityAndUnit = quantityAndUnit.replace(".500", "½");
+                        if (quantityAndUnit.includes(".50"))
+                            quantityAndUnit = quantityAndUnit.replace(".50", "½");
+                        if (quantityAndUnit.includes(".5"))
+                            quantityAndUnit = quantityAndUnit.replace(".5", "½");
+    
+                        if (quantityAndUnit.includes(".250"))
+                            quantityAndUnit = quantityAndUnit.replace(".250", "¼");
+                        if (quantityAndUnit.includes(".25"))
+                            quantityAndUnit = quantityAndUnit.replace(".25", "¼");
+                        */
+
+                        if(notes == "") {
+                            var productListItem =
+                                '<li class="list-group-item row product-row" data-id="' + childSnapshot.key + '"">' +
+                                    '<h2 class="col-xs-1 product-info" style="padding: 0px; margin: 0px;">' + quantityAndUnit + '</h2>' +
+                                    '<h2 class="col-xs-9 product-info" style="padding: 0px; padding-left: 28px; margin: 0px;">' + description + '</h2>' +
+                                    '<h2 class="col-xs-2 product-info" style="padding: 0px; padding-left: 20px; margin: 0px;">' + cost + '</h2>' +
+                                '</li>';
+                        } else {
+                            var productListItem =
+                                '<li class="list-group-item row product-row" data-id="' + childSnapshot.key + '"">' +
+                                    '<h2 class="col-xs-1 product-info" style="padding: 0px; margin: 0px;">' + quantityAndUnit + '</h2>' +
+                                    '<h2 class="col-xs-9 product-info" style="padding: 0px; padding-left: 28px; margin: 0px;">' + description + '<br>' + notes + '</h2>' +
+                                    '<h2 class="col-xs-2 product-info" style="padding: 0px; padding-left:20px; margin: 0px;">' + cost + '</h2>' +
+                                '</li>';
+                        }
+
+                        $('#dynamic-list-2').append(productListItem);
+                    });
+                } else {
+                    $('#dynamic-list-2').empty();
+                    hideSugList();
+                } 
+            });
+        }
+
+        function deleteSuggestedProduct(id) {
+            $("#dynamic-list-2").find("[data-id='" + id + "']").remove();
+            if($("#dynamic-list-2").children().length == 0)
+                hideSugList();
+        }
+
+        function hideSugList() {
+            $('#dynamic-list').css("height", "830px");
+            $('#totalTitleLabel').css("bottom", "5%");
+            $('#dynamic-list-2').hide();
+            $('#sugLabel').hide();
+        }
+        
+        function showSugList() {
+            $('#dynamic-list').css("height", "515px");
+            $('#totalTitleLabel').css("bottom", "45%");
+            $('#dynamic-list-2').show();
+            $('#sugLabel').show();
+        }
+
+        //loads orders and remains listening
+        function populateOrder()  {
+            database.child("/order").on('value', function (snapshot) {
+                var total = 0;
+                var isExact = true;
+                var calculable = true;
+                $('#dynamic-list').empty();
+                snapshot.forEach(function (childSnapshot) { 
+                    
+                    
+                    //get values
+                    var quantity = childSnapshot.child("cantidad").val();
+                    var description = childSnapshot.child("descripcion").val();
+                    var notes = childSnapshot.child("notas").val();
+                    var tipo = childSnapshot.child("tipo").val();
+                                        
+                    if(quantity == "") {
+                        calculable = false
+                        var quantityAndUnit = "";
+                        var cost = "";
+                    } else {
+                        var quantityAndUnit = quantity + shortenedUnits[childSnapshot.child("unidad").val()];
+                        if (quantity < 0) 
+                            var cost = quantity * childSnapshot.child("precio").val() * (-1);
+                        else 
+                            var cost =  quantity * childSnapshot.child("precio").val();
+
+                        total += cost;
+                        cost = "" + Math.round(cost * 10) / 10;
+
+                        if(tipo == "porPesarCamara" || tipo == "porPesarAfuera")
+                            isExact = false;
+                    }
+
+                    /*
+                    //enhance quantities
+                    if (quantityAndUnit.includes(".500"))
+                        quantityAndUnit = quantityAndUnit.replace(".500", "½");
+                    if (quantityAndUnit.includes(".50"))
+                        quantityAndUnit = quantityAndUnit.replace(".50", "½");
+                    if (quantityAndUnit.includes(".5"))
+                        quantityAndUnit = quantityAndUnit.replace(".5", "½");
+
+                    if (quantityAndUnit.includes(".250"))
+                        quantityAndUnit = quantityAndUnit.replace(".250", "¼");
+                    if (quantityAndUnit.includes(".25"))
+                        quantityAndUnit = quantityAndUnit.replace(".25", "¼");
+                    */
+
+
+                    if(notes == "") {
+                        var productListItem =
+                            '<li class="list-group-item row product-row" data-id="' + childSnapshot.key + '"">' +
+                                '<h2 class="col-xs-1 product-info" style="padding: 0px; margin: 0px;">' + quantityAndUnit + '</h2>' +
+                                '<h2 class="col-xs-9 product-info" style="padding: 0px; padding-left: 28px; margin: 0px;">' + description + '</h2>' +
+                                '<h2 class="col-xs-2 product-info" style="padding: 0px; padding-left: 20px; margin: 0px;">' + cost + '</h2>' +
+                            '</li>';
+                    } else {
+                        var productListItem =
+                            '<li class="list-group-item row product-row" data-id="' + childSnapshot.key + '"">' +
+                                '<h2 class="col-xs-1 product-info" style="padding: 0px; margin: 0px;">' + quantityAndUnit + '</h2>' +
+                                '<h2 class="col-xs-9 product-info" style="padding: 0px; padding-left: 28px; margin: 0px;">' + description + '<br>' + notes + '</h2>' +
+                                '<h2 class="col-xs-2 product-info" style="padding: 0px; padding-left:20px; margin: 0px;">' + cost + '</h2>' +
+                            '</li>';
+                    }
+                    //add list element
+                    $('#dynamic-list').append(productListItem);
+
+                    //remove sug list element
+                    deleteSuggestedProduct(childSnapshot.child("clave").val());
+                });
+
+                if(snapshot.numChildren() == 0)
+                    calculable = false;
+                else
+                    $("#welcomeMessage").hide();
+
+                
+                if(calculable) {
+                    total = Math.round(total * 10) / 10;
+                    if ((total / 1000) >= 1)
+                        total = total.toLocaleString('en-US');
+
+                    if(isExact) {
+                        $('#totalTitleLabel').html("TOTAL $" + total);
+                    }
+                    else {
+                        $('#totalTitleLabel').html("TOTAL APROX $" + total);
+                    }
+                } else {
+                    $('#totalTitleLabel').text("");
+                }
+                console.log($('#totalTitleLabel').text());
+            });
+        }
+
+        function checkDoneOrder() {
+            database.child('/done').on('value', function (snapshot) {
+                if(snapshot.val()) {
+                    database.child('/wtime').on('value', function (snapshotWT) {
+                        if(snapshotWT.val()) {
+                            var totalMessage = $('#totalTitleLabel').text();
+                            var minutesMessage = snapshotWT.val();
+                           
+                            if(minutesMessage != "-")
+                                $("#thankyouMessage").html("GRACIAS<br>" + globalName + "<br><br><br><br>" + totalMessage + "<br><br><br>TIEMPO ESTIMADO:<br>" + minutesMessage + " MINUTOS");
+                            else
+                                $("#thankyouMessage").html("GRACIAS<br>" + globalName + "<br><br><br><br>" + totalMessage);
+
+                            $("#thankyouMessage").show();
+                            database.child('/CAJA2').remove();
+                            
+                            setTimeout(function(){
+                                removeOrderProducts();
+                                $("#thankyouMessage").hide();
+                                $("#thankyouMessage").html("GRACIAS POR SU VISITA");
+                                $("#welcomeMessage").show();
+                                globalName = "";
+                            }, 8000);
+                        }
+                    });
+                }
+            });
+        }
+
+        function removeOrderProducts() {
+            firebase.database().ref("liveviews/" + "CAJA2").remove();
+        }
+
+
+        function checkConnection() {
+            var connectedRef = firebase.database().ref(".info/connected");
+            connectedRef.on("value", function (snap) {
+                if (snap.val() === true)
+                    document.getElementById("noConnectionAlert").style.display = "none";
+                else
+                    document.getElementById("noConnectionAlert").style.display = "block";
+            });
+        }
+
+        function reloadOnUpdate() {
+            database.child("/updates").on('value', function(snapshot) {
+                if(snapshot.val()) {
+                    database.child("/updates/CAJA2").set(false).then(function() {
+                        location.reload();
+                    });
+                }
+            });
+        }
+
+        //MAIN
+        populateName();
+        populateOrder();
+        populateSuggestedOrder();
+        checkConnection();
+        checkDoneOrder();
+        reloadOnUpdate();
+    </script>
+</body>

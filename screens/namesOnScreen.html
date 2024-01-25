@@ -197,7 +197,7 @@
 
                 if(!localChecked) {
                     if(snapshot.val().name.charAt(0) <= 'J') {
-                        //console.log("child_added, no está checked, inserto con ET");
+                        console.log("child_added, no está checked, inserto con ET " + snapshot.val().name);
                         
                         if($("#dynamic-list li").length > 77)
                         deleteOldestName();
@@ -210,7 +210,7 @@
                     } 
                 } else {
                     if(snapshot.val().name.charAt(0) <= 'J') {
-                        //console.log("child_added, sí está checked, inserto con total, nombro con total");     
+                        console.log("child_added, sí está checked, inserto con total, nombro con total " + snapshot.val().name);     
                         if($("#dynamic-list li").length > 77)
                         deleteOldestName();
                         
@@ -221,11 +221,13 @@
                         
                         animateName($("#dynamic-list").children().index($("#" + snapshot.key)), $("#dynamic-list").children().length, snapshot.val().name, snapshot.val().subtotal);
                     }
-                    console.log(snapshot.val());
-                    if(snapshot.val().direct != undefined && snapshot.val().direct <= 3)
+                    if(snapshot.val().direct != undefined && snapshot.val().direct <= 3) {
+                        console.log("speak_name, pase a pagar " + snapshot.val().name);     
                         speakName(snapshot.val().name + " " + snapshot.val().subtotal, " pase a pagar.");
-                    else 
+                    } else {
+                        console.log("speak_name, " + snapshot.val().name);     
                         speakName(snapshot.val().name + " " + snapshot.val().subtotal, "");
+                    }
                 }
             });
 
@@ -235,7 +237,7 @@
                 
                 if(localChecked) {
                     if(snapshot.val().name.charAt(0) <= 'J') {
-                        //console.log("child_changed, sí está checked, inserto con total, nombro con total");     
+                        console.log("child_changed, sí está checked, inserto con total, nombro con total " + snapshot.val().name);     
                         $("#dynamic-list #" + snapshot.key).remove();     
                         
                         if($("#dynamic-list li").length > 77)
@@ -284,12 +286,12 @@
         }
 
         function animateName(index, length, name, total) {
-            console.log("animateName(" + index + " , " + length + ", '" + name + "', " + total + ")");
+            //console.log("animateName(" + index + " , " + length + ", '" + name + "', " + total + ")");
             
             var leftSide = (index / (Math.ceil(length / 6) * 13)) >= 4;
 
             if(leftSide) {
-                console.log("leftSide");
+                //console.log("leftSide");
                 $("#animation-name-1").children()[0].textContent = name;
                 if(total <= 1500) $("#animation-name-1").children()[1].textContent = "$" + total;
                 else $("#animation-name-1").children()[1].innerHTML = "&#10003;";
@@ -299,7 +301,7 @@
                     $("#animation-name-1").fadeOut(1000);
                 }, 7000);
             } else {
-                console.log("rightSide");
+                //console.log("rightSide");
                 $("#animation-name-2").children()[0].textContent = name;
                 if(total <= 1500) $("#animation-name-2").children()[1].textContent = "$" + total;
                 else $("#animation-name-2").children()[1].innerHTML = "&#10003;";

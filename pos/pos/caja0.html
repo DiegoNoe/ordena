@@ -67,7 +67,7 @@
             } 
         });
 
-        var globalComputer = "POS6";
+        var globalComputer = "CAJA0";
         var globalWaitingOrders,
             globalTimePerProduct = [];
 
@@ -731,13 +731,17 @@
         }
 
         function populateOrder(order) {
+            console.log("populate order");
+            console.log(order);
             eraseOrder();
 
             $("#quantityInput").val("");
             $("#inputSearch").val("");
             $("#searchOptions").empty();
 
-            //aqui2
+            if(order.direct != undefined && order.direct <= 4)
+                $("#inputEmployeeNameCaja").val("DIRECTO");
+
             if(order.fulfiller != undefined)
                 $("#inputEmployeeNameCaja").val(order.fulfiller);
             if(order.locker != undefined)
@@ -794,10 +798,13 @@
                 color = "rgba(51, 204, 51, 80%)";
                 backgroundColor = "#111111";
             }
-            
-            if(product.pesoN != undefined && product.pesoN != "" && !checked) {
+
+            if((product.pesoN != undefined && product.pesoN != "") && !checked){
                 notesAndQuantity.uc = notesAndQuantity.uc * product.pesoN;
             }
+
+            //var precioHuevoCaja = JSON.search(defiantProducts, '//*[clave="' + "ZHUCAG" + '"]')[0];
+
 
             var totalCost = notesAndQuantity.uc * product.costo;
 
@@ -925,6 +932,10 @@
 				empleadosDB = snapshot.val();
                 //console.log(empleadosDB);
 			}).then(function(){
+                var select = document.getElementById('inputEmployeeNameCaja');
+                var option = document.createElement('option');
+                option.appendChild(document.createTextNode("DIRECTO"));
+                select.appendChild(option);
 				$.each(empleadosDB, function(key, value) {
                     var select = document.getElementById('inputEmployeeNameCaja');
                     var option = document.createElement('option');
