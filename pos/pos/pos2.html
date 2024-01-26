@@ -1928,7 +1928,10 @@
                         else direct = 3;
                     }
 
-                    if(order[i][0] == "QUCAI" || order[i][0] == "QUCAIP" || order[i][0] == "QUC1PG" || order[i][0] == "QUC2PG"|| order[i][0] == "ADMM")
+                    var undirectableProds = ["QUCAI", "QUCAIP", "QUC1PG", "QUC2PG", "ADMM", "QUCAM", "QUCLA", "QUC1", "QUC1PC", "QUC2P", "QUC2PC", "QUCAIP",  "CHP",
+                        "QUCIOM", "CHPIM", "CHPP", "ADFSME", "GOIB", "MAI", "PAMR"];
+
+                    if(undirectableProds.includes(order[i][0]))
                         direct = 3;
 
                     if(order[i][0] == "QU")
