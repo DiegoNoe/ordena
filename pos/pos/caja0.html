@@ -739,7 +739,7 @@
             $("#inputSearch").val("");
             $("#searchOptions").empty();
 
-            if(order.direct != undefined && order.direct <= 4)
+            if(order.direct != undefined && order.direct <= 2)
                 $("#inputEmployeeNameCaja").val("DIRECTO");
 
             if(order.fulfiller != undefined)
@@ -1098,7 +1098,7 @@
                 if(searchResult[i].checked)
                     calculableCheckMark = "glyphicon-ok";
 
-                if(searchResult[i].direct != undefined && searchResult[i].direct <= 3) {
+                if(searchResult[i].direct != undefined && searchResult[i].direct <= 2) {
                     calculableCheckMark = "glyphicon glyphicon-ok-sign";
                     //colorCheckMark = "#e4ae5e";
                 }

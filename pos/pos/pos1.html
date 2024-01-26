@@ -1842,7 +1842,7 @@
                 var hasBidon = false;
 
                 if(orderMethod != "MOSTRADOR")
-                    direct = 4;
+                    direct = 3;
 
                 for (var i = 0; i < order.length; i++) {
                     //adds new page if necessary
@@ -1915,8 +1915,8 @@
                         nproducts = nproducts + Math.ceil(parseFloat(order[i][1]));
                         ndiversity++;
                         onlyafuera = false;
-                        if(order[i][1] <= 5) direct++;
-                        else direct = 4;
+                        if(order[i][1] <= 10) direct++;
+                        else direct = 3;
                     } else if (order[i][5] == "porPesarAfuera" || order[i][5] == "yaPesadoAfuera") {
                         //doc.setPage(pagesQuantity * 2 - 1);
                         drawCricle(doc, firstLineYPosition + (currentLine * lineHeight), "red");
@@ -1924,12 +1924,12 @@
                         //drawCricle(doc, firstLineYPosition + (currentLine * lineHeight), "red");
                         nproducts = nproducts + Math.ceil(parseFloat(order[i][1]));
                         ndiversity++;
-                        if(order[i][1] <= 5) direct++;
-                        else direct = 4;
+                        if(order[i][1] <= 10) direct++;
+                        else direct = 3;
                     }
 
                     if(order[i][0] == "QUCAI" || order[i][0] == "QUCAIP" || order[i][0] == "QUC1PG" || order[i][0] == "QUC2PG"|| order[i][0] == "ADMM")
-                        direct = 4;
+                        direct = 3;
 
                     if(order[i][0] == "QU")
                         haspanela = true;
@@ -2107,7 +2107,7 @@
                 else
                     total = total.toString();
 
-                calculable = direct <= 3;
+                calculable = direct <= 2;
                 if (calculable) {
                     //doc.setPage(pagesQuantity * 2 - 1);
                     doc.text(130.5 + xOffset, 209  + yOffset, "TOTAL  " + total.toLocaleString('en-US'), "right");
@@ -2190,13 +2190,13 @@
                 uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), sOrderProducts, total, productsRefID, anotoLabel, calculable, direct, iftomorrow);
                 
                 //autoprints PDF in a new tab
-                if(!direct <= 3)
+                if(!direct <= 2)
                     doc.autoPrint();
 
                 //uploadLastOrder($("#inputName").val(), sOrderProducts, total);
                 lastOrderID = productsRefID;
 
-                if(direct <= 3 || window.open(doc.output('bloburl'), '_blank') != null) { 
+                if(direct <= 2 || window.open(doc.output('bloburl'), '_blank') != null) { 
                     var ncomputer = globalComputer.slice(-1);
                     var etime = calculateWTime(Math.ceil(nproducts));
                     
@@ -2239,7 +2239,7 @@
                     uploadSurvey(surveyValues);
                     */
 
-                    if(direct <= 3 )
+                    if(direct <= 2)
                         alert("✔ NOTA DIRECTA, COBRAR EN CAJA. TOTAL $" + total);
                     
                     eraseOrder();
