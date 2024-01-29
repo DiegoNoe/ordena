@@ -193,7 +193,7 @@
             databaseCode0.on('child_added', function (snapshot) {
                 var localChecked = false;
                 if(snapshot.val().checked) localChecked = true;
-                if(snapshot.val().direct != undefined && snapshot.val().direct <= 3) localChecked = true;
+                if(snapshot.val().direct != undefined && snapshot.val().direct <= 2) localChecked = true;
 
                 if(!localChecked) {
                     if(snapshot.val().name.charAt(0) <= 'J') {
@@ -221,7 +221,7 @@
                         
                         animateName($("#dynamic-list").children().index($("#" + snapshot.key)), $("#dynamic-list").children().length, snapshot.val().name, snapshot.val().subtotal);
                     }
-                    if(snapshot.val().direct != undefined && snapshot.val().direct <= 3) {
+                    if(snapshot.val().direct != undefined && snapshot.val().direct <= 2) {
                         console.log("speak_name, pase a pagar " + snapshot.val().name);     
                         speakName(snapshot.val().name + " " + snapshot.val().subtotal, " pase a pagar.");
                     } else {
@@ -548,10 +548,13 @@
 
             var synUtterance = new SpeechSynthesisUtterance(addAccent(justName));
             synUtterance.rate = parseFloat(.9);
-            synUtterance.pitch = parseFloat(1.05);
+            synUtterance.pitch = Math.round(parseFloat(1.1) * 10) / 10;
             //synUtterance.voice = speechSynthesis.getVoices()[69];
             synUtterance.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Juan')];
             //console.log(speechSynthesis.getVoices());
+            console.log("synUtterance.pitch");
+            console.log(synUtterance.pitch);
+            firebase.database().ref("extras/screen1/synUtterance1").set(synUtterance.pitch);
             window.speechSynthesis.speak(synUtterance);
             window.speechSynthesis.speak(synUtterance);
 
@@ -559,8 +562,12 @@
                 if(limitTotal < 1500) {
                     var synUtterance2 = new SpeechSynthesisUtterance(justTotal);
                     synUtterance2.rate = parseFloat(.9);
-                    synUtterance2.pitch = parseFloat(1.05);
+                    synUtterance2.pitch = Math.round(parseFloat(1.1) * 10) / 10;
                     //synUtterance.voice = speechSynthesis.getVoices()[69];
+                    console.log("synUtterance2.pitch");
+                    console.log(synUtterance2.pitch);
+                    firebase.database().ref("extras/screen1/synUtterance2").set(synUtterance2.pitch);
+
                     synUtterance2.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Juan')];
                     window.speechSynthesis.speak(synUtterance2);
                 }
@@ -569,8 +576,11 @@
             if(complement != "") {
                 var synUtterance3 = new SpeechSynthesisUtterance(complement);
                     synUtterance3.rate = parseFloat(.9);
-                    synUtterance3.pitch = parseFloat(1.05);
+                    synUtterance3.pitch = Math.round(parseFloat(1.1) * 10) / 10;
                     //synUtterance.voice = speechSynthesis.getVoices()[69];
+                    console.log("synUtterance3.pitch");
+                    console.log(synUtterance3.pitch);
+                    firebase.database().ref("extras/screen1/synUtterance3").set(synUtterance3.pitch);
                     synUtterance3.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Juan')];
                     window.speechSynthesis.speak(synUtterance3);
             }
