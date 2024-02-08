@@ -547,8 +547,8 @@
             }
 
             var synUtterance = new SpeechSynthesisUtterance(addAccent(justName));
-            synUtterance.rate = parseFloat(.9);
-            synUtterance.pitch = Math.round(parseFloat(1.1) * 10) / 10;
+            synUtterance.rate = 1;
+            synUtterance.pitch = 1;
             //synUtterance.voice = speechSynthesis.getVoices()[69];
             synUtterance.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Juan')];
             //console.log(speechSynthesis.getVoices());
@@ -561,8 +561,8 @@
             if(!isNaN(words[words.length - 1])) {
                 if(limitTotal < 1500) {
                     var synUtterance2 = new SpeechSynthesisUtterance(justTotal);
-                    synUtterance2.rate = parseFloat(.9);
-                    synUtterance2.pitch = Math.round(parseFloat(1.1) * 10) / 10;
+                    synUtterance2.rate = 1;
+                    synUtterance2.pitch = 1;
                     //synUtterance.voice = speechSynthesis.getVoices()[69];
                     console.log("synUtterance2.pitch");
                     console.log(synUtterance2.pitch);
@@ -575,8 +575,8 @@
 
             if(complement != "") {
                 var synUtterance3 = new SpeechSynthesisUtterance(complement);
-                    synUtterance3.rate = parseFloat(.9);
-                    synUtterance3.pitch = Math.round(parseFloat(1.1) * 10) / 10;
+                    synUtterance3.rate = 1;
+                    synUtterance3.pitch = 1;
                     //synUtterance.voice = speechSynthesis.getVoices()[69];
                     console.log("synUtterance3.pitch");
                     console.log(synUtterance3.pitch);
