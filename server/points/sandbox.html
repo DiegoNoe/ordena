@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SANDBOX</title>
+
+    <script language="javascript" type="text/javascript" src="../js/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../js/firebase.js"></script>
+    <script language="javascript" type="text/javascript" src="../js/facturama.api.js"></script>
+    <script language="javascript" type="text/javascript" src="../js/defiant.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../js/relaciones.js"></script>
+    <script language="javascript" type="text/javascript" src="orders.js"></script>
+
+    <script>
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhhniDRtbUoE1SGVCTZzVUPTbd5k-mfnI",
+            authDomain: "cremeria-ordena.firebaseapp.com",
+            databaseURL: "https://cremeria-ordena-default-rtdb.firebaseio.com",
+            projectId: "cremeria-ordena",
+            storageBucket: "cremeria-ordena.appspot.com",
+            messagingSenderId: "862495808627",
+            appId: "1:862495808627:web:09d8f34bdb206056f1de06"
+        };
+
+        const firebaseConfig2 = {
+            apiKey: "AIzaSyDrVZ3499rhvfFpxfRbU-wqJ-ZUN0-_ez0",
+            authDomain: "cremeria-imperial.firebaseapp.com",
+            databaseURL: "https://cremeria-imperial.firebaseio.com",
+            projectId: "cremeria-imperial",
+            storageBucket: "cremeria-imperial.appspot.com",
+            messagingSenderId: "445465872507"
+        };       
+
+        firebase.initializeApp(firebaseConfig);
+        var secondaryApp = firebase.initializeApp(firebaseConfig2, "secondary");
+
+        var dbProductsO = firebase.database().ref('products');
+        var dbProductsI = secondaryApp.database().ref('productos');
+
+        var dbInventoryO = firebase.database().ref('inventory');
+
+        //defiant databases
+        var defiantProductsO;
+        var localProductsO;
+        dbProductsO.on('value', function (snapshot) {
+            defiantProductsO = Defiant.getSnapshot(snapshot.val());
+            localProductsO = snapshot.val();
+        });
+        var defiantProductsI;
+        dbProductsI.on('value', function (snapshot) {
+            defiantProductsI = Defiant.getSnapshot(snapshot.val());
+            localProductsI = snapshot.val();
+            console.log(localProductsI);
+            for (const property in localProductsI) {
+                //console.log(`${property}: ${localProductsI[property]}`);
+                //console.log(localProductsI[property].tipo);
+                if(localProductsI[property].tipo == "aBodega") {
+                    console.log(localProductsI[property].clave + "   " + localProductsI[property].descripcion);
+                }
+            }
+
+        });
+
+
+        /*
+        firebase.database().ref('orders/code1').once('value', function (snapshot) {
+            var obj = snapshot.val();
+            var names = [];
+            for (let key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    let value = obj[key];
+                    names.push(key.substring(1));
+                }
+            }
+            names = names.sort();
+            console.log(names[2438]);
+            console.log(names[2638]);
+            console.log(names[2838]);
+        })
+        */
+
+
+
+        /*
+        //erase all orders but current day or day before made for tomorrow
+        var dbOrdersO = firebase.database().ref('orders/code0');
+        dbOrdersO.once('value', function (snapshot) {
+            var obj = snapshot.val();
+            for (let key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    let value = obj[key];
+                    var dayOfMonth = (new Date(value.hour)).getUTCDate();
+                    var currentDayOfMonth = (new Date()).getUTCDate();
+                    if(dayOfMonth == currentDayOfMonth - 1 && !Number.isNaN(dayOfMonth)) {
+                        if(!value.iftomorrow) {
+                            firebase.database().ref('orders/code0/' + key).remove();
+                        }
+                    }
+                    if(dayOfMonth < currentDayOfMonth - 1 && !Number.isNaN(dayOfMonth)) {
+                        firebase.database().ref('orders/code0/' + key).remove();
+                    }
+                }
+            }
+        });
+        */
+
+        
+        //get all products sold
+        var allSellsByDate = "";
+        var dbOrdersO = firebase.database().ref('orders/code1');
+        dbOrdersO.once('value', function (snapshot) {
+            var obj = snapshot.val();
+            for (let key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    let value = obj[key];
+                    var obj2 = value.products;
+                    for (let key2 in obj2) {
+                        allSellsByDate = allSellsByDate + (new Date(value.hour)).getUTCDate() + ", " + value.code + ", " +  key2.slice(3) + ", " + localProductsO[key2.slice(3)].descripcion + ", " + obj2[key2].p + ", " + obj2[key2].uc + "\n";
+                    }
+                }
+            }
+            console.log(allSellsByDate);
+        });
+        
+
+        /*
+        for (const property in relacionesJSON) {
+            var currentString = Object.values(relacionesJSON[property])[0];
+            var currentValues = currentString.split(',');
+            if(currentValues[1] != "" && currentValues[2] != "") {
+                firebase.database().ref("relations/" + currentValues[0] + "/" + currentValues[1]).set(parseInt(currentValues[2]));
+                firebase.database().ref("relations/" + currentValues[1] + "/" + currentValues[0]).set((1 / parseInt(currentValues[2])).toFixed(3));
+                console.log("relations/" + currentValues[0] + "/" + currentValues[1] + " = " + (parseInt(currentValues[2])));
+                console.log("relations/" + currentValues[1] + "/" + currentValues[0] + " = " + (1 / parseInt(currentValues[2])).toFixed(3));
+            }
+        }
+        */
+
+        /* 
+        var data = ordersJson;
+        for (let key in data) {
+            delete data[key]["products"];
+            delete data[key]["calculable"];
+            delete data[key]["hour"];
+            delete data[key]["iftomorrow"];
+            delete data[key]["qr"];
+            delete data[key]["subtotal"];
+            delete data[key]["takenby"];
+        }
+        var datajson = JSON.stringify(data);
+        console.log(datajson);
+        */
+
+        //eraseInventory();
+
+        //FUNCTIONS
+        function changeProductOnDBO(product) {
+            console.log("changeProductOnDBO");
+            firebase.database().ref("products/" + product.clave).set(product);
+        }
+        function removeProductOnDBO(product) {
+            console.log("removeProductOnDBO");
+            firebase.database().ref("products/" + product.clave).remove();
+        }
+
+        function changeProductOnDBI(product) {
+            console.log("changeProductOnDBI");
+            secondaryApp.database().ref("productos/" + product.clave).set(product);
+        }
+        function removeProductOnDBI(product) {
+            console.log("removeProductOnDBI");
+            secondaryApp.database().ref("productos/" + product.clave).remove();
+        }
+
+        function deleteOrders() {
+            console.log("deleteOrders");
+            firebase.database().ref("orders").remove();
+        }
+
+        function eraseInventory() {
+            dbInventoryO.once('value', function (snapshot) {
+                snapshot.forEach((child) => {
+                    firebase.database().ref("inventory/" + child.key + "/stock").set(0);
+                });
+            });
+        }
+
+        function connectFacturama() {
+            var facturamaInstance = {
+                token: "Y3JlbWVyaWFpbXBlcmlvOnh1dnFvUy16YWpzbzUtbWlyd2Vy",
+                url: "https://apisandbox.facturama.mx/"
+            };
+            return valuesFacturama;
+        }
+        
+    </script>
+
+</head>
+
+<body style="background-color: black;"></body>

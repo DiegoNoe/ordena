@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>FACTURACION POR FOLIO</title>
+
+    <script language="javascript" type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../../js/firebase.js"></script>
+    <script language="javascript" type="text/javascript" src="../../js/facturama.api.js"></script>
+    <script language="javascript" type="text/javascript" src="../../js/defiant.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../../js/relaciones.js"></script>
+    <script language="javascript" type="text/javascript" src="../../js/filesaver.js"></script>
+    <script language="javascript" type="text/javascript" src="../../js/crypto-js.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../../js/index.js"></script>
+    <script language="javascript" type="text/javascript" src="../orders.js"></script>
+    <input type="file" id="csvFileInput" accept=".csv">
+
+
+    <script>
+
+        firebase.initializeApp(firebaseConfig);
+        var secondaryApp = firebase.initializeApp(firebaseConfig2, "secondary");
+
+        var localProductsO;
+        //var dbProductsO = firebase.database().ref('products');
+        var dbProductsO = secondaryApp.database().ref('productos/');
+        dbProductsO.on('value', function (snapshot) {
+            defiantProductsO = Defiant.getSnapshot(snapshot.val());
+            localProductsO = snapshot.val(); 
+        });
+
+        document.getElementById('csvFileInput').addEventListener('change', handleFileSelect, false);
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+                const contents = event.target.result;
+                const dataArray = parseCSV(contents);
+                console.log(dataArray);
+            };
+
+            reader.readAsText(file);
+        }
+
+        function parseCSV(data) {
+            const lines = data.split('\n');
+            const resultArray = [];
+
+            for (const line of lines) {
+                const values = line.split(',');
+                resultArray.push(values);
+            }
+
+            return resultArray;
+        }
+
+        function encryptCryptoJS(string) {
+            var key = '11A1764225B11AA1'; 
+
+            var text = CryptoJS.enc.Utf8.parse(string); 
+            key = CryptoJS.enc.Utf8.parse(key); 
+
+            var encrypted = CryptoJS.AES.encrypt(text, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.ZeroPadding }); 
+            encrypted = encrypted.ciphertext.toString(CryptoJS.enc.Hex);
+
+            return encrypted;
+        }
+
+        function decryptCryptoJS(string) {
+            var key = '11A1764225B11AA1'; 
+            key = CryptoJS.enc.Utf8.parse(key); 
+
+            var encrypted = CryptoJS.AES.encrypt(string, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.ZeroPadding }); 
+            encrypted = encrypted.ciphertext.toString(CryptoJS.enc.Hex);
+
+            var decrypted =  CryptoJS.AES.decrypt({ciphertext: CryptoJS.enc.Hex.parse(string)}, key, {mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.ZeroPadding }); 
+            decrypted = decrypted.toString(CryptoJS.enc.Utf8); 
+
+            return decrypted;
+        }
+
+        function saveStringToFile(str, filename) {
+            var blob = new Blob([str], { type: 'text/plain;charset=utf-8' });
+            saveAs(blob, filename);
+        }        
+        
+    </script>
+
+</head>
+
+<body style="background-color: black;"> </body>

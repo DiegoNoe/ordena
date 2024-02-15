@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SERVER ORDENA</title>
+
+    <script language="javascript" type="text/javascript" src="../js/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../js/firebase.js"></script>
+    <script language="javascript" type="text/javascript" src="../js/facturama.api.js"></script>
+    <script language="javascript" type="text/javascript" src="../js/defiant.min.js"></script>
+
+    <script>
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhhniDRtbUoE1SGVCTZzVUPTbd5k-mfnI",
+            authDomain: "cremeria-ordena.firebaseapp.com",
+            databaseURL: "https://cremeria-ordena-default-rtdb.firebaseio.com",
+            projectId: "cremeria-ordena",
+            storageBucket: "cremeria-ordena.appspot.com",
+            messagingSenderId: "862495808627",
+            appId: "1:862495808627:web:09d8f34bdb206056f1de06"
+        };
+
+        const firebaseConfig2 = {
+            apiKey: "AIzaSyDrVZ3499rhvfFpxfRbU-wqJ-ZUN0-_ez0",
+            authDomain: "cremeria-imperial.firebaseapp.com",
+            databaseURL: "https://cremeria-imperial.firebaseio.com",
+            projectId: "cremeria-imperial",
+            storageBucket: "cremeria-imperial.appspot.com",
+            messagingSenderId: "445465872507"
+        };       
+
+        firebase.initializeApp(firebaseConfig);
+        var secondaryApp = firebase.initializeApp(firebaseConfig2, "secondary");
+
+        var dbProductsO = firebase.database().ref('products');
+        var dbProductsI = secondaryApp.database().ref('productos');
+
+        var dbInventoryO = firebase.database().ref('inventory');
+
+        //defiant databases
+        var defiantProductsO;
+        dbProductsO.on('value', function (snapshot) {
+            defiantProductsO = Defiant.getSnapshot(snapshot.val());
+        });
+        var defiantProductsI;
+        dbProductsI.on('value', function (snapshot) {
+            defiantProductsI = Defiant.getSnapshot(snapshot.val());
+        });
+
+        function eraseCode0() {
+            firebase.database().ref('orders/code0').remove();
+        }
+
+        function eraseProdsInTablets() {
+            firebase.database().ref('tablets/arriba/pendientes').remove();
+            firebase.database().ref('tablets/bodega/pendientes').remove();
+            firebase.database().ref('tablets/cremas/pendientes').remove();
+            firebase.database().ref('tablets/jamonens/pendientes').remove();
+            firebase.database().ref('pending').remove();
+        }
+
+        function checkTimeAndRun() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            console.log(hours);
+            console.log(minutes);
+            if (hours === 5 && minutes === 0) {
+                eraseCode0();
+                eraseProdsInTablets();
+            }
+        }
+
+        checkTimeAndRun();
+        setInterval(checkTimeAndRun, 60000);
+        
+        //add/change/remove product on dbo if added/changed/removed on dbi
+        setTimeout(() => {
+            dbProductsI.on('child_added', function (snapshot) {
+                if(JSON.search(defiantProductsO, '//*[clave="' + snapshot.val().clave + '"]')[0] == undefined)
+                    changeProductOnDBO(snapshot.val());
+            });
+        }, 3000);
+
+        dbProductsI.on('child_changed', function (snapshot) {
+            changeProductOnDBO(snapshot.val());
+            console.log("change");
+        });
+
+        dbProductsI.on('child_removed', function (snapshot) {
+            removeProductOnDBO(snapshot.val());
+        });
+
+        /*
+        //add/change/remove product on dbi if added/changed/removed on dbo
+        setTimeout(() => {
+            dbProductsO.on('child_added', function (snapshot) {
+                if(JSON.search(defiantProductsI, '//*[clave="' + snapshot.val().clave + '"]')[0] == undefined)
+                    changeProductOnDBI(snapshot.val());
+            });
+        }, 6000);
+        dbProductsO.on('child_changed', function (snapshot) {
+            changeProductOnDBI(snapshot.val());
+        });
+        dbProductsO.on('child_removed', function (snapshot) {
+            removeProductOnDBI(snapshot.val());
+        });
+        */
+
+        //deletes orders after 6pm
+        var now = new Date();
+        var millisTill18;
+        setInterval(function() {
+            millisTill18 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0, 0) - now;
+            if(millisTill18 < 0) {
+                deleteOrders();
+            }
+        }, 60 * 1000);
+
+        //eraseInventory();
+
+        //FUNCTIONS
+        function changeProductOnDBO(product) {
+            console.log("changeProductOnDBO");
+            firebase.database().ref("products/" + product.clave).set(product);
+        }
+        function removeProductOnDBO(product) { 
+            console.log("removeProductOnDBO");
+            firebase.database().ref("products/" + product.clave).remove();
+        }
+
+        function changeProductOnDBI(product) {
+            console.log("changeProductOnDBI");
+            secondaryApp.database().ref("productos/" + product.clave).set(product);
+        }
+        function removeProductOnDBI(product) {
+            console.log("removeProductOnDBI");
+            secondaryApp.database().ref("productos/" + product.clave).remove();
+        }
+
+        function deleteOrders() {
+            console.log("deleteOrders");
+            firebase.database().ref("orders").remove();
+        }
+
+        function eraseInventory() {
+            dbInventoryO.once('value', function (snapshot) {
+                snapshot.forEach((child) => {
+                    firebase.database().ref("inventory/" + child.key + "/stock").set(0);
+                });
+            });
+        }
+
+        function connectFacturama() {
+            var facturamaInstance = {
+                token: "Y3JlbWVyaWFpbXBlcmlvOnh1dnFvUy16YWpzbzUtbWlyd2Vy",
+                url: "https://apisandbox.facturama.mx/"
+            };
+            return valuesFacturama;
+        }
+        
+    </script>
+
+</head>
+
+<body style="background-color: black;"></body>

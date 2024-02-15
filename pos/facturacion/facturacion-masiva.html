@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>FACTURACIÓN POR FOLIO MES</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script language="javascript" type="text/javascript" src="../js/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../js/firebase.js"></script>
+    <script language="javascript" type="text/javascript" src="../js/jspdf.customfonts.min.js "></script>
+    <script language="javascript" type="text/javascript" src="../js/default_vfs.js"></script>
+    <script language="javascript" type="text/javascript" src="../js/defiant.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../js/qrcode.js"></script>
+    <script language="javascript" type="text/javascript" src="../js/index.js"></script>
+    <script language="javascript" type="text/javascript" src="../js/aes.js"></script> 
+    <script language="javascript" type="text/javascript" src="../js/invoice.js"></script>
+    <script language="javascript" type="text/javascript" src="../js/facturama.api.js"></script>
+</head>
+
+<body style="background-color: black;">
+
+    <input type="file" id="csvFileInput" accept=".csv">
+
+    <script>
+        document.getElementById('csvFileInput').addEventListener('change', handleFileSelect, false);
+
+        function generateInvoice(orders) {
+            var items = [];    
+
+            for (var i = 0; i < orders.length; i++) {                
+                var item = {};
+                var taxes = 1;
+
+                var taxesArray = [];
+                var taxObject = {};
+                taxObject.Total = "0";
+                taxObject.Base = orders[i][1] + "";
+                taxObject.Rate = "0";
+                taxObject.IsRetention = false;
+                taxObject.Name = "IVA";
+                taxesArray.push(taxObject);
+                item.Taxes = taxesArray;
+
+                item.Quantity = "1";
+                item.ProductCode = "01010101";
+                item.UnitCode = "ACT";
+                item.Unit = "ACTIVIDAD";
+                item.Description = "VENTA DE MOSTRADOR DE FOLIO " + orders[i][0] + " " + orders[i][2];
+                item.IdentificationNumber = orders[i][0];
+                item.UnitPrice = orders[i][1] + "";
+                item.Subtotal = orders[i][1] + "";
+                item.Total = orders[i][1] + "";
+                item.TaxObject = "02";
+
+                items.push(item);
+            }
+
+            var newCfdi = {};
+            
+            newCfdi.Receiver = {};
+            newCfdi.Receiver.Name = "PÚBLICO EN GENERAL";
+            newCfdi.Receiver.CfdiUse = "S01";
+            newCfdi.Receiver.FiscalRegime = "616";
+            newCfdi.Receiver.Rfc = "XAXX010101000";              
+            newCfdi.Receiver.TaxZipCode = "44530";
+
+            newCfdi.GlobalInformation = {};
+            newCfdi.GlobalInformation.Periodicity = "04";
+            //1 - CAMBIAR NUMERO DE MES POR FACTURAR
+            newCfdi.GlobalInformation.Months = "01";
+            newCfdi.GlobalInformation.Year = "2024";
+
+            newCfdi.CfdiType = "I";
+            newCfdi.ExpeditionPlace = "44530";
+            newCfdi.PaymentForm = "01";
+            newCfdi.PaymentMethod = "PUE";
+            newCfdi.Decimals = "2";
+            newCfdi.Currency = "MXN";
+
+            var today = new Date();
+            //var formattedDate = today.getFullYear() + "-" + ("0" + (today.getMonth() + 1)).slice(-2) + "-" + ("0" + today.getDate()).slice(-2);
+            //2 - CAMBIAR ESTA FECHA CON ESTE FORMATO AL DIA ÚLTIMO DEL MES POR FACTURAR
+            //3 - REVISAR QUE NO HAYA TUPLAS VACIAS CON 0 EN EL TOTAL
+            var formattedDate = "2024-01-31";
+            formattedDate = formattedDate + " " + ("0" + today.getHours()).slice(-2) + ":" + ("0" + today.getMinutes()).slice(-2) + ":" + ("0" + today.getSeconds()).slice(-2);
+            newCfdi.Date = formattedDate;
+
+            newCfdi.Items = items;
+
+            console.log("newCfdi");
+            console.log(newCfdi);
+            
+            Facturama.Cfdi.Create3(newCfdi, function(result) { 
+                Facturama.Cfdi.Download("pdf", "issued", result.Id, function(resultPDF) {
+                    blob = converBase64toBlob(resultPDF.Content, 'application/pdf');
+                    var blobURL = URL.createObjectURL(blob);
+                    window.open(blobURL);
+                }, function(error) { 
+                    manageError(error) 
+                });
+            });
+        }
+
+        function manageError(error) {
+            console.log(error);
+            if (error && error.responseJSON) {
+                console.log(error.responseJSON);
+                alert(error.responseJSON.ModelState[Object.keys(error.responseJSON.ModelState)[0]][0]);	
+            }
+        }
+
+        function converBase64toBlob(content, contentType) {
+            contentType = contentType || '';
+            var sliceSize = 512;
+            var byteCharacters = window.atob(content); //method which converts base64 to binary
+            var byteArrays = [];
+
+            for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+                var slice = byteCharacters.slice(offset, offset + sliceSize);
+                var byteNumbers = new Array(slice.length);
+                for (var i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+                var byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+            }
+
+            var blob = new Blob(byteArrays, {type: contentType}); //statement which creates the blob
+            return blob;
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+                const contents = event.target.result;
+                const dataArray = parseCSV(contents);
+                separateArrays(dataArray);
+            };
+
+            reader.readAsText(file);
+        }
+
+        function separateArrays(array) {
+            const separatedOrders = array.reduce((acc, [day, month, year, order, total]) => {
+                if (!acc[day]) {
+                    acc[day] = [];
+                }
+                acc[day].push([order, "" + Math.round(total.replace('\r','') * 100) / 100, day + "/" + month + "/" + year]);
+                return acc;
+            }, {});
+            
+            const resultArray = Object.values(separatedOrders);
+            
+            var monthlyOrders = [];
+            
+            for (const dailyOrders of resultArray) {
+                monthlyOrders = monthlyOrders.concat(dailyOrders)
+                //one invoice per day
+                //generateInvoice(dailyOrders);
+            }
+
+            // one invoice with all the orders
+            generateInvoice(monthlyOrders);
+        } 
+
+        function parseCSV(data) {
+            const lines = data.split('\n');
+            const resultArray = [];
+
+            for (const line of lines) {
+                const values = line.split(',');
+                resultArray.push(values);
+            }
+
+            return resultArray;
+        }
+
+        function encryptCryptoJS(string) {
+            var key = '11A1764225B11AA1'; 
+
+            var text = CryptoJS.enc.Utf8.parse(string); 
+            key = CryptoJS.enc.Utf8.parse(key); 
+
+            var encrypted = CryptoJS.AES.encrypt(text, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.ZeroPadding }); 
+            encrypted = encrypted.ciphertext.toString(CryptoJS.enc.Hex);
+
+            return encrypted;
+        }
+
+        function decryptCryptoJS(string) {
+            var key = '11A1764225B11AA1'; 
+            key = CryptoJS.enc.Utf8.parse(key); 
+
+            var encrypted = CryptoJS.AES.encrypt(string, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.ZeroPadding }); 
+            encrypted = encrypted.ciphertext.toString(CryptoJS.enc.Hex);
+
+            var decrypted =  CryptoJS.AES.decrypt({ciphertext: CryptoJS.enc.Hex.parse(string)}, key, {mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.ZeroPadding }); 
+            decrypted = decrypted.toString(CryptoJS.enc.Utf8); 
+
+            return decrypted;
+        }
+
+        function saveStringToFile(str, filename) {
+            var blob = new Blob([str], { type: 'text/plain;charset=utf-8' });
+            saveAs(blob, filename);
+        }
+
+    </script>
+</body>
