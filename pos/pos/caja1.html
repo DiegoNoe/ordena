@@ -684,11 +684,19 @@
             });
         }
 
+        //aqui33
         function saveOrder() {
             var order = getOrderProducts();
 
             var sOrderProducts = {};
-            var total = 0;
+            //var total = 0;
+
+            var totalPrueba = 0
+            $(".product-total").each(function(index) {
+                totalPrueba = totalPrueba + ($(this).data("total") * 1);
+            });
+
+            /*
             for (var i = 0; i < order.length; i++) {
                 sOrderProducts[i.toString().padStart(3, '0') + order[i][0]] = {
                     uc: Number(order[i][1]),
@@ -705,13 +713,14 @@
             }
 
             total = roundDecimals(Math.round(total * 10) / 10);
-            
+            */
+
             for(var i = 0; i < sOrderProducts.length; i++)
                 sOrderProducts[i] = sOrderProducts[i].map(v => v === undefined ? '1' : v);
 
             //firebase.database().ref("orders/code0/" + globalID + "/checked").set(false);
             firebase.database().ref("orders/code0/" + globalID + "/products").set(sOrderProducts);
-            firebase.database().ref("orders/code0/" + globalID + "/subtotal").set(total);
+            firebase.database().ref("orders/code0/" + globalID + "/subtotal").set(totalPrueba);
             
             console.log("globalID");
             console.log(globalID);
