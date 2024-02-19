@@ -43,7 +43,7 @@
 			fullEmployeeData = snapshot.val();
 		}).then(function() {
 				//FUTURE FIX employees are being kept in two different places
-				firebase.database().ref('empleados/').on('value', function (childSnapshot) {
+				firebase.database().ref('empleados/').once('value', function (childSnapshot) {
 					justEmployeesNames = childSnapshot.val();
 					populateEmployeesList(fullEmployeeData, justEmployeesNames);
 				});
@@ -511,6 +511,7 @@
 
 		var xOffset = 10;
         var yOffset = 10;
+
 		function generatePDF() {
 
 			var doc = new jsPDF({
@@ -1434,7 +1435,6 @@
 		//deletes an existing product from the db
 		function deleteEmployeeDB() {
 			var name = document.getElementById("addNewEmployeeDBForm").elements[0].value;
-			firebase.database().ref('employees/' + name).remove();
 			firebase.database().ref('employees/' + name).remove();
 			database.child(name).remove();
 		}
