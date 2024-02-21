@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <head>
-    <title>EN VIVO 7</title>
+    <title>EN VIVO 6</title>
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
@@ -56,11 +56,15 @@
         
         #totalTitleLabel {
             position: fixed;
-            bottom: 35%;
+            bottom: 10px;
             right: 5%;
             font-family: GillSansMTCondBold;
             font-size: 50px;
             color: white;
+            background-color: red;
+            border-radius: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
         }
 
         .product-row {
@@ -75,11 +79,11 @@
         }
 
         #dynamic-list {
-            height: 515px;
+            height: 695px;
             overflow: scroll;
             font-family: GillSansMTCondBold;
             font-size: 40px;
-            margin-bottom: 60px;
+            margin-bottom: 20px;
         }
 
         #dynamic-list-2 {
@@ -106,7 +110,7 @@
         #nameLabel {
             font-family: GillSansMTCondBold;
             font-size: 50px;
-            line-height: 35px;
+            line-height: 40px;
         }
 
         #pleaseLabel {
@@ -188,7 +192,6 @@
         <ul id="dynamic-list" class="list-group" > </ul>
 
         <h2 id="sugLabel" class="modal-title">SUGERENCIAS</h2>
-        <ul id="dynamic-list-2" class="list-group" > </ul>
         <h2 id="totalTitleLabel" class="modal-title"> </h2>
     </div>
 
@@ -240,15 +243,15 @@
                         if(notes == "") {
                             var productListItem =
                                 '<li class="list-group-item row product-row" data-id="' + childSnapshot.key + '"">' +
-                                    '<h2 class="col-xs-1 product-info" style="padding: 0px; margin: 0px;">' + quantityAndUnit + '</h2>' +
-                                    '<h2 class="col-xs-9 product-info" style="padding: 0px; padding-left: 28px; margin: 0px;">' + description + '</h2>' +
+                                    '<h2 class="col-xs-2 product-info" style="padding: 0px; margin: 0px;">' + quantityAndUnit + '</h2>' +
+                                    '<h2 class="col-xs-8 product-info" style="padding: 0px; padding-left: 28px; margin: 0px;">' + description + '</h2>' +
                                     '<h2 class="col-xs-2 product-info" style="padding: 0px; padding-left: 20px; margin: 0px;">' + cost + '</h2>' +
                                 '</li>';
                         } else {
                             var productListItem =
                                 '<li class="list-group-item row product-row" data-id="' + childSnapshot.key + '"">' +
-                                    '<h2 class="col-xs-1 product-info" style="padding: 0px; margin: 0px;">' + quantityAndUnit + '</h2>' +
-                                    '<h2 class="col-xs-9 product-info" style="padding: 0px; padding-left: 28px; margin: 0px;">' + description + '<br>' + notes + '</h2>' +
+                                    '<h2 class="col-xs-2 product-info" style="padding: 0px; margin: 0px;">' + quantityAndUnit + '</h2>' +
+                                    '<h2 class="col-xs-8 product-info" style="padding: 0px; padding-left: 28px; margin: 0px;">' + description + '<br>' + notes + '</h2>' +
                                     '<h2 class="col-xs-2 product-info" style="padding: 0px; padding-left:20px; margin: 0px;">' + cost + '</h2>' +
                                 '</li>';
                         }
@@ -335,20 +338,20 @@
                     if(notes == "") {
                         var productListItem =
                             '<li class="list-group-item row product-row" data-id="' + childSnapshot.key + '"">' +
-                                '<h2 class="col-xs-1 product-info" style="padding: 0px; margin: 0px;">' + quantityAndUnit + '</h2>' +
-                                '<h2 class="col-xs-9 product-info" style="padding: 0px; padding-left: 28px; margin: 0px;">' + description + '</h2>' +
+                                '<h2 class="col-xs-2 product-info" style="padding: 0px; margin: 0px;">' + quantityAndUnit + '</h2>' +
+                                '<h2 class="col-xs-8 product-info" style="padding: 0px; padding-left: 28px; margin: 0px;">' + description + '</h2>' +
                                 '<h2 class="col-xs-2 product-info" style="padding: 0px; padding-left: 20px; margin: 0px;">' + cost + '</h2>' +
                             '</li>';
                     } else {
                         var productListItem =
                             '<li class="list-group-item row product-row" data-id="' + childSnapshot.key + '"">' +
-                                '<h2 class="col-xs-1 product-info" style="padding: 0px; margin: 0px;">' + quantityAndUnit + '</h2>' +
-                                '<h2 class="col-xs-9 product-info" style="padding: 0px; padding-left: 28px; margin: 0px;">' + description + '<br>' + notes + '</h2>' +
+                                '<h2 class="col-xs-2 product-info" style="padding: 0px; margin: 0px;">' + quantityAndUnit + '</h2>' +
+                                '<h2 class="col-xs-8 product-info" style="padding: 0px; padding-left: 28px; margin: 0px;">' + description + '<br>' + notes + '</h2>' +
                                 '<h2 class="col-xs-2 product-info" style="padding: 0px; padding-left:20px; margin: 0px;">' + cost + '</h2>' +
                             '</li>';
                     }
                     //add list element
-                    $('#dynamic-list').append(productListItem);
+                    $('#dynamic-list').prepend(productListItem);
 
                     //remove sug list element
                     deleteSuggestedProduct(childSnapshot.child("clave").val());
@@ -386,10 +389,15 @@
                             var totalMessage = $('#totalTitleLabel').text();
                             var minutesMessage = snapshotWT.val();
                            
+                            /*
                             if(minutesMessage != "-")
                                 $("#thankyouMessage").html("GRACIAS<br>" + globalName + "<br><br><br><br>" + totalMessage + "<br><br><br>TIEMPO ESTIMADO:<br>" + minutesMessage + " MINUTOS");
                             else
                                 $("#thankyouMessage").html("GRACIAS<br>" + globalName + "<br><br><br><br>" + totalMessage);
+                            */
+
+                            $("#thankyouMessage").html("GRACIAS<br>" + globalName + "<br><br><br><br>" + "ENSEGUIDA TE NOMBRAMOS<br>PARA ENTREGARTE");
+
 
                             $("#thankyouMessage").show();
                             database.child('/CAJA2').remove();

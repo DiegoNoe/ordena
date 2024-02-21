@@ -433,17 +433,16 @@
             }
         });
 
-        /*
+        
         //update live view
         $("#inputName").focusout(function () {
             updateName($("#inputName").val());
-            updateEmployee($("#inputEmployeeName").val());
+            //updateEmployee($("#inputEmployeeName").val());
         });
 
-        $("#inputEmployeeName").on('change', function() {
-            updateEmployee($("#inputEmployeeName").val())
-        });
-        */
+        //$("#inputEmployeeName").on('change', function() {
+        //    updateEmployee($("#inputEmployeeName").val())
+        //});
 
         //inputQuantity enter sequence
         $("#quantityInput").on('keyup', function (e) {
@@ -751,6 +750,9 @@
             globalTakenBy = order.takenby;
             globalID = order.qr;
 
+            removeOrderProducts();
+            updateName(order.name);
+            
             $("#saveOrderButton").css("visibility", "visible");
 
             if(order.checked) {
@@ -841,8 +843,10 @@
             updateTotal();
 
             //deleteSuggestedProduct(product.clave);
+            var outterQuantity = notesAndQuantity.uc;
             var inputQuantity = $('#dynamic-list').find('input').first();
             inputQuantity.val(notesAndQuantity.uc);
+            
             
             //populate quantity and clean original (outter) input
             productCounter++;
@@ -908,7 +912,7 @@
             });
 
             //upload or update order item
-            //uploadOrderProduct(date, outterQuantity, product.unidad, product.descripcion, "", product.costo, product.existencia, product.tipo, product.clave);
+            uploadOrderProduct(date, outterQuantity, product.unidad, product.descripcion, "", product.costo, product.existencia, product.tipo, product.clave);
             inputQuantity.focusout(function () {updateOrderProductQuantity(date, inputQuantity.val())});
             inputNotes.focusout(function () {updateOrderProductNotes(date, inputNotes.val())});
 
