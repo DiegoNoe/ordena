@@ -821,6 +821,25 @@
             });
         }
 
+        function speakEndingOrder(name, total) {
+			var msg = new SpeechSynthesisUtterance();
+			msg.rate = 1;
+
+            if(total.includes(".5"))
+                total = total.substring(0, total.length - 2) + " con 50";
+
+            if(Number(total.substring(1)) < 1500)
+                msg.text = "gracias " + name + ", tu total aproximado es " + total.substring(1).toLocaleString('en-US');
+            else
+                msg.text = "gracias " + name;
+            
+            console.log("speakEndingOrder");
+            console.log(msg.text);
+            //msg.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Google español de Estados Unidos')];
+            msg.voice = speechSynthesis.getVoices()[1];
+			window.speechSynthesis.speak(msg);
+		}
+
         //speaks greeting and call client to ready POS
         function speakCallClient(pos) {
 			var msg = new SpeechSynthesisUtterance();
@@ -1765,6 +1784,12 @@
         var yOffset = -2;
         //FIX huge funcntion - generates a PDF with autoprint
         function generatePDF(orderMethod) {
+
+            //voceada en computadora
+            if(orderMethod == "MOSTRADOR" && !$("#tomorrowCheckbox").is(':checked'))
+                speakEndingOrder($("#inputName").val().trim(), $("#totalTextField").text());
+
+
             //set PDF defaults
             var order = getOrderProducts();
             if ($("#inputName").val() == "") {
