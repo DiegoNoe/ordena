@@ -674,6 +674,7 @@
             id = id.replaceAll(".", "").replaceAll(" ", "");
             firebase.database().ref("orders/code0/" + id).once('value', function (snapshot) {
                 if(snapshot.val() != null) {
+                    speakEndingOrder(snapshot.val().name);
                     populateOrder(snapshot.val());
                 } else {
                     console.log("no encontré nada");
@@ -1087,7 +1088,7 @@
 			var msg = new SpeechSynthesisUtterance();
 			msg.rate = 1;
             
-            msg.text = "gracias " + name + ", enseguida te nombramos para entregarte";
+            msg.text = name + ", porfavor revisa tu pedido";
 
             console.log(msg.text);
             //msg.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Google español de Estados Unidos')];

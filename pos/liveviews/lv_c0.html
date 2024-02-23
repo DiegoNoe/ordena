@@ -155,7 +155,7 @@
         };
 
         firebase.initializeApp(config);
-        var database = firebase.database().ref('liveviews/CAJA2');
+        var database = firebase.database().ref('liveviews/CAJA0');
         var globalName;
 
         var shortenedUnits = {
@@ -400,7 +400,7 @@
 
 
                             $("#thankyouMessage").show();
-                            database.child('/CAJA2').remove();
+                            database.child('/CAJA0').remove();
                             
                             setTimeout(function(){
                                 removeOrderProducts();
@@ -416,7 +416,7 @@
         }
 
         function removeOrderProducts() {
-            firebase.database().ref("liveviews/" + "CAJA2").remove();
+            firebase.database().ref("liveviews/" + "CAJA0").remove();
         }
 
 
@@ -433,7 +433,7 @@
         function reloadOnUpdate() {
             database.child("/updates").on('value', function(snapshot) {
                 if(snapshot.val()) {
-                    database.child("/updates/CAJA2").set(false).then(function() {
+                    database.child("/updates/CAJA0").set(false).then(function() {
                         location.reload();
                     });
                 }

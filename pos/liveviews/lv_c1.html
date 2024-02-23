@@ -79,7 +79,7 @@
         }
 
         #dynamic-list {
-            height: 695px;
+            height: 1200px;
             overflow: scroll;
             font-family: GillSansMTCondBold;
             font-size: 40px;
@@ -272,14 +272,14 @@
         }
 
         function hideSugList() {
-            $('#dynamic-list').css("height", "830px");
+            $('#dynamic-list').css("height", "1200px");
             $('#totalTitleLabel').css("bottom", "5%");
             $('#dynamic-list-2').hide();
             $('#sugLabel').hide();
         }
         
         function showSugList() {
-            $('#dynamic-list').css("height", "515px");
+            $('#dynamic-list').css("height", "1200px");
             $('#totalTitleLabel').css("bottom", "45%");
             $('#dynamic-list-2').show();
             $('#sugLabel').show();
@@ -372,7 +372,7 @@
                         $('#totalTitleLabel').html("TOTAL $" + total);
                     }
                     else {
-                        $('#totalTitleLabel').html("TOTAL APROX $" + total);
+                        $('#totalTitleLabel').html("TOTAL $" + total);
                     }
                 } else {
                     $('#totalTitleLabel').text("");
