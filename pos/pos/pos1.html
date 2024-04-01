@@ -25,6 +25,22 @@
     <script language="javascript" type="text/javascript" src="../js/bootstrap.min.js"></script>
 
     <script>
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            console.log(navigator);
+            if (connection && connection.type === 'wifi') {
+                const networkName = connection.ssid;
+                if (networkName) {
+                    console.log(`Connected to WiFi network: ${networkName}`);
+                } else {
+                    console.log('Connected to WiFi network, but SSID is not available.');
+                }
+            } else {
+                console.log('Not connected to a WiFi network.');
+            }
+        });
+
         var defiantProducts;
         var relationsSnapshot;
         var defiantClients;
@@ -1951,8 +1967,8 @@
                     }
 
                     var undirectableProds = ["QUCAI", "QUCAIP", "QUC1PG", "QUC2PG", "ADMM", "QUCAM", "QUCLA", "QUC1", "QUC1PC", "QUC2P", "QUC2PC", "QUCAIP",  "CHP",
-                        "QUCIOM", "CHPIM", "CHPP", "ADFSME", "GOIB", "MAI", "PAMR", "QUGA1", "TOZFR1", "TOZFRA"];
-
+                        "QUCIOM", "CHPIM", "CHPP", "ADFSME", "GOIB", "MAI", "PAMR", "QUGA1", "TOZFR1", "TOZFRA", "JASPP", "CHPR"];
+                        
                     if(undirectableProds.includes(order[i][0]))
                         direct = 3;
 
