@@ -90,15 +90,15 @@
                 <span id="greenCheckW" class="glyphicon glyphicon-ok"></span>
                 <span id="greenCheckWN" class="glyphicon glyphicon-minus"></span>
                 <span id="greenCheckClient" class="glyphicon glyphicon-ok"></span>
-                <input id="inputNameWhatsapp" class="form-control" type="input" oninput="this.value = this.value.toUpperCase()" maxlength="10" placeholder="WHATSAPP" readonly> </input>
+                <input id="inputNameWhatsapp" class="form-control" type="input" oninput="this.value = this.value.toUpperCase()" maxlength="10" placeholder="WHATSAPP"> </input>
             </div>
 
             <button id="printButton" class="btn btn-primary interface-button glyphicon glyphicon-download" type="button" onclick="generatePDF('MOSTRADOR')"></button>
             <button id="printByPhoneButton" class="btn btn-danger interface-button glyphicon glyphicon-download" type="button" onclick="generatePDF('TELEFONO')"></button>
             <button id="printByPhoneButton" class="btn btn-danger interface-button glyphicon glyphicon-upload" type="button" onclick="generatePDF('WHATSAPP')"></button>
             <button id="printByPhoneButton" class="btn btn-danger interface-button glyphicon glyphicon-floppy-save" type="button" onclick="loadSavedOrder('WHATSAPP')"></button>
-            <!--<button id="printByPhoneButton" class="btn btn-danger interface-button glyphicon glyphicon-floppy-open" type="button" onclick="saveCurrentOrder()"></button>-->
-        </div>
+            <button id="printByPhoneButton" class="btn btn-danger interface-button glyphicon glyphicon-remove" style="padding-right: 12px; padding-left: 12px;" type="button" onclick="reloadNow()"></button>
+        </div> 
 
         <div id="searchContainer" class="row">
             <div id="quantityContainer" class="col-md-1">
@@ -442,9 +442,11 @@
             }
         };
 
-        function saveCurrentOrder() {
-            var order = getOrderProducts();
+        function reloadNow() {
+            location.reload();
+        }
 
+        function uploadOrderToProvidres(order) {
             var sOrderProducts = {};
             var total = 0;
             for (var i = 0; i < order.length; i++) {
@@ -466,21 +468,14 @@
             for(var i = 0; i < sOrderProducts.length; i++)
                 sOrderProducts[i] = sOrderProducts[i].map(v => v === undefined ? '1' : v);
             
-            firebase.database().ref("providers/" + "SAVEDORDER" + "/products").set(sOrderProducts);
-            firebase.database().ref("providers/" + "SAVEDORDER" + "/subtotal").set(total);
-            firebase.database().ref("providers/" + "SAVEDORDER" + "/whatsapp").set($("#inputNameWhatsapp").val());
-            firebase.database().ref("providers/" + "SAVEDORDER" + "/name").set($("#inputName").val());
-            firebase.database().ref("providers/" + "SAVEDORDER" + "/qr").set(globalID);
+            console.log("sOrderProducts antes de subir a providers");
+            console.log(sOrderProducts);
 
-            /*
-            firebase.database().ref("providers/" + "SAVEDORDER").once('value', function(snapshot) {
-				if(snapshot.val() != undefined) {
-                    console.log(snapshot.val());
-                }
-			});
-            */
-            console.log("saveCurrentOrder()");
-
+            firebase.database().ref("providers/" + globalID + "/products").set(sOrderProducts);
+            firebase.database().ref("providers/" + globalID + "/subtotal").set(total);
+            firebase.database().ref("providers/" + globalID + "/whatsapp").set($("#inputNameWhatsapp").val());
+            firebase.database().ref("providers/" + globalID + "/name").set($("#inputName").val());
+            firebase.database().ref("providers/" + globalID + "/qr").set(globalID);
         }
 
         function loadSavedOrder() {
@@ -648,7 +643,7 @@
                     '</div>' +
                     '<div class="col-sm-1 product-info">' + product.unidad + '</div>' +
                     '<div class="col-sm-5 product-info">' + product.descripcion + '</div>' +
-                    '<div id="localCost" class="col-sm-1 product-info">' + totalCost + '</div>' +
+                    '<div id="localCost" class="col-sm-1 product-info">$' + product.costo + '</div>' +
                     '<div class="col-sm-1 product-notes-container">' +
                         '<input class="form-control product-price" type="input" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;" oninput="this.value = this.value.toUpperCase()" maxlength="48" placeholder="PRECIO" value="' + product.costo + '"> </input>' +
                     '</div>' +
@@ -699,7 +694,7 @@
             $('#dynamic-list').find('input').eq(1).on('keyup', function (e) {
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
                 thisRow.data("total", (round($(this).val() * thisRow.children().eq(0).children().val())));
-                thisRow.children().eq(3).text("$" + round($(this).val() * thisRow.children().eq(0).children().val()));
+                //thisRow.children().eq(3).text("$" + round($(this).val() * thisRow.children().eq(0).children().val()));
                 updateTotal();
                 if (e.keyCode == 13) {
                     $(this).parent().nextAll().first().children().focus();
@@ -912,9 +907,9 @@
                     '</div>' +
                     '<div class="col-sm-1 product-info">' + product.unidad + '</div>' +
                     '<div class="col-sm-5 product-info">' + product.descripcion + '</div>' +
-                    '<div id="localCost" class="col-sm-1 product-info">' + totalCost + '</div>' +
+                    '<div id="localCost" class="col-sm-1 product-info">$' + product.costo + '</div>' +
                     '<div class="col-sm-1 product-notes-container">' +
-                        '<input class="form-control product-price" type="input" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;" oninput="this.value = this.value.toUpperCase()" maxlength="48" placeholder="PRECIO" value="' + notesAndQuantity.p + '" readonly> </input>' +
+                        '<input class="form-control product-price" type="input" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;" oninput="this.value = this.value.toUpperCase()" maxlength="48" placeholder="PRECIO" value="' + notesAndQuantity.p + '"> </input>' +
                     '</div>' +
                     '<div class="col-sm-2 product-notes-container">' +
                         '<input class="form-control product-notes" type="input" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;" oninput="this.value = this.value.toUpperCase()" maxlength="48" placeholder="NOTAS" value="' + notesAndQuantity.n + '"> </input>' +
@@ -959,7 +954,7 @@
             $('#dynamic-list').find('input').eq(1).on('keyup', function (e) {
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
                 thisRow.data("total", (round($(this).val() * thisRow.children().eq(0).children().val())));
-                thisRow.children().eq(3).text("$" + round($(this).val() * thisRow.children().eq(0).children().val()));
+                //thisRow.children().eq(3).text("$" + round($(this).val() * thisRow.children().eq(0).children().val()));
                 updateTotal();
                 if (e.keyCode == 13) {
                     $(this).parent().nextAll().first().children().focus()
@@ -1378,7 +1373,7 @@
 
                         //verificating quantity
                         if (orderTypeUnit[1] == "" || orderTypeUnit[1] == "0") {
-                            alert("Un producto no tiene cantidad, ingresa todas las cantidades.");
+                            //alert("Un producto no tiene cantidad, ingresa todas las cantidades.");
                             verifiedOrder = false;
                         }
                     }
@@ -1438,8 +1433,6 @@
             
             //set PDF defaults
             var order = getOrderProducts();
-            console.log("order");
-            console.log(order);
             var doc = new jsPDF({
                 orientation: 'p',
                 unit: 'mm',
@@ -1601,7 +1594,6 @@
                     doc.line(93 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8, 110 + xOffset, firstLineYPosition + (currentLine * lineHeight) + .8);
                     doc.setDrawColor(0, 0, 0);
                 }
-
                 currentLine++;
             }
 
@@ -1642,7 +1634,8 @@
             }
 
             //uploads buying order
-            uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), order, total, productsRefID,orderMethod);
+            uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), order, total, productsRefID, orderMethod);
+            uploadOrderToProvidres(order);
             
             //autoprints PDF in a new tab
             doc.autoPrint();
@@ -1693,12 +1686,9 @@
             firebase.database().ref("inventory/" + id + "/stock").once('value', function(snapshot) {
                 if(snapshot.val() != undefined) {
                     currentRelationStock = parseInt(snapshot.val());
-                    console.log("currentRelationStock");
-                    console.log(currentRelationStock);
                 }  
             }).then(function(){
                 if(currentRelationStock != -1000000) {
-                    console.log(orderMethod);
                     if(orderMethod == "MOSTRADOR" || orderMethod == "TELEFONO")
                         firebase.database().ref("inventory/" +  id + "/stock").set(currentRelationStock + parseInt(quantity));
                     else if(orderMethod == "WHATSAPP")
@@ -1720,11 +1710,13 @@
             else if(orderMethod == "WHATSAPP")
                 destination = "ordenaToI";
 
+            //NEAR FUTURE UPDATE divide the address by date
             firebase.database().ref("purchases/" + destination + "/" + id).set({
                 nombre: name,
                 productos: products,
                 subtotal: total,
-                hour: Date.now()
+                hour: Date.now(),
+                id: id
             });
         }
 

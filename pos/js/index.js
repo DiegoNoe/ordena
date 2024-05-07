@@ -5,7 +5,8 @@ const firebaseConfig = {
     projectId: "cremeria-ordena",
     storageBucket: "cremeria-ordena.appspot.com",
     messagingSenderId: "862495808627",
-    appId: "1:862495808627:web:09d8f34bdb206056f1de06"
+    appId: "1:862495808627:web:09d8f34bdb206056f1de06",
+    measurementId: "G-J7DFZB8SW8"
 };
 
 const firebaseConfig2 = {
