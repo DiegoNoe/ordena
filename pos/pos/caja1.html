@@ -1735,6 +1735,7 @@
 
         //adds the item to the list
         function addProduct(product) {
+
             $("#searchOptions").empty();
             $("#dynamic-list").css("opacity", "1");
             $("#dynamic-list-2").css("opacity", "1");
@@ -1781,7 +1782,7 @@
                     '<div class="col-sm-6 product-info">' + product.descripcion + '</div>' +
                     '<div id="localCost" class="col-sm-1 product-info">' + totalCost + '</div>' +
                     '<div class="col-sm-2 product-notes-container">' +
-                        '<input class="form-control product-notes" type="input" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;" oninput="this.value = this.value.toUpperCase()" maxlength="48" placeholder="NOTAS"> </input>' +
+                        '<input class="form-control product-notes" type="input" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;" oninput="this.value = this.value.toUpperCase()" maxlength="48" placeholder="NOTAS" value="AGREGADO"></input>' +
                     '</div>' +
                     '<button class="btn btn-default btn-sm col-sm-1 remove-button cross" type="button" style="background-color: ' + backgroundColor + '; border-color: ' + backgroundColor + ';">' +
                         '<span class="glyphicon glyphicon-remove cross" style="color:grey; padding-top: 4.5px;"></span>' +

@@ -166,7 +166,6 @@
 			background: transparent;
 			-webkit-appearance: none;
 		}
-
 	</style>
 </head>
 
@@ -547,8 +546,8 @@
                     doc.addPage();
                     pagesQuantity++;
                     doc.setPage(pagesQuantity);
-					doc.line(0, 297/2, 210, 297/2);
-					doc.line(210/2, 0, 210/2, 297);
+					doc.line(0, 279/2, 216, 279/2);
+					doc.line(216/2, 0, 216/2, 279);
                 }
 
 				if(localIndex % 2 == 1) xOffset = bonusWidth;
@@ -608,14 +607,20 @@
 				var lastLineYpos = 0;
 
 				if(performanceValue != 600) {
-					doc.text(xOffset + 53, yOffset + 40, "450", "right");
-					doc.text(xOffset + 60, yOffset + 40, "EXCELENTE", "left");
-					doc.text(xOffset + 53, yOffset + 44.5, "350", "right");
-					doc.text(xOffset + 60, yOffset + 44.5, "MUY BUENO", "left");
-					doc.text(xOffset + 53, yOffset + 49, "200", "right");
-					doc.text(xOffset + 60, yOffset + 49, "BUENO", "left");
-					doc.text(xOffset + 53, yOffset + 53.5, "150", "right");
-					doc.text(xOffset + 60, yOffset + 53.5, "REGULAR", "left");
+					doc.text(xOffset + 53, yOffset + 40, "100", "right");
+					doc.text(xOffset + 60, yOffset + 40, "OBEDECE REGLAS", "left");
+					doc.text(xOffset + 53, yOffset + 44.5, "100", "right");
+					doc.text(xOffset + 60, yOffset + 44.5, "ATENCION CLIENTE", "left");
+					doc.text(xOffset + 53, yOffset + 49, "150", "right");
+					doc.text(xOffset + 60, yOffset + 49, "EN AREA DE TRABAJO", "left");
+					doc.text(xOffset + 53, yOffset + 53.5, "100", "right");
+					doc.text(xOffset + 60, yOffset + 53.5, "RAPIDEZ", "left");
+					doc.text(xOffset + 53, yOffset + 53.5, "100", "right");
+					doc.text(xOffset + 60, yOffset + 53.5, "UNIFORME", "left");
+					doc.text(xOffset + 53, yOffset + 53.5, "100", "right");
+					doc.text(xOffset + 60, yOffset + 53.5, "UNIFORME", "left");
+					doc.text(xOffset + 53, yOffset + 53.5, "100", "right");
+					doc.text(xOffset + 60, yOffset + 53.5, "RAPIDEZ", "left");
 					if(performanceValue == 450)
 						doc.roundedRect(xOffset + 44, yOffset + 36, 11, 4.5, 1, 1, 'S')
 					else if(performanceValue == 350)
@@ -645,13 +650,18 @@
 				doc.setFontSize(8);
 				if(performanceComment.length <= 24)
                 	doc.text(xOffset + 5, yOffset + 43, "" + performanceComment, "left");
-				else if(performanceComment.length <= 48){
+				else if(performanceComment.length <= 48) {
 					doc.text(xOffset + 5, yOffset + 43, "" + performanceComment.slice(0, 25).trim(), "left");
 					doc.text(xOffset + 5, yOffset + 46, "" + performanceComment.slice(25, performanceComment.length).trim(), "left");
-				} else {
+				} else if(performanceComment.length <= 72) {
 					doc.text(xOffset + 5, yOffset + 43, "" + performanceComment.slice(0, 25).trim(), "left");
 					doc.text(xOffset + 5, yOffset + 46, "" + performanceComment.slice(25, 49).trim(), "left");
 					doc.text(xOffset + 5, yOffset + 49, "" + performanceComment.slice(49, performanceComment.length).trim(), "left");
+				} else {
+					doc.text(xOffset + 5, yOffset + 43, "" + performanceComment.slice(0, 25).trim(), "left");
+					doc.text(xOffset + 5, yOffset + 46, "" + performanceComment.slice(25, 49).trim(), "left");
+					doc.text(xOffset + 5, yOffset + 49, "" + performanceComment.slice(49, 73).trim(), "left");
+					doc.text(xOffset + 5, yOffset + 52, "" + performanceComment.slice(73, performanceComment.length).trim(), "left");
 				}
 				
 				//PENALIDAD=========

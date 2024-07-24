@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en" style="background-color: #111111;">
+<head>
+	<title>Medias view</title>
+
+	<meta charset="utf-8">
+    <meta name="viewport" content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- local js resources -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+	<script language="javascript" type="text/javascript" src="defiant.min.js"></script>
+	
+	<script>
+		//function playSound() {Android.playSound();}
+	</script>
+
+	<script>
+		const config = {
+            apiKey: "AIzaSyBhhniDRtbUoE1SGVCTZzVUPTbd5k-mfnI",
+            authDomain: "cremeria-ordena.firebaseapp.com",
+            databaseURL: "https://cremeria-ordena-default-rtdb.firebaseio.com",
+            projectId: "cremeria-ordena",
+            storageBucket: "cremeria-ordena.appspot.com",
+            messagingSenderId: "862495808627",
+            appId: "1:862495808627:web:09d8f34bdb206056f1de06"
+        };
+
+		firebase.initializeApp(config);
+
+		const firebaseConfig2 = {
+			apiKey: "AIzaSyDrVZ3499rhvfFpxfRbU-wqJ-ZUN0-_ez0",
+			authDomain: "cremeria-imperial.firebaseapp.com",
+			databaseURL: "https://cremeria-imperial.firebaseio.com",
+			projectId: "cremeria-imperial",
+			storageBucket: "cremeria-imperial.appspot.com",
+			messagingSenderId: "445465872507"
+        };
+
+		var secondaryApp = firebase.initializeApp(firebaseConfig2, "secondary");
+
+		var products;
+		secondaryApp.database().ref('productos/').on('value', function (snapshot) {
+			products = Defiant.getSnapshot(snapshot.val());
+			populateOOSList();
+		});
+
+	</script>
+
+	<style>
+		@font-face {
+            font-family: GillSansMTCondensedBold;
+            font-style: normal;
+            src: url(GillSansMTCondensedBold.ttf);
+        }
+		.container-fluid {
+			font-family: GillSansMTCondensedBold;
+			margin-left: 1%;
+			margin-right: 1%;
+			margin-top: 1.5%;
+			position: relative;
+		}
+
+		#addProductModal, #OOSModal {
+			font-family: GillSansMTCondensedBold;
+			font-size: 25px;
+		}
+		
+		#addProductModalLabel, #OOSModalLabel {
+			font-size: 27px;
+		}
+
+		.modal-body {
+			padding-top: 5px;
+		}
+
+		#verificationMessage {
+			font-size: 16px;
+		}
+
+		#addNewProductDBForm input{
+			font-size: 20px;
+		}
+
+		#addNewProductDBForm select{
+			font-size: 20px;
+		}
+
+		.employee-row {
+			margin-left: 0px;
+			margin-right: 0px;
+			padding-left: 12px; 
+			padding-right: 12px;
+			background-color: #111111;
+			color: #EEEEEE;
+			border-color: #555555;
+		}
+
+		.employee-name {
+			font-size: 36px;
+			line-height: 30px;
+		}
+
+		.tabcontent {
+			display: none;
+		}
+
+		.btn-modal {
+			font-size: 20px;
+			line-height: 18px;
+		}
+		
+		.break-button {
+			height: 32px;
+			width: 170px;
+			background-color: #689f38;
+			font-size: 30px;
+			line-height: 18px;
+		}
+
+		.exit-button {
+			height: 32px;
+			width: 62px;
+			background-color: #689f38;
+			font-size: 30px;
+			line-height: 18px;
+		}
+
+		.break-button:focus {
+  			outline: none; 
+		}
+		
+		.first-break {
+			margin-right: 5px;
+		}
+		
+		.second-break {
+			margin-left: 5px;
+		}
+
+		#primaryButton {
+			float: right; 
+			margin-top: 9px; 
+			font-weight: bold;
+			background-color: #0288d1;
+			border-color: #0288d1;
+		}
+
+		#secundaryButton {
+			float: right; 
+			margin-right: 10px; 
+			margin-top: 9px; 
+			font-weight: bold;
+			background-color: #C0C0C0;
+			border-color: #C0C0C0;
+		}
+
+		#thirdButton {
+			float: right; 
+			margin-right: 10px; 
+			margin-top: 9px; 
+			font-weight: bold;
+			background-color: #C0C0C0;
+			border-color: #C0C0C0;
+		}
+		#searchOptions {
+			margin-top: 15px;
+		}
+
+		#main-wrapper {
+			margin: auto;
+			height: 880px;
+			overflow-y: scroll
+		}
+
+		#searchOptions, #oosProductsList {
+			padding-right: 0px;
+			position: absolute;
+			left: 15px;
+			right: 0px;
+			padding-left: 15px;
+			font-size: 20px;
+			line-height: 20px;
+			overflow: hidden;
+			overflow-y: scroll;
+		}
+
+		#inputSearch {
+			font-weight: bold;
+			font-size: 24px;
+		}	
+
+		#primaryButton, #secundaryButton, #thirdButton {
+			font-size: 24px;
+			line-height: 18px;
+		}
+
+		.form-control:focus {
+			border-color: rgb(239, 154, 154);
+			box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+		}
+
+		#splashScreen {
+			color: #111111;
+			background-color: #111111;
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            z-index: 10;
+            text-align: center;
+			font-size: 70px;
+			font-family: GillSansMTCondensedBold;
+			font-size: 30px;
+		}
+
+		#logo-image {
+			width: 80%;
+			padding-top: 20%;
+			padding-right: 15px;
+		}
+
+		.pulse {
+			box-shadow: 0 0 0 rgba(204,169,44, 0.4);
+			animation: pulse 1s infinite;
+		}
+
+		.highlight-list {
+			color: #eeff41;
+		}
+
+		@-webkit-keyframes pulse {
+			0% {
+				-webkit-box-shadow: 0 0 0 0 rgba(231, 87, 84, 1);
+			} 70% {
+				-webkit-box-shadow: 0 0 0 6px rgb(229, 57, 53, 1);
+			} 100% {
+				-webkit-box-shadow: 0 0 0 0 rgb(229, 57, 53, 1);
+			}
+		}
+		@keyframes pulse {
+			0% {
+				-moz-box-shadow: 0 0 0 0 rgb(229, 57, 53, 1);
+				box-shadow: 0 0 0 0 rgb(229, 57, 53, 1);
+			} 70% {
+				-moz-box-shadow: 0 0 0 6px rgb(229, 57, 53, 1);
+				box-shadow: 0 0 0 6px rgb(229, 57, 53, 1);
+			} 100% {
+				-moz-box-shadow: 0 0 0 0 rgb(229, 57, 53, 1);
+				box-shadow: 0 0 0 0 rgb(229, 57, 53, 1);
+			}
+		}
+
+	</style>
+</head>
+<body style="zoom: 100%; background-color: #111111;">
+	<div id="splashScreen">
+		<input id="logo-image" type="image" onclick="userFullscreen();" src="logo_fondo_rojo.png"/>
+		<span id="welcomeMessage" style="color: #EEEEEE;">PRESIONA PARA INICIAR</span>
+	</div>
+	<div class="alert alert-danger" style="display: none" id="noConnectionAlert" role="alert">
+		<strong>No hay conexión.</strong> Puede que los precios no estén actualizados.
+	</div>
+	<div class="container-fluid" style="background-color: #111111;">
+		<button type="button" id="primaryButton" class="btn btn-primary" onclick="showBreaks(event)">MEDIAS</button>
+		<button type="button" id="secundaryButton" class="btn btn-secondary" onclick="showProducts(event)">PRODS</button>
+		<button type="button" id="thirdButton" class="btn btn-secondary" onclick="showOOSProducts(event)">NO HAY</button>
+		<h1 class="modal-title" id="mediasTitle" style="margin-bottom:1.5%; margin-top:.5px; color: #EEEEEE;">M: 0</h1>
+		<h1 class="modal-title" id="outTitle" style="position:absolute; left: 100px; top:0px; color: #EEEEEE;">A: 0</h1>
+		<h1 class="modal-title" id="time" style="position:absolute; left:180px; top:0px; color: #EEEEEE;"> </h1>
+		<div class='wrapper'>
+			<div id="main-wrapper" class='tabcontent'></div>
+			<div id="products-tap-content" class="tabcontent"> 
+				<input type="input" class="form-control" id="inputSearch" style="background-color: #111111; border-color: #555555; color: #EEEEEE;"  oninput="this.value = this.value.toUpperCase()" placeholder="CLAVE O DESCRIPCION"> </input>
+				<ul class="list-group search-options" style="display:block; height:380px;" id="searchOptions"></ul>
+			</div>
+			<div id="oos-products-tap-content" class="tabcontent">
+				<ul class="list-group search-options" style="display:block; height:835px;" id="oosProductsList"></ul>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="OOSModal" tabindex="-1" role="dialog" aria-labelledby="OOSModalLabel" aria-hidden="true" style="background-color: #111111;">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content" style="background-color: #222222;">
+				<div class="modal-header">
+					<h5 class="modal-title" id="OOSModalLabel" style="color: #BABABA;">PRODUCTO</h5>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary btn-modal" data-dismiss="modal">CANCELAR</button>
+					<button type="button" class="btn btn-danger btn-modal" onclick="changeStockStatus('noHay');" id="noHayButton">NO HAY</button>
+					<button type="button" class="btn btn-warning btn-modal" onclick="changeStockStatus('pedido');" style="color: #222222;" id="pedidoButton">YA SE PIDIÓ</button>
+					<button type="button" class="btn btn-success btn-modal" onclick="changeStockStatus('siHay');" style="color: #222222;" id="siHayButton">YA HAY</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content" style="background-color: #222222;">
+
+				<!-- modal title -->
+				<div class="modal-header">
+					<h4 class="modal-title" style="color: #BABABA;" id="addProductModalLabel">AGREGAR PRODUCTO</h4>
+				</div>
+				<div class="modal-body" style="color: #BABABA;">
+					<form id="addNewProductDBForm">
+						<!-- form -->
+						<div class="form-group">
+							<!-- error message div -->
+							<label id="verificationMessage" style="color: red;"></label>
+							<div class="row" style="margin-bottom: 15px;">
+								<!-- description -->
+								<div class="col-xs-9">
+									<label for="descriptionInput">DESCRIPCION</label>
+									<input oninput="this.value = this.value.toUpperCase()" class="form-control" style="background-color: #222222; color: #BABABA; border-color: #555555;" type="text" maxlength="38" placeholder="DESCRIPCION"
+										required>
+								</div>
+								<!-- id -->
+								<div class="col-xs-3">
+									<label for="IDInput">CLAVE</label>
+									<input id="inputID" oninput="this.value = this.value.toUpperCase()" style="background-color: #222222; color: #BABABA; border-color: #555555;" class="form-control" type="text" placeholder="CLAVE"
+										required>
+								</div>
+							</div>
+
+							<div class="row">
+								<!-- unit -->
+								<div class="col-xs-3">
+									<label for="unitInput">UNIDAD</label>
+									<input oninput="this.value = this.value.toUpperCase()" style="background-color: #222222; color: #BABABA; border-color: #555555;" class="form-control" type="text" placeholder="PIEZA, CAJA, KILO..."
+										required>
+								</div>
+								<!-- cost -->
+								<div class="col-xs-2">
+									<label for="priceInput">COSTO</label>
+									<input class="form-control" type="number" style="background-color: #222222; color: #BABABA; border-color: #555555;" min="0" placeholder="8.50" required>
+								</div>
+								<!-- stock -->
+								<div class="col-xs-3">
+									<div class="form-group">
+										<label for="stockSelect">EXISTENCIA</label>
+										<select class="form-control" id="stockSelect" style="background-color: #222222; color: #BABABA; border-color: #555555; -webkit-appearance:none;">
+											<option value="siHay">SÍ HAY</option>
+											<option value="noHay">NO HAY</option>
+											<option value="pedido">NO HAY / YA SE PIDIÓ</option>
+										</select>
+									</div>
+								</div>
+								<!-- type -->
+								<div class="col-xs-4">
+									<div class="form-group">
+										<label for="typeSelect">TIPO</label>
+										<select class="form-control" id="typeSelect" style="background-color: #222222; color: #BABABA; border-color: #555555; -webkit-appearance:none;">
+											<option value="porPesarCamara">CAMARA - SE NECESITA PESAR</option>
+											<option value="yaPesadoCamara">CAMARA - YA VIENE PESADO</option>
+											<option value="porPesarAfuera">AFUERA - SE NECESITA PESAR</option>
+											<option value="yaPesadoAfuera">AFUERA - YA VIENE PESADO</option>
+											<option value="yaPesadoAfueraTrino">AFUERA - YA VIENE PESADO - TRINO</option>
+											<option value="aJamones">AREA DE JAMONES</option>
+											<option value="aCremas">AREA DE CREMAS</option>
+											<option value="aBodega">AREA DE BODEGA</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<!-- modal interface buttons (delete is hidden when "add new product" view is active) -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary btn-modal" data-dismiss="modal" style="color: #333333;">CANCELAR</button>
+					<button type="button" id="deleteButton" class="btn btn-danger btn-modal" data-dismiss="modal" onclick="deleteProductDB();" style="display: none; color: #333333;">ELIMINAR</button>
+					<button type="button" class="btn btn-primary btn-modal" id="saveButton" data-type="newProduct" onclick="verificateNewProduct();" style="color: #333333;">GUARDAR</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+
+		var globalCounter = 30;
+		var employeesOnBreak = 0;
+		var employeesOutside = 0;
+
+		$(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', function(e) {
+			if (document.fullscreen)
+				$("#splashScreen").hide();
+			else
+				$("#splashScreen").show();
+		});
+
+		var newDate = new Date();
+		if(newDate.getDay() != 6) {
+			//sunday trough friday
+			var breaksQuery = 
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">8:20AM</h1>' +
+				'<ul id="dynamic-list-820" class="list-group" style="display:block;"> </ul>' +
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">9:00AM</h1>' +
+				'<ul id="dynamic-list-900" class="list-group" style="display:block;"> </ul>' +
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">9:40AM</h1>' +
+				'<ul id="dynamic-list-940" class="list-group" style="display:block;"> </ul>' +
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">10:20AM</h1>' +
+				'<ul id="dynamic-list-1020" class="list-group" style="display:block;"> </ul>' +
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">11:00AM</h1>' +
+				'<ul id="dynamic-list-1100" class="list-group" style="display:block;"> </ul>' +
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">11:40AM</h1>' +
+				'<ul id="dynamic-list-1140" class="list-group" style="display:block;"> </ul>' +
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">12:20PM</h1>' +
+				'<ul id="dynamic-list-1220" class="list-group" style="display:block;"> </ul>' +
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">1:10PM</h1>' +
+				'<ul id="dynamic-list-1310" class="list-group" style="display:block;"> </ul>' +
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">2:00PM</h1>' +
+				'<ul id="dynamic-list-1400" class="list-group" style="display:block;"> </ul>' +
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">2:40PM</h1>' +
+				'<ul id="dynamic-list-1440" class="list-group" style="display:block;"> </ul>' +
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">3:20PM</h1>' +
+				'<ul id="dynamic-list-1520" class="list-group" style="display:block;"> </ul>' +
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">4:00PM</h1>' +
+				'<ul id="dynamic-list-1600" class="list-group" style="display:block;"> </ul>' +
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">4:40PM</h1>' +
+				'<ul id="dynamic-list-1640" class="list-group" style="display:block;"> </ul>' +
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">5:10PM</h1>' +
+				'<ul id="dynamic-list-1710" class="list-group" style="display:block;"> </ul>';
+
+			$('#main-wrapper').prepend(breaksQuery);
+		} else {
+			//saturday
+			var breaksQuery = 
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">8:20AM</h1>' +
+				'<ul id="dynamic-list-820" class="list-group" style="display:block;"> </ul>' +
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">9:00AM</h1>' +
+				'<ul id="dynamic-list-900" class="list-group" style="display:block;"> </ul>' +
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">9:50AM</h1>' +
+				'<ul id="dynamic-list-950" class="list-group" style="display:block;"> </ul>' +
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">10:40AM</h1>' +
+				'<ul id="dynamic-list-1040" class="list-group" style="display:block;"> </ul>' +
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">11:30AM</h1>' +
+				'<ul id="dynamic-list-1130" class="list-group" style="display:block;"> </ul>' +
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">12:20PM</h1>' +
+				'<ul id="dynamic-list-1220" class="list-group" style="display:block;"> </ul>' +
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">1:10PM</h1>' +
+				'<ul id="dynamic-list-1310" class="list-group" style="display:block;"> </ul>' +
+				'<h1 class="modal-title" style="margin-bottom:0px; margin-top:.5px; color: #EEEEEE;">2:00PM</h1>' +
+				'<ul id="dynamic-list-1400" class="list-group" style="display:block;"> </ul>';
+			$('#main-wrapper').prepend(breaksQuery);
+		}
+
+		//window.setInterval(saveCurrentState, 60 * 1000);
+
+		var localEmployees;
+		firebase.database().ref('employees').once('value', function(snapshot) {
+			localEmployees = snapshot.val();
+		}).then(function(){
+			loadEmployeesByHour();
+		});
+
+		//loadEmployees();
+		startClockTime();
+		checkConnection();
+
+		//Activates tab
+		var i, tabcontent, tablinks;
+		tabcontent = document.getElementsByClassName("tabcontent");
+		for (i = 0; i < tabcontent.length; i++)
+			tabcontent[i].style.display = "none";
+		document.getElementById("primaryButton").click();
+
+		window.setInterval(checkDayChange, 60 * 1000);
+		window.setInterval(highlightCurrentTable, 5 * 1000);
+
+		function highlightCurrentTable() {
+			var currentDate = new Date();
+			var minutes = currentDate.getMinutes();
+			if(minutes.toString().length == 1)
+				minutes = "0" + minutes;
+			var currentTime24format = parseInt("" + currentDate.getHours() + minutes);
+
+			disableAllBreakButtons();
+			if(currentDate.getDay() != 6) {
+				if(currentTime24format >= 820 && currentTime24format <= 835) {
+					$('#dynamic-list-820').find(".employee-row").addClass("highlight-list");
+					enableButtons($('#dynamic-list-820').find(".break-button"));
+				} else if(currentTime24format >= 900 && currentTime24format <= 915) {
+					$('#dynamic-list-820').find(".employee-row").removeClass("highlight-list");
+					$('#dynamic-list-900').find(".employee-row").addClass("highlight-list");
+					enableButtons($('#dynamic-list-900').find(".break-button"));
+				} else if(currentTime24format >= 940 && currentTime24format <= 955) {
+					$('#dynamic-list-900').find(".employee-row").removeClass("highlight-list");
+					$('#dynamic-list-940').find(".employee-row").addClass("highlight-list");
+					enableButtons($('#dynamic-list-940').find(".break-button"));
+				} else if(currentTime24format >= 1020 && currentTime24format <= 1035) {
+					$('#dynamic-list-940').find(".employee-row").removeClass("highlight-list");
+					$('#dynamic-list-1020').find(".employee-row").addClass("highlight-list");
+					enableButtons($('#dynamic-list-1020').find(".break-button"));
+				} else if(currentTime24format >= 1100 && currentTime24format <= 1115) {
+					$('#dynamic-list-1020').find(".employee-row").removeClass("highlight-list");
+					$('#dynamic-list-1100').find(".employee-row").addClass("highlight-list");
+					enableButtons($('#dynamic-list-1100').find(".break-button"));
+				} else if(currentTime24format >= 1140 && currentTime24format <= 1155) {
+					$('#dynamic-list-1100').find(".employee-row").removeClass("highlight-list");
+					$('#dynamic-list-1140').find(".employee-row").addClass("highlight-list");
+					enableButtons($('#dynamic-list-1140').find(".break-button"));
+				} else if(currentTime24format >= 1220 && currentTime24format <= 1235) {
+					$('#dynamic-list-1140').find(".employee-row").removeClass("highlight-list");
+					$('#dynamic-list-1220').find(".employee-row").addClass("highlight-list");
+					enableButtons($('#dynamic-list-1220').find(".break-button"));
+				} else if(currentTime24format >= 1310 && currentTime24format <= 1325) {
+					$('#dynamic-list-1220').find(".employee-row").removeClass("highlight-list");
+					$('#dynamic-list-1310').find(".employee-row").addClass("highlight-list");
+					enableButtons($('#dynamic-list-1310').find(".break-button"));
+				} else if(currentTime24format >= 1400 && currentTime24format <= 1415) {
+					$('#dynamic-list-1310').find(".employee-row").removeClass("highlight-list");
+					$('#dynamic-list-1400').find(".employee-row").addClass("highlight-list");
+					enableButtons($('#dynamic-list-1400').find(".break-button"));
+				} else if(currentTime24format >= 1440 && currentTime24format <= 1455) {
+					$('#dynamic-list-1400').find(".employee-row").removeClass("highlight-list");
+					$('#dynamic-list-1440').find(".employee-row").addClass("highlight-list");
+					enableButtons($('#dynamic-list-1440').find(".break-button"));
+				} else if(currentTime24format >= 1520 && currentTime24format <= 1535) {
+					$('#dynamic-list-1440').find(".employee-row").removeClass("highlight-list");
+					$('#dynamic-list-1520').find(".employee-row").addClass("highlight-list");
+					enableButtons($('#dynamic-list-1520').find(".break-button"));
+				} else if(currentTime24format >= 1600 && currentTime24format <= 1615) {
+					$('#dynamic-list-1520').find(".employee-row").removeClass("highlight-list");
+					$('#dynamic-list-1600').find(".employee-row").addClass("highlight-list");
+					enableButtons($('#dynamic-list-1600').find(".break-button"));
+				} else if(currentTime24format >= 1640 && currentTime24format <= 1655) {
+					$('#dynamic-list-1600').find(".employee-row").removeClass("highlight-list");
+					$('#dynamic-list-1640').find(".employee-row").addClass("highlight-list");
+					enableButtons($('#dynamic-list-1640').find(".break-button"));
+				} else if(currentTime24format >= 1710 && currentTime24format <= 1725) {
+					$('#dynamic-list-1640').find(".employee-row").removeClass("highlight-list");
+					$('#dynamic-list-1710').find(".employee-row").addClass("highlight-list");
+					enableButtons($('#dynamic-list-1710').find(".break-button"));
+				} 
+			} else if(currentDate.getDay() == 6) {
+				if(currentTime24format >= 900 && currentTime24format <= 915) {
+					$('#dynamic-list-900').find(".employee-row").addClass("highlight-list");
+					enableButtons($('#dynamic-list-900').find(".break-button"));
+				} else if(currentTime24format >= 950 && currentTime24format <= 1005) {
+					$('#dynamic-list-900').find(".employee-row").removeClass("highlight-list");
+					$('#dynamic-list-950').find(".employee-row").addClass("highlight-list");
+					enableButtons($('#dynamic-list-950').find(".break-button"));
+				} else if(currentTime24format >= 1040 && currentTime24format <= 1055) {
+					$('#dynamic-list-950').find(".employee-row").removeClass("highlight-list");
+					$('#dynamic-list-1040').find(".employee-row").addClass("highlight-list");
+					enableButtons($('#dynamic-list-1040').find(".break-button"));
+				} else if(currentTime24format >= 1130 && currentTime24format <= 1145) {
+					$('#dynamic-list-1040').find(".employee-row").removeClass("highlight-list");
+					$('#dynamic-list-1130').find(".employee-row").addClass("highlight-list");
+					enableButtons($('#dynamic-list-1130').find(".break-button"));
+				} else if(currentTime24format >= 1220 && currentTime24format <= 1235) {
+					$('#dynamic-list-1130').find(".employee-row").removeClass("highlight-list");
+					$('#dynamic-list-1220').find(".employee-row").addClass("highlight-list");
+					enableButtons($('#dynamic-list-1220').find(".break-button"));
+				} else if(currentTime24format >= 1310 && currentTime24format <= 1325) {
+					$('#dynamic-list-1220').find(".employee-row").removeClass("highlight-list");
+					$('#dynamic-list-1310').find(".employee-row").addClass("highlight-list");
+					enableButtons($('#dynamic-list-1310').find(".break-button"));
+				} else if(currentTime24format >= 1400 && currentTime24format <= 1415) {
+					$('#dynamic-list-1310').find(".employee-row").removeClass("highlight-list");
+					$('#dynamic-list-1400').find(".employee-row").addClass("highlight-list");
+					enableButtons($('#dynamic-list-1400').find(".break-button"));
+				}
+			}
+		}
+
+		//setInterval(saveCurrentState, 1000 * 60 * 60);
+		function saveCurrentState() {
+			console.log("saveCurrentState");
+			//mondays in the morning
+			//if(newDate.getDay() == 1 && newDate.getHours() == 5 && newDate.getMinutes() < 40) {
+			if(newDate.getDay() == 1 && newDate.getHours() == 6) {
+				console.log("reinicio");
+
+				for (const [key, value] of Object.entries(localEmployees)) {
+					firebase.database().ref("employees/" + key).once('value', function(childSnapshot) {
+						if(childSnapshot.val().comments != undefined) 
+							firebase.database().ref("employeesA/" + key + "/comments").set(childSnapshot.val().comments);
+						if(childSnapshot.val().performance != undefined)
+							firebase.database().ref("employeesA/" + key + "/performance").set(childSnapshot.val().performance);
+						if(childSnapshot.val().extraTimeT != undefined && childSnapshot.val().extraTimeT != 0) {
+							console.log("extraTimeTT = " + childSnapshot.val().extraTimeT);
+							firebase.database().ref("employeesA/" + key + "/extraTimeTT").set(childSnapshot.val().extraTimeT);
+							firebase.database().ref("employees/" + key + "/extraTimeTT").set(childSnapshot.val().extraTimeT);
+							console.log("extraTime y extraTimeT = 0");
+							//firebase.database().ref("employees/" + key + "/extraTime").set(0);
+							//firebase.database().ref("employees/" + key + "/extraTimeT").set(0);
+						} 
+					});	
+				}
+				setTimeout(reloadNow, 60000);
+			}
+		}
+		
+		function reloadNow() {
+			location.reload();
+		}
+
+		//saveCurrentStateNow();
+		function saveCurrentStateNow() {
+			//mondays in the morning
+			console.log("saveCurrentStateNow");
+			for (const [key, value] of Object.entries(localEmployees)) {
+				firebase.database().ref("employees/" + key).once('value', function(childSnapshot) {
+					if(childSnapshot.val().comments != undefined)
+						firebase.database().ref("employeesA/" + key + "/comments").set(childSnapshot.val().comments);
+					if(childSnapshot.val().performance != undefined)
+						firebase.database().ref("employeesA/" + key + "/performance").set(childSnapshot.val().performance);
+					if(childSnapshot.val().extraTimeT != undefined && childSnapshot.val().extraTimeT != 0) {
+						console.log("extraTimeTT = " + childSnapshot.val().extraTimeT);
+						firebase.database().ref("employees/" + key + "/extraTimeTT").set(childSnapshot.val().extraTimeT);
+						console.log("extraTime y extraTimeT = 0");
+						firebase.database().ref("employees/" + key + "/extraTime").set(0);
+						firebase.database().ref("employees/" + key + "/extraTimeT").set(0);
+					}
+				});	
+			}
+		}
+
+		function disableAllBreakButtons() {
+			var buttons = $(".break-button");
+			for(var i = 0; i < buttons.length; i++) {
+				if($(buttons[i]).css("background-color")== "rgb(104, 159, 56)")
+					buttons[i].disabled = true;
+			}
+		}
+
+		function enableButtons(buttons) {
+			//FIX doing somethingn out of functions scope
+			var exitButtons = $(".exit-button");
+			for(var i = 0; i < exitButtons.length; i++)
+				$(exitButtons[i]).css("color", "white");
+
+			for(var i = 0; i < buttons.length; i++)
+				buttons[i].disabled = false;
+		}
+
+		function userFullscreen() {
+			document.body.requestFullscreen();
+		}
+
+		function loadEmployeesByHour() {
+			for (const [key, value] of Object.entries(localEmployees)) {
+				pushEmployeeByHour(key, value.pronunciation, localEmployees[key]);
+			}
+		}
+		
+		function loadEmployees() {
+			var empleadosDB;
+			firebase.database().ref("empleados").once('value', function(snapshot) {
+				empleadosDB = snapshot.val();
+			}).then(function(){
+				var employeesNames = [];
+				var employeesPronunciation = [];
+				$.each(empleadosDB, function(key, value) {
+					employeesNames.push(key);
+					employeesPronunciation.push(value.substring(0, value.length - 2));
+				});
+				populateEmployeesList(employeesNames, employeesPronunciation);
+			});
+		}
+
+		function pushEmployeeByHour(name, pronunciation, breaks) {			
+			//this next three lines OUTDATED
+			globalCounter = 30;
+			if(newDate.getDay() == 6)
+				globalCounter = 40;
+
+			var localCounter1 = 30;
+			var localCounter2 = 30;
+
+			//sunday
+			if(newDate.getDay() == 0) {
+				if(localEmployees[name].sundayBreakTime != undefined && localEmployees[name].sundayBreakTime != "")
+					localCounter1 = localEmployees[name].sundayBreakTime;
+				else
+					localCounter1 = 30;
+			//saturday
+			} else if(newDate.getDay() == 6) {
+				if(localEmployees[name].saturdayBreakTime != undefined && localEmployees[name].saturdayBreakTime != "")
+					localCounter1 = localEmployees[name].saturdayBreakTime;
+				else
+					localCounter1 = 40;
+			//mon-fri
+			}else {
+				if(localEmployees[name].firstBreakTime != undefined && localEmployees[name].firstBreakTime != "")
+					localCounter1 = localEmployees[name].firstBreakTime;
+				if(localEmployees[name].secondBreakTime != undefined && localEmployees[name].secondBreakTime != "")
+					localCounter2 = localEmployees[name].secondBreakTime;
+			}
+
+			var sigmaEmployee = false;
+			if(pronunciation.charAt(0) == 0) {
+				var sigmaEmployee = true;
+				pronunciation = pronunciation.substring(1, pronunciation.length);
+			}
+
+			if(localEmployees[name].extraTimeT == undefined) {
+				firebase.database().ref('employees/' + name + '/extraTimeT').set(0);
+				localEmployees[name].extraTimeT = 0;
+			}
+
+			var employeeListItem =
+				'<ul class="list-group-item row employee-row" style="padding: 5px 5px;">' + 
+					'<button class="col-xs-4 employee-name" style="padding: 0px; margin: 0px; padding-left: 5px; background-color: transparent; border-width : 0; text-align: left;" onclick="speakName(&quot;' + name + '&quot;)">' + name + '</button>' +
+					'<button type="button" class="col-xs-4 btn btn-secondary break-button first-break" style="background-color:#689f38; margin-left: 110px;" onclick="manageFirstBreak(event)" data-name="' + pronunciation + '" data-sigma="' + sigmaEmployee + '" data-breakTime="' + localCounter1 + '">' + '</button>' + 
+					'<button type="button" class="col-xs-1 btn btn-secondary exit-button first-break" style="background-color:rgb(229, 57, 53); margin-left: 10px;" onclick="manageExit(event)" data-nameid="' + name + '" data-nameow="ow' + pronunciation + '" data-name="' + pronunciation + '">' + localEmployees[name].extraTimeT + '</button>' + 
+				'</ul>';
+
+			var employeeListItem2ndBreak =
+				'<ul class="list-group-item row employee-row" style="padding: 5px 5px;">' + 
+					'<button class="col-xs-4 employee-name" style="padding: 0px; margin: 0px; padding-left: 5px; background-color: transparent; border-width : 0; text-align: left;" onclick="speakName(&quot;' + name + '&quot;)">' + name + '</button>' +
+					'<button type="button" class="col-xs-4 btn btn-secondary break-button first-break" style="background-color:#689f38; margin-left: 110px;" onclick="manageFirstBreak(event)" data-name="' + pronunciation + '" data-sigma="' + sigmaEmployee + '" data-breakTime="' + localCounter2 + '">' + '</button>' + 
+					'<button type="button" class="col-xs-1 btn btn-secondary exit-button first-break" style="background-color:rgb(229, 57, 53); margin-left: 10px;" onclick="manageExit(event)" data-nameid="' + name + '" data-nameow="ow' + pronunciation + '" data-name="' + pronunciation + '">' + localEmployees[name].extraTimeT + '</button>' + 
+				'</ul>';
+
+			if(newDate.getDay() == 0) { 
+				if(breaks.break12 != undefined)
+					$('#dynamic-list-' + breaks.break12).append(employeeListItem);
+			} else if(newDate.getDay() == 1) { 
+				if(breaks.break1 != undefined)
+					$('#dynamic-list-' + breaks.break1).append(employeeListItem);
+				if(breaks.break2 != undefined)
+					$('#dynamic-list-' + breaks.break2).append(employeeListItem2ndBreak);
+			} else if(newDate.getDay() == 2) { 
+				if(breaks.break3 != undefined)
+					$('#dynamic-list-' + breaks.break3).append(employeeListItem);
+				if(breaks.break4 != undefined)
+					$('#dynamic-list-' + breaks.break4).append(employeeListItem2ndBreak);
+			} else if(newDate.getDay() == 3) { 
+				if(breaks.break5 != undefined)
+					$('#dynamic-list-' + breaks.break5).append(employeeListItem);
+				if(breaks.break6 != undefined)
+					$('#dynamic-list-' + breaks.break6).append(employeeListItem2ndBreak);
+			} else if(newDate.getDay() == 4) { 
+				if(breaks.break7 != undefined)
+					$('#dynamic-list-' + breaks.break7).append(employeeListItem);
+				if(breaks.break8 != undefined)
+					$('#dynamic-list-' + breaks.break8).append(employeeListItem2ndBreak);
+			} else if(newDate.getDay() == 5) { 
+				if(breaks.break9 != undefined)
+					$('#dynamic-list-' + breaks.break9).append(employeeListItem);
+				if(breaks.break10 != undefined)
+					$('#dynamic-list-' + breaks.break10).append(employeeListItem2ndBreak);
+			} else if(newDate.getDay() == 6) { 
+				if(breaks.break11 != undefined)
+					$('#dynamic-list-' + breaks.break11).append(employeeListItem);
+			} 
+		}
+		
+		function populateEmployeesList(names, pronunciations) {
+			globalCounter = 30;
+			var justOneBreak = false;
+			var currentDate = new Date();
+			if(currentDate.getDay() == 6) {
+				globalCounter = 40;
+				justOneBreak = true;
+			} else if(currentDate.getDay() == 0) {
+				globalCounter = 30;
+				justOneBreak = true;
+			}
+
+			if(justOneBreak) {
+				names.forEach(function (name, i){
+					var sigmaEmployee = false;
+					if(pronunciations[i].charAt(0) == 0) {
+						var sigmaEmployee = true;
+						pronunciations[i] = pronunciations[i].substring(1, pronunciations[i].length);
+					}
+					var employeeListItem =
+					'<ul class="list-group-item row employee-row">' +
+						'<h2 class="col-xs-8 employee-name" style="padding: 0px; margin: 0px; padding-left: 5px;">' + name + '</h2>' +
+						'<button type="button" class="col-xs-4 btn btn-secondary break-button first-break" style="background-color:#689f38;" onclick="manageFirstBreak(event)" data-name="' + pronunciations[i] + '" data-sigma="' + sigmaEmployee + '">' + '</button>' + 
+					'</ul>';
+												
+					$('#dynamic-list').append(employeeListItem);
+					//$("#dynamic-list").on("click", "button", function(e) {$(this).remove();});	
+				});
+			} else {
+				names.forEach(function (name, i){
+					var sigmaEmployee = false;
+					if(pronunciations[i].charAt(0) == 0) {
+						var sigmaEmployee = true;
+						pronunciations[i] = pronunciations[i].substring(1, pronunciations[i].length);
+					}
+					//aqui
+					var employeeListItem =
+					'<ul class="list-group-item row employee-row" style="padding: 5px 5px;">' + 
+						'<button class="col-xs-4 employee-name" style="padding: 0px; margin: 0px; padding-left: 5px; background-color: transparent; border-width : 0; text-align: left;" onclick="speakName(&quot;' + name + '&quot;)">' + name + '</button>' +
+						'<button type="button" class="col-xs-4 btn btn-secondary break-button first-break" style="background-color:#689f38; margin-left: 10px;" onclick="manageFirstBreak(event)" data-name="' + pronunciations[i] + '" data-sigma="' + sigmaEmployee + '">' + '</button>' + 
+						'<button type="button" class="col-xs-4 btn btn-secondary break-button second-break" style="background-color:#689f38; margin-left: 0px;" onclick="manageSecondBreak(event)" data-name="' + pronunciations[i] + '" data-sigma="' + sigmaEmployee + '">' + '</button>' + 
+					'</ul>';
+												
+					$('#dynamic-list').append(employeeListItem);
+					//$("#dynamic-list").on("click", "button", function(e) {$(this).remove();});	
+				});
+			}
+
+			addLongPressListener();
+		}
+
+		function addLongPressListener() {
+			var start;
+			var longpress = 1000;
+			$(".break-button").on('touchstart', function(e){
+				start = new Date().getTime();
+			});
+			$(".break-button" ).on( 'touchend', function( e ) {
+				if (new Date().getTime() >= (start + longpress))
+					$(this).removeClass("pulse");
+				start = 0;
+			});
+		}
+
+		function manageFirstBreak(event) {
+			if(event.target.style.backgroundColor == "rgb(104, 159, 56)")
+				startBreak(event.target);
+			else if(event.target.style.backgroundColor == "rgb(238, 255, 65)") {
+				//(event.target.getAttribute("data-name"));
+				event.target.style.backgroundColor = "#111111";
+				event.target.style.borderColor = "#555555";
+				event.target.style.borderWidth = "1px";
+				event.target.style.color = "rgb(238, 255, 65)";
+				firebase.database().ref('employees/' + event.target.getAttribute("data-name") + '/resting').set(false);
+				employeesOnBreak--;
+				document.getElementById('mediasTitle').innerText = "M: " + employeesOnBreak;
+			} else if (event.target.style.backgroundColor == "rgb(253, 151, 66)") {
+				//uploadExtraTime(event.srcElement.innerHTML, event.target.getAttribute("data-name"));
+				//uploadExtraTimeTotal(event.target.getAttribute("data-name"));
+				event.target.style.backgroundColor = "#111111";
+				event.target.style.borderColor = "#555555";
+				event.target.style.borderWidth = "1px";
+				event.target.style.color = "rgb(253, 151, 66)";
+				firebase.database().ref('employees/' + event.target.getAttribute("data-name") + '/resting').set(false);
+				employeesOnBreak--;
+				document.getElementById('mediasTitle').innerText = "M: " + employeesOnBreak;
+			} else if (event.target.style.backgroundColor == "rgb(229, 57, 53)") {
+				//uploadExtraTime(event.srcElement.innerHTML, event.target.getAttribute("data-name"));
+				//uploadExtraTimeTotal(event.target.getAttribute("data-name"));
+				event.target.style.backgroundColor = "#111111";
+				event.target.style.borderColor = "#555555";
+				event.target.style.borderWidth = "1px";
+				event.target.style.color = "rgb(229, 57, 53)";
+				firebase.database().ref('employees/' + event.target.getAttribute("data-name") + '/resting').set(false);
+				employeesOnBreak--;
+				document.getElementById('mediasTitle').innerText = "M: " + employeesOnBreak;
+			}
+		}
+
+		function manageExit(event) {
+			if(event.target.style.backgroundColor == "rgb(229, 57, 53)") {
+				startExit(event.target);
+			} else if(event.target.style.backgroundColor == "rgb(238, 255, 65)") {
+				console.log("detengo el tiempo");
+				console.log(event.target.getAttribute("data-name"));
+				console.log(event.target.innerText);
+				uploadTimeTotal(event.target.getAttribute("data-nameid"), event.target.innerText);
+				event.target.style.backgroundColor = "rgb(229, 57, 53)";
+				event.target.style.borderColor = "rgb(104, 159, 56)";
+				event.target.style.color = "#FFFFFF";
+				firebase.database().ref('employees/' + event.target.getAttribute("data-name") + '/out').set(false);
+				employeesOutside--;
+				document.getElementById('outTitle').innerText = "A: " + employeesOutside;
+			}
+		}
+
+		function uploadExtraTime(time, employee) {
+			time = parseInt(time.slice(1, time.length));
+			firebase.database().ref('employees/' + employee + '/extraTime').once('value', function(snapshot) {
+				if(snapshot.val() == undefined) {
+					firebase.database().ref('employees/' + employee + '/extraTime').set(time);
+				} else {
+					firebase.database().ref('employees/' + employee + '/extraTime').set(snapshot.val() + time);
+				}
+			});
+		}
+
+		function uploadExtraTimeTotal(employee) {
+			firebase.database().ref('employees/' + employee + '/extraTimeT').once('value', function(snapshot) {
+				if(snapshot.val() == undefined) {
+					firebase.database().ref('employees/' + employee + '/extraTimeT').set(1);
+				} else {
+					firebase.database().ref('employees/' + employee + '/extraTimeT').set(snapshot.val() + 1);
+				}
+			});
+		}		
+
+		function uploadTimeTotal(employee, time) {
+			firebase.database().ref('employees/' + employee + '/extraTimeT').set(time);
+			console.log('employees/' + employee + '/extraTimeT');
+			console.log(time);
+		}		
+
+		function manageSecondBreak(event) {
+			if((event.target.previousSibling.style.backgroundColor == "rgb(229, 57, 53)" || event.target.previousSibling.style.backgroundColor == "rgb(253, 151, 66)") && event.target.style.backgroundColor == "rgb(104, 159, 56)")
+				startBreak(event.target);
+			else if (event.target.style.backgroundColor == "rgb(253, 151, 66)")
+				event.target.style.backgroundColor = "rgb(229, 57, 53)";
+			//speakName(event.target.getAttribute("data-name"));
+		}
+		
+		function startBreak(breakButton) {
+			firebase.database().ref('employees/' + breakButton.getAttribute("data-name") + '/resting').set(true);
+
+			var counter = breakButton.getAttribute("data-breakTime");
+			
+			//if(counter == 40 && breakButton.getAttribute("data-sigma") == "true")
+			//	counter = 30;
+
+			employeesOnBreak++;
+
+			breakButton.innerText = counter;
+			event.target.style.backgroundColor = "#eeff41";
+			event.target.style.color = "#111111";
+			document.getElementById('mediasTitle').innerText = "M: " + employeesOnBreak;
+			
+			var interval = setInterval(function() {
+				counter--;
+				if(breakButton.style.backgroundColor != "rgb(17, 17, 17)") {
+					if (counter >= 0) {
+						breakButton.innerText = counter;
+					} else if (counter > -15) {
+						//aqui
+						addOneTotalTime(breakButton.getAttribute("data-name"));
+						speakName(breakButton.getAttribute("data-name"));
+						breakButton.innerText = "+" + (counter.toString()).slice(1);
+						breakButton.style.backgroundColor = "#fd9742";
+						breakButton.style.color = "white";
+					} else {
+						speakName(breakButton.getAttribute("data-name"));
+						breakButton.innerText = "+" + (counter.toString()).slice(1);
+						breakButton.style.backgroundColor = "#e53935";
+						breakButton.style.color = "white";
+					}
+				} else {
+					clearInterval(interval);
+					var totalTimeButton = document.querySelector('[data-nameow="ow' +  breakButton.getAttribute("data-name") + '"]');
+					uploadTimeTotal(breakButton.getAttribute("data-name"), totalTimeButton.innerText);
+				}
+			}, 60 * 1000);
+		} 
+
+		function addOneTotalTime (employee) {
+			var totalTimeButton = document.querySelectorAll('[data-nameow="ow' + employee + '"]');	
+			for (let i = 0; i < totalTimeButton.length; i++) {
+				totalTimeButton[i].innerText = parseInt(totalTimeButton[i].innerText) + 1;
+			}
+		}
+
+		function startExit(breakButton) {
+			firebase.database().ref('employees/' + breakButton.getAttribute("data-name") + '/out').set(true);
+			
+			employeesOutside++;
+
+			event.target.style.backgroundColor = "#eeff41";
+			event.target.style.color = "#111111";
+			document.getElementById('outTitle').innerText = "A: " + employeesOutside;
+			
+			var interval = setInterval(function() {
+				if(breakButton.style.backgroundColor == "rgb(238, 255, 65)")
+					addOneTotalTime(breakButton.getAttribute("data-name"));
+				else
+					clearInterval(interval);
+			}, 60 * 1000);
+		} 
+		
+		function speakName(name) {
+			var msg = new SpeechSynthesisUtterance();
+			msg.rate = .80;
+			//msg.lang = "es-US";
+			msg.voice = window.speechSynthesis.getVoices()[39]; //15
+			msg.text = name;
+			window.speechSynthesis.speak(msg);
+			window.speechSynthesis.speak(msg);
+		}
+		
+		function startClockTime() {
+			var today = new Date();
+			var h = today.getHours();
+			var m = today.getMinutes();
+			if (h > 12) h = h - 12;
+			if (m < 10) m = "0" + m;
+			document.getElementById('time').innerText = h + ":" + m;
+			var t = setTimeout(startClockTime, 1000);
+		}
+
+		function showBreaks(evt) {
+			changeTab(evt, "main-wrapper");
+			changeToActiveColor("primaryButton");
+			changeToDeactiveColor("secundaryButton");
+			changeToDeactiveColor("thirdButton");
+		}
+
+		function showProducts(evt) {
+			$("#inputSearch").val("");
+			$("#searchOptions").empty();
+			changeTab(evt, "products-tap-content");
+			changeToActiveColor("secundaryButton");
+			changeToDeactiveColor("primaryButton");
+			changeToDeactiveColor("thirdButton");
+			$("#inputSearch").focus();
+		}
+
+		function showOOSProducts(evt) {
+			populateOOSList();
+			changeTab(evt, "oos-products-tap-content");
+			changeToActiveColor("thirdButton");
+			changeToDeactiveColor("secundaryButton");
+			changeToDeactiveColor("primaryButton");
+		}
+
+		function populateOOSList() {
+			var noHayProducts = JSON.search(products, '//*[contains(existencia, "' + "noHay" + '")]');
+			var pedidosProducts = JSON.search(products, '//*[contains(existencia, "' + "pedido" + '")]');
+			Array.prototype.push.apply(noHayProducts, pedidosProducts);
+			
+			//loads the results into the list
+			$("#oosProductsList").empty();
+			populateOOSProductsList(noHayProducts)
+		}
+
+		function populateOOSProductsList(noHayProducts) {
+			var OOSItem = "";
+			var backgroundColor,
+                color,
+				buttonColor;
+			for (var i = 0; i < noHayProducts.length; i++) {
+                if(noHayProducts[i].existencia == "noHay") {
+                    backgroundColor = "#111111";
+                    color = "rgba(236, 81, 72, 93%)";
+                    buttonColor = "#EEEEEE";
+                } else if(noHayProducts[i].existencia == "pedido") {
+                    backgroundColor = "#111111";
+                    color = "rgba(253, 181, 13, 85%)";
+                    buttonColor = "#EEEEEE";
+                }
+
+				OOSItem =
+					'<button onclick="changeStockPopUp(&#39;' + noHayProducts[i].clave + '&#39;)" class="list-group-item row btn-default search-options-item" style="font-weight:bold; background-color: ' + backgroundColor + '; color: ' + color + ';">' +
+						'<div class="col-xs-1" style="padding: 0px">' + noHayProducts[i].unidad + '</div>' +
+						'<div class="col-xs-10" style="padding-left: 15px">' + noHayProducts[i].descripcion + '</div>' +
+						'<div class="col-xs-1" style="padding: 0px">' + noHayProducts[i].costo + '</div>' +
+					'</button>';
+				$("#oosProductsList").append(OOSItem);
+			}
+		}
+
+		function changeStockPopUp(id) {
+			var productToEdit = JSON.search(products, '//*[clave="' + id + '"]')[0];
+
+            document.getElementById("OOSModalLabel").innerHTML = productToEdit.descripcion;
+            $('#OOSModal').data("id", productToEdit.clave);
+
+			if(productToEdit.existencia == "noHay") {
+				$('#noHayButton').hide();
+				$('#pedidoButton').show();
+			} else if(productToEdit.existencia == "pedido") {
+				$('#pedidoButton').hide();
+				$('#noHayButton').show();
+			}
+
+            $('#OOSModal').modal('show');
+		}
+ 
+		function changeStockStatus(newStatus) {
+			var id = $('#OOSModal').data("id");
+			firebase.database().ref('productos/' + id + '/existencia').set(newStatus)
+			.then(function () {
+                $('#OOSModal').modal('toggle');
+            });
+		}
+
+		function changeToActiveColor(buttonID) {
+			var button = document.getElementById(buttonID);
+			button.style.backgroundColor = "#e53935";
+			button.style.borderColor = "#e53935";
+			button.style.color = "#EEEEEE";
+		}
+
+		function changeToDeactiveColor(buttonID) {
+			var button = document.getElementById(buttonID);
+			button.style.backgroundColor = "#C0C0C0";
+			button.style.borderColor = "#C0C0C0";
+			button.style.color = "#111111";
+		}
+
+		function changeTab(evt, listID) {
+			var i, tabcontent, tablinks;
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++)
+				tabcontent[i].style.display = "none";
+			document.getElementById(listID).style.display = "block";
+			evt.currentTarget.className += " active";
+		}
+		
+		$("#inputSearch").on('keyup', function (e) {
+			var searchResult;
+			var inputSearchValue = $('#inputSearch').val();
+			//search two or more words (imposible id)
+			if (inputSearchValue.includes(" ")) {
+				inputSearchValue = inputSearchValue.split(" ");
+				for (i = 0; i < inputSearchValue.length; i++) {
+					if (inputSearchValue[i] != "") {
+						if (searchResult == null)
+							searchResult = JSON.search(products, '//*[contains(descripcion, "' + inputSearchValue[i] + '")]' +
+								'|//*[contains(unidad, "' + inputSearchValue[i] + '")]');
+						else
+							searchResult = JSON.search(searchResult, '//*[contains(descripcion, "' + inputSearchValue[i] + '")]' +
+								'|//*[contains(unidad, "' + inputSearchValue[i] + '")]');
+					}
+				}
+			}
+			//search just one word (posible id)
+			else {
+				if ($('#inputSearch').val() != "") {
+					searchResult = JSON.search(products, '//*[contains(clave, "' + $('#inputSearch').val() + '")]');
+					searchResultSecond = JSON.search(products, '//*[contains(descripcion, "' + $('#inputSearch').val() + '")]' +
+						'|//*[contains(unidad, "' + $('#inputSearch').val() + '")]');
+					Array.prototype.push.apply(searchResult, searchResultSecond);
+				}
+			}
+
+			//loads the results into the list
+			$("#searchOptions").empty();
+			if ($('#inputSearch').val() != "")
+				populateLifeSearchList(searchResult)
+		});
+
+		//populates life search list after the result has been processed
+		function populateLifeSearchList(searchResult) {
+			var searchItem = "";
+			var backgroundColor,
+                color,
+                buttonColor;
+
+			//up to 51 results in search bar
+			for (var i = 0; i < searchResult.length && i < 51; i++) {
+				if(searchResult[i].existencia == "siHay") {
+                    backgroundColor = "#111111";
+                    color = "#EEEEEE";
+                    buttonColor = "gray";
+                } else if(searchResult[i].existencia == "noHay") {
+                    backgroundColor = "rgba(216, 61, 52, 88%)";
+                    color = "#EEEEEE";
+                    buttonColor = "#EEEEEE";
+                } else if(searchResult[i].existencia == "pedido") {
+                    backgroundColor = "rgba(253, 181, 13, 85%)";
+                    color = "#EEEEEE";
+                    buttonColor = "#EEEEEE";
+                }
+				searchItem =
+					'<button class="list-group-item row btn-default search-options-item" style="font-weight:bold; background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;">' +
+						'<div class="col-xs-1" style="padding: 0px">' + searchResult[i].unidad + '</div>' +
+						'<div class="col-xs-10" style="padding-left: 15px">' + searchResult[i].descripcion + '</div>' +
+						'<div class="col-xs-1" style="padding: 0px">' + searchResult[i].costo + '</div>' +
+					'</button>';
+				$("#searchOptions").append(searchItem);
+			}
+		}
+
+		//edit or delete product modal values
+        function editProductModal(id) {
+            document.getElementById("addProductModalLabel").innerHTML = "EDITAR PRODUCTO";
+            document.getElementById("inputID").disabled = true;
+            document.getElementById("deleteButton").style.display = "inline";
+            document.getElementById("verificationMessage").innerHTML = "";
+
+            var productToEdit = JSON.search(products, '//*[clave="' + id + '"]')[0];
+            var form = document.getElementById("addNewProductDBForm");
+            //{description:0, id:1, unit:2, cost:3, stock:4, type:5}
+            form.elements[0].value = productToEdit.descripcion;
+            form.elements[1].value = productToEdit.clave;
+            form.elements[2].value = productToEdit.unidad;
+            form.elements[3].value = productToEdit.costo;
+			$("#stockSelect").val(productToEdit.existencia);
+            $("#typeSelect").val(productToEdit.tipo);
+
+            //sets buttons inner values
+            $('#saveButton').data("type", "editProduct");
+            $('#saveButton').data("id", form.elements[1].value);
+
+            $('#addProductModal').modal('show');
+		}
+
+        //verificates input of modal form
+        function verificateNewProduct() {
+            var messageLabel = document.getElementById("verificationMessage");
+            var form = document.getElementById("addNewProductDBForm");
+            var verificated = true;
+
+            //checks for blanks
+            var inputs = new Array(6);
+            //{description:0, id:1, unit:2, cost:3, type:4}
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i] = form.elements[i].value;
+                if (inputs[i] == "") {
+                    messageLabel.innerHTML = "LLENA TODOS LOS CAMPOS.";
+                    verificated = false;
+                    break;
+                }
+            }
+
+            //checks for valid units
+            var validUnits = ["KILO", "PIEZA", "CAJA", "CUB", "PROMO"];
+            if (form.elements[2].value != "" && !validUnits.includes(form.elements[2].value)) {
+                messageLabel.innerHTML = "LA UNIDAD UNICAMENTE PUEDE SER: ";
+                for (var i = 0; i < validUnits.length - 1; i++)
+                    messageLabel.innerHTML += validUnits[i] + ", ";
+                messageLabel.innerHTML += validUnits[validUnits.length - 1] + ".";
+                verificated = false;
+            }
+
+            //checks for $ or -
+            if (form.elements[1].value.indexOf("$") >= 0 || form.elements[1].value.indexOf("-") >= 0) {
+                messageLabel.innerHTML = "LA CLAVE SOLO PUEDE TENER LETRAS Y/O NUMEROS";
+                verificated = false;
+            }
+
+            //if everything is checked, upload form
+            if (verificated) {
+                editProductDB(inputs);
+				messageLabel.innerHTML = "";
+				$("#inputSearch").val("");
+				$("#searchOptions").empty();
+            }
+		}
+
+		//adds or updates a product to firebase
+        function editProductDB(inputs) {
+            firebase.database().ref('productos/' + inputs[1]).set({
+                clave: inputs[1],
+                costo: inputs[3],
+                descripcion: inputs[0],
+				existencia: inputs[4],
+                tipo: inputs[5],
+                unidad: inputs[2]
+            }).then(function () {
+                $('#addProductModal').modal('toggle');
+            });
+		}
+		
+		//clears modal form values
+        function emptyForm(form, length) {
+            for (var i = 0; i < length; i++)
+                form.elements[i].value = "";
+        }
+		
+		//deletes an existing product from the db
+		function deleteProductDB() {
+            $('#dynamic-list li:first-child').remove();
+            var id = document.getElementById("addNewProductDBForm").elements[1].value;
+            database.child(id).remove();
+		}
+
+		function updateOOSStatus() {
+			var id = document.getElementById("addNewProductDBForm").elements[1].value;
+            var newStatus = document.getElementById("addNewProductDBForm").elements[1].value;
+		}
+
+		//No connections alert
+		function checkConnection() {
+			var connectedRef = firebase.database().ref(".info/connected");
+			connectedRef.on("value", function(snap) {
+				if (snap.val() === true) document.getElementById("noConnectionAlert").style.display = "none";
+				else document.getElementById("noConnectionAlert").style.display = "block";
+			});
+		}
+
+		//Reloads the page when shift has ended
+		function checkDayChange() {
+            var now = new Date();
+			var millisTill5am = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 5, 0, 0, 0) - now;
+            if (millisTill5am >= 0)
+				location.reload();
+
+		}
+
+		var idleTime = 0;
+		$(document).ready(function () {
+			var idleInterval = setInterval(timerIncrement, 10000);
+			$(this).mousemove(function (e) { idleTime = 0; });
+			$(this).keypress(function (e) { idleTime = 0; });
+		});
+
+		function timerIncrement() {
+			idleTime = idleTime + 1;
+			if (idleTime > 6)
+				document.getElementById("primaryButton").click();
+		}
+
+		reloadOnUpdate();
+		function reloadOnUpdate() {
+            firebase.database().ref("updates/medias").on('value', function(snapshot) {
+                if(snapshot.val()) {
+                    firebase.database().ref("updates/medias").set(false).then(function() {
+                        location.reload();
+                    });
+                }
+            });
+        }
+
+	</script>
+</body>

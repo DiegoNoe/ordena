@@ -46,11 +46,8 @@
         var defiantClients;
         var orderRefID = "";
 
-        var appFB = firebase.initializeApp(firebaseConfig);
+        firebase.initializeApp(firebaseConfig);
         var secondaryApp = firebase.initializeApp(firebaseConfig2, "secondary");
-
-        const analytics = getAnalytics(appFB);
-        console.log("analytics");
 
         //var dbProducts = firebase.database().ref('products/');
         

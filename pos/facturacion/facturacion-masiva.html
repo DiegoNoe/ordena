@@ -69,7 +69,7 @@
             newCfdi.GlobalInformation = {};
             newCfdi.GlobalInformation.Periodicity = "04";
             //1 - CAMBIAR NUMERO DE MES POR FACTURAR
-            newCfdi.GlobalInformation.Months = "04";
+            newCfdi.GlobalInformation.Months = "06";
             newCfdi.GlobalInformation.Year = "2024";
 
             newCfdi.CfdiType = "I";
@@ -83,7 +83,7 @@
             //var formattedDate = today.getFullYear() + "-" + ("0" + (today.getMonth() + 1)).slice(-2) + "-" + ("0" + today.getDate()).slice(-2);
             //2 - CAMBIAR ESTA FECHA CON ESTE FORMATO AL DIA ÚLTIMO DEL MES POR FACTURAR
             //3 - REVISAR QUE NO HAYA TUPLAS VACIAS CON 0 EN EL TOTAL
-            var formattedDate = "2024-04-30";
+            var formattedDate = "2024-06-30";
             formattedDate = formattedDate + " " + ("0" + today.getHours()).slice(-2) + ":" + ("0" + today.getMinutes()).slice(-2) + ":" + ("0" + today.getSeconds()).slice(-2);
             newCfdi.Date = formattedDate;
 

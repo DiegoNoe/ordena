@@ -624,6 +624,11 @@
 					var localHour = value.hour;
 					if(localHour == undefined || localHour == "")
 						localVerified = false;
+					
+					var localId = value.id;
+					if(localId == undefined || localId == "") {
+						localVerified = false;
+					}
 
 					var localSubtotal = value.subtotal;
 					if(localSubtotal == undefined || localSubtotal == "" || localSubtotal <= 0)
@@ -632,6 +637,15 @@
 					var localProducts = value.productos;
 					if(localProducts == undefined || localProducts.length < 1)
 						localVerified = false;
+
+					var payedAmount = value.payed;
+					if(payedAmount == undefined || payedAmount == "") {
+						payedAmount = 0;
+					}
+
+					var checkedValue = "";
+					if(payedAmount == localSubtotal)
+						checkedValue = "checked";
 
 
 					if(localVerified) {
@@ -647,14 +661,12 @@
 							'<h2 class="col-xs-3 employee-name" style="padding: 0px; margin: 0px; padding-left: 0px;">' + "COMENTARIOS IMPORTANTES" + '</h2>' +								
 							'<h2 class="col-xs-1 employee-name" style="padding: 0px; margin: 0px; padding-left: 0px;">' + localSubtotal + '</h2>' +		
 							'<div class="col-xs-1" style="padding: 0px;">' + 
-								'<input class="form-control" type="checkbox" style="margin: 0px; width: 20px; float: left;" onclick="checkboxOrder(' + localSubtotal + ', ' + value.hour + ');">' + 
-								'<input class="form-control comments-box" id="' + key + '" oninput="this.value = this.value.toUpperCase()" type="text" style="margin: 0px; padding-right: 10px; width: 80%;  float: left;" onkeyup="uploadPayedAmount(this, ' + value.hour + ')" onfocusout="uploadPayedAmount(this, ' + value.hour + ')" placeholder="0">' +
+								'<input class="form-control" type="checkbox" style="margin: 0px; width: 20px; float: left;" onclick="checkboxOrder(' + localSubtotal + ', ' + value.hour + ', &#39;' + localId + '&#39;);" ' + checkedValue + '>' + 
+								'<input class="form-control comments-box" id="' + key + '" oninput="this.value = this.value.toUpperCase()" type="number" style="margin: 0px; padding-right: 10px; width: 80%;  float: left;" onkeyup="uploadPayedAmount(this, &#39;' + localId + '&#39;)" onfocusout="uploadPayedAmount(this, &#39;' + localId + '&#39;)" placeholder="0" value="' + payedAmount + '">' + 
 							'</div>' + 							
 							'<button type="button" class="col-xs-1 btn glyphicon glyphicon-pencil" style="background-color: white; padding-top:2px; padding-bottom:0px; padding-left:20px;" onclick="editEmployeeModal(event)"' + 
 								'data-name="' + key + '">' + '</button>' + 
 							'</li>';
-
-							
 
 						$('#dynamic-list').append(orderListItem);
 					}
@@ -664,19 +676,23 @@
 		}
 
 		function uploadPayedAmount(textField, id) {
-			console.log(textField);
+			console.log(textField.value);
 			console.log(id);
+
+			firebase.database().ref('purchases/outsideToO/' + id + "/payed").set(textField.value);
+			
 		}
 
-		function checkboxOrder(total, id) {
-			var currentOrder = document.getElementById(id);
+		function checkboxOrder(total, hour, id) {
+			var currentOrder = document.getElementById(hour);
 			var totalTextbox = currentOrder.children[5].children[1];
-
 
 			if (currentOrder.children[5].children[0].checked) {
 				totalTextbox.value = total;
+				uploadPayedAmount(totalTextbox, id);
 			} else {
-				totalTextbox.value = 0;
+				totalTextbox.value = "";
+				uploadPayedAmount(totalTextbox, id);
 			}
 		}
 
