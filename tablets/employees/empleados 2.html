@@ -521,30 +521,34 @@
 		
 		function populateEmployeesList(names, pronunciations, id) {
 			$('#dynamic-list').empty();
-
 			var completeEmployees;
 			firebase.database().ref('employees').once('value', function(snapshot) {
 				completeEmployees = snapshot.val();
 			}).then(function() {
+
 				names.forEach(function (name, i){
 					var sigmaEmployee = false;
+					
+					if(pronunciations[i] == undefined)
+						pronunciations[i] = name;
+					
 					if(pronunciations[i].charAt(0) == 0) {
 						sigmaEmployee = true;
 						pronunciations[i] = pronunciations[i].substring(1, pronunciations[i].length);
 					}
-	
+					
 					var localComments = "";
 					if(completeEmployees[name].comments != undefined)
 						localComments = completeEmployees[name].comments;
-
+					
 					var obReglas = "",
-						atCliente = "",
-						arTrabajo = "",
-						rapidez = "",
-						unCompleto = "",
-						cePlatica = "",
-						sobresaliente = "";
-
+					atCliente = "",
+					arTrabajo = "",
+					rapidez = "",
+					unCompleto = "",
+					cePlatica = "",
+					sobresaliente = "";
+					
 					if(completeEmployees[name].pObReglas != undefined && completeEmployees[name].pObReglas == true)
 						obReglas = "selected";
 					if(completeEmployees[name].pAtCliente != undefined && completeEmployees[name].pAtCliente == true)
@@ -580,6 +584,7 @@
 						'<button type="button" class="col-xs-1 btn glyphicon glyphicon-pencil" style="background-color:white; padding-top:2px; padding-bottom:0px;" onclick="editEmployeeModal(event)"' + 
 						'data-name="' + name + '" data-pronunciation="' + pronunciations[i] + '" data-sigma="' + sigmaEmployee + '" data-id="' + completeEmployees[name].id + '">' + '</button>' + 
 						'</li>';
+
 					
 					$('#dynamic-list').append(employeeListItem);
 					//$("#dynamic-list").on("click", "button", function(e) {$(this).remove();});
