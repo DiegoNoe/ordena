@@ -814,3 +814,41 @@ input, button:not(.cross), label, span:not(.cross) {
     border-color: #555555;
     margin-top: 2px;
 }
+
+#pin-pad {
+    display: none;
+    position: fixed;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -30%);
+    background: #eee;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px #0003;
+    z-index: 3;
+
+}
+
+#pin-input {
+    font-size: 20px;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 120px;
+    text-align: center;
+    letter-spacing: 5px;
+}
+
+.key {
+    padding: 15px 25px;
+    font-size: 18px;
+    margin: 5px;
+    cursor: pointer;
+    background: #ccc;
+    border: none;
+    border-radius: 5px;
+}
+
+.key:hover {
+    background: #bbb;
+}

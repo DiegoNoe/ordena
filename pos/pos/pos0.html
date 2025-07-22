@@ -120,8 +120,26 @@
             <button id="addProductButton" type="button" style="display: none;" class="btn btn-secondary interface-button glyphicon glyphicon-plus-sign" onclick="addProductModal()"></button>
             <button id="callClientButton" type="button" class="btn btn-secondary interface-button glyphicon glyphicon-bullhorn" onclick="callClients()"></button>
             <button id="lastOrderButton" type="button" class="btn btn-secondary interface-button glyphicon glyphicon-repeat" onclick="retrieveLastOrder()"></button>
-            <button id="deleteRecordButton" class="btn btn-danger interface-button glyphicon glyphicon-erase" style="font-size: 20px !important; padding-top: 2px; margin-top: 0px; visibility: hidden;" type="button" onclick="deleteRecord()"><i aria-hidden="true"></i></button>
+            <button id="deleteRecordButton" class="btn btn-danger interface-button glyphicon glyphicon-erase" style="font-size: 20px !important; padding-top: 2px; margin-top: 0px; visibility: hidden;" type="button" onclick="showKeypad()"><i aria-hidden="true"></i></button>
+        </div>
 
+        <div id="pin-pad">
+        <input id="pin-input" type="password" maxlength="4" disabled />
+        <br>
+        <div>
+            <button class="key" onclick="addDigit('1')">1</button>
+            <button class="key" onclick="addDigit('2')">2</button>
+            <button class="key" onclick="addDigit('3')">3</button><br>
+            <button class="key" onclick="addDigit('4')">4</button>
+            <button class="key" onclick="addDigit('5')">5</button>
+            <button class="key" onclick="addDigit('6')">6</button><br>
+            <button class="key" onclick="addDigit('7')">7</button>
+            <button class="key" onclick="addDigit('8')">8</button>
+            <button class="key" onclick="addDigit('9')">9</button><br>
+            <button class="key" onclick="clearPin()">&#10060;</button>
+            <button class="key" onclick="addDigit('0')">0</button>
+            <button class="key" onclick="checkPin()">&#10003;</button>
+        </div>
         </div>
 
         <div id="searchContainer" class="row">
@@ -557,27 +575,6 @@
             $("#addNewProductDBFormWrapper").append(fields);
         }
 
-		function saveCurrentStateNow() {
-			secondaryApp.database().ref('empleados/').once('value', function(snapshot) {
-				if(snapshot.val() != null) {
-					$.each(snapshot.val(), function(key, value) {
-						secondaryApp.database().ref("employees/" + key).once('value', function(childSnapshot) {
-                            console.log(childSnapshot.val());
-							if(childSnapshot.val().comments != undefined)
-                                secondaryApp.database().ref("employeesA/" + key + "/comments").set(childSnapshot.val().comments);
-							if(childSnapshot.val().performance != undefined)
-                                secondaryApp.database().ref("employeesA/" + key + "/performance").set(childSnapshot.val().performance);
-							if(childSnapshot.val().extraTimeT != undefined && childSnapshot.val().extraTimeT != 0) {
-								secondaryApp.database().ref("employees/" + key + "/extraTimeTT").set(childSnapshot.val().extraTimeT);
-								secondaryApp.database().ref("employees/" + key + "/extraTime").set(0);
-								secondaryApp.database().ref("employees/" + key + "/extraTimeT").set(0);
-							}
-						});	
-					});
-				}
-			});
-		}
-
         function saveCurrentStateNow() {
 			secondaryApp.database().ref('empleados/').once('value', function(snapshot) {
 				if(snapshot.val() != null) {
@@ -603,18 +600,55 @@
 			firebase.database().ref('employees').once('value', function(snapshot) {
 				if(snapshot.val() != null) {
 					$.each(snapshot.val(), function(key, value) {
+                        console.log("antes/" + key);
+
 						firebase.database().ref("employees/" + key).once('value', function(childSnapshot) {
 							if(childSnapshot.val().extraTimeT != undefined && childSnapshot.val().extraTimeT != 0) {
 								firebase.database().ref("employees/" + key + "/extraTimeTT").set(childSnapshot.val().extraTimeT);
 								firebase.database().ref("employees/" + key + "/extraTime").set(0);
 								firebase.database().ref("employees/" + key + "/extraTimeT").set(0);
-							}
+							} else {
+                                firebase.database().ref("employees/" + key + "/extraTimeTT").set(0);
+								firebase.database().ref("employees/" + key + "/extraTime").set(0);
+								firebase.database().ref("employees/" + key + "/extraTimeT").set(0);
+                            }
 						});	
 					});
 				}
 			});
 		}
 
+        const correctPIN = "0819";
+        let enteredPIN = "";
+
+        function showKeypad() {
+            document.getElementById("pin-pad").style.display = "block";
+            enteredPIN = "";
+            document.getElementById("pin-input").value = "";
+        }
+
+        function addDigit(digit) {
+            if (enteredPIN.length < 4) {
+                enteredPIN += digit;
+                document.getElementById("pin-input").value += "*";
+            }
+        }
+
+        function clearPin() {
+            enteredPIN = "";
+            document.getElementById("pin-input").value = "";
+            document.getElementById("pin-pad").style.display = "none";
+        }
+
+        function checkPin() {
+            if (enteredPIN === correctPIN) {
+                document.getElementById("pin-pad").style.display = "none";
+                deleteRecord();
+            } else {
+                alert("Incorrect PIN");
+                clearPin();
+            }
+        }
 
         function deleteRecord() {
             if(confirm("SE BORRARÁN LOS REGISTROS DE AYER. ¿SEGURA?")) {

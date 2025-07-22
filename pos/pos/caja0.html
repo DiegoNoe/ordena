@@ -615,6 +615,309 @@
             }
         };
 
+
+        //printEmployeesIDs()
+        function printEmployeesIDs() {
+            console.log("empleados");
+
+            secondaryApp.database().ref("empleados").once('value', function (snapshot) {
+            const empleados = snapshot.val();
+
+            if (empleados != null) {
+                console.log("empleados encontrados:");
+
+                Object.keys(empleados).forEach((key) => {
+                    // Obtener los últimos 3 caracteres del key
+                    let code = empleados[key].slice(-3);
+                    // Eliminar ceros a la izquierda
+                    code = parseInt(code, 10);
+
+                    console.log(key, code);
+                });
+            } else {
+                console.log("No hay empleados.");
+            }
+        });
+        }
+
+
+        //primer ejemplo para la creacion de producto en odoo
+        //exampleOdoo();
+        function exampleOdoo() {
+            console.log("ejemplo odoo");
+            setTimeout(function () {
+                product = JSON.search(defiantProducts, '//*[clave="' + "1ADFM" + '"]')[0];
+                //createProductOdoo(product);
+                //updateProductOdoo(product);
+                //createProductOdoo(product);
+                //createSellOdoo(product);
+                //createSellOdooGPT(product);
+                //createBuyOdoo(product);
+                //createBuyOdooGPT(product);
+                //createProviderOdoo();
+                //createClientOdoo();
+
+                //console.log("producto ejemplo");
+                //console.log(product);
+            }, 3000);
+        }
+
+        function updateProductOdoo(product) {
+            var settings = {
+                url: "https://c-imperio-pruebas-21700414.dev.odoo.com/api/producto/crear",
+                method: "POST",
+                timeout: 0,
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                data: {
+                    name: product.descripcion,
+                    default_code: product.clave,
+                    unspsc_code: product.xpcode,
+                    list_price: "99.00",
+                    uom_categ: product.unidad,
+                    x_studio_many2many_field_4sl_1iujrb31j: product.tipo
+                }
+            };
+
+            console.log("product settings");
+            console.log(settings);
+
+            $.ajax(settings).done(function (response) {
+                console.log("Producto creado:", response);
+            });
+        }
+
+        function createProductOdoo(product) {
+            var settings = {
+                url: "https://c-imperio-pruebas-21700414.dev.odoo.com/api/producto/crear",
+                method: "POST",
+                timeout: 0,
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                data: {
+                    name: product.descripcion,
+                    default_code: product.clave,
+                    unspsc_code: product.xpcode,
+                    list_price: "96.00",
+                    uom_categ: product.unidad,
+                    x_studio_many2many_field_4sl_1iujrb31j: product.tipo
+                }
+            };
+
+            console.log("product settings");
+            console.log(settings);
+
+            $.ajax(settings).done(function (response) {
+                console.log("Producto creado:", response);
+            });
+        }
+
+        function createProviderOdoo() {
+           var settings = {
+                url: "https://c-imperio-pruebas-21700414.dev.odoo.com/api/crear_proveedor",
+                method: "POST",
+                timeout: 0,
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "Authorization": "Basic c29wb3J0ZUByYWRheGJzLmNvbS5teDoxMjM0NTY="                },
+                data: {
+                    "name": "Fernando Garcia 2",
+                    "company_type": "company",
+                    "vat": "VEDI861012VD7",
+                    "zip": "52315",
+                    "l10n_mx_edi_fiscal_regime": "601",
+                    "street": "Av. GALEANA 1",
+                    "city": "Lerma",
+                    "state_name": "Toluca",
+                    "email": "correo@prueba4.com",
+                    "phone": "12345678",
+                    "Uso": "G01",
+                    "Metodo de pago": "Efectivo"
+                }
+            };
+
+            console.log("product settings");
+            console.log(settings);
+
+            $.ajax(settings).done(function (response) {
+                console.log("Producto creado:", response);
+            });
+        }
+
+        function createClientOdoo() {
+           var settings = {
+                "url": "https://c-imperio-pruebas-21700414.dev.odoo.com/api/crear_cliente",
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "Authorization": "Basic c29wb3J0ZUByYWRheGJzLmNvbS5teDoxMjM0NTY=",
+                    "Cookie": "session_id=KwTBOnQOmaYZiRfQL0cU63jR778M9nc7NUb1IWOmmTrXNmcTeFOecU8NB9AQgLtrOend5Nqwt9n9XNij_DRv"
+                },
+                "data": {
+                    "name": "Fernando de la a",
+                    "company_type": "person",
+                    "vat": "VEDI861012VD7",
+                    "zip": "52315",
+                    "l10n_mx_edi_fiscal_regime": "617",
+                    "street": "Av. GALEANA 1",
+                    "city": "Lerma",
+                    "state_name": "Toluca",
+                    "email": "correo@prueba2.com",
+                    "phone": "12345678",
+                    "Uso": "G01",
+                    "Metodo de pago": "Efectivo"
+                }
+            };
+
+            console.log("client settings");
+            console.log(settings);
+
+            $.ajax(settings).done(function (response) {
+                console.log("Cliente creado:", response);
+            });
+        }
+
+        function createSellOdoo(product) {
+            var settings2 = {
+                "url": "https://c-imperio-pruebas-21700414.dev.odoo.com/api/crear_venta",
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "Authorization": "Basic c29wb3J0ZUByYWRheGJzLmNvbS5teDoxMjM0NTY=",
+                    "Cookie": "session_id=koL3aeXzI6d_1DHUiCyOsnB1imI0rloOq31XxDSV0Ggvb5qbE2xb6Jn1Xql9-FbRVeoJHPssZXkHkbDM3kDS"
+                },
+                "data": {
+                    "partner_name": "Ivan Velazquez Diaz",
+                    "client_order_ref": "CLI123492",
+                    "default_code": "Crema",
+                    "quantity": "5.5",
+                    "price_unit": "150.50",
+                    "default_code": "Queso",
+                    "quantity": "12.5",
+                    "price_unit": "101"
+                }
+                };
+
+                console.log("buy settings 2 aqui");
+                console.log(settings2);
+
+                $.ajax(settings2).done(function (response) {
+                    console.log(response);
+                });
+        }
+
+        function createSellOdooGPT(product) {
+            const data = new URLSearchParams();
+            data.append("partner_name", "Ivan Velazquez Diaz");
+            data.append("client_order_ref", "CLI123493");
+
+            // Primer producto
+            data.append("default_code", "Crema");
+            data.append("quantity", "5.5");
+            data.append("price_unit", "150.50");
+
+            // Segundo producto
+            data.append("default_code", "Queso");
+            data.append("quantity", "12.5");
+            data.append("price_unit", "101");
+
+            var settings2 = {
+                "url": "https://c-imperio-pruebas-21700414.dev.odoo.com/api/crear_venta",
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "Authorization": "Basic c29wb3J0ZUByYWRheGJzLmNvbS5teDoxMjM0NTY=",
+                    "Cookie": "session_id=koL3aeXzI6d_1DHUiCyOsnB1imI0rloOq31XxDSV0Ggvb5qbE2xb6Jn1Xql9-FbRVeoJHPssZXkHkbDM3kDS"
+                },
+                "data": data.toString()
+            };
+
+            console.log("buy settings 2 aqui");
+            console.log(settings2);
+
+            $.ajax(settings2).done(function (response) {
+                console.log(response);
+            });
+        }
+
+        function createBuyOdooGPT(product) {
+            const data = new URLSearchParams();
+            data.append("partner_name", "Demo");
+            data.append("partner_ref", "CI2030");
+
+            // Primer producto
+            data.append("default_code", "Crema");
+            data.append("quantity", "5.5");
+            data.append("price_unit", "150.50");
+
+            // Segundo producto
+            data.append("default_code", "Queso");
+            data.append("quantity", "12.5");
+            data.append("price_unit", "101");
+
+            var settings2 = {
+                "url": "https://c-imperio-pruebas-21700414.dev.odoo.com/api/crear_compra",
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "Authorization": "Basic c29wb3J0ZUByYWRheGJzLmNvbS5teDoxMjM0NTY=",
+                    "Cookie": "session_id=koL3aeXzI6d_1DHUiCyOsnB1imI0rloOq31XxDSV0Ggvb5qbE2xb6Jn1Xql9-FbRVeoJHPssZXkHkbDM3kDS"
+                },
+                "data": data.toString()
+            };
+
+            console.log("buy settings 2 aqui");
+            console.log(settings2);
+
+            $.ajax(settings2).done(function (response) {
+                console.log(response);
+            });
+        }
+
+        function createBuyOdoo(product) {
+            $.ajax(settings).done(function (response) {
+                console.log("Venta creada:", response);
+            });
+
+            var settings = {
+                "url": "https://c-imperio-pruebas-21700414.dev.odoo.com/api/crear_compra",
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "Authorization": "Basic c29wb3J0ZUByYWRheGJzLmNvbS5teDoxMjM0NTY=",
+                    "Cookie": "session_id=koL3aeXzI6d_1DHUiCyOsnB1imI0rloOq31XxDSV0Ggvb5qbE2xb6Jn1Xql9-FbRVeoJHPssZXkHkbDM3kDS"
+                },
+                    "data": {
+                        "partner_name": "Demo",
+                        "partner_ref": "CI2027",
+                        "default_code": "Crema",
+                        "quantity": "10.50",
+                        "price_unit": "60.50",
+                        "default_code": "Jabon",
+                        "quantity": "15.25",
+                        "price_unit": "60.00",
+                        "default_code": "Queso",
+                        "quantity": "5.5",
+                        "price_unit": "100.50"
+                    }
+                };
+
+                console.log("buy settings");
+                console.log(settings);
+
+                $.ajax(settings).done(function (response) {
+                    console.log(response);
+                });
+        }
+
+
         function deleteRecord() {
             if(confirm("SE BORRARÁN LOS REGISTROS DE AYER. ¿SEGURA?")) {
                 firebase.database().ref("tablets/jamones").remove();
@@ -675,7 +978,7 @@
             firebase.database().ref("orders/code0/" + id).once('value', function (snapshot) {
                 if(snapshot.val() != null) {
                     speakEndingOrder(snapshot.val().name);
-                    populateOrder(snapshot.val());
+                    populateOrder(snapshot.val(), id);
                 } else {
                     console.log("no encontré nada");
                     //emptyForm(document.getElementById("searchOrderForm"), 3);
@@ -730,8 +1033,8 @@
             eraseOrder();
         }
 
-        function populateOrder(order) {
-            console.log("populate order");
+        function populateOrder(order, localID) {
+            console.log("order populateOrder");
             console.log(order);
             eraseOrder();
 
@@ -767,14 +1070,15 @@
 
             (function iterateOverProductsWithDelay (i) {          
                 setTimeout(function () {   
-                    addProductFromSavedOrder(Object.keys(order.products)[i - 1], Object.values(order.products)[i - 1], localChecked);
+                    addProductFromSavedOrder(Object.keys(order.products)[i - 1], Object.values(order.products)[i - 1], localChecked, localID);
                     if (--i) iterateOverProductsWithDelay(i);
                     else $("#inputCasillero").focus();
                 }, 1)
             })(Object.keys(order.products).length);
         }
 
-        function addProductFromSavedOrder(id, product, checked) {
+        function addProductFromSavedOrder(id, product, checked, localID) {
+            localID = localID + "/products/" + id;
             id = id.substring(3);
 
             var notesAndQuantity = product;
@@ -802,42 +1106,66 @@
                 backgroundColor = "#111111";
             }
 
-            if((product.pesoN != undefined && product.pesoN != "") && !checked){
-                notesAndQuantity.uc = notesAndQuantity.uc * product.pesoN;
+            var wasWeighted = (product.tipo == "porPesarCamara" || product.tipo == "porPesarAfuera") && (product.pkilo != undefined && product.pkilo != "") && !checked;
+
+            var totalWeight = 0;
+            if(wasWeighted){
+                totalWeight = notesAndQuantity.uc * (product.costo / product.pkilo);
+                color = "rgba(252, 237, 17, 0.8)";
+                backgroundColor = "#111111";
             }
 
             //var precioHuevoCaja = JSON.search(defiantProducts, '//*[clave="' + "ZHUCAG" + '"]')[0];
 
-
             var totalCost = notesAndQuantity.uc * product.costo;
-
             totalCost = "$" + Math.round(totalCost * 10) / 10
-            var dataTotal = round(notesAndQuantity.uc * product.costo)
+            var dataTotal = round(notesAndQuantity.uc * product.costo);
 
-            
-            if(product.pesoN != undefined && product.pesoN != "") {
-                totalCost = notesAndQuantity.uc * (product.costo / product.pesoN);
-                totalCost = "$" + Math.round(totalCost * 10) / 10;
-                dataTotal = round(notesAndQuantity.uc * (product.costo / product.pesoN));
-                product.unidad = "KILO";
+            //if local price exists
+            if(notesAndQuantity.lp != undefined) {
+                totalCost = notesAndQuantity.uc * notesAndQuantity.lp;
+                totalCost = "$" + Math.round(totalCost * 10) / 10
+                var dataTotal = round(notesAndQuantity.uc * notesAndQuantity.lp);
+                //aquiiii update live view and pdf
             }
                
-            //aqui
-            var productListItem =
-                '<li class="list-group-item row product-row product-total" style= "background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;" data-id="' + product.clave + '" data-date="' + date + '" data-total="' + dataTotal + '">' +
-                    '<div class="col-sm-1 product-quantity">' +
-                        '<input class="form-control" type="number" min="0" style= "color: ' + color + '; backe round-color: ' + backgroundColor + '; border-color: #555555; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;"></input>' +
-                    '</div>' +
-                    '<div class="col-sm-1 product-info">' + product.unidad + '</div>' +
-                    '<div class="col-sm-6 product-info">' + product.descripcion + '</div>' +
-                    '<div id="localCost" class="col-sm-1 product-info">' + totalCost + '</div>' +
-                    '<div class="col-sm-2 product-notes-container">' +
-                        '<input class="form-control product-notes" type="input" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;" oninput="this.value = this.value.toUpperCase()" maxlength="48" placeholder="NOTAS" value="' + notesAndQuantity.n + '"> </input>' +
-                    '</div>' +
-                    '<button class="btn btn-default btn-sm col-sm-1 remove-button cross" type="button" style="background-color: ' + backgroundColor + '; border-color: ' + backgroundColor + ';">' +
-                        '<span class="glyphicon glyphicon-remove cross" style="color:grey; padding-top: 4.5px;"></span>' +
-                    '</button>' +
-                '</li>';
+            if(!wasWeighted) {
+                var productListItem =
+                    '<li class="list-group-item row product-row product-total" style= "background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;" data-id="' + product.clave + '" data-date="' + date + '" data-total="' + dataTotal + '" data-weighted="' + wasWeighted + '">' +
+                        '<div class="col-sm-1 product-quantity">' +
+                            '<input class="form-control" type="number" min="0" style= "color: ' + color + '; backround-color: ' + backgroundColor + '; border-color: #555555; height: 30px; margin-top: 3.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;"></input>' +
+                        '</div>' +
+                        '<div class="col-sm-1 product-info">' + product.unidad + '</div>' +
+                        '<div class="col-sm-6 product-info">' + product.descripcion + '</div>' +
+                        '<div id="localCost" class="col-sm-1 product-info">' + totalCost + '</div>' +
+                        '<div class="col-sm-2 product-notes-container">' +
+                            '<input class="form-control product-notes" type="input" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;" oninput="this.value = this.value.toUpperCase()" maxlength="48" placeholder="NOTAS" value="' + notesAndQuantity.n + '"> </input>' +
+                        '</div>' +
+                        '<button class="btn btn-default btn-sm col-sm-1 remove-button cross" type="button" style="background-color: ' + backgroundColor + '; border-color: ' + backgroundColor + ';">' +
+                            '<span class="glyphicon glyphicon-remove cross" style="color:grey; padding-top: 2.5px;"></span>' +
+                        '</button>' +
+                    '</li>';
+            } else {
+                var productListItem =
+                    '<li class="list-group-item row product-row product-total" style= "background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;" data-id="' + product.clave + '" data-date="' + date + '" data-total="' + dataTotal + '" data-weighted="' + wasWeighted + '">' +
+                        '<div class="col-sm-1 product-quantity">' +
+                            '<input class="form-control" type="number" min="0" style= "color: ' + color + '; backround-color: ' + backgroundColor + '; border-color: #555555; height: 30px; margin-top: 3.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;"></input>' +
+                        '</div>' +
+                        '<div class="col-sm-1 product-info">' + product.unidad + '</div>' +
+                        '<div class="col-sm-5 product-info">' + product.descripcion + '</div>' +
+                        '<div class="col-sm-1 product-quantity" style="display: flex; align-items: center;">' +
+                            '<input class="form-control" type="number" min="0" style= "color: ' + color + '; backround-color: ' + backgroundColor + '; border-color: #555555; height: 30px; margin-top: 3.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px; width: 70px; padding-right: 0px;"></input>' +
+                            '<span style="margin-top: 4px; margin-left: 2px;"> KG </span>' +
+                        '</div>' +
+                        '<div id="localCost" class="col-sm-1 product-info">' + totalCost + '</div>' +
+                        '<div class="col-sm-2 product-notes-container">' +
+                            '<input class="form-control product-notes" type="input" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;" oninput="this.value = this.value.toUpperCase()" maxlength="10" placeholder="NOTAS" value="' + notesAndQuantity.n + '"> </input>' +
+                        '</div>' +
+                        '<button class="btn btn-default btn-sm col-sm-1 remove-button cross" type="button" style="background-color: ' + backgroundColor + '; border-color: ' + backgroundColor + ';">' +
+                            '<span class="glyphicon glyphicon-remove cross" style="color:grey; padding-top: 2.5px;"></span>' +
+                        '</button>' +
+                    '</li>';
+            }
 
             //add list element
             $('#dynamic-list').prepend(productListItem);
@@ -847,7 +1175,11 @@
             var outterQuantity = notesAndQuantity.uc;
             var inputQuantity = $('#dynamic-list').find('input').first();
             inputQuantity.val(notesAndQuantity.uc);
-            
+
+            if(wasWeighted) {
+                var weightQuantity = $('#dynamic-list').find('input').eq(1);
+                weightQuantity.val(totalWeight);
+            }
             
             //populate quantity and clean original (outter) input
             productCounter++;
@@ -856,35 +1188,73 @@
             //inputSearch sequence
             $('#dynamic-list').find('input').eq(1).focus();
 
+            //updates fields when quantity was changed or keyed up
             $('#dynamic-list').find('input').first().on('change', function (e) {
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
                 console.log("cambio el peso");
-                if(product.pesoN == undefined || product.pesoN == "") {
+                if(!wasWeighted) {
                     thisRow.data("total", (round($(this).val() * product.costo)));
                     thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
                 } else {
-                    thisRow.data("total", (round($(this).val() * (product.costo / product.pesoN))));
-                    thisRow.children().eq(3).text("$" + round($(this).val() * (product.costo / product.pesoN)));
+                    thisRow.children().eq(3).children().eq(0).val(round($(this).val() * (product.costo / product.pkilo)));
+                    thisRow.data("total", (round($(this).val() * product.costo)));
+                    thisRow.children().eq(4).text("$" + round($(this).val() * product.costo));
                 } 
                 updateTotal();
                 //updateWT();
-            })
+            });
 
-            //inputQuantity enter sequence (to notes)
             $('#dynamic-list').find('input').first().on('keyup', function (e) {
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
-                if(product.pesoN == undefined || product.pesoN == "") {
+                if(!wasWeighted) {
                     thisRow.data("total", (round($(this).val() * product.costo)));
                     thisRow.children().eq(3).text("$" + round($(this).val() * product.costo));
                 } else {
-                    thisRow.data("total", (round($(this).val() * (product.costo / product.pesoN))));
-                    thisRow.children().eq(3).text("$" + round($(this).val() * (product.costo / product.pesoN)));
+                    thisRow.children().eq(3).children().eq(0).val(round($(this).val() * (product.costo / product.pkilo)));
+                    thisRow.data("total", (round($(this).val() * product.costo)));
+                    thisRow.children().eq(4).text("$" + round($(this).val() * product.costo));
                 }
                 updateTotal();
                 updateWT();
                 if (e.keyCode == 13)
                     $(this).parent().nextAll().eq(3).children().focus();
             });
+
+            //updates fields when weight was changed or keyed up
+            if(wasWeighted) {
+                //weight box logic
+                $('#dynamic-list').find('input').eq(1).on('change', function (e) {
+                    let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
+                    console.log("cambio el peso");
+
+                    //thisRow.find('input').first().val(round($(this).val() * product.pkilo / product.costo));
+                    thisRow.data("total", (round($(this).val() * product.pkilo)));
+                    thisRow.children().eq(4).text("$" + round($(this).val() * product.pkilo));
+
+                    var localPrice = $(this).val() / (product.costo / product.pkilo);
+                    updateLocalPrice(localPrice, localID);
+
+                    updateTotal();
+                    //updateWT();
+                });
+
+                $('#dynamic-list').find('input').eq(1).on('keyup', function (e) {
+                    let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
+
+                    //thisRow.find('input').first().val(round($(this).val() * product.pkilo / product.costo));
+                    thisRow.data("total", (round($(this).val() * product.pkilo)));
+                    thisRow.children().eq(4).text("$" + round($(this).val() * product.pkilo));
+
+                    var localPrice = $(this).val() / (product.costo / product.pkilo);
+                    updateLocalPrice(localPrice, localID);
+
+                    updateTotal();
+                    updateWT();
+                    if (e.keyCode == 13) {
+                        $(this).parent().nextAll().eq(3).children().focus();
+                    }
+                });
+            }
 
             //inputNotes enter sequence with shortcuts (to outter quantity)
             var inputNotes = $('#dynamic-list').find('input').eq(1);
@@ -913,7 +1283,7 @@
             });
 
             //upload or update order item
-            uploadOrderProduct(date, outterQuantity, product.unidad, product.descripcion, "", product.costo, product.existencia, product.tipo, product.clave);
+            uploadOrderProduct(date, notesAndQuantity.uc, product.unidad, product.descripcion, "", product.costo, product.existencia, product.tipo, product.clave);
             inputQuantity.focusout(function () {updateOrderProductQuantity(date, inputQuantity.val())});
             inputNotes.focusout(function () {updateOrderProductNotes(date, inputNotes.val())});
 
@@ -950,6 +1320,13 @@
 				});
 			});
         }
+
+        //updates localPrice if weight was changed
+        function updateLocalPrice(localPrice, localID) {
+            var localRoute = "orders/code0/" + localID;
+            firebase.database().ref(localRoute + "/lp").set(localPrice);
+        }
+
 
         //calls clients to specific POS 
         function callClientsToReadyPOS() {
@@ -1458,7 +1835,6 @@
             form.elements[2].value = productToEdit.xpcode;
             form.elements[3].value = productToEdit.costo;
 
-            //aqui 00
             if(productToEdit.pesoN != undefined && productToEdit.pesoN != "")
                 form.elements[3].value = (productToEdit.costo / productToEdit.pesoN).toString();
             form.elements[4].value = productToEdit.pesoN;
@@ -1766,13 +2142,17 @@
                 dataTotal = round($("#quantityInput").val() * product.costo);
             }
 
+            /*
             if(product.pesoN != undefined && product.pesoN != "") {
                 totalCost = $("#quantityInput").val() * (product.costo / product.pesoN);
                 totalCost = "$" + Math.round(totalCost * 10) / 10;
                 dataTotal = round($("#quantityInput").val() * (product.costo / product.pesoN));
                 product.unidad = "KILO";
             }
+            */
         
+            console.log("agregado");
+            console.log(product);
             var productListItem =
                 '<li class="list-group-item row product-row product-total" style= "background-color: ' + backgroundColor + '; color: ' + color + '; border-color: #555555;" data-id="' + product.clave + '" data-date="' + date + '" data-total="' + dataTotal + '">' +
                     '<div class="col-sm-1 product-quantity">' +
@@ -1785,7 +2165,7 @@
                         '<input class="form-control product-notes" type="input" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;" oninput="this.value = this.value.toUpperCase()" maxlength="48" placeholder="NOTAS" value="AGREGADO"></input>' +
                     '</div>' +
                     '<button class="btn btn-default btn-sm col-sm-1 remove-button cross" type="button" style="background-color: ' + backgroundColor + '; border-color: ' + backgroundColor + ';">' +
-                        '<span class="glyphicon glyphicon-remove cross" style="color:grey; padding-top: 4.5px;"></span>' +
+                        '<span class="glyphicon glyphicon-remove cross" style="color:grey; padding-top: 2.5px;"></span>' +
                     '</button>' +
                 '</li>';
 
@@ -1902,7 +2282,12 @@
                         orderTypeUnit.push(productItem.eq(0).children().val());
                         orderTypeUnit.push(productItem.eq(1).text());
                         orderTypeUnit.push(productItem.eq(2).text());
-                        orderTypeUnit.push(productItem.eq(4).children().val());
+
+                        if(!$(this).data("weighted"))
+                            orderTypeUnit.push(productItem.eq(4).children().val());
+                        else
+                            orderTypeUnit.push(productItem.eq(5).children().val());
+
                         orderTypeUnit.push(JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0].tipo);
                         orderTypeUnit.push(JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0].xpcode);
                         orderTypeUnit.push(JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0].costo);
@@ -1910,6 +2295,8 @@
                         orderTypeSection.push(orderTypeUnit);
 
                         orderTypeUnit.push(JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0].categoria);
+
+                        orderTypeUnit.push($(this).data("weighted"));
 
                         //verificating quantity
                         if (orderTypeUnit[1] == "" || orderTypeUnit[1] == "0") {
@@ -2113,24 +2500,24 @@
 
                 //enhance quantity if necessary
                 if (quantityAndUnit.includes(".500"))
-                    quantityAndUnit = quantityAndUnit.replace(".500", ".500");
+                    quantityAndUnit = quantityAndUnit.replace(".500", ".5");
                 else if (quantityAndUnit.includes(".50"))
-                    quantityAndUnit = quantityAndUnit.replace(".50", ".500");
+                    quantityAndUnit = quantityAndUnit.replace(".50", ".5");
                 else if (quantityAndUnit.includes(".5"))
-                    quantityAndUnit = quantityAndUnit.replace(".5", ".500");
+                    quantityAndUnit = quantityAndUnit.replace(".5", ".5");
                 else if (quantityAndUnit.includes(".250"))
-                    quantityAndUnit = quantityAndUnit.replace(".250", ".250");
+                    quantityAndUnit = quantityAndUnit.replace(".250", ".25");
                 else if (quantityAndUnit.includes(".25"))
-                    quantityAndUnit = quantityAndUnit.replace(".25", ".250");
+                    quantityAndUnit = quantityAndUnit.replace(".25", ".25");
 
-                if (quantityAndUnit.slice(0, 4) == ".500")
+                if (quantityAndUnit.slice(0, 4) == ".5")
                     quantityAndUnit = "1/2" + shortenedUnits[order[i][2]];
-                else if (quantityAndUnit.slice(0, 4) == ".250")
+                else if (quantityAndUnit.slice(0, 4) == ".25")
                     quantityAndUnit = "1/4" + shortenedUnits[order[i][2]];
 
-                if (quantityAndUnit.slice(0, 5) == "0.500")
+                if (quantityAndUnit.slice(0, 5) == "0.5")
                     quantityAndUnit = "1/2" + shortenedUnits[order[i][2]];
-                else if (quantityAndUnit.slice(0, 5) == "0.250")
+                else if (quantityAndUnit.slice(0, 5) == "0.25")
                     quantityAndUnit = "1/4" + shortenedUnits[order[i][2]];
 
                 if(quantityAndUnit.charAt(0) == '.') {
@@ -2236,7 +2623,13 @@
 
                     doc.setFontSize(12.5);
                     //doc.setPage(pagesQuantity * 2 - 1);
-                    doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]));
+
+                    if(!product[0].pkilo) {
+                        doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]));
+                    } else {
+                        //AQUIIIO
+                        doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]) + "-" + parseFloat((order[i][1] * product[0].costo / product[0].pkilo).toFixed(2)) + "KG");
+                    }
                     //doc.setPage(pagesQuantity * 2);
                     //doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]));
                 } else {
@@ -2251,7 +2644,11 @@
 
                     doc.setFontSize(12.5);
                     //doc.setPage(pagesQuantity * 2 - 1);
-                    doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]));
+                    if(!product[0].pkilo) {
+                        doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]));
+                    } else {
+                        doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]) + "-" + parseFloat((order[i][1] * product[0].costo / product[0].pkilo).toFixed(2)) + "KG");
+                    }
                     //doc.setPage(pagesQuantity * 2);
                     //doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight), replaceAEIOUN(order[i][3]));
                 }

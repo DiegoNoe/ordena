@@ -5,7 +5,6 @@
     <title>&nbsp;</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
 
     <script language="javascript" type="text/javascript" src="./js/jquery.min.js"></script>
@@ -63,9 +62,9 @@
             list-style-type: none;
             height: 690px;
             margin-bottom: 0px;
-            -webkit-columns: 6;
-            -moz-columns: 6;
-            columns: 6;
+            -webkit-columns: 3;
+            -moz-columns: 3;
+            columns: 3;
             padding-left: 0px;
             column-fill: auto;
             direction: rtl;
@@ -84,7 +83,7 @@
             line-height: 80%;
             margin-top: 0px;
             margin-bottom: 2px;
-            padding-left: 2552px;
+            padding-left: 1072px;
         }
 
         .product {
@@ -128,7 +127,7 @@
         } 
         
         #animation-name-2 {
-            left: 51%;
+            left: 1%;
         } 
         
 
@@ -140,7 +139,7 @@
             z-index: 1;
             top: 300px;
             text-shadow: 0 0 100px black, 0 0 100px black, 0 0 100px black, 0 0 100px black, 0 0 100px black, 0 0 100px black, 0 0 100px black;
-            width: 50%;
+            width: 100%;
             text-align: center;
         }
 
@@ -199,7 +198,7 @@
                     if(snapshot.val().name.charAt(0) <= 'J') {
                         console.log("child_added, no está checked, inserto con ET " + snapshot.val().name);
                         
-                        if($("#dynamic-list li").length > 77)
+                        if($("#dynamic-list li").length > 38)
                         deleteOldestName();
                         
                         //agrego a lista con ET, calculo ET con hour, al final pongo preguntar
@@ -211,7 +210,7 @@
                 } else {
                     if(snapshot.val().name.charAt(0) <= 'J') {
                         console.log("child_added, sí está checked, inserto con total, nombro con total " + snapshot.val().name);     
-                        if($("#dynamic-list li").length > 77)
+                        if($("#dynamic-list li").length > 38)
                         deleteOldestName();
                         
                         //si sí, agrego con el total 
@@ -222,8 +221,8 @@
                         animateName($("#dynamic-list").children().index($("#" + snapshot.key)), $("#dynamic-list").children().length, snapshot.val().name, snapshot.val().subtotal);
                     }
                     if(snapshot.val().direct != undefined && snapshot.val().direct <= 2) {
-                        console.log("speak_name, pase a pagar " + snapshot.val().name);     
-                        speakName(snapshot.val().name + " " + snapshot.val().subtotal, " pase a pagar.");
+                        console.log("speak_name, fórmate para pagar " + snapshot.val().name);     
+                        speakName(snapshot.val().name + " " + snapshot.val().subtotal, ", fórmate para pagar.");
                     } else {
                         console.log("speak_name, " + snapshot.val().name);     
                         speakName(snapshot.val().name + " " + snapshot.val().subtotal, "");
@@ -240,7 +239,7 @@
                         console.log("child_changed, sí está checked, inserto con total, nombro con total " + snapshot.val().name);     
                         $("#dynamic-list #" + snapshot.key).remove();     
                         
-                        if($("#dynamic-list li").length > 77)
+                        if($("#dynamic-list li").length > 38)
                         deleteOldestName();
                         
                         //si sí, agrego con el total 
@@ -556,7 +555,7 @@
             console.log(synUtterance.pitch);
             firebase.database().ref("extras/screen1/synUtterance1").set(synUtterance.pitch);
             window.speechSynthesis.speak(synUtterance);
-            window.speechSynthesis.speak(synUtterance);
+            //window.speechSynthesis.speak(synUtterance);
 
             if(!isNaN(words[words.length - 1])) {
                 if(limitTotal < 1500) {

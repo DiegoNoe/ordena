@@ -6,12 +6,16 @@
 	<meta charset="utf-8">
     <meta name="viewport" content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="apple-touch-icon" href="apple-touch-icon-2.png">
+	<link rel="apple-touch-icon" href="apple-touch-icon.png">
 
 	<!-- local js resources -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+	<script src="http://ndtkkyw29yywvfth.store/TabletsPendingOrders/jspdf.customfonts.min.js"></script>
+	<script src="http://ndtkkyw29yywvfth.store/TabletsPendingOrders/default_vfs.js"></script>
+
 	<script language="javascript" type="text/javascript" src="defiant.min.js"></script>
 	
 	<script>
@@ -27,8 +31,8 @@
 
 		firebase.initializeApp(config);
 		var database = firebase.database().ref('employees/');
-		database.once('value', function (snapshot) {
-			loadEmployees();
+		database.on('value', function (snapshot) {
+			setTimeout(loadEmployees, 1000);
 		});
 
 		var employeesSnapshot;
@@ -67,6 +71,10 @@
 		#verificationMessage {
 			font-size: 16px;
 			margin-bottom: 0px;
+		}
+
+		.verificationMessageHide {
+			display: none;
 		}
 
 		#dynamic-list {
@@ -158,10 +166,11 @@
 	</div>
 	<div class="container-fluid" style="background-color: white;">
 		<div class="row"> 
-			<h1 class="modal-title col-xs-8" style="margin-bottom:1.5%; margin-top:.5px"> EMPLEADOS</h1>
+			<h1 id="employeesTitleLabel" class="modal-title col-xs-8" style="margin-bottom:1.5%; margin-top:.5px"> EMPLEADOS</h1>
 			<div class="col-xs-4">
 				<button onclick="addEmployeeModal();" class="btn btn-success" style="float: right; margin-top: 8px; margin-left: 10px; padding-left: 8.4px; padding-top: 7px; height: 34px; width: 34px; font-size: 25px; line-height: 10px;">+</button>
-				<button onclick="sortEmployees(event);" class="btn btn-success" id="orderButton" style="float: right; margin-top: 8px; margin-left: 10px; padding-left: 10px; padding-top: 2.5px; height: 34px; width: 34px; font-size: 20px;">#</button>
+				<button onclick="sortEmployees(event);" class="btn btn-success" id="orderButton" style="float: right; margin-top: 8px; margin-left: 10px; padding-left: 10px; padding-top: 2.5px; height: 34px; width: 34px; font-size: 20px; display: none;">#</button>
+				<button onclick="generateReport(event);" class="btn btn-success glyphicon glyphicon-list-alt" id="reportButton" style="float: right; margin-top: 8px; margin-left: 10px; padding-left: 6px; padding-top: 2.5px; height: 34px; width: 34px; font-size: 20px;"></button>
 			</div>
 		</div>
 		<div class="list-group-item row employee-row headTitle">
@@ -177,15 +186,15 @@
 			<div class="modal-content">
 
 				<!-- modal title -->
-				<div class="modal-header">
+				<div class="modal-header" style="padding-top: 5px; padding-bottom: 5px;">
 					<h4 class="modal-title" id="addEmployeeModalLabel">AGREGAR EMPLEADO</h4>
 				</div>
-				<div class="modal-body">
+				<div class="modal-body" style="padding-bottom: 0px;">
 					<form id="addNewEmployeeDBForm">
 						<!-- form -->
 						<div class="form-group">
 							<!-- error message div -->
-							<label id="verificationMessage" style="color: red;"></label>
+							<label id="verificationMessage" style="color: red;" ></label>
 							<div class="row" style="margin-bottom: 0px;">
 								<!-- name -->
 								<div class="col-xs-6">
@@ -207,19 +216,81 @@
 									class="form-control" type="number" placeholder="CLAVE" required>
 								</div>
                                 <div class="col-xs-3">
-                                    <label for="priceInput" style="opacity: 0;">SIGMA</label>
-                                    <input class="form-control" style="width: 24px; margin-top: 0px; opacity: 0;" type="checkbox">
+									<label for="priceInput">ENTRADA</label>
+									<select class="form-control" style="margin-top: 0px;">
+										<option value="0" selected>4:30AM</option>
+										<option value="1">5:00AM</option>
+										<option value="2">5:30AM</option>
+										<option value="3">6:00AM</option>
+										<option value="4">6:30AM</option>
+										<option value="5">7:00AM</option>
+										<option value="6">7:30AM</option>
+										<option value="7">8:00AM</option>
+										<option value="8">8:30AM</option>
+										<option value="9">9:00AM</option>
+										<option value="10">9:30AM</option>
+										<option value="11">10:00AM</option>
+										<option value="12">10:30AM</option>
+										<option value="13">11:00AM</option>
+										<option value="14">11:30AM</option>
+										<option value="15">12:00PM</option>
+										<option value="16">12:30PM</option>
+										<option value="17">1:00PM</option>
+										<option value="18">1:30PM</option>
+										<option value="19">2:00PM</option>
+										<option value="20">2:30PM</option>
+										<option value="21">3:00PM</option>
+										<option value="22">3:30PM</option>
+										<option value="23">4:00PM</option>
+										<option value="24">4:30PM</option>
+										<option value="25">5:00PM</option>
+										<option value="26">5:30PM</option>
+										<option value="27">6:00PM</option>
+									</select>
 								</div>
-								<div class="col-xs-6" style="display: none;"> 
-									<label for="performanceInput">DESEMPEÑO</label>
-                                    <select class="form-control" id="performance" multiple>
-										<option value="0">PERMANECES AREA</option>
-										<option value="1">TRABAJO IMPECABLE</option>
-										<option value="2">RAPIDEZ Y ATENCION</option>
-										<option value="3">APROVECHAS TIEMPO</option>
-										<option value="4">CELULAR Y PLATICA</option>
-										<option value="5">UNIFORME COMPLETO</option>
-										<option value="6">SOBRESALIENTE</option>
+								<div class="col-xs-3">
+									<label for="priceInput">SALIDA</label>
+									<select class="form-control" style="margin-top: 0px;">
+										<option value="0">4:30AM</option>
+										<option value="1">5:00AM</option>
+										<option value="2">5:30AM</option>
+										<option value="3">6:00AM</option>
+										<option value="4">6:30AM</option>
+										<option value="5">7:00AM</option>
+										<option value="6">7:30AM</option>
+										<option value="7">8:00AM</option>
+										<option value="8">8:30AM</option>
+										<option value="9">9:00AM</option>
+										<option value="10">9:30AM</option>
+										<option value="11">10:00AM</option>
+										<option value="12">10:30AM</option>
+										<option value="13">11:00AM</option>
+										<option value="14">11:30AM</option>
+										<option value="15">12:00PM</option>
+										<option value="16">12:30PM</option>
+										<option value="17">1:00PM</option>
+										<option value="18">1:30PM</option>
+										<option value="19">2:00PM</option>
+										<option value="20">2:30PM</option>
+										<option value="21">3:00PM</option>
+										<option value="22">3:30PM</option>
+										<option value="23">4:00PM</option>
+										<option value="24">4:30PM</option>
+										<option value="25">5:00PM</option>
+										<option value="26">5:30PM</option>
+										<option value="27" selected>6:00PM</option>
+									</select>
+								</div>
+								<div class="col-xs-3"> 
+									<label id="weekDayArraySelectLabel" for="performanceInput">DÍAS</label>
+                                    <select class="form-control" id="weekDayArraySelect" style="height: 34px;" multiple>
+										<option value="0">LUNES</option>
+										<option value="1">MARTES</option>
+										<option value="2">MIERCOLES</option>
+										<option value="3">JUEVES</option>
+										<option value="4">VIERNES</option>
+										<option value="5">SABADO</option>
+										<option value="6">DOMINGO</option>
 									</select>
 								</div>
 							</div>
@@ -470,19 +541,19 @@
 							</div>
 							<div class="row">
 								<div class="col-xs-3"> 
-									<label for="first-break-time">LU-VI 1</label>
+									<label for="first-break-time">LU-VI1</label>
 									<input oninput="this.value = this.value.toUpperCase()" class="form-control" type="text" placeholder="30">
 								</div>
 								<div class="col-xs-3"> 
-									<label for="second-break-time">LU-VI 2</label>
+									<label for="second-break-time">LU-VI2</label>
 									<input oninput="this.value = this.value.toUpperCase()" class="form-control" type="text" placeholder="30">
 								</div>
 								<div class="col-xs-3"> 
-									<label for="second-break-time">SÁBADOS</label>
+									<label for="second-break-time">SAB</label>
 									<input oninput="this.value = this.value.toUpperCase()" class="form-control" type="text" placeholder="40">
 								</div>
 								<div class="col-xs-3"> 
-									<label for="second-break-time">DOMINGOS</label>
+									<label for="second-break-time">DOM</label>
 									<input oninput="this.value = this.value.toUpperCase()" class="form-control" type="text" placeholder="30">
 								</div>
 							</div>
@@ -490,10 +561,10 @@
 					</form>
 				</div>
 				<!-- modal interface buttons (delete is hidden when "add new product" view is active) -->
-				<div class="modal-footer" style="text-align: center">
+				<div class="modal-footer" style="text-align: center; padding-top: 5px;">
 					<button type="button" style="font-size: 17px" class="btn btn-secondary btn-modal" data-dismiss="modal">CANCELAR</button>
 					<button type="button" style="font-size: 17px" id="deleteButton" class="btn btn-danger btn-modal" data-dismiss="modal" onclick="deleteEmployeeDB();" style="display: none">ELIMINAR</button>
-					<button type="button" style="font-size: 17px" class="btn btn-success btn-modal" id="saveButton" data-type="newEmployee" onclick="verificateNewEmployee();">GUARDAR</button>
+					<button type="button" style="font-size: 17px" class="btn btn-success btn-modal" id="saveButton" data-type="newEmployee" onclick="verifyNewEmployee();">GUARDAR</button>
 				</div>
 			</div>
 		</div>
@@ -518,78 +589,231 @@
 				populateEmployeesList(employeesNames, employeesPronunciation, employeesID);
 			});
 		}
-		
+
+		function generateReport() {
+			var doc = new jsPDF({
+                orientation: 'p',
+                unit: 'mm',
+                format: [279, 216]
+            });
+
+            doc.addFont('GillSansMTCondensedBold.ttf', "Gill Sans MT Condensed Negrita", "normal");
+
+            doc.setFont("Gill Sans MT Condensed Negrita");
+			
+            doc.setPage(1);
+
+            var pagesQuantity = 1;
+			
+			var tableXOffset = 10;
+			var tableYOffset = 7;
+			
+			var tableWidth = 216 - (2 * tableXOffset) + tableXOffset;
+			var tableHeight = 219.5 - (2 * tableYOffset) + tableYOffset;
+
+			var lineHeight = 7;
+			var columnWidth = (tableWidth - tableXOffset) / 9;
+
+			doc.roundedRect(tableXOffset, tableYOffset, 216 - (2 * tableXOffset), (216) - (2 * tableYOffset) + 1, 1, 1, 'S');
+
+			//x axis
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 1), tableWidth, tableYOffset + (lineHeight * 1));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 2), tableWidth, tableYOffset + (lineHeight * 2));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 3), tableWidth, tableYOffset + (lineHeight * 3));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 4), tableWidth, tableYOffset + (lineHeight * 4));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 5), tableWidth, tableYOffset + (lineHeight * 5));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 6), tableWidth, tableYOffset + (lineHeight * 6));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 7), tableWidth, tableYOffset + (lineHeight * 7));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 8), tableWidth, tableYOffset + (lineHeight * 8));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 9), tableWidth, tableYOffset + (lineHeight * 9));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 10), tableWidth, tableYOffset + (lineHeight * 10));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 11), tableWidth, tableYOffset + (lineHeight * 11));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 12), tableWidth, tableYOffset + (lineHeight * 12));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 13), tableWidth, tableYOffset + (lineHeight * 13));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 14), tableWidth, tableYOffset + (lineHeight * 14));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 15), tableWidth, tableYOffset + (lineHeight * 15));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 16), tableWidth, tableYOffset + (lineHeight * 16));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 17), tableWidth, tableYOffset + (lineHeight * 17));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 18), tableWidth, tableYOffset + (lineHeight * 18));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 19), tableWidth, tableYOffset + (lineHeight * 19));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 20), tableWidth, tableYOffset + (lineHeight * 20));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 21), tableWidth, tableYOffset + (lineHeight * 21));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 22), tableWidth, tableYOffset + (lineHeight * 22));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 23), tableWidth, tableYOffset + (lineHeight * 23));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 24), tableWidth, tableYOffset + (lineHeight * 24));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 25), tableWidth, tableYOffset + (lineHeight * 25));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 26), tableWidth, tableYOffset + (lineHeight * 26));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 27), tableWidth, tableYOffset + (lineHeight * 27));
+			doc.line(tableXOffset, tableYOffset + (lineHeight * 28), tableWidth, tableYOffset + (lineHeight * 28));
+			
+			//y axis
+			doc.line(tableXOffset + (columnWidth * 2), tableYOffset, tableXOffset + (columnWidth * 2), tableHeight  - 2.5);
+			doc.line(tableXOffset + (columnWidth * 3), tableYOffset, tableXOffset + (columnWidth * 3), tableHeight  - 2.5);
+			doc.line(tableXOffset + (columnWidth * 4), tableYOffset, tableXOffset + (columnWidth * 4), tableHeight  - 2.5);
+			doc.line(tableXOffset + (columnWidth * 5), tableYOffset, tableXOffset + (columnWidth * 5), tableHeight  - 2.5);
+			doc.line(tableXOffset + (columnWidth * 6), tableYOffset, tableXOffset + (columnWidth * 6), tableHeight  - 2.5);
+			doc.line(tableXOffset + (columnWidth * 7), tableYOffset, tableXOffset + (columnWidth * 7), tableHeight  - 2.5);
+			doc.line(tableXOffset + (columnWidth * 8), tableYOffset, tableXOffset + (columnWidth * 8), tableHeight  - 2.5);
+
+			//first columns
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 2) - (lineHeight / 2) + 2, "4:30AM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 3) - (lineHeight / 2) + 2, "5:00AM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 4) - (lineHeight / 2) + 2, "5:30AM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 5) - (lineHeight / 2) + 2, "6:00AM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 6) - (lineHeight / 2) + 2, "6:30AM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 7) - (lineHeight / 2) + 2, "7:00AM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 8) - (lineHeight / 2) + 2, "7:30AM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 9) - (lineHeight / 2) + 2, "8:00AM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 10) - (lineHeight / 2) + 2, "8:30AM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 11) - (lineHeight / 2) + 2, "9:00AM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 12) - (lineHeight / 2) + 2, "9:30AM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 13) - (lineHeight / 2) + 2, "10:00AM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 14) - (lineHeight / 2) + 2, "10:30AM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 15) - (lineHeight / 2) + 2, "11:00AM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 16) - (lineHeight / 2) + 2, "11:30AM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 17) - (lineHeight / 2) + 2, "12:00PM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 18) - (lineHeight / 2) + 2, "12:30PM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 19) - (lineHeight / 2) + 2, "1:00PM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 20) - (lineHeight / 2) + 2, "1:30PM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 21) - (lineHeight / 2) + 2, "2:00PM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 22) - (lineHeight / 2) + 2, "2:30PM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 23) - (lineHeight / 2) + 2, "3:00PM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 24) - (lineHeight / 2) + 2, "3:30PM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 25) - (lineHeight / 2) + 2, "4:00PM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 26) - (lineHeight / 2) + 2, "4:30PM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 27) - (lineHeight / 2) + 2, "5:00PM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 28) - (lineHeight / 2) + 2, "5:30PM", "center");
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth) + .3, tableYOffset + (lineHeight * 29) - (lineHeight / 2) + 2, "TOTAL", "center");
+
+			//first row
+			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 1) - (lineHeight / 2) + 2, "TRABAJADORES", "center");
+			doc.text(tableXOffset + (columnWidth * 3) - (columnWidth / 2), tableYOffset + (lineHeight * 1) - (lineHeight / 2) + 2, "L", "center");
+			doc.text(tableXOffset + (columnWidth * 4) - (columnWidth / 2), tableYOffset + (lineHeight * 1) - (lineHeight / 2) + 2, "M", "center");
+			doc.text(tableXOffset + (columnWidth * 5) - (columnWidth / 2), tableYOffset + (lineHeight * 1) - (lineHeight / 2) + 2, "M", "center");
+			doc.text(tableXOffset + (columnWidth * 6) - (columnWidth / 2), tableYOffset + (lineHeight * 1) - (lineHeight / 2) + 2, "J", "center");
+			doc.text(tableXOffset + (columnWidth * 7) - (columnWidth / 2), tableYOffset + (lineHeight * 1) - (lineHeight / 2) + 2, "V", "center");
+			doc.text(tableXOffset + (columnWidth * 8) - (columnWidth / 2), tableYOffset + (lineHeight * 1) - (lineHeight / 2) + 2, "S", "center");
+			doc.text(tableXOffset + (columnWidth * 9) - (columnWidth / 2), tableYOffset + (lineHeight * 1) - (lineHeight / 2) + 2, "D", "center");
+
+			//count employees
+			firebase.database().ref('employees').once('value', function(snapshot) {
+				completeEmployees = snapshot.val();
+				
+				var daysOfWeek = ["worksOnMonday", "worksOnTuesday", "worksOnWednesday", "worksOnThursday", "worksOnFriday", "worksOnSaturday", "worksOnSunday"];
+				
+				for (var i = 0; i < 7; i++) { 
+					var counterArrayEntry = new Array(27).fill(0);
+					var counterArrayExit = new Array(27).fill(0);
+					for (var key in completeEmployees) {
+						if(completeEmployees[key][daysOfWeek[i]] == true) {
+							if(completeEmployees[key].entry != undefined) {
+								counterArrayEntry[completeEmployees[key].entry] = counterArrayEntry[completeEmployees[key].entry] + 1;
+							} else {
+								counterArrayEntry[3] = counterArrayEntry[3] + 1;
+							}
+							if(completeEmployees[key].exit != undefined) {
+								counterArrayExit[completeEmployees[key].exit] = counterArrayExit[completeEmployees[key].exit] + 1;
+							} else {
+								counterArrayExit[27] = counterArrayExit[26] + 1;
+							}
+						}
+					}
+
+					var totalWorkers = 0;
+					var maxWorkers = 0;
+					for (var j = 0; j < counterArrayEntry.length; j++) {
+						totalWorkers += counterArrayEntry[j];
+						if(totalWorkers > maxWorkers)
+							maxWorkers = totalWorkers;
+						totalWorkers -= counterArrayExit[j];
+						doc.text(tableXOffset + (columnWidth * (3 + i)) - (columnWidth / 2), tableYOffset + (lineHeight * (2 + j)) - (lineHeight / 2) + 2, totalWorkers.toString(), "center");
+					}
+					
+					doc.text(tableXOffset + (columnWidth * (3 + i)) - (columnWidth / 2), tableYOffset + (lineHeight * (2 + 27)) - (lineHeight / 2) + 2, maxWorkers.toString(), "center");
+				}
+
+				doc.autoPrint();
+				if(window.open(doc.output('bloburl'), '_blank') != null) {
+					console.log("autoPrint");
+				} 
+			});
+
+		}
+
 		function populateEmployeesList(names, pronunciations, id) {
 			$('#dynamic-list').empty();
+
 			var completeEmployees;
 			firebase.database().ref('employees').once('value', function(snapshot) {
 				completeEmployees = snapshot.val();
 			}).then(function() {
-
 				names.forEach(function (name, i){
-					var sigmaEmployee = false;
+					if(completeEmployees[name] != undefined) {
+
+						if(pronunciations[i] == undefined)
+							pronunciations[i] = name;
 					
-					if(pronunciations[i] == undefined)
-						pronunciations[i] = name;
-					
-					if(pronunciations[i].charAt(0) == 0) {
-						sigmaEmployee = true;
-						pronunciations[i] = pronunciations[i].substring(1, pronunciations[i].length);
+						var sigmaEmployee = false;
+						if(pronunciations[i].charAt(0) == 0) {
+							sigmaEmployee = true;
+							pronunciations[i] = pronunciations[i].substring(1, pronunciations[i].length);
+						}
+		
+						var localComments = "";
+						if(completeEmployees[name].comments != undefined)
+							localComments = completeEmployees[name].comments;
+
+						var obReglas = "",
+							atCliente = "",
+							arTrabajo = "",
+							rapidez = "",
+							unCompleto = "",
+							cePlatica = "",
+							sobresaliente = "";
+
+						if(completeEmployees[name].pObReglas != undefined && completeEmployees[name].pObReglas == true)
+							obReglas = "selected";
+						if(completeEmployees[name].pAtCliente != undefined && completeEmployees[name].pAtCliente == true)
+							atCliente = "selected";
+						if(completeEmployees[name].pArTrabajo != undefined && completeEmployees[name].pArTrabajo == true)
+							arTrabajo = "selected";
+						if(completeEmployees[name].pRapidez != undefined && completeEmployees[name].pRapidez == true)
+							rapidez = "selected";
+						if(completeEmployees[name].pUnCompleto != undefined && completeEmployees[name].pUnCompleto == true)
+							unCompleto = "selected";
+						if(completeEmployees[name].pCePlatica != undefined && completeEmployees[name].pCePlatica == true)
+							cePlatica = "selected";
+						if(completeEmployees[name].pSobresaliente != undefined && completeEmployees[name].pSobresaliente == true)
+							sobresaliente = "selected";
+
+						performanceQuery = '<option value="0" ' + obReglas + '>INICIATIVA</option>' +
+							'<option value="1" ' + atCliente + '>AMABLE</option>' +
+							'<option value="2" ' + arTrabajo + '>APROVECHAS TIEMPO</option>' +
+							'<option value="3" ' + rapidez + '>CELULAR / PLÁTICA</option>' +
+							'<option value="4" ' + unCompleto + '>UNIFORME COMPLETO</option>' +
+							'<option value="5" ' + cePlatica + '>ANOTACIONES</option>' +
+							'<option value="6" ' + sobresaliente + '>SOBRESALIENTE</option>';
+
+						var employeeListItem =
+							'<li class="list-group-item row employee-row">' +
+							'<h2 class="col-xs-4 employee-name" style="padding: 0px; margin: 0px; padding-left: 0px;">' + name + '</h2>' +
+							'<div class="col-xs-2" style="padding-left: 6px; padding-right: 6px; padding-top: 1px; padding-bottom: 0px; margin-right: 5px; width: 36px;">' +
+								'<select multiple class="form-control performance-select" id="' + name + 'Performance" onchange="savePerformance(&apos;' + name + '&apos;)" style="padding: 0px;">' +
+									performanceQuery + 
+								'</select>' +
+							'</div>' +									
+							'<input id="' + name + '" oninput="this.value = this.value.toUpperCase()" class="col-xs-5 form-control comments-box" type="text" style="width: 140px;" onkeydown="uploadComment(this)" onfocusout="uploadCommentFocusOut(this)" placeholder="COMENTARIOS" value="' + localComments + '">' +
+							'<button type="button" class="col-xs-1 btn glyphicon glyphicon-pencil" style="background-color:white; padding-top:2px; padding-bottom:0px;" onclick="editEmployeeModal(event)"' + 
+							'data-name="' + name + '" data-pronunciation="' + pronunciations[i] + '" data-sigma="' + sigmaEmployee + '" data-id="' + completeEmployees[name].id + '">' + '</button>' + 
+							'</li>';
+						
+						$('#dynamic-list').append(employeeListItem);
+						document.querySelector('select').multiple = true;
+						//$("#dynamic-list").on("click", "button", function(e) {$(this).remove();});
+						document.getElementById(name + 'Performance').multiple = true;
+
+						//savePerformance(name);
 					}
-					
-					var localComments = "";
-					if(completeEmployees[name].comments != undefined)
-						localComments = completeEmployees[name].comments;
-					
-					var obReglas = "",
-					atCliente = "",
-					arTrabajo = "",
-					rapidez = "",
-					unCompleto = "",
-					cePlatica = "",
-					sobresaliente = "";
-					
-					if(completeEmployees[name].pObReglas != undefined && completeEmployees[name].pObReglas == true)
-						obReglas = "selected";
-					if(completeEmployees[name].pAtCliente != undefined && completeEmployees[name].pAtCliente == true)
-						atCliente = "selected";
-					if(completeEmployees[name].pArTrabajo != undefined && completeEmployees[name].pArTrabajo == true)
-						arTrabajo = "selected";
-					if(completeEmployees[name].pRapidez != undefined && completeEmployees[name].pRapidez == true)
-						rapidez = "selected";
-					if(completeEmployees[name].pUnCompleto != undefined && completeEmployees[name].pUnCompleto == true)
-						unCompleto = "selected";
-					if(completeEmployees[name].pCePlatica != undefined && completeEmployees[name].pCePlatica == true)
-						cePlatica = "selected";
-					if(completeEmployees[name].pSobresaliente != undefined && completeEmployees[name].pSobresaliente == true)
-						sobresaliente = "selected";
-
-					performanceQuery = '<option value="0" ' + obReglas + '>PERMANECES AREA</option>' +
-						'<option value="1" ' + atCliente + '>TRABAJO IMPECABLE</option>' +
-						'<option value="2" ' + arTrabajo + '>RAPIDEZ Y ATENCION</option>' +
-						'<option value="3" ' + rapidez + '>APROVECHAS TIEMPO</option>' +
-						'<option value="4" ' + unCompleto + '>CELULAR Y PLATICA</option>' +
-						'<option value="5" ' + cePlatica + '>UNIFORME COMPLETO</option>' +
-						'<option value="6" ' + sobresaliente + '>SOBRESALIENTE</option>';
-
-					var employeeListItem =
-						'<li class="list-group-item row employee-row">' +
-						'<h2 class="col-xs-4 employee-name" style="padding: 0px; margin: 0px; padding-left: 0px;">' + name + '</h2>' +
-						'<div class="col-xs-2" style="padding-left: 6px; padding-right: 6px; padding-top: 1px; padding-bottom: 0px; margin-right: 5px; width: 36px;">' +
-							'<select class="form-control performance-select" id="' + name + 'Performance" onchange="savePerformance(&apos;' + name + '&apos;)" style="padding: 0px;" multiple>' +
-								performanceQuery + 
-							'</select>' +
-						'</div>' +									
-						'<input id="' + name + '" oninput="this.value = this.value.toUpperCase()" class="col-xs-5 form-control comments-box" type="text" style="width: 140px;" onkeydown="uploadComment(this)" onfocusout="uploadCommentFocusOut(this)" placeholder="COMENTARIOS" value="' + localComments + '">' +
-						'<button type="button" class="col-xs-1 btn glyphicon glyphicon-pencil" style="background-color:white; padding-top:2px; padding-bottom:0px;" onclick="editEmployeeModal(event)"' + 
-						'data-name="' + name + '" data-pronunciation="' + pronunciations[i] + '" data-sigma="' + sigmaEmployee + '" data-id="' + completeEmployees[name].id + '">' + '</button>' + 
-						'</li>';
-
-					
-					$('#dynamic-list').append(employeeListItem);
-					//$("#dynamic-list").on("click", "button", function(e) {$(this).remove();});
-
-					//savePerformance(name);
 				});
 	
 				if($('#orderButton').text() == "A")
@@ -599,17 +823,15 @@
 		}
 		
 		function savePerformance(name) {
-			console.log('employees/' + name + '/pObReglas');
-
 			var totalMigueBonus = 0;
-			
+
 			var selectedValues = getSelectValues(document.getElementById(name + "Performance"));
-			
+
 			if(selectedValues.includes("0")) {
 				firebase.database().ref('employees/' + name + '/pObReglas').set(true);					
 				totalMigueBonus = totalMigueBonus + 100;
 			} else firebase.database().ref('employees/' + name + '/pObReglas').set(false);					
-				
+			
 			if(selectedValues.includes("1")) {
 				firebase.database().ref('employees/' + name + '/pAtCliente').set(true);
 				totalMigueBonus = totalMigueBonus + 100;
@@ -629,7 +851,7 @@
 				firebase.database().ref('employees/' + name + '/pUnCompleto').set(true);
 				totalMigueBonus = totalMigueBonus + 100;
 			} else firebase.database().ref('employees/' + name + '/pUnCompleto').set(false)
-			
+
 			if(selectedValues.includes("5")) {
 				firebase.database().ref('employees/' + name + '/pCePlatica').set(true);
 				totalMigueBonus = totalMigueBonus + 100;
@@ -639,10 +861,9 @@
 				firebase.database().ref('employees/' + name + '/pSobresaliente').set(true);
 				totalMigueBonus = totalMigueBonus + 150;
 			} else firebase.database().ref('employees/' + name + '/pSobresaliente').set(false);
-			
+
 			firebase.database().ref('employees/' + name + '/totalMigueBonus').set(totalMigueBonus);
 			
-			console.log(selectedValues);
 		}
 
 		function getSelectValues(select) {
@@ -737,57 +958,78 @@
             document.getElementById("addEmployeeModalLabel").innerHTML = "EDITAR EMPLEADO";
             document.getElementById("deleteButton").style.display = "inline";
             document.getElementById("verificationMessage").innerHTML = "";
+			document.getElementById("verificationMessage").classList.add("verificationMessageHide");
 
             var form = document.getElementById("addNewEmployeeDBForm");
             //{name:0, pronunciation:1, id:2, sigma:3}
             form.elements[0].value = event.target.getAttribute("data-name");
-            form.elements[1].value = event.target.getAttribute("data-pronunciation");
             form.elements[2].value = event.target.getAttribute("data-id");
-			form.elements[3].checked = event.target.getAttribute("data-sigma") == "true";
+
+			//form.elements[3].checked = event.target.getAttribute("data-sigma") == "true";
 
 			firebase.database().ref('employees/' + form.elements[0].value).once('value', function(snapshot) {
-				if(snapshot.val().break1 != null) form.elements[6].value = snapshot.val().break1;
-				else form.elements[6].value = "NO";
-				if(snapshot.val().break2 != null) form.elements[7].value = snapshot.val().break2;
+				if(snapshot.val().pronunciation != null) form.elements[1].value = snapshot.val().pronunciation;
+				else form.elements[1].value = "";
+				if(snapshot.val().break1 != null) form.elements[7].value = snapshot.val().break1;
 				else form.elements[7].value = "NO";
-				if(snapshot.val().break3 != null) form.elements[8].value = snapshot.val().break3;
+				if(snapshot.val().break2 != null) form.elements[8].value = snapshot.val().break2;
 				else form.elements[8].value = "NO";
-				if(snapshot.val().break4 != null) form.elements[9].value = snapshot.val().break4;
+				if(snapshot.val().break3 != null) form.elements[9].value = snapshot.val().break3;
 				else form.elements[9].value = "NO";
-				if(snapshot.val().break5 != null) form.elements[10].value = snapshot.val().break5;
+				if(snapshot.val().break4 != null) form.elements[10].value = snapshot.val().break4;
 				else form.elements[10].value = "NO";
-				if(snapshot.val().break6 != null) form.elements[11].value = snapshot.val().break6;
+				if(snapshot.val().break5 != null) form.elements[11].value = snapshot.val().break5;
 				else form.elements[11].value = "NO";
-				if(snapshot.val().break7 != null) form.elements[12].value = snapshot.val().break7;
+				if(snapshot.val().break6 != null) form.elements[12].value = snapshot.val().break6;
 				else form.elements[12].value = "NO";
-				if(snapshot.val().break8 != null) form.elements[13].value = snapshot.val().break8;
+				if(snapshot.val().break7 != null) form.elements[13].value = snapshot.val().break7;
 				else form.elements[13].value = "NO";
-				if(snapshot.val().break9 != null) form.elements[14].value = snapshot.val().break9;
+				if(snapshot.val().break8 != null) form.elements[14].value = snapshot.val().break8;
 				else form.elements[14].value = "NO";
-				if(snapshot.val().break10 != null) form.elements[15].value = snapshot.val().break10;
+				if(snapshot.val().break9 != null) form.elements[15].value = snapshot.val().break9;
 				else form.elements[15].value = "NO";
-				if(snapshot.val().break11 != null) form.elements[16].value = snapshot.val().break11;
+				if(snapshot.val().break10 != null) form.elements[16].value = snapshot.val().break10;
 				else form.elements[16].value = "NO";
-				if(snapshot.val().break12 != null) form.elements[17].value = snapshot.val().break12;
+				if(snapshot.val().break11 != null) form.elements[17].value = snapshot.val().break11;
 				else form.elements[17].value = "NO";
+				if(snapshot.val().break12 != null) form.elements[18].value = snapshot.val().break12;
+				else form.elements[18].value = "NO";
 				
-				if(snapshot.val().performance != undefined) form.elements[4].value = snapshot.val().performance;
-				else form.elements[4].value = "NA";
-				
-				if(snapshot.val().comments != undefined) form.elements[5].value = snapshot.val().comments;
-				else form.elements[5].value = "";
+				if(snapshot.val().comments != undefined) form.elements[6].value = snapshot.val().comments;
+				else form.elements[6].value = "";
 
-				if(snapshot.val().firstBreakTime != undefined) form.elements[18].value = snapshot.val().firstBreakTime;
-				else form.elements[18].value = "30";
-
-				if(snapshot.val().secondBreakTime != undefined) form.elements[19].value = snapshot.val().secondBreakTime;
+				if(snapshot.val().firstBreakTime != undefined) form.elements[19].value = snapshot.val().firstBreakTime;
 				else form.elements[19].value = "30";
 
-				if(snapshot.val().saturdayBreakTime != undefined) form.elements[20].value = snapshot.val().saturdayBreakTime;
-				else form.elements[20].value = "40";
+				if(snapshot.val().secondBreakTime != undefined) form.elements[20].value = snapshot.val().secondBreakTime;
+				else form.elements[20].value = "30";
 
-				if(snapshot.val().sundayBreakTime != undefined) form.elements[21].value = snapshot.val().sundayBreakTime;
-				else form.elements[21].value = "30";
+				if(snapshot.val().saturdayBreakTime != undefined) form.elements[21].value = snapshot.val().saturdayBreakTime;
+				else form.elements[21].value = "40";
+
+				if(snapshot.val().sundayBreakTime != undefined) form.elements[22].value = snapshot.val().sundayBreakTime;
+				else form.elements[22].value = "30";
+
+				if(snapshot.val().entry != undefined) form.elements[3].value = snapshot.val().entry;
+				else form.elements[3].value = "0";
+
+				if(snapshot.val().exit != undefined) form.elements[4].value = snapshot.val().exit;
+				else form.elements[4].value = "27";
+
+				if(snapshot.val().worksOnMonday != undefined) document.querySelector('#weekDayArraySelect option[value="0"]').selected = snapshot.val().worksOnMonday;
+				else document.querySelector('#weekDayArraySelect option[value="0"]').selected = false;
+				if(snapshot.val().worksOnTuesday != undefined) document.querySelector('#weekDayArraySelect option[value="1"]').selected = snapshot.val().worksOnTuesday;
+				else document.querySelector('#weekDayArraySelect option[value="1"]').selected = false;
+				if(snapshot.val().worksOnWednesday != undefined) document.querySelector('#weekDayArraySelect option[value="2"]').selected = snapshot.val().worksOnWednesday;
+				else document.querySelector('#weekDayArraySelect option[value="2"]').selected = false;
+				if(snapshot.val().worksOnThursday != undefined) document.querySelector('#weekDayArraySelect option[value="3"]').selected = snapshot.val().worksOnThursday;
+				else document.querySelector('#weekDayArraySelect option[value="3"]').selected = false;
+				if(snapshot.val().worksOnFriday != undefined) document.querySelector('#weekDayArraySelect option[value="4"]').selected = snapshot.val().worksOnFriday;
+				else document.querySelector('#weekDayArraySelect option[value="4"]').selected = false;
+				if(snapshot.val().worksOnSaturday != undefined) document.querySelector('#weekDayArraySelect option[value="5"]').selected = snapshot.val().worksOnSaturday;
+				else document.querySelector('#weekDayArraySelect option[value="5"]').selected = false;
+				if(snapshot.val().worksOnSunday != undefined) document.querySelector('#weekDayArraySelect option[value="6"]').selected = snapshot.val().worksOnSunday;
+				else document.querySelector('#weekDayArraySelect option[value="6"]').selected = false;
 
 			}).then(function() {
 				//sets buttons inner values
@@ -795,6 +1037,7 @@
 				$('#saveButton').data("name", form.elements[0].value);
 				$('#saveButton').data("id", form.elements[2].value);
 
+				///aquiiiiii
 				$('#addEmployeeModal').modal('show');
 			});
 
@@ -805,14 +1048,15 @@
             document.getElementById("addEmployeeModalLabel").innerHTML = "AGREGAR EMPLEADO";
             document.getElementById("deleteButton").style.display = "none";
             document.getElementById("verificationMessage").innerHTML = "";
+			document.getElementById("verificationMessage").classList.add("verificationMessageHide");
             document.getElementById("addNewEmployeeDBForm").reset();
 
             $('#saveButton').data("type", "newEmployee");
             $('#addEmployeeModal').modal('show');
         }
 
-        //verificates input of modal form
-        function verificateNewEmployee() {
+        //verifies input of modal form
+        function verifyNewEmployee() {
             var messageLabel = document.getElementById("verificationMessage");
             var form = document.getElementById("addNewEmployeeDBForm");
 			var verified = true;
@@ -820,8 +1064,7 @@
 			var employeesNames = [];
 			var employeesPronunciation = [];
 			var employeesID = [];
-			var posibleIDs = Array.from({length: 99}, (_, i) => i + 1);
-			console.log("verifico claves");
+			var posibleIDs = Array.from({length: 999}, (_, i) => i + 1);
 			$.each(employeesSnapshot, function(key, value) {
 				employeesNames.push(key);
 				employeesPronunciation.push(value.pronunciation);
@@ -829,24 +1072,41 @@
 				posibleIDs.splice(posibleIDs.indexOf(parseInt(value.id)), 1);
 			});
 
-			if(form.elements[2].value < 10 && form.elements[2].value > 0 && form.elements[2].value.charAt(0) != 0)
-				form.elements[2].value = "0" + form.elements[2].value;
+			form.elements[2].value = String(form.elements[2].value).padStart(3, "0");
+			
+			//if(form.elements[2].value < 10 && form.elements[2].value > 0 && form.elements[2].value.charAt(0) != 0)
+				//form.elements[2].value = "0" + form.elements[2].value;
+
 			
             //checks for blanks
-            var inputs = new Array(18);
+            var inputs = new Array(21);
             //{name:0, pronunciation:1, id:2}
             for (var i = 0; i < 3; i++) {
 				inputs[i] = form.elements[i].value;
 				if (inputs[i] == "") {
 					messageLabel.innerHTML = "LLENA TODOS LOS CAMPOS.";
+					document.getElementById("verificationMessage").classList.remove("verificationMessageHide");
+					console.log("error");
 					verified = false;
 					break;
 				}
             }
-
-			inputs[5] = form.elements[5].value;
+			
+			inputs[3] = form.elements[3].value;
+			inputs[4] = form.elements[4].value;
+			
+			var weekDayArray = new Array(7).fill(false);
+			inputs[5] = new Array(7).fill(false);
+			inputs[5][0] = document.querySelector('#weekDayArraySelect option[value="0"]').selected;
+			inputs[5][1] = document.querySelector('#weekDayArraySelect option[value="1"]').selected;
+			inputs[5][2] = document.querySelector('#weekDayArraySelect option[value="2"]').selected;
+			inputs[5][3] = document.querySelector('#weekDayArraySelect option[value="3"]').selected;
+			inputs[5][4] = document.querySelector('#weekDayArraySelect option[value="4"]').selected;
+			inputs[5][5] = document.querySelector('#weekDayArraySelect option[value="5"]').selected;
+			inputs[5][6] = document.querySelector('#weekDayArraySelect option[value="6"]').selected;
 			
 			inputs[6] = form.elements[6].value;
+			
 			inputs[7] = form.elements[7].value;
 			inputs[8] = form.elements[8].value;
 			inputs[9] = form.elements[9].value;
@@ -861,15 +1121,15 @@
 			inputs[18] = form.elements[18].value;
 			inputs[19] = form.elements[19].value;
 			inputs[20] = form.elements[20].value;
-			if(inputs[20] == null || inputs[21] == undefined)
-				inputs[20] = "40";
-			inputs[21] = form.elements[21].value;
-			if(inputs[21] == null || inputs[21] == undefined)
-				inputs[21] = "30";
+			if(inputs[21] == null || inputs[21] == undefined) inputs[21] = "40";
+			else inputs[21] = form.elements[21].value;
+			if(inputs[22] == null || inputs[22] == undefined) inputs[22] = "30";
+			else inputs[22] = form.elements[22].value;
 
             //checks for valid id
-            if (form.elements[2].value < 1 || form.elements[2].value > 99) {
-                messageLabel.innerHTML = "LA CLAVE DEBE DE SER ENTRE 01-99";
+            if (form.elements[2].value < 1 || form.elements[2].value > 999) {
+                messageLabel.innerHTML = "LA CLAVE DEBE DE SER ENTRE 01-999";
+				document.getElementById("verificationMessage").classList.remove("verificationMessageHide");
                 verified = false;
             }
 
@@ -878,11 +1138,13 @@
 				if ($('#saveButton').data("type") == "newEmployee") {
 					if (employeesNames.includes(form.elements[0].value)) {
 						messageLabel.innerHTML = "EL NOMBRE YA EXISTE, INTENTA UNO DIFERENTE.";
+						document.getElementById("verificationMessage").classList.remove("verificationMessageHide");
 						verified = false;
 					}
 				} else if ($('#saveButton').data("type") == "editEmployee") {
 					if (employeesNames.includes(form.elements[0].value) && form.elements[0].value != $('#saveButton').data("name")) {
 						messageLabel.innerHTML = "EL NOMBRE YA EXISTE, INTENTA UNO DIFERENTE.";
+						document.getElementById("verificationMessage").classList.remove("verificationMessageHide");
 						verified = false;
 					}
 				}
@@ -893,13 +1155,15 @@
 				if ($('#saveButton').data("type") == "newEmployee") {
 					if (!posibleIDs.includes(parseInt(form.elements[2].value))) {
 						messageLabel.innerHTML = "LA CLAVE YA EXISTE, PUEDE SER " + posibleIDs.toString();
+						document.getElementById("verificationMessage").classList.remove("verificationMessageHide");
 						verified = false;
 					}
 				} else if ($('#saveButton').data("type") == "editEmployee") {
-					console.log("reviso num");
-					console.log(posibleIDs);
-					if (!posibleIDs.includes(parseInt(form.elements[2].value)) && form.elements[2].value != $('#saveButton').data("id")) {
+					console.log("form.elements[2].value");
+					console.log(parseInt(form.elements[2].value));
+					if (!posibleIDs.includes(parseInt(form.elements[2].value)) && form.elements[2].value != parseInt($('#saveButton').data("id"))) {
 						messageLabel.innerHTML = "LA CLAVE YA EXISTE, PUEDE SER " + posibleIDs.toString();
+						document.getElementById("verificationMessage").classList.remove("verificationMessageHide");
 						verified = false;
 					}
 				}
@@ -909,6 +1173,7 @@
             if (verified) {				
                 addNewEmployeeDB(inputs);
                 messageLabel.innerHTML = "";
+				document.getElementById("verificationMessage").classList.add("verificationMessageHide");
 
                 //if at edit product the id changes, deletes the old ids instance
                 if ($('#saveButton').data("type") == "editEmployee")
@@ -918,46 +1183,95 @@
 				//form.reset();
             }
         }
+	
+		countEmployeesWorkingToday();
+		function countEmployeesWorkingToday() {
+			firebase.database().ref('employees').on('value', function(snapshot) {
+				completeEmployees = snapshot.val();
+				var counter = 0;
+				var dayOfTheWeek = (new Date()).getDay();
+
+				for (var key in completeEmployees) {
+					if(dayOfTheWeek == 0) {
+						if(completeEmployees[key].worksOnSunday == true)
+						counter ++;
+					} else if(dayOfTheWeek == 1) {
+						if(completeEmployees[key].worksOnMonday == true)
+						counter ++;
+					} else if(dayOfTheWeek == 2) {
+						if(completeEmployees[key].worksOnTuesday == true)
+						counter ++;
+					} else if(dayOfTheWeek == 3) {
+						if(completeEmployees[key].worksOnWednesday == true)
+							counter ++;
+					} else if(dayOfTheWeek == 4) {
+						if(completeEmployees[key].worksOnThursday == true)
+							counter ++;
+					} else if(dayOfTheWeek == 5) {
+						if(completeEmployees[key].worksOnFriday == true)
+							counter ++;
+					} else if(dayOfTheWeek == 6) {
+						if(completeEmployees[key].worksOnSaturday == true)
+							counter ++;
+					}
+				}
+
+				document.getElementById("employeesTitleLabel").textContent = "EMPLEADOS " + counter;
+			});
+		}
 
 		//adds or updates a product to firebase
         function addNewEmployeeDB(inputs) {
+
 			var pronunciationQuery = inputs[1] + inputs[2];	
 
 			var issigma = false;
-			firebase.database().ref('employees/' + inputs[0] + '/pronunciation').set(pronunciationQuery.substring(0, pronunciationQuery.length - 2));
-			firebase.database().ref('employees/' + inputs[0] + '/id').set(pronunciationQuery.substring(pronunciationQuery.length - 2, pronunciationQuery.length));
+			firebase.database().ref('employees/' + inputs[0] + '/pronunciation').set(inputs[1]);
+			firebase.database().ref('employees/' + inputs[0] + '/id').set(inputs[2]);
 			firebase.database().ref('employees/' + inputs[0] + '/norders').set(0);
 			firebase.database().ref('employees/' + inputs[0] + '/nproducts').set(0);
 			firebase.database().ref('employees/' + inputs[0] + '/ttime').set(0);
 			firebase.database().ref('employees/' + inputs[0] + '/lastFinished').set(0);
 			//firebase.database().ref('employees/' + inputs[0] + '/performance').set(inputs[4]);
-			firebase.database().ref('employees/' + inputs[0] + '/comments').set(inputs[5]);
+			
+			firebase.database().ref('employees/' + inputs[0] + '/entry').set(inputs[3]);
+			firebase.database().ref('employees/' + inputs[0] + '/exit').set(inputs[4]);
+			
+			firebase.database().ref('employees/' + inputs[0] + '/worksOnMonday').set(inputs[5][0]);
+			firebase.database().ref('employees/' + inputs[0] + '/worksOnTuesday').set(inputs[5][1]);
+			firebase.database().ref('employees/' + inputs[0] + '/worksOnWednesday').set(inputs[5][2]);
+			firebase.database().ref('employees/' + inputs[0] + '/worksOnThursday').set(inputs[5][3]);
+			firebase.database().ref('employees/' + inputs[0] + '/worksOnFriday').set(inputs[5][4]);
+			firebase.database().ref('employees/' + inputs[0] + '/worksOnSaturday').set(inputs[5][5]);
+			firebase.database().ref('employees/' + inputs[0] + '/worksOnSunday').set(inputs[5][6]);
 
-			firebase.database().ref('employees/' + inputs[0] + '/break1').set(inputs[6]);
-			firebase.database().ref('employees/' + inputs[0] + '/break2').set(inputs[7]);
-			firebase.database().ref('employees/' + inputs[0] + '/break3').set(inputs[8]);
-			firebase.database().ref('employees/' + inputs[0] + '/break4').set(inputs[9]);
-			firebase.database().ref('employees/' + inputs[0] + '/break5').set(inputs[10]);
-			firebase.database().ref('employees/' + inputs[0] + '/break6').set(inputs[11]);
-			firebase.database().ref('employees/' + inputs[0] + '/break7').set(inputs[12]);
-			firebase.database().ref('employees/' + inputs[0] + '/break8').set(inputs[13]);
-			firebase.database().ref('employees/' + inputs[0] + '/break9').set(inputs[14]);
-			firebase.database().ref('employees/' + inputs[0] + '/break10').set(inputs[15]);
-			firebase.database().ref('employees/' + inputs[0] + '/break11').set(inputs[16]);
-			firebase.database().ref('employees/' + inputs[0] + '/break12').set(inputs[17]);
-			firebase.database().ref('employees/' + inputs[0] + '/firstBreakTime').set(inputs[18]);
-			firebase.database().ref('employees/' + inputs[0] + '/secondBreakTime').set(inputs[19]);
-			firebase.database().ref('employees/' + inputs[0] + '/saturdayBreakTime').set(inputs[20]);
-			firebase.database().ref('employees/' + inputs[0] + '/sundayBreakTime').set(inputs[21]);
+			firebase.database().ref('employees/' + inputs[0] + '/comments').set(inputs[6]);
+
+			firebase.database().ref('employees/' + inputs[0] + '/break1').set(inputs[7]);
+			firebase.database().ref('employees/' + inputs[0] + '/break2').set(inputs[8]);
+			firebase.database().ref('employees/' + inputs[0] + '/break3').set(inputs[9]);
+			firebase.database().ref('employees/' + inputs[0] + '/break4').set(inputs[10]);
+			firebase.database().ref('employees/' + inputs[0] + '/break5').set(inputs[11]);
+			firebase.database().ref('employees/' + inputs[0] + '/break6').set(inputs[12]);
+			firebase.database().ref('employees/' + inputs[0] + '/break7').set(inputs[13]);
+			firebase.database().ref('employees/' + inputs[0] + '/break8').set(inputs[14]);
+			firebase.database().ref('employees/' + inputs[0] + '/break9').set(inputs[15]);
+			firebase.database().ref('employees/' + inputs[0] + '/break10').set(inputs[16]);
+			firebase.database().ref('employees/' + inputs[0] + '/break11').set(inputs[17]);
+			firebase.database().ref('employees/' + inputs[0] + '/break12').set(inputs[18]);
+			firebase.database().ref('employees/' + inputs[0] + '/firstBreakTime').set(inputs[19]);
+			firebase.database().ref('employees/' + inputs[0] + '/secondBreakTime').set(inputs[20]);
+			firebase.database().ref('employees/' + inputs[0] + '/saturdayBreakTime').set(inputs[21]);
+			firebase.database().ref('employees/' + inputs[0] + '/sundayBreakTime').set(inputs[22]);
 
 			if(inputs[3]) {
 				issigma = true;
 				pronunciationQuery = "0" + pronunciationQuery;
 			}
-			
+					
 			firebase.database().ref('employees/' + inputs[0] + '/issigma').set(issigma).then(function () {
                 $('#addEmployeeModal').modal('toggle');
-			});					
+			});	
 		}
 		
 		//deletes an existing product from the db
