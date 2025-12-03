@@ -462,7 +462,7 @@
 		document.getElementById("primaryButton").click();
 
 		window.setInterval(checkDayChange, 60 * 1000);
-		window.setInterval(highlightCurrentTable, 5 * 1000);
+		//window.setInterval(highlightCurrentTable, 5 * 1000);
 
 		function highlightCurrentTable() {
 			var currentDate = new Date();
@@ -941,7 +941,7 @@
 					var totalTimeButton = document.querySelector('[data-nameow="ow' +  breakButton.getAttribute("data-name") + '"]');
 					uploadTimeTotal(breakButton.getAttribute("data-name"), totalTimeButton.innerText);
 				}
-			}, 60 * 1000);
+			}, 60 * 10);
 		} 
 
 		function addOneTotalTime (employee) {

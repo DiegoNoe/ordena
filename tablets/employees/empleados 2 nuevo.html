@@ -31,8 +31,8 @@
 
 		firebase.initializeApp(config);
 		var database = firebase.database().ref('employees/');
-		database.on('value', function (snapshot) {
-			setTimeout(loadEmployees, 1000);
+		database.once('value', function (snapshot) {
+			loadEmployees();
 		});
 
 		var employeesSnapshot;
@@ -786,12 +786,12 @@
 						if(completeEmployees[name].pSobresaliente != undefined && completeEmployees[name].pSobresaliente == true)
 							sobresaliente = "selected";
 
-						performanceQuery = '<option value="0" ' + obReglas + '>INICIATIVA</option>' +
-							'<option value="1" ' + atCliente + '>AMABLE</option>' +
-							'<option value="2" ' + arTrabajo + '>APROVECHAS TIEMPO</option>' +
-							'<option value="3" ' + rapidez + '>CELULAR / PLÁTICA</option>' +
-							'<option value="4" ' + unCompleto + '>UNIFORME COMPLETO</option>' +
-							'<option value="5" ' + cePlatica + '>ANOTACIONES</option>' +
+						performanceQuery = '<option value="0" ' + obReglas + '>AYUDA Y ATENTO</option>' +
+							'<option value="1" ' + atCliente + '>SUPER AMABLE</option>' +
+							'<option value="2" ' + arTrabajo + '>LIMPIAS Y RECOGES</option>' +
+							'<option value="3" ' + rapidez + '>CELULAR Y PLÁTICA</option>' +
+							'<option value="4" ' + unCompleto + '>UNIFORME Y REGIS.</option>' +
+							'<option value="5" ' + cePlatica + '>CERO ERRORES</option>' +
 							'<option value="6" ' + sobresaliente + '>SOBRESALIENTE</option>';
 
 						var employeeListItem =
@@ -1121,10 +1121,14 @@
 			inputs[18] = form.elements[18].value;
 			inputs[19] = form.elements[19].value;
 			inputs[20] = form.elements[20].value;
+			inputs[21] = form.elements[21].value;
 			if(inputs[21] == null || inputs[21] == undefined) inputs[21] = "40";
-			else inputs[21] = form.elements[21].value;
+			inputs[22] = form.elements[22].value;
 			if(inputs[22] == null || inputs[22] == undefined) inputs[22] = "30";
-			else inputs[22] = form.elements[22].value;
+
+			console.log("form.elements[21].value")
+			console.log(form.elements[20].value)
+
 
             //checks for valid id
             if (form.elements[2].value < 1 || form.elements[2].value > 999) {
@@ -1264,6 +1268,9 @@
 			firebase.database().ref('employees/' + inputs[0] + '/saturdayBreakTime').set(inputs[21]);
 			firebase.database().ref('employees/' + inputs[0] + '/sundayBreakTime').set(inputs[22]);
 
+			console.log('employees/' + inputs[0] + '/saturdayBreakTime');
+			console.log(inputs[21]);
+
 			if(inputs[3]) {
 				issigma = true;
 				pronunciationQuery = "0" + pronunciationQuery;
@@ -1271,6 +1278,7 @@
 					
 			firebase.database().ref('employees/' + inputs[0] + '/issigma').set(issigma).then(function () {
                 $('#addEmployeeModal').modal('toggle');
+                loadEmployees();
 			});	
 		}
 		
@@ -1279,6 +1287,7 @@
 			var name = document.getElementById("addNewEmployeeDBForm").elements[0].value;
 			firebase.database().ref('employees/' + name).remove();
 			database.child(name).remove();
+			loadEmployees();
 		}
 
 		//No connections alert

@@ -294,12 +294,13 @@
                 $('#dynamic-list').empty();
                 snapshot.forEach(function (childSnapshot) { 
                     
-                    
                     //get values
                     var quantity = childSnapshot.child("cantidad").val();
                     var description = childSnapshot.child("descripcion").val();
                     var notes = childSnapshot.child("notas").val();
                     var tipo = childSnapshot.child("tipo").val();
+
+                    var localWeight = childSnapshot.child("peso").val();
                                         
                     if(quantity == "") {
                         calculable = false

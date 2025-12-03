@@ -907,7 +907,7 @@
                     '</div>' +
                     '<div class="col-sm-1 product-info">' + product.unidad + '</div>' +
                     '<div class="col-sm-5 product-info">' + product.descripcion + '</div>' +
-                    '<div id="localCost" class="col-sm-1 product-info">$' + product.costo + '</div>' +
+                    '<div id="localCost" class="col-sm-1 product-info">' + totalCost + '</div>' +
                     '<div class="col-sm-1 product-notes-container">' +
                         '<input class="form-control product-price" type="input" style= "color: ' + color + '; background-color: ' + backgroundColor + '; height: 30px; margin-top: 2.5px; padding-top: 1px; padding-bottom: 0px; line-height: 4px;" oninput="this.value = this.value.toUpperCase()" maxlength="48" placeholder="PRECIO" value="' + notesAndQuantity.p + '"> </input>' +
                     '</div>' +
@@ -954,7 +954,7 @@
             $('#dynamic-list').find('input').eq(1).on('keyup', function (e) {
                 let thisRow = $("#dynamic-list").find("[data-date='" + $(this).parent().parent().data("date") + "']");
                 thisRow.data("total", (round($(this).val() * thisRow.children().eq(0).children().val())));
-                //thisRow.children().eq(3).text("$" + round($(this).val() * thisRow.children().eq(0).children().val()));
+                thisRow.children().eq(3).text("$" + round($(this).val() * thisRow.children().eq(0).children().val()));
                 updateTotal();
                 if (e.keyCode == 13) {
                     $(this).parent().nextAll().first().children().focus()
@@ -1633,16 +1633,80 @@
                 }
             }
 
+
+
             //uploads buying order
             uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), order, total, productsRefID, orderMethod);
             uploadOrderToProvidres(order);
+
+            var invoiceCode = generateCode(6);
             
+            uploadOrderToOdoo(replaceAEIOUN($("#inputName").val().trim()), order, total, productsRefID, orderMethod, invoiceCode);
+
             //autoprints PDF in a new tab
             doc.autoPrint();
                         
             if(window.open(doc.output('bloburl'), '_blank') != null) { 
                 eraseOrder();
             }
+
+        }
+
+        function uploadOrderToOdoo(providerName, order, total, qrcode, orderMethod, invoiceCode) {
+            console.log("uploadOrderToOdoo");
+            console.log("providerName");
+            console.log(providerName);
+            console.log("order");
+            console.log(order);
+            console.log("total");
+            console.log(total);
+            console.log("qrcode");
+            console.log(qrcode);
+            console.log("orderMethod");
+            console.log(orderMethod);
+            console.log("invoiceCode");
+            console.log(invoiceCode);
+            
+            const data = new URLSearchParams();
+            data.append("partner_name", providerName);
+            data.append("partner_ref", qrcode); // or invoiceCode if you prefer
+            data.append("company_id", "2");
+
+
+            // Iterate over order array/object
+            for (let i = 0; i < order.length; i++) {
+                // Assuming order[i] = [code, quantity, unit, description, price, notes, ...]
+                data.append("default_code", order[i][0]); // product code
+                data.append("quantity", order[i][1]);     // quantity
+                data.append("price_unit", order[i][4]);   // price per unit
+                // Optionally, you can add more fields if Odoo API supports them
+            }
+
+            var settings = {
+                "url": "https://c-imperio.odoo.com/api/crear_compra",
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "Authorization": "Basic c29wb3J0ZUByYWRheGJzLmNvbS5teDoxMjM0NTY=",
+                },
+                "data": data.toString()
+            };
+
+            console.log("uploadOrderToOdoo settings", settings);
+
+            $.ajax(settings).done(function (response) {
+                console.log("uploadOrderToOdoo response:", response);
+            });
+        }
+
+        function generateCode(length) {
+            const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+            let code = "";
+            for (let i = 0; i < length; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
         }
 
         function updateStock(product, orderMethod) {
