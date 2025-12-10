@@ -31,6 +31,7 @@
     <script>
         var defiantProducts;
         var defiantProviders;
+        var taxesSnapshot;
         var relationsSnapshot;
         var defiantClients,
             defiantOrders;
@@ -44,6 +45,11 @@
         var dbProducts = secondaryApp.database().ref('productos/');
         dbProducts.on('value', function (snapshot) {
             defiantProducts = Defiant.getSnapshot(snapshot.val());
+        });
+
+        var dbTaxes = secondaryApp.database().ref('impuestos/');
+        dbTaxes.on('value', function (snapshot) {
+            taxesSnapshot = snapshot.val();
         });
 
         var dbProviders = firebase.database().ref('providers/');
@@ -649,6 +655,13 @@
 
         const correctPIN = "0819";
         let enteredPIN = "";
+
+        function getTax(id) {
+            if (taxesSnapshot.ieps.hasOwnProperty(id)) return 8;
+            if (taxesSnapshot.ieps2.hasOwnProperty(id)) return 8;
+            if (taxesSnapshot.iva.hasOwnProperty(id)) return 16;
+            return 0;
+        }
 
         function showKeypad() {
             document.getElementById("pin-pad").style.display = "block";
@@ -2888,19 +2901,21 @@
                 currentLine++;
             }
 
-            /*
+
             doc.setFontSize(12.5);
             doc.setFont("Gill Sans MT Condensed Negrita");
             doc.setPage(pagesQuantity * 2 - 1);
             doc.text(68.5 + xOffset, 184 + yOffset, "DESCARGA TU FACTURA EN CREMERIAIMPERIAL.COM/FACTURA", "center");
-            doc.text(68.5 + xOffset, 189 + yOffset, "UTILIZA EL CODIGO " + invoiceCode, "center");
-            doc.line(79.5 + xOffset, 190 + yOffset, 94.8 + xOffset, 190 + yOffset);
+            doc.text(68.5 + xOffset, 188.5 + yOffset, "UTILIZA EL CODIGO " + invoiceCode, "center");
+            doc.line(79.5 + xOffset, 189 + yOffset, 94.8 + xOffset, 189 + yOffset);
+            doc.line(79.5 + xOffset, 189.2 + yOffset, 94.8 + xOffset, 189.2 + yOffset);
             doc.setPage(pagesQuantity * 2);
             doc.text(68.5 + xOffset, 184 + yOffset, "DESCARGA TU FACTURA EN CREMERIAIMPERIAL.COM/FACTURA", "center");
-            doc.text(68.5 + xOffset, 189 + yOffset, "UTILIZA EL CODIGO " + invoiceCode, "center");
-            doc.line(79.5 + xOffset, 190 + yOffset, 94.8 + xOffset, 190 + yOffset);
-            */
-           
+            doc.text(68.5 + xOffset, 188.5 + yOffset, "UTILIZA EL CODIGO " + invoiceCode, "center");
+            doc.line(79.5 + xOffset, 189 + yOffset, 94.8 + xOffset, 189 + yOffset);
+            doc.line(79.5 + xOffset, 189.2 + yOffset, 94.8 + xOffset, 189.2 + yOffset);
+            
+
             /*
             if(hasBidon) {
                 if((order.length % 17) != 0 && (order.length % 17) != 16) {
@@ -3172,7 +3187,7 @@
         }
 
         function generateCode(length) {
-            const chars = "ABCDEFGHKMNOPQRSTUVWXY0123456789";
+            const chars = "ABCDEFGHKMNPQRSTUVWXY123456789";
             let code = "";
             for (let i = 0; i < length; i++) {
                 code += chars.charAt(Math.floor(Math.random() * chars.length));
@@ -3180,7 +3195,7 @@
             return code;
         }
 
-        //aqui
+        //aquiiiii 
         function uploadOrderToOdoo(clientName, order, orderMethod, invoiceCode) {
             console.log("uploadOrderToOdoo");
             console.log(clientName);
@@ -3196,12 +3211,18 @@
             // Iterate over order array/object
             for (let i = 0; i < order.length; i++) {
                 data.append("default_code", order[i][0]); // product code
-                data.append("price_unit", order[i][7]);   // price per unit
-                if(!order[i][10])
-                    data.append("quantity", order[i][1]);     // quantity
-                else
-                    data.append("quantity", order[i][10]);     // quantity
-
+                if(!order[i][10]) data.append("quantity", order[i][1]);     // quantity
+                else data.append("quantity", order[i][10]);     // quantity
+                if(getTax(order[i][0]) == 8) {
+                    data.append("price_unit", order[i][7] / 1.08);   // price per unit
+                    data.append("tax_amount", 8)
+                } else if(getTax(order[i][0]) == 16) {
+                    data.append("price_unit", order[i][7] / 1.16);   // price per unit
+                    data.append("tax_amount", 16)
+                } else {
+                    data.append("price_unit", order[i][7]);   // price per unit
+                    data.append("tax_amount", 0);
+                }
             }
 
             //PRUEBAS
