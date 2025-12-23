@@ -1344,10 +1344,11 @@
 
             if(needsWeigh) {
                 var weightQuantity = $('#dynamic-list').find('input').eq(1);
-                if(localProductWeight == undefined)
-                    weightQuantity.val(totalWeight);
-                else
-                    weightQuantity.val(localProductWeight);
+                if(localProductWeight == undefined) {
+                    weightQuantity.val(totalWeight.toFixed(2));
+                } else {
+                    weightQuantity.val(Number(localProductWeight).toFixed(2));
+                }
             }
             
             //populate quantity and clean original (outter) input
@@ -2821,12 +2822,12 @@
                 if (order[i][4] == "") {
                     doc.setFontSize(12.5);
                     //description with no weight
-                    if(!order[i][10]) {
+                    if(!order[i][10] || order[i][3].length > 28) {
                         doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]));
                     }
                     //description with yes weight
                     else {
-                        doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]) + " - " + parseFloat(order[i][10]).toString() + "KG");
+                        doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]) + " - " + (parseFloat(order[i][10]).toFixed(2)).toString() + "KG");
                     }
                     
                     doc.setFontSize(10);
@@ -2845,12 +2846,12 @@
                     doc.setFontSize(12.5);
                     
                     //no weight description
-                    if(!order[i][10]) {
+                    if(!order[i][10] || order[i][3].length > 28) {
                         doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]));
                     }
                     //yes weight description
                     else {
-                        doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]) + " - " + parseFloat(order[i][10]).toString() + "KG");
+                        doc.text(22 + xOffset, firstLineYPosition + (currentLine * lineHeight) - 1.5, replaceAEIOUN(order[i][3]) + " - " + (parseFloat(order[i][10]).toFixed(2)).toString() + "KG");
                     }
 
                     doc.setFontSize(10);
