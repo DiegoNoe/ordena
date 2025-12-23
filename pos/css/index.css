@@ -299,11 +299,15 @@ body {
 
 #searchContainer {
     margin-bottom: 15px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
 }
 
 #quantityContainer {
     padding-left: 10px;
     padding-right: 0px; 
+    float: none;
 }
 
 #quantityInput {
@@ -314,6 +318,8 @@ body {
 
 #searchNameContainer {
     padding-right: 5px;
+    float: none;
+    min-width: 0;
 }
 
 #inputSearch {
