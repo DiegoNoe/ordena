@@ -1653,25 +1653,20 @@
         }
 
         function uploadOrderToOdoo(providerName, order, total, qrcode, orderMethod, invoiceCode) {
-            console.log("uploadOrderToOdoo");
-            console.log("providerName");
-            console.log(providerName);
-            console.log("order");
-            console.log(order);
-            console.log("total");
-            console.log(total);
-            console.log("qrcode");
-            console.log(qrcode);
-            console.log("orderMethod");
-            console.log(orderMethod);
-            console.log("invoiceCode");
-            console.log(invoiceCode);
-            
             const data = new URLSearchParams();
             data.append("partner_name", providerName);
             data.append("partner_ref", qrcode); // or invoiceCode if you prefer
-            data.append("company_id", "2");
 
+            if(orderMethod == "MOSTRADOR") {
+                data.append("company_id", "2");
+            } else if(orderMethod == "TELEFONO") {
+                return;     
+                //fix
+                //venta en imperial
+                //compra en ordeña
+            } else if(orderMethod == "WHATSAPP") {
+                data.append("company_id", "1");
+            }
 
             // Iterate over order array/object
             for (let i = 0; i < order.length; i++) {
