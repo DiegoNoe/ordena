@@ -2907,7 +2907,7 @@
                 currentLine++;
             }
 
-            
+            /*
             doc.setFontSize(12.5);
             doc.setFont("Gill Sans MT Condensed Negrita");
             doc.setPage(pagesQuantity * 2 - 1);
@@ -2920,7 +2920,7 @@
             doc.text(68.5 + xOffset, 188.5 + yOffset, "UTILIZA EL CODIGO " + invoiceCode, "center");
             doc.line(79.5 + xOffset, 189 + yOffset, 94.8 + xOffset, 189 + yOffset);
             doc.line(79.5 + xOffset, 189.2 + yOffset, 94.8 + xOffset, 189.2 + yOffset);
-            
+            */
 
             /*
             if(hasBidon) {
@@ -3213,6 +3213,16 @@
             data.append("partner_name", "PÚBLICO EN GENERAL");
             data.append("client_order_ref", invoiceCode);
             data.append("company_id", "2");
+
+            const orderMethodMap = {
+                "EFECTIVO": "efectivo",
+                "T.DEBITO": "tarjeta",
+                "T.CREDITO": "tarjeta de crédito",
+                "TRANSFE": "transferencia",
+                "PAGARE": "pagare"
+            };
+
+            data.append("forma_pago", orderMethodMap[orderMethod]);
 
             // Iterate over order array/object
             for (let i = 0; i < order.length; i++) {
