@@ -124,22 +124,22 @@
         </div>
 
         <div id="pin-pad">
-        <input id="pin-input" type="password" maxlength="4" disabled />
-        <br>
-        <div>
-            <button class="key" onclick="addDigit('1')">1</button>
-            <button class="key" onclick="addDigit('2')">2</button>
-            <button class="key" onclick="addDigit('3')">3</button><br>
-            <button class="key" onclick="addDigit('4')">4</button>
-            <button class="key" onclick="addDigit('5')">5</button>
-            <button class="key" onclick="addDigit('6')">6</button><br>
-            <button class="key" onclick="addDigit('7')">7</button>
-            <button class="key" onclick="addDigit('8')">8</button>
-            <button class="key" onclick="addDigit('9')">9</button><br>
-            <button class="key" onclick="clearPin()">&#10060;</button>
-            <button class="key" onclick="addDigit('0')">0</button>
-            <button class="key" onclick="checkPin()">&#10003;</button>
-        </div>
+            <input id="pin-input" type="password" maxlength="4" disabled />
+            <br>
+            <div>
+                <button class="key" onclick="addDigit('1')">1</button>
+                <button class="key" onclick="addDigit('2')">2</button>
+                <button class="key" onclick="addDigit('3')">3</button><br>
+                <button class="key" onclick="addDigit('4')">4</button>
+                <button class="key" onclick="addDigit('5')">5</button>
+                <button class="key" onclick="addDigit('6')">6</button><br>
+                <button class="key" onclick="addDigit('7')">7</button>
+                <button class="key" onclick="addDigit('8')">8</button>
+                <button class="key" onclick="addDigit('9')">9</button><br>
+                <button class="key" onclick="clearPin()">&#10060;</button>
+                <button class="key" onclick="addDigit('0')">0</button>
+                <button class="key" onclick="checkPin()">&#10003;</button>
+            </div>
         </div>
 
         <div id="searchContainer" class="row">
@@ -1987,8 +1987,8 @@
                         nproducts = nproducts + Math.ceil(parseFloat(order[i][1]));
                         ndiversity++;
                         onlyafuera = false;
-                        if(order[i][1] <= 10) direct++;
-                        else direct = 3;
+                        if(order[i][1] < 20) direct++;
+                        else direct = 4;
                     } else if (order[i][5] == "porPesarAfuera" || order[i][5] == "yaPesadoAfuera") {
                         //doc.setPage(pagesQuantity * 2 - 1);
                         drawCricle(doc, firstLineYPosition + (currentLine * lineHeight), "red");
@@ -1996,18 +1996,18 @@
                         //drawCricle(doc, firstLineYPosition + (currentLine * lineHeight), "red");
                         nproducts = nproducts + Math.ceil(parseFloat(order[i][1]));
                         ndiversity++;
-                        if(order[i][1] <= 10) direct++;
-                        else direct = 3;
+                        if(order[i][1] < 20) direct++;
+                        else direct = 4;
                     }
 
                     var undirectableProds = ["QUCAI", "QUCAIP", "QUC1PG", "QUC2PG", "ADMM", "QUCAM", "QUCLA", "QUC1", "QUC1PC", "QUC2P", "QUC2PC", "QUCAIP",  "CHP",
                         "QUCIOM", "CHPIM", "CHPP", "ADFSME", "GOIB", "MAI", "PAMR", "QUGA1", "TOZFR1", "TOZFRA", "JASPP", "CHPR"];
                         
                     if(undirectableProds.includes(order[i][0]))
-                        direct = 3;
+                        direct = 4;
 
                     if(iftomorrow)
-                        direct = 3;
+                        direct = 4;
 
                     if(order[i][0] == "QU")
                         haspanela = true;
@@ -2185,7 +2185,7 @@
                 else
                     total = total.toString();
 
-                calculable = direct <= 2;
+                calculable = direct <= 3;
                 if (calculable) {
                     //doc.setPage(pagesQuantity * 2 - 1);
                     doc.text(130.5 + xOffset, 209  + yOffset, "TOTAL  " + total.toLocaleString('en-US'), "right");
@@ -2268,13 +2268,13 @@
                 uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), sOrderProducts, total, productsRefID, anotoLabel, calculable, direct, iftomorrow);
                 
                 //autoprints PDF in a new tab
-                if(!direct <= 2)
+                if(!direct <= 3)
                     doc.autoPrint();
 
                 //uploadLastOrder($("#inputName").val(), sOrderProducts, total);
                 lastOrderID = productsRefID;
 
-                if(direct <= 2 || window.open(doc.output('bloburl'), '_blank') != null) { 
+                if(direct <= 3 || window.open(doc.output('bloburl'), '_blank') != null) { 
                     var ncomputer = globalComputer.slice(-1);
                     var etime = calculateWTime(Math.ceil(nproducts));
                     
@@ -2317,7 +2317,7 @@
                     uploadSurvey(surveyValues);
                     */
 
-                    if(direct <= 2)
+                    if(direct <= 3)
                         alert("✔ NOTA DIRECTA, COBRAR EN CAJA. TOTAL $" + total);
                     
                     eraseOrder();

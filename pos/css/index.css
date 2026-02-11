@@ -82,7 +82,7 @@ body {
     float:right;
     font-weight: bold;
     height: 34px;
-    right: 19px;
+    right: 8px;
 }
 
 #clientOptions::-webkit-scrollbar {
@@ -204,7 +204,7 @@ body {
 }
 
 #casilleroContainer {
-    padding-left: 0%;
+    padding-left: .7%;
     padding-right: 0%;
 }
 
@@ -217,6 +217,19 @@ body {
     border-color: #555555;
     color: #EEEEEE; 
     margin-right: 6px;
+}
+
+#discount-div {
+    width: 45px;
+    height: 34.5px;
+    float:left; 
+    margin-top: 1px; 
+    background-color: #111111; 
+    border-color: #555555;
+    color: #EEEEEE; 
+    margin-right: 0px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 #inputEmployeeNameCaja {
@@ -698,6 +711,10 @@ body {
 
 .glyphicon-remove {
     padding-right: 6px;
+}
+
+.glyphicon-ok {
+    color: rgb(92, 184, 92);
 }
 
 #totalLabel {
