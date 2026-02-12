@@ -27,12 +27,6 @@
     <script language="javascript" type="text/javascript" src="../js/crypto-js.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
-
-    <style>
-
-
-    </style>
-
     <script>
         var defiantProducts;
         var defiantProviders;
@@ -98,6 +92,9 @@
         var qrid = "";
 
         var lastOrderID = "";
+        var corteOrDiscount = "";
+
+        var globalDiscount = 0;
 
         var globalCode1 = 0,
             globalCode2 = 1;
@@ -138,7 +135,7 @@
 
     <div class="container-fluid">
         <div class="form-group row first-row">
-            <div id="inputNameContainer" class="col-md-7">
+            <div id="inputNameContainer" class="col-md-6">
                 <input id="inputName" class="form-control" type="input" oninput="this.value = this.value.toUpperCase()" maxlength="22" placeholder="NOMBRE"> </input>
                 <button id="saveOrderButton" class="btn btn-danger interface-button glyphicon glyphicon glyphicon-floppy-saved" style="visibility: hidden;" type="button" onclick="saveOrder()"> </button>
                 <button id="showAddClientButton" class="btn btn-danger interface-button glyphicon glyphicon-plus-sign" style="display: none;" type="button" onclick="showAddClientModal()"> </button>
@@ -166,7 +163,11 @@
             <button id="printCreditButton" class="btn btn-danger interface-button glyphicon glyphicon glyphicon-copyright-mark" style="padding-top: 5px; padding-left: 11px; width: 48px; font-size: 20px !important; width: 42px; float: right; margin-left: 5px;" type="button" onclick="verifyOrder('T.CREDITO')"></button>
             <button id="printTransferButton" class="btn btn-danger interface-button glyphicon glyphicon-phone" style="padding-top: 5px; padding-left: 10px; width: 48px; font-size: 20px !important; width: 42px; float: right; margin-left: 5px;" type="button" onclick="verifyOrder('TRANSFE')"></button>
             <button id="printNoteButton" class="btn btn-danger interface-button glyphicon glyphicon glyphicon-ruble" style="font-size: 18px !important; padding-top: 6px; margin-top: 0px; width: 42px; float: right; margin-left: 5px;" type="button" onclick="verifyOrder('PAGARE')"><i aria-hidden="true"></i></button>
-            <button id="printNoteButton" class="btn interface-button glyphicon glyphicon glyphicon-file" style="font-size: 18px !important; padding-top: 6px; margin-top: 0px; width: 42px; float: right; margin-left: 5px;" type="button" onclick="showKeypad()"><i aria-hidden="true"></i></button>
+            <button id="printNoteButton" class="btn interface-button glyphicon glyphicon glyphicon-piggy-bank" style="font-size: 18px !important; padding-top: 6px; margin-top: 0px; width: 42px; float: right; margin-left: 5px;" type="button" onclick="showKeypad('DESCUENTO')"><i aria-hidden="true"></i></button>
+            <button id="printNoteButton" class="btn interface-button glyphicon glyphicon glyphicon-file" style="font-size: 18px !important; padding-top: 6px; margin-top: 0px; width: 42px; float: right; margin-left: 5px;" type="button" onclick="showKeypad('CORTE')"><i aria-hidden="true"></i></button>
+            <div id="discount-wrapper" style="margin: 0; padding: 0; position: relative; display: none;">
+                <input id="discount-div" class="form-control" type="number" maxlength="3" value="1" min="0" max="5"></input>
+            </div>
 
             <button id="addProductButton" type="button" style="display: none;" class="btn btn-secondary interface-button glyphicon glyphicon-plus-sign" onclick="addProductModal()"></button>
             <button id="callClientButton" type="button" class="btn btn-secondary interface-button glyphicon glyphicon-bullhorn" style="display: none;" onclick="callClients()"></button>
@@ -476,7 +477,6 @@
             }
         });
 
-        
         //update live view
         $("#inputName").focusout(function () {
             updateName($("#inputName").val());
@@ -624,6 +624,20 @@
             }
         });
 
+        const discountInput = document.getElementById('discount-div');
+        discountInput.addEventListener('input', (e) => {
+            if(isNumberOrFloat(e.target.value)) {
+                console.log('descuento', e.target.value);
+                globalDiscount = e.target.value;
+                updateTotal();
+            }
+        });
+
+        function isNumberOrFloat(value) {
+            if (value === '' || value === null) return false;
+            return !isNaN(value) && isFinite(value);
+        }
+
         //calculator
         window.onload = function () {
             var buttons = document.getElementsByClassName('calculator-button'),
@@ -668,7 +682,8 @@
             return 0;
         }
 
-        function showKeypad() {
+        function showKeypad(action) {
+            corteOrDiscount = action;
             document.getElementById("pin-pad").style.display = "block";
             enteredPIN = "";
             document.getElementById("pin-input").value = "";
@@ -690,8 +705,14 @@
         function checkPin() {
             if (enteredPIN === correctPIN) {
                 document.getElementById("pin-pad").style.display = "none";
-                generateClosing("norm");
-                alert("Corte exitoso");
+                if(corteOrDiscount == "CORTE") {
+                    generateClosing("norm");
+                    alert("Corte exitoso");
+                } else if(corteOrDiscount == "DESCUENTO") {
+                    globalDiscount = 1;
+                    updateTotal();
+                    document.getElementById("discount-wrapper").style.display = "block";
+                }
             } else {
                 alert("Incorrect PIN");
                 clearPin();
@@ -1213,7 +1234,7 @@
             $("#inputSearch").val("");
             $("#searchOptions").empty();
 
-            if(order.direct != undefined && order.direct <= 2)
+            if(order.direct != undefined && order.direct <= 3)
                 $("#inputEmployeeNameCaja").val("DIRECTO");
 
             if(order.fulfiller != undefined)
@@ -1676,7 +1697,7 @@
                 if(searchResult[i].checked)
                     calculableCheckMark = "glyphicon-ok";
 
-                if(searchResult[i].direct != undefined && searchResult[i].direct <= 2) {
+                if(searchResult[i].direct != undefined && searchResult[i].direct <= 3) {
                     calculableCheckMark = "glyphicon glyphicon-ok-sign";
                     //colorCheckMark = "#e4ae5e";
                 }
@@ -2518,6 +2539,12 @@
             $(".product-total").each(function(index) {
                 total = total + ($(this).data("total") * 1);
             });
+
+            if(globalDiscount != "" && globalDiscount != 0) {
+                var factor = globalDiscount / 100;
+                total = total * (1 - factor);
+            }
+
             $("#totalTextField").text("$" + round(total));
         }
         
@@ -2642,6 +2669,7 @@
 
             var calculable = true;
             var total = 0;
+            var originalTotal = 0;
             var category = 0;
             var categories = [.05, .10, .15, .20, .25];
 
@@ -2907,7 +2935,7 @@
                 currentLine++;
             }
 
-            /*            
+            /*
             doc.setFontSize(12.5);
             doc.setFont("Gill Sans MT Condensed Negrita");
             doc.setPage(pagesQuantity * 2 - 1);
@@ -2960,6 +2988,12 @@
                 }
             }
             */
+
+            if(globalDiscount != "" && globalDiscount != 0) {
+                originalTotal = total;
+                var factor = globalDiscount / 100;
+                total = total * (1 - factor);
+            }
 
             if(orderMethod == "PAGARE") {
                 doc.setFontSize(9);
@@ -3025,6 +3059,12 @@
             if (calculable) {
                 doc.setPage(pagesQuantity * 2 - 1);
                 doc.text(130.5 + xOffset, 209  + yOffset, "TOTAL  " + total.toLocaleString('en-US'), "right");
+                if(globalDiscount != "" && globalDiscount != 0) {
+                    doc.setFontSize(13);
+                    doc.text(129.5 + xOffset, 202  + yOffset, "SUBTOTAL " + originalTotal.toLocaleString('en-US') + " - " + globalDiscount + "%", "right");
+                    doc.setFontSize(25);
+                }
+
                 //doc.setPage(pagesQuantity * 2);
                 //doc.text(129.5 + xOffset, 209  + yOffset, "TOTAL  " + total.toLocaleString('en-US'), "right");
 
@@ -3042,6 +3082,11 @@
                 }
                 doc.setPage(pagesQuantity * 2 - 1);
                 doc.text(130.5 + xOffset, 200  + yOffset, "TOTAL  " + total.toLocaleString('en-US'), "right");
+                if(globalDiscount != "" && globalDiscount != 0) {
+                    doc.setFontSize(13);
+                    doc.text(129.5 + xOffset, 193  + yOffset, "SUBTOTAL " + originalTotal.toLocaleString('en-US') + " - " + globalDiscount + "%", "right");
+                    doc.setFontSize(25);
+                }
                 //doc.setPage(pagesQuantity * 2);
                 //doc.text(129.5 + xOffset, 200  + yOffset, "APROX  " + total.toLocaleString('en-US'), "right");
 
@@ -3201,7 +3246,7 @@
             return code;
         }
 
-        //aquiiiii 
+        //aqui odoo
         function uploadOrderToOdoo(clientName, order, orderMethod, invoiceCode) {
             console.log("uploadOrderToOdoo");
             console.log(clientName);
@@ -3213,6 +3258,16 @@
             data.append("partner_name", "PÚBLICO EN GENERAL");
             data.append("client_order_ref", invoiceCode);
             data.append("company_id", "2");
+
+            const orderMethodMap = {
+                "EFECTIVO": "efectivo",
+                "T.DEBITO": "tarjeta",
+                "T.CREDITO": "tarjeta de crédito",
+                "TRANSFE": "transferencia",
+                "PAGARE": "pagare"
+            };
+
+            data.append("forma_pago", orderMethodMap[orderMethod]);
 
             // Iterate over order array/object
             for (let i = 0; i < order.length; i++) {
@@ -3246,6 +3301,7 @@
             };
 
             console.log("uploadOrderToOdoo settings", settings);
+            console.log(data.toString());
 
             $.ajax(settings).done(function (response) {
                 console.log("uploadOrderToOdoo response:", response);
@@ -3671,7 +3727,7 @@
 
             var date = new Date();
             var months = ["ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC"];
-            var fullDate = date.getDate().toString() + " / " + months[date.getMonth()] + " / " + date.getFullYear().toString();
+            var fullDate = "" + date.getDate().toString() + " / " + months[date.getMonth()] + " / " + date.getFullYear().toString();
             doc.text(19.9 + xOffset, 30 + yOffset, fullDate, 'center');
 
             var hourWithMinutes = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
@@ -3980,6 +4036,10 @@
 
             $("#inputEmployeeNameCaja").prop('selectedIndex',0);
             $("#inputCasillero").val("");
+
+            document.getElementById("discount-wrapper").style.display = "none";
+            document.getElementById("discount-div").value = "1";
+            globalDiscount = 0;
 
             firebase.database().ref("liveviews/" + globalComputer + '/sorder').remove();
             clientName = "";
