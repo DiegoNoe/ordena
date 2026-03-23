@@ -25,6 +25,22 @@
     <script language="javascript" type="text/javascript" src="../js/bootstrap.min.js"></script>
 
     <script>
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            console.log(navigator);
+            if (connection && connection.type === 'wifi') {
+                const networkName = connection.ssid;
+                if (networkName) {
+                    console.log(`Connected to WiFi network: ${networkName}`);
+                } else {
+                    console.log('Connected to WiFi network, but SSID is not available.');
+                }
+            } else {
+                console.log('Not connected to a WiFi network.');
+            }
+        });
+
         var defiantProducts;
         var relationsSnapshot;
         var defiantClients;
@@ -33,9 +49,12 @@
         firebase.initializeApp(firebaseConfig);
         var secondaryApp = firebase.initializeApp(firebaseConfig2, "secondary");
 
-        var dbProducts = firebase.database().ref('products/');
+        //var dbProducts = firebase.database().ref('products/');
+        
+        var dbProducts = secondaryApp.database().ref('productos/');
         dbProducts.on('value', function (snapshot) {
             defiantProducts = Defiant.getSnapshot(snapshot.val());
+            console.log(snapshot.val());
         });
 
         firebase.database().ref('relations').on('value', function (snapshot) {
@@ -46,13 +65,15 @@
         var clientWhatsapp = "";
 
         var dbClientsValues;
-        var dbClients = firebase.database().ref('clients/');
+        //var dbClients = firebase.database().ref('clients/');
+        var dbClients = secondaryApp.database().ref('service/7isReady/');
+
         dbClients.on('value', function (snapshot) {
             if(snapshot.val() != undefined)
                 defiantClients = Defiant.getSnapshot(snapshot.val());
         });
 
-        var globalComputer = "POS0";
+        var globalComputer = "POS4";
         var globalWaitingOrders,
             globalTimePerProduct = [];
 
@@ -63,7 +84,6 @@
 
         var lastOrderID = "";
         var retrievedLastOrder = false;
-
     </script>
 
 </head>
@@ -78,8 +98,8 @@
     <div class="container-fluid">
         <div class="form-group row first-row">
             <div id="inputNameContainer" class="col-md-5">
-                <input id="inputName" class="form-control" type="input" oninput="this.value = this.value.toUpperCase()" maxlength="20" placeholder="NOMBRE"> </input>
-                <button id="showAddClientButton" class="btn btn-danger interface-button glyphicon glyphicon-plus-sign" style="display: none;" type="button" onclick="showAddClientModal()"> </button>
+                <input id="inputName" class="form-control" type="input" oninput="this.value = this.value.toUpperCase()" maxlength="20" placeholder="NOMBRE Y APELLIDO"> </input>
+                <button id="showAddClientButton" class="btn btn-danger interface-button glyphicon glyphicon-plus-sign" style="display: block;" type="button" onclick="showAddClientModal()"> </button>
                 <ul id="clientOptions" class="list-group client-options"></ul>
                 <span id="greenCheck" class="glyphicon glyphicon-ok"></span>
                 <span id="greenCheckW" class="glyphicon glyphicon-ok"></span>
@@ -99,10 +119,29 @@
             <button id="printButton" class="btn btn-danger interface-button glyphicon glyphicon-user" type="button" onclick="generatePDF('MOSTRADOR')"></button>
             <button id="printByPhoneButton" class="btn btn-danger interface-button glyphicon glyphicon-phone-alt" type="button" onclick="generatePDF('TELEFONO')"></button>
             <button id="printByWhatsButton" class="btn btn-danger interface-button fa fa-whatsapp" type="button" onclick="generatePDF('WHATSAPP')"><i aria-hidden="true"></i></button>
-            <button id="addProductButton" type="button" class="btn btn-secondary interface-button glyphicon glyphicon-plus-sign" onclick="addProductModal()"></button>
+            <button id="addProductButton" type="button" style="display: none;" class="btn btn-secondary interface-button glyphicon glyphicon-plus-sign" onclick="addProductModal()"></button>
             <button id="callClientButton" type="button" class="btn btn-secondary interface-button glyphicon glyphicon-bullhorn" onclick="callClients()"></button>
             <button id="lastOrderButton" type="button" class="btn btn-secondary interface-button glyphicon glyphicon-repeat" onclick="retrieveLastOrder()"></button>
+            <button id="deleteRecordButton" class="btn btn-danger interface-button glyphicon glyphicon-erase" style="font-size: 20px !important; padding-top: 2px; margin-top: 0px; visibility: hidden;" type="button" onclick="showKeypad()"><i aria-hidden="true"></i></button>
+        </div>
 
+        <div id="pin-pad">
+            <input id="pin-input" type="password" maxlength="4" disabled />
+            <br>
+            <div>
+                <button class="key" onclick="addDigit('1')">1</button>
+                <button class="key" onclick="addDigit('2')">2</button>
+                <button class="key" onclick="addDigit('3')">3</button><br>
+                <button class="key" onclick="addDigit('4')">4</button>
+                <button class="key" onclick="addDigit('5')">5</button>
+                <button class="key" onclick="addDigit('6')">6</button><br>
+                <button class="key" onclick="addDigit('7')">7</button>
+                <button class="key" onclick="addDigit('8')">8</button>
+                <button class="key" onclick="addDigit('9')">9</button><br>
+                <button class="key" onclick="clearPin()">&#10060;</button>
+                <button class="key" onclick="addDigit('0')">0</button>
+                <button class="key" onclick="checkPin()">&#10003;</button>
+            </div>
         </div>
 
         <div id="searchContainer" class="row">
@@ -310,6 +349,10 @@
         if(globalComputer == "POS0" || globalComputer == "POS1")
             callClientsToReadyPOS();
 
+        if(globalComputer == "POS5") {
+            $("#deleteRecordButton").css("visibility", "visible");
+        }
+
         /*
         //inputName on enter sequence
         $("#inputName").on('keyup', function (e) {
@@ -375,7 +418,6 @@
             }
         });
         
-        /*
         //clients live search action
         $("#inputName").on('keyup', function (e) {
             clientName = "";
@@ -420,8 +462,6 @@
             }// else
                 //$("#dynamic-list").css("opacity", "1");
         });
-
-        */
 
         //products live search
         $("#inputSearch").on('keyup', function (e) {
@@ -531,8 +571,114 @@
                                 '</div>' +
                             '</div>'
                         '</div>';
-
             $("#addNewProductDBFormWrapper").append(fields);
+        }
+
+        function saveCurrentStateNow() {
+			secondaryApp.database().ref('empleados/').once('value', function(snapshot) {
+				if(snapshot.val() != null) {
+					$.each(snapshot.val(), function(key, value) {
+						secondaryApp.database().ref("employees/" + key).once('value', function(childSnapshot) {
+                            console.log(childSnapshot.val());
+							if(childSnapshot.val().comments != undefined)
+                                secondaryApp.database().ref("employeesA/" + key + "/comments").set(childSnapshot.val().comments);
+							if(childSnapshot.val().performance != undefined)
+                                secondaryApp.database().ref("employeesA/" + key + "/performance").set(childSnapshot.val().performance);
+							if(childSnapshot.val().extraTimeT != undefined && childSnapshot.val().extraTimeT != 0) {
+								secondaryApp.database().ref("employees/" + key + "/extraTimeTT").set(childSnapshot.val().extraTimeT);
+								secondaryApp.database().ref("employees/" + key + "/extraTime").set(0);
+								secondaryApp.database().ref("employees/" + key + "/extraTimeT").set(0);
+							}
+						});	
+					});
+				}
+			});
+		}
+
+        function saveCurrentStateNow2() {
+			firebase.database().ref('employees').once('value', function(snapshot) {
+				if(snapshot.val() != null) {
+					$.each(snapshot.val(), function(key, value) {
+                        console.log("antes/" + key);
+
+						firebase.database().ref("employees/" + key).once('value', function(childSnapshot) {
+							if(childSnapshot.val().extraTimeT != undefined && childSnapshot.val().extraTimeT != 0) {
+								firebase.database().ref("employees/" + key + "/extraTimeTT").set(childSnapshot.val().extraTimeT);
+								firebase.database().ref("employees/" + key + "/extraTime").set(0);
+								firebase.database().ref("employees/" + key + "/extraTimeT").set(0);
+							} else {
+                                firebase.database().ref("employees/" + key + "/extraTimeTT").set(0);
+								firebase.database().ref("employees/" + key + "/extraTime").set(0);
+								firebase.database().ref("employees/" + key + "/extraTimeT").set(0);
+                            }
+						});	
+					});
+				}
+			});
+		}
+
+        const correctPIN = "0819";
+        let enteredPIN = "";
+
+        function showKeypad() {
+            document.getElementById("pin-pad").style.display = "block";
+            enteredPIN = "";
+            document.getElementById("pin-input").value = "";
+        }
+
+        function addDigit(digit) {
+            if (enteredPIN.length < 4) {
+                enteredPIN += digit;
+                document.getElementById("pin-input").value += "*";
+            }
+        }
+
+        function clearPin() {
+            enteredPIN = "";
+            document.getElementById("pin-input").value = "";
+            document.getElementById("pin-pad").style.display = "none";
+        }
+
+        function checkPin() {
+            if (enteredPIN === correctPIN) {
+                document.getElementById("pin-pad").style.display = "none";
+                deleteRecord();
+            } else {
+                alert("Incorrect PIN");
+                clearPin();
+            }
+        }
+
+        function deleteRecord() {
+            if(confirm("SE BORRARÁN LOS REGISTROS DE AYER. ¿SEGURA?")) {
+                if(new Date().getDay() == 6) {
+                    saveCurrentStateNow();
+                    saveCurrentStateNow2();
+                }
+
+                firebase.database().ref("tablets/jamones").remove();
+                firebase.database().ref("tablets/cremas").remove();
+                firebase.database().ref("tablets/bodega").remove();
+                firebase.database().ref("tablets/arriba").remove();
+
+                firebase.database().ref("liveView0").remove();
+                firebase.database().ref("pending").remove();
+                firebase.database().ref("process").remove();
+
+                firebase.database().ref("orders/code0").remove();
+
+                firebase.database().ref('updates/caja1').set(true);
+                firebase.database().ref('updates/caja2').set(true);
+
+                secondaryApp.database().ref('updates/medias').set(true);
+                
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+
+            } else {
+                console.log("no estoy segura");
+            }
         }
 
         //looks for id in code0
@@ -724,6 +870,25 @@
             });
         }
 
+        function speakEndingOrder(name, total) {
+			var msg = new SpeechSynthesisUtterance();
+			msg.rate = 1;
+
+            if(total.includes(".5"))
+                total = total.substring(0, total.length - 2) + " con 50";
+
+            if(Number(total.substring(1)) < 1500)
+                msg.text = "gracias " + name + ", tu total aproximado es " + total.substring(1).toLocaleString('en-US');
+            else
+                msg.text = "gracias " + name;
+            
+            console.log("speakEndingOrder");
+            console.log(msg.text);
+            //msg.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Google español de Estados Unidos')];
+            msg.voice = speechSynthesis.getVoices()[1];
+			window.speechSynthesis.speak(msg);
+		}
+
         //speaks greeting and call client to ready POS
         function speakCallClient(pos) {
 			var msg = new SpeechSynthesisUtterance();
@@ -753,6 +918,7 @@
 
         //verifies new client to be added or edited 
         function verifyNewClient() {
+            console.log("verifyNewClient");
             var messageLabel = document.getElementById("addClientMessage");
             var form = document.getElementById("addClientForm");
             var localName = form.elements[0].value,
@@ -976,9 +1142,9 @@
             $("#dynamic-list-2").html("");
             hideSugList();
             
-            /*FIX efficiency
             populateSuggestedOrder(client.numero);
             populateSuggestedOrderLV(client.numero);
+            /*FIX efficiency
             */
            
             updateName($("#inputName").val());
@@ -1034,7 +1200,7 @@
         }
 
         function saveClientDB(name, number, localNoquiere) {
-            firebase.database().ref('clients/' + number).set({
+            secondaryApp.database().ref('service/7isReady/' + number).set({
                 nombre: name,
                 numero: number,
                 noquiere: localNoquiere
@@ -1129,7 +1295,7 @@
                         '<div class="col-sm-7">' + searchResult[i].descripcion + '</div>' +
                         '<div class="col-sm-1">' + localTotal + '</div>' +
                         '<div class="btn btn-sm col-sm-1 edit-button" type="button" onclick="editProductModal(&#39;' + searchResult[i].clave + '&#39;)">' +
-                        '<span id="editButton" style="color:' + buttonColor + ';"> EDITAR </span>' +
+                        '<span id="editButton" style="color:' + buttonColor + '; display: none;> EDITAR </span>' +
                         '</div>' +
                     '</button>';
 
@@ -1668,6 +1834,12 @@
         var yOffset = -2;
         //FIX huge funcntion - generates a PDF with autoprint
         function generatePDF(orderMethod) {
+
+            //voceada en computadora
+            if(orderMethod == "MOSTRADOR" && !$("#tomorrowCheckbox").is(':checked'))
+                speakEndingOrder($("#inputName").val().trim(), $("#totalTextField").text());
+
+
             //set PDF defaults
             var order = getOrderProducts();
             if ($("#inputName").val() == "") {
@@ -1727,6 +1899,7 @@
                 var sOrderProducts = {};
 
                 var calculable = true;
+                var direct = 0;
                 var total = 0;
                 var category = 0;
                 var categories = [.05, .10, .15, .20, .25];
@@ -1752,6 +1925,21 @@
                         doc.setPage(pagesQuantity);
                         currentLine = 0;
                     }
+
+                    if(order[i][0] == "CHN" || order[i][0] == "CHN1")
+                        order[i][1] = "" + (order[i][1] * 1.18);
+                    else if(order[i][0] == "ADMS2")
+                        order[i][1] = "" + (order[i][1] * 1.03);
+                    
+                    /*
+                    else if(order[i][0] == "HUCA") {
+                        //order[i][1] = "" + (order[i][1] * 1.03);
+                        var precioHuevoC = JSON.search(defiantProducts, '//*[clave="' + "HUC" + '"]')[0];
+                        console.log("canitad huevo");
+                        console.log((((precioHuevoC.costo * 23) / order[i][7]) * order[i][1]) + "");
+                        console.log(order[i]);
+                    }
+                    */
 
                     sOrderProducts[i.toString().padStart(3, '0') + order[i][0]] = {
                         uc: Number(order[i][1]),
@@ -1799,6 +1987,8 @@
                         nproducts = nproducts + Math.ceil(parseFloat(order[i][1]));
                         ndiversity++;
                         onlyafuera = false;
+                        if(order[i][1] < 20) direct++;
+                        else direct = 4;
                     } else if (order[i][5] == "porPesarAfuera" || order[i][5] == "yaPesadoAfuera") {
                         //doc.setPage(pagesQuantity * 2 - 1);
                         drawCricle(doc, firstLineYPosition + (currentLine * lineHeight), "red");
@@ -1806,7 +1996,18 @@
                         //drawCricle(doc, firstLineYPosition + (currentLine * lineHeight), "red");
                         nproducts = nproducts + Math.ceil(parseFloat(order[i][1]));
                         ndiversity++;
+                        if(order[i][1] < 20) direct++;
+                        else direct = 4;
                     }
+
+                    var undirectableProds = ["QUCAI", "QUCAIP", "QUC1PG", "QUC2PG", "ADMM", "QUCAM", "QUCLA", "QUC1", "QUC1PC", "QUC2P", "QUC2PC", "QUCAIP",  "CHP",
+                        "QUCIOM", "CHPIM", "CHPP", "ADFSME", "GOIB", "MAI", "PAMR", "QUGA1", "TOZFR1", "TOZFRA", "JASPP", "CHPR"];
+                        
+                    if(undirectableProds.includes(order[i][0]))
+                        direct = 4;
+
+                    if(iftomorrow)
+                        direct = 4;
 
                     if(order[i][0] == "QU")
                         haspanela = true;
@@ -1921,17 +2122,17 @@
                     if (order[i][5] == "aCremas")
                         withPendingProducts = aCremasOrder(cleanName, order[i], i);
                     else if (order[i][5] == "aJamones")
-                        withPendingProducts = aJamonesOrder(order[i], i);
+                        withPendingProducts = aJamonesOrder(cleanName, order[i], i);
                     else if (order[i][5] == "aBodega")
                         withPendingProducts = aBodegaOrder(order[i], i);
                     else if (order[i][5] == "aBodegaAbajo")
                         withPendingProducts = aBodegaAbajoOrder(order[i], i);
                     else if (aJamonesSpecialProducts.includes(order[i][0]) && order[i][4] != "") 
-                        withPendingProducts = aJamonesOrder(order[i], i);
+                        withPendingProducts = aJamonesOrder(cleanName, order[i], i);
                     else if (aJamonesSpecialProducts.includes(order[i][0]) && order[i][1] % 1 != 0) {
                         var tempProduct = order[i];
                         tempProduct[1] = ((order[i][1] * 100) % 100) / 100;
-                        withPendingProducts = aJamonesOrder(tempProduct, i);
+                        withPendingProducts = aJamonesOrder(cleanName, tempProduct, i);
                     }
                     currentLine++;
                 }
@@ -1984,6 +2185,7 @@
                 else
                     total = total.toString();
 
+                calculable = direct <= 3;
                 if (calculable) {
                     //doc.setPage(pagesQuantity * 2 - 1);
                     doc.text(130.5 + xOffset, 209  + yOffset, "TOTAL  " + total.toLocaleString('en-US'), "right");
@@ -2063,15 +2265,16 @@
 
                 
                 //if ($("#invoiceCheckbox").is(':checked'))
-                uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), sOrderProducts, total, productsRefID, anotoLabel, calculable, iftomorrow);
+                uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), sOrderProducts, total, productsRefID, anotoLabel, calculable, direct, iftomorrow);
                 
                 //autoprints PDF in a new tab
-                doc.autoPrint();
+                if(!direct <= 3)
+                    doc.autoPrint();
 
                 //uploadLastOrder($("#inputName").val(), sOrderProducts, total);
                 lastOrderID = productsRefID;
 
-                if(window.open(doc.output('bloburl'), '_blank') != null) { 
+                if(direct <= 3 || window.open(doc.output('bloburl'), '_blank') != null) { 
                     var ncomputer = globalComputer.slice(-1);
                     var etime = calculateWTime(Math.ceil(nproducts));
                     
@@ -2088,12 +2291,13 @@
                         iftomorrow: iftomorrow,
                         ordertype: ordertype,
                         ftotal: calculable,
+                        direct: direct,
                         ncomputer: ncomputer,
                         etime: etime,
                         justName: justNameFlag
                     });
                     
-                    //uploadSuggestedOrder(clientWhatsapp, sOrderProducts, total);
+                    uploadSuggestedOrder(clientWhatsapp, sOrderProducts, total);
 
                     /* FIX efficiency...
                     if(clientWhatsapp != "" && clientWhatsapp.charAt(0) != "0") {
@@ -2112,6 +2316,9 @@
                     increaseEmployeeCounter($("#inputEmployeeName").val());
                     uploadSurvey(surveyValues);
                     */
+
+                    if(direct <= 3)
+                        alert("✔ NOTA DIRECTA, COBRAR EN CAJA. TOTAL $" + total);
                     
                     eraseOrder();
                     retrievedLastOrder = false;
@@ -2192,6 +2399,9 @@
         }
 
         function formatSuggestedOrder(sorder) {
+            console.log("formatSuggestedOrder");
+            console.log(sorder);
+
             var sorder = Object.fromEntries(
                 Object.entries(sorder).sort(function(a, b) {
                     return a[1].f - b[1].f;
@@ -2199,7 +2409,7 @@
             );
 
             for (const [key, value] of Object.entries(sorder)) {
-                var searchResult = JSON.search(defiantProducts, '//*[clave="' + key + '"]');
+                var searchResult = JSON.search(defiantProducts, '//*[clave="' + key.slice(3) + '"]');
                 if(searchResult[0] != null)
                     populateSuggestedProduct(searchResult[0], value["uc"], value["n"]);
             }
@@ -2237,6 +2447,8 @@
             var firstInput = $('#dynamic-list').find('input').first();
             firstInput.val(quantity);
             $('#dynamic-list').find('input').eq(1).val(note);
+
+            $('#dynamic-list-2 [data-id="' + id + '"]').remove();
             
             $('#dynamic-list').children().first().data("total", (round(quantity * searchResult[0].costo)));
         
@@ -2247,6 +2459,11 @@
         }
 
         function populateSuggestedProduct(product, quantity, note) {
+            console.log("populateSuggestedProduct");
+            console.log(product);
+            console.log(quantity);
+            console.log(note);
+
             var color,
             backgroundColor;
             if(product.existencia == "siHay") {
@@ -2344,13 +2561,12 @@
 
         //registers clients products on current order
         function uploadSuggestedOrder(number, sOrderProducts, total) {
-            /*
             dbClients.child(number + "/uvisita").set(Date.now());
 
             total = total.replace(/\,/g,'');
             dbClients.child(number + "/agr").once('value', function (snapshot) {
                 if(snapshot.val() == null) {
-                    dbClients.child(number + "/agr").set(totloal);
+                    dbClients.child(number + "/agr").set(total);
                 } else {
                     dbClients.child(number + "/agr").set(parseInt(snapshot.val()) + parseInt(total));
                 }
@@ -2365,11 +2581,11 @@
                     if(snapshot.val() == null) dbClients.child(number + "/sug/" + key + "/f").set(1);
                     else dbClients.child(number + "/sug/" + key + "/f").set(snapshot.val() + 1);
                 });
-            } */
+            }
         }
 
         //uploads order when invoice is needed
-        function uploadCompleteOrder(name, products, total, id, anotoLabel, calculable, tomorrow) {
+        function uploadCompleteOrder(name, products, total, id, anotoLabel, calculable, direct, tomorrow) {
             id = id.replaceAll(".", "").replaceAll(" ", "");
             total = total.replace(/\,/g,'');
 
@@ -2390,7 +2606,9 @@
                 subtotal: total,
                 hour: Date.now(),
                 calculable: calculable,
-                iftomorrow: tomorrow
+                iftomorrow: tomorrow,
+                direct: direct,
+                number: clientWhatsapp
             });
         }
 
@@ -2544,6 +2762,7 @@
 
         //uploads or updates an order product
         function uploadOrderProduct(date, quantity, unit, description, notes, price, stock, type, id) {
+            console.log("uploadOrderProduct");
             firebase.database().ref("liveviews/" + globalComputer + '/order/' + date).set({
                 cantidad: quantity,
                 unidad: unit,
@@ -2647,10 +2866,13 @@
         }
 
         //uploads the aJamones product
-        function aJamonesOrder(productOrder, i) {
+        function aJamonesOrder(cleanName, productOrder, i) {
             var time = new Date();
             if ($("#tomorrowCheckbox").is(':checked'))
                 productOrder[4] = "MAÑANA " + productOrder[4];
+            
+            console.log("productOrder");
+            console.log(productOrder);
             
             var productJSON = {
                 id: productOrder[0],
@@ -2658,7 +2880,8 @@
                 unit: productOrder[2],
                 description: productOrder[3],
                 notes: productOrder[4],
-                hour: time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+                hour: time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
+                name: cleanName
             };
             var productRef = firebase.database().ref('pending/' + orderRefID + '/aJamones').push(productJSON);
             firebase.database().ref('tablets/jamones/pendientes/' + productRef.key ).set(productJSON);

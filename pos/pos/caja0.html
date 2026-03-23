@@ -37,6 +37,9 @@
         var orderRefID = "";
         var globalID = "";
 
+        var globalWhatsapp = "",
+            globalName ="";
+
         firebase.initializeApp(firebaseConfig);
         var secondaryApp = firebase.initializeApp(firebaseConfig2, "secondary");
     
@@ -64,7 +67,8 @@
         var clientWhatsapp = "";
 
         var dbClientsValues;
-        var dbClients = firebase.database().ref('clients/');
+        //var dbClients = firebase.database().ref('clients/');
+        var dbClients = secondaryApp.database().ref('service/7isReady/');
         dbClients.on('value', function (snapshot) {
             if(snapshot.val() != undefined)
                 defiantClients = Defiant.getSnapshot(snapshot.val());
@@ -93,6 +97,8 @@
 
         var lastOrderID = "";
         var corteOrDiscount = "";
+
+        var globarWhatsapp = "";
 
         var globalDiscount = 0;
 
@@ -1145,6 +1151,9 @@
                 if(snapshot.val() != null) {
                     speakEndingOrder(snapshot.val().name);
                     populateOrder(snapshot.val(), id);
+                    if(snapshot.val().number != undefined || snapshot.val().number != null)
+                        globalWhatsapp = snapshot.val().number;
+                        globalName = snapshot.val().name;
                 } else {
                     console.log("searchOrderById: no encontré nada");
                     //emptyForm(document.getElementById("searchOrderForm"), 3);
@@ -1165,6 +1174,62 @@
         firebase.database().ref("orders/code9/p/t").set(95);
         firebase.database().ref("orders/code9/p/o").set(5);
         */
+
+        const WHATSAPP_FN_URL = "https://us-central1-cremeria-ordena.cloudfunctions.net/sendWhatsApp";
+        const SMS_FN_URL = "https://us-central1-cremeria-ordena.cloudfunctions.net/sendSMS";
+
+
+        async function mandarWhatsApp(to, mensaje) {
+            const resp = await fetch(WHATSAPP_FN_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ to, body: mensaje }),
+            });
+
+            const data = await resp.json().catch(() => ({}));
+
+            if (!resp.ok || !data.ok) {
+                console.log("Respuesta Function:", data);
+                throw new Error(data.error || `HTTP ${resp.status}`);
+            }
+
+            return data; // { ok: true, sid: "SM..." }
+        }
+
+        async function mandarWhatsAppTemplate(to, nombre, total) {
+            const resp = await fetch("https://us-central1-cremeria-ordena.cloudfunctions.net/sendWhatsAppTemplate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ to, nombre, total }),
+            });
+
+            const data = await resp.json().catch(() => ({}));
+
+            if (!resp.ok || !data.ok) {
+                console.log("Respuesta Function:", data);
+                throw new Error(data.message || `HTTP ${resp.status}`);
+            }
+
+            return data;
+        }
+
+        async function sendSms(to, body) {
+            const resp = await fetch(SMS_FN_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ to, body }),
+            });
+
+            // Si hay error, queremos ver el detalle en consola
+            const data = await resp.json().catch(() => ({}));
+            if (!resp.ok || !data.ok) {
+                console.error("sendSms error:", resp.status, data);
+                throw new Error(data?.error || `HTTP ${resp.status}`);
+            }
+
+            console.log("SMS enviado:", data.sid);
+            return data;
+        }
 
         function saveOrder() {
             var order = getOrderProducts();
@@ -1224,7 +1289,36 @@
                 firebase.database().ref("orders/code0/" + localGlobalID + "/checked").set(true);
             }, 100);
 
+            //aquiaqui
+            if(globalWhatsapp != "") {
+                var nbr = "+521" + globalWhatsapp;
+                //var msg = "¡" + capitalizarPalabras(globalName) + "! Ya puedes recojer tu pedido en Cremería Imperial Total $" + total;
+                var msg = "¡Ya puedes recojer tu pedido en Cremería Imperial! Total " + total;
+                
+                mandarWhatsAppTemplate(nbr, capitalizarPalabras(globalName), total)
+                    .then((r) => console.log("OK:", r))
+                    .catch((e) => console.error("ERROR:", e));
+
+                /*
+                mandarWhatsApp(nbr, msg)
+                    .then((r) => console.log("OK:", r))
+                    .catch((e) => console.error("ERROR:", e));
+                    
+                sendSms(nbr, msg)
+                    .then((r) => console.log("OK:", r))
+                    .catch((e) => console.error("ERROR:", e));
+                */
+            }
+
             eraseOrder();
+        }
+
+        function capitalizarPalabras(str) {
+            return str
+                .toLowerCase()
+                .split(" ")
+                .map(palabra => palabra.charAt(0).toUpperCase() + palabra.slice(1))
+                .join(" ");
         }
 
         function populateOrder(order, localID) {
@@ -4023,6 +4117,9 @@
             $("#inputName").val("");
             $("#dynamic-list").html("");
             $("#dynamic-list-2").html("");
+
+            globalWhatsapp = "";
+            globalName = "";
 
             hideSugList();
             $('#tomorrowCheckbox').prop('checked', false);
