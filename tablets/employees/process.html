@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html lang="en" style="background-color: #111111;">
+<head>
+	<title>PEDIDOS</title>
+
+	<meta charset="utf-8">
+    <meta name="viewport" content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+	<!-- local js resources -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+	<script language="javascript" type="text/javascript" src="defiant.min.js"></script>
+	
+	<script>
+		var config = {
+			apiKey: "AIzaSyBhhniDRtbUoE1SGVCTZzVUPTbd5k-mfnI",
+            authDomain: "cremeria-ordena.firebaseapp.com",
+            databaseURL: "https://cremeria-ordena-default-rtdb.firebaseio.com",
+            projectId: "cremeria-ordena",
+            storageBucket: "cremeria-ordena.appspot.com",
+            messagingSenderId: "862495808627",
+            appId: "1:862495808627:web:09d8f34bdb206056f1de06"
+		};
+
+		firebase.initializeApp(config);
+
+		var currentLetter = "0";
+		var autoScrollStep = 26;
+		var autoScrollIntervalMs = 20;
+		var autoScrollZoneRatio = 0.34;
+		var pendingEmployeeId = null;
+
+		var firstsCounter = 0;
+		var databaseFirsts = firebase.database().ref('process/firsts/');
+		databaseFirsts.on('child_added', function (snapshot) {
+			if(isDirectOrder(snapshot.val())) {
+				moveDirectOrderToThirds(snapshot.key, snapshot.val());
+				return;
+			}
+
+			$('#dynamic-list-firsts').append(formatFirstsListItem(snapshot.val(), snapshot.key));
+			$('#dynamic-list-firsts').children().last().data("hour", snapshot.val().hour);
+			updateFElapsedTime($('#dynamic-list-firsts').children().last());
+			
+			firstsCounter++;
+			updateCounter("firsts-counter-label", firstsCounter);
+		});
+		databaseFirsts.on('child_removed', function (snapshot) {
+			var removedOrder = $('#dynamic-list-firsts').children().filter(function() {
+				return $(this).data("hour") == snapshot.val().hour;
+			});
+			removedOrder.remove();
+			
+			firstsCounter--;
+			updateCounter("firsts-counter-label", firstsCounter);
+		});
+		
+		var secondsCounter = 0;
+		var databaseSeconds = firebase.database().ref('process/seconds/');
+		databaseSeconds.on('child_added', function (snapshot) {
+			$('#dynamic-list-seconds').append(formatSecondsListItem(snapshot.val(), snapshot.key));
+			$('#dynamic-list-seconds').children().last().data("hour", snapshot.val().hour);
+			updateSElapsedTime($('#dynamic-list-seconds').children().last(), snapshot.val().nproducts);
+
+			if(snapshot.val().thour > 0)  {
+				var finishedOrder = $('#dynamic-list-seconds').children().filter(function() {
+					return $(this).data("hour") == snapshot.val().hour;
+				});
+				finishedOrder.css("background-color", "#00B74AEE");
+				finishedOrder.css("color", "white");
+			}
+			
+			secondsCounter++;
+			updateCounter("seconds-counter-label", secondsCounter);
+		});
+
+		databaseSeconds.on('child_changed', function (snapshot) {
+			if(snapshot.val().thour > 0)  {
+				var finishedOrder = $('#dynamic-list-seconds').children().filter(function() {
+					return $(this).data("hour") == snapshot.val().hour;
+				});
+				finishedOrder.css("background-color", "#rgba(0, 183, 74, 0.8)");
+				finishedOrder.css("color", "white");
+
+				if(snapshot.val().semployee != "-" && snapshot.val().nproducts > 0) {
+					var orderWeeklyCountedRef = firebase.database().ref('process/seconds/' + snapshot.key + '/weeklyFulfilledCounted');
+					orderWeeklyCountedRef.transaction(function(currentValue) {
+						if(currentValue === true)
+							return;
+						return true;
+					}, function(error, committed) {
+						if(!error && committed) {
+							firebase.database().ref('employees/' + snapshot.val().semployee).transaction(function(employeeStats) {
+								if(employeeStats) {
+									employeeStats.norders = (employeeStats.norders || 0) + 1;
+									employeeStats.nproducts = (employeeStats.nproducts || 0) + parseInt(snapshot.val().nproducts, 10);
+									employeeStats.ttime = (employeeStats.ttime || 0) + (snapshot.val().thour - snapshot.val().shour);
+									employeeStats.lastFinished = snapshot.val().thour;
+									employeeStats.hasOrder = false;
+									employeeStats.notesFulfilledThisWeek = (employeeStats.notesFulfilledThisWeek || 0) + 1;
+									employeeStats.prodsFulfilledThisWeek = (employeeStats.prodsFulfilledThisWeek || 0) + parseInt(snapshot.val().nproducts, 10);
+								}
+								return employeeStats;
+							});
+						}
+					});
+				}
+			}
+		});
+
+		databaseSeconds.on('child_removed', function (snapshot) {
+			var removedOrder = $('#dynamic-list-seconds').children().filter(function() {
+				return $(this).data("hour") == snapshot.val().hour;
+			});
+			removedOrder.remove();
+			
+			secondsCounter--;
+			updateCounter("seconds-counter-label", secondsCounter);
+		});
+
+		var thirdsCounter = 0;
+		var databaseThirds = firebase.database().ref('process/thirds/');
+		var waitingTimes = [];
+		var sWaitingTimes10 = [], spWaitingTimes10 = [];
+		var sWaitingTimes30 = [], spWaitingTimes30 = [];
+		var sWaitingTimes50 = [], spWaitingTimes50 = [];
+		
+		//default
+		var globalTPP = ["0.55", "0.45", "0.35"];
+
+		databaseThirds.on('child_added', function (snapshot) {
+			insertThirdListItem(snapshot.val(), snapshot.key);
+
+			if (snapshot.val().shour > 0 && snapshot.val().thour > 0 && snapshot.val().nproducts != 0) { 
+				var mSinceFinished = (Date.now() - snapshot.val().thour) / (60 * 1000);
+				var minutesOfAverage = 90;
+				if (mSinceFinished <= minutesOfAverage) {
+					
+					var orderWT = ((snapshot.val().shour - snapshot.val().hour) / (60 * 1000)).toFixed(2);
+					var sOrderWT = ((snapshot.val().thour - snapshot.val().shour) / (60 * 1000)).toFixed(2);
+					var spOrderWT = (((snapshot.val().thour - snapshot.val().shour) / snapshot.val().nproducts) / (60 * 1000)).toFixed(2);
+	
+					waitingTimes.push(orderWT);
+					if(snapshot.val().nproducts <= 10) {
+						sWaitingTimes10.push(sOrderWT);
+						spWaitingTimes10.push(spOrderWT);
+					} else if(snapshot.val().nproducts <= 30) {
+						sWaitingTimes30.push(sOrderWT);
+						spWaitingTimes30.push(spOrderWT); 
+					} else {
+						sWaitingTimes50.push(sOrderWT);
+						spWaitingTimes50.push(spOrderWT); 
+					}
+					
+					updateWaitingTime(waitingTimes);
+					updateSWaitingTime(sWaitingTimes10, spWaitingTimes10, sWaitingTimes30, spWaitingTimes30, sWaitingTimes50, spWaitingTimes50);
+					
+					setTimeout(function() {
+						if (waitingTimes.indexOf(orderWT) > -1)
+							waitingTimes.splice(waitingTimes.indexOf(orderWT), 1);
+						if(snapshot.val().nproducts <= 10) {
+							if (sWaitingTimes10.indexOf(sOrderWT) > -1)
+								sWaitingTimes10.splice(waitingTimes.indexOf(sOrderWT), 1);
+							if (spWaitingTimes10.indexOf(spOrderWT) > -1)
+								spWaitingTimes10.splice(waitingTimes.indexOf(spOrderWT), 1);
+						} else if(snapshot.val().nproducts <= 30) {
+							if (sWaitingTimes30.indexOf(sOrderWT) > -1)
+								sWaitingTimes30.splice(waitingTimes.indexOf(sOrderWT), 1);
+							if (spWaitingTimes30.indexOf(spOrderWT) > -1)
+								spWaitingTimes30.splice(waitingTimes.indexOf(spOrderWT), 1);
+						} else {
+							if (sWaitingTimes50.indexOf(sOrderWT) > -1)
+								sWaitingTimes50.splice(waitingTimes.indexOf(sOrderWT), 1);
+							if (spWaitingTimes50.indexOf(spOrderWT) > -1)
+								spWaitingTimes50.splice(waitingTimes.indexOf(spOrderWT), 1);
+						}
+
+						updateWaitingTime(waitingTimes);
+						updateSWaitingTime(sWaitingTimes10, spWaitingTimes10, sWaitingTimes30, spWaitingTimes30, sWaitingTimes50, spWaitingTimes50);
+					}, (minutesOfAverage - Math.trunc(mSinceFinished)) * 60 * 1000);
+				}
+			}
+
+			if(snapshot.val().iftomorrow) {
+				var localST = snapshot.val();
+				localST.iftomorrow = false;
+				localST.ifyesterday = true;
+				firebase.database().ref('process/tomorrow/' + snapshot.key).set(localST);
+			}
+
+			thirdsCounter++;
+			updateCounter("thirds-counter-label", thirdsCounter);
+		});
+
+		databaseThirds.on('child_removed', function (snapshot) {
+			var removedOrder = $('#dynamic-list-thirds').children().filter(function() {
+				return $(this).data("hour") == snapshot.val().hour;
+			});
+			removedOrder.remove();
+
+			thirdsCounter--;
+			updateCounter("thirds-counter-label", thirdsCounter);
+		});
+
+		var databaseYesterday = firebase.database().ref('process/yesterday/');
+		databaseYesterday.on('child_added', function (snapshot) {
+			insertThirdListItem(snapshot.val(), snapshot.key);
+
+			thirdsCounter++;
+			updateCounter("thirds-counter-label", thirdsCounter);
+		});
+
+		databaseYesterday.on('child_removed', function (snapshot) {
+			var removedOrder = $('#dynamic-list-thirds').children().filter(function() {
+				return $(this).data("hour") == snapshot.val().hour;
+			});
+			removedOrder.remove();
+
+			thirdsCounter--;
+			updateCounter("thirds-counter-label", thirdsCounter);
+		});
+
+		var employeesSnapshot = {};
+		var databaseEmployees = firebase.database().ref('employees/');
+		databaseEmployees.on('value', function (snapshot) {
+			employeesSnapshot = snapshot.val() || {};
+		});
+
+		var databaseEmployeesWeeklyStats = firebase.database().ref('employees/');
+		databaseEmployeesWeeklyStats.on('value', function (snapshot) {
+			renderFulfilledNotesList(snapshot.val());
+		});
+
+		//scanner input productsRefID.split('.').join("")
+
+	</script>
+
+	<style>
+
+		@font-face {
+            font-family: GillSansMTCondensedBold;
+            font-style: normal;
+            src: url(GillSansMTCondensedBold.ttf);
+        }
+
+		.container-fluid {
+			font-family: GillSansMTCondensedBold;
+			padding-top: .5%;
+		}
+
+		#verificationMessage {
+			font-size: 16px;
+		}
+
+		#dynamic-list-firsts {
+			height: 338px;
+			overflow-x: hidden;
+			overflow-y: auto;
+			-webkit-overflow-scrolling: touch;
+			touch-action: pan-y;
+			cursor: grab;
+		}
+
+		#dynamic-list-seconds {
+			height: 320px;
+			overflow-x: hidden;
+			overflow-y: auto;
+			-webkit-overflow-scrolling: touch;
+			touch-action: pan-y;
+			cursor: grab;
+		}
+
+		#dynamic-list-notes {
+			height: 270px;
+			overflow-x: hidden;
+			overflow-y: auto;
+			-webkit-overflow-scrolling: touch;
+			touch-action: pan-y;
+			margin-bottom: 0px;
+			cursor: grab;
+			transform: translateZ(0);
+			will-change: scroll-position;
+		}
+
+		#dynamic-list-thirds {
+			height: 1190px;
+			overflow-x: hidden;
+			overflow-y: auto;
+			-webkit-overflow-scrolling: touch;
+			touch-action: pan-y;
+			cursor: grab;
+		}
+
+		.drag-scroll-active {
+			cursor: grabbing !important;
+			user-select: none;
+			-webkit-user-select: none;
+		}
+
+		.order-row {
+			margin-left: 0px;
+			margin-right: 0px;
+			padding-left: 12px; 
+			padding-right: 12px;
+		}
+
+		.order-row-title {
+			margin-left: 0px;
+			margin-right: 0px;
+			padding-left: 12px; 
+			padding-right: 12px;
+		}
+
+		.client-name {
+			font-size: 22px;
+			line-height: 30px;
+		}
+
+		.order-id {
+			font-size: 22px;
+			line-height: 30px;
+		}
+
+		.list-group-item {
+			padding-top: 2px;
+			padding-bottom: 2px;
+			padding-left: 12px;
+			color: white;
+			background-color:#111111;
+			border-color: #777777;
+		}
+
+		.notes-title {
+			letter-spacing: .5px;
+		}
+
+		.order-circle::before {
+			background-color:rgb(201, 0, 0);
+			width: 1px;
+			height: 34px;
+
+			border-radius: 5px;
+			border: 1px solid lightgray;
+			position:absolute;
+			z-index: -0;
+			text-align: center;
+			padding: 4px;
+			margin: 10px;
+			left: -8px;
+			top: -7px;
+		}
+
+		.headTitle {
+			border: none;
+		}
+
+		@keyframes pulseBackground {
+			0% { filter: brightness(1); }
+			50% { filter: brightness(.55); }
+			100% { filter: brightness(1); }
+		}
+
+	</style>
+</head>
+
+<body style="zoom: 100%; background-color: #111111; overflow: hidden;">
+	<input id="inputScanner" onblur="focusOnBlur()" style="position: absolute; left: -9999px;" autofocus></input>
+	<div class="alert alert-danger" style="display: none" id="noConnectionAlert" role="alert">
+		<strong>No hay conexión.</strong> Verifica la conexión a internet.
+	</div>
+	<div style="position: absolute; z-index: 2; width: 55px; height: 90%; right: 5px; top: 92px; font-family: GillSansMTCondensedBold;">
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 18px; padding-top: 10px;" onclick="showThirdABC('0')">
+			<div class="glyphicon glyphicon-asterisk"></div>
+		</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('A')">A</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('B')">B</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('C')">C</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('D')">D</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('E')">E</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('F')">F</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('G')">G</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('H')">H</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('I')">I</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('J')">J</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('K')">K</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('L')">L</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('M')">M</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('N')">N</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('O')">O</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('P')">P</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('Q')">Q</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('R')">R</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('S')">S</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('T')">T</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('U')">U</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('V')">V</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('W')">W</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('X')">X</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('Y')">Y</div>
+		<div type="button" class="btn btn-sm" style="background-color: #111111; width: 55px; color: white; height: 3.7%; font-size: 22px;" onclick="showThirdABC('Z')">Z</div>
+	</div>
+
+	<div class="row" style="margin-top: 4px; margin-right: 25px;">
+		<div class="container-fluid col-sm-7" style="background-color: #111111; padding-left: 1.5%; padding-right: .25%;">
+			<div class="row" style="height: 52px;"> 
+				<div class="modal-title col-xs-5" style="margin-bottom: 10px; margin-top:.5px; height: 20px;">
+					<h1 class="modal-title" id="firsts-counter-label" style="border-radius: 5px; float: left; width: 50px; height: 51px; text-align: center; background-color: #111111; color: white; border-style: solid; border-width: 2px;">0</h1>
+					<h1 class="modal-title" style="color: white">&nbsp;PEDIDOS POR SURTIR</h1>
+				</div>
+				<div class="modal-title col-xs-4" style="margin-bottom: 10px; margin-top:.5px; height: 20px; padding-left: 100px;">
+					<h1 class="modal-title" id="waiting-times-label" style="color: white"></h1>
+				</div>
+				<div class="modal-title col-xs-3">
+					<h1 class="modal-title" id="firsts-max-label" style="float: right; text-align: right; color: white"></h1>
+				</div>
+				
+			</div>
+			<div class="list-group-item row order-row-title headTitle">
+				<h2 class="col-xs-3 client-name" style="padding: 0px; margin: 0px; padding-left: 0px;">CLIENTE</h2>
+				<h2 class="col-xs-2 client-name" style="padding: 0px; margin: 0px; padding-left: 10px;">TOTAL</h2>
+				<h2 class="col-xs-1 order-id" style="padding: 0px; margin: 0px; padding-left: 5px;">PRODS</h2>
+				<h2 class="col-xs-1 client-name" style="padding: 0px; margin: 0px; padding-left: 16px;">ANOTÓ</h2>
+				<h2 class="col-xs-3 client-name" style="padding: 0px; margin: 0px; padding-left: 52px;">METODO</h2>
+				<h2 class="col-xs-1 order-id" style="padding: 0px; margin: 0px; padding-left: 10px;">TOMADO</h2>
+				<h2 class="col-xs-1 order-id" style="padding: 0px; margin: 0px; padding-left: 15px;">TIEMPO</h2>
+			</div>
+				<ul id="dynamic-list-firsts" class="list-group" style="display:block; margin-bottom: 12px;"> </ul>
+			
+			<div class="row" style="height: 52px;"> 
+				<div class="modal-title col-xs-4" style="margin-bottom:0%; margin-top:0px; height: 20px;">
+					<h1 class="modal-title" id="seconds-counter-label" style="border-radius: 5px; float: left; width: 50px; height: 52px; text-align: center; border-style: solid; border-width: 2px; color: white">0</h1>
+					<h1 class="modal-title" style="color: white; width: 400px;">&nbsp;PEDIDOS SURTIENDO</h1>
+				</div>
+				<div class="modal-title col-xs-5" style="margin-bottom: 0px; margin-top:0px; height: 20px; padding-left: 60px; display: none;">
+					<h1 class="modal-title" id="s-waiting-times-label" style="color: white"></h1>
+				</div>
+				<div class="modal-title col-xs-3" style="margin-bottom:0%; margin-top:0px;">
+					<h1 class="modal-title" id="seconds-max-label" style="float: right; text-align: right; height: 40px; color: white"></h1>
+				</div>
+			</div>
+				<div class="list-group-item row order-row-title headTitle">
+					<h2 class="col-xs-3 client-name" style="padding: 0px; margin: 0px; padding-left: 0px;">CLIENTE</h2>
+					<h2 class="col-xs-1 client-name" style="padding: 0px; margin: 0px; padding-left: 10px;">TOTAL</h2>
+				<h2 class="col-xs-1 order-id" style="padding: 0px; margin: 0px; padding-left: 5px;">PRODS</h2>
+				<h2 class="col-xs-1 client-name" style="padding: 0px; margin: 0px; padding-left: 10px;">ANOTÓ</h2>
+				<h2 class="col-xs-1 client-name" style="padding: 0px; margin: 0px; padding-left: 10px;">METODO</h2>
+				<h2 class="col-xs-1 order-id" style="padding: 0px; margin: 0px; padding-left: 5px;">TOMADO</h2>
+				<h2 class="col-xs-1 order-id" style="padding: 0px; margin: 0px; padding-left: 5px;">ESPERÓ</h2>
+				<h2 class="col-xs-1 client-name" style="padding: 0px; margin: 0px; padding-left: 10px;">SURTE</h2>
+					<h2 class="col-xs-1 order-id" style="padding: 0px; margin: 0px; padding-left: 5px;">TIEMPO</h2>
+					<h2 class="col-xs-1 order-id" style="padding: 0px; margin: 0px; padding-left: 5px;">TOTAL</h2>
+				</div>
+				<ul id="dynamic-list-seconds" class="list-group" style="display:block; margin-bottom: 18px;"> </ul>
+
+				<div class="row" style="height: 52px;"> 
+					<div class="modal-title col-xs-10" style="margin-bottom:0%; margin-top:0px; height: 20px;">
+						<h1 class="modal-title" id="notes-fulfilled-counter-label" style="border-radius: 5px; float: left; width: 50px; height: 52px; text-align: center; border-style: solid; border-width: 2px; color: white">0</h1>
+						<h1 class="modal-title notes-title" style="color: white; width: 420px;">&nbsp;NOTAS SURTIDAS</h1>
+					</div>
+					<div class="modal-title col-xs-2" style="margin-bottom:0%; margin-top:0px; height: 20px; text-align: right;">
+						<div type="button" class="btn btn-sm" style="background-color: #111111; color: white; border: 1px solid #777777; margin-top: 6px; margin-right: 4px;" onclick="scrollbPressed('dynamic-list-notes', 'up')">
+							<span class="glyphicon glyphicon-chevron-up"></span>
+						</div>
+						<div type="button" class="btn btn-sm" style="background-color: #111111; color: white; border: 1px solid #777777; margin-top: 6px;" onclick="scrollbPressed('dynamic-list-notes', 'down')">
+							<span class="glyphicon glyphicon-chevron-down"></span>
+						</div>
+					</div>
+				</div>
+				<div class="list-group-item row order-row-title headTitle">
+					<h2 class="col-xs-5 client-name" style="padding: 0px; margin: 0px; padding-left: 0px;">EMPLEADO</h2>
+					<h2 class="col-xs-3 client-name" style="padding: 0px; margin: 0px; padding-left: 10px;">NOTAS SURTIDAS</h2>
+					<h2 class="col-xs-4 client-name" style="padding: 0px; margin: 0px; padding-left: 10px;">PRODUCTOS SURTIDOS</h2>
+				</div>
+				<ul id="dynamic-list-notes" class="list-group" style="display:block;"></ul>
+			</div>
+		
+		<div class="container-fluid col-sm-5" style="background-color: #111111; height: 1280px; padding-left: .5%; padding-right: 1.6%;">
+			<div class="modal-title" style="margin-bottom: 0%; margin-top: 0px;">
+				<h1 class="modal-title" id="thirds-counter-label" style="border-radius: 5px; float: left; width: 50px; height: 50px; text-align: center; border-style: solid; border-width: 2px; color: white;">0</h1>
+				<h1 class="modal-title" style="color: white">&nbsp;PEDIDOS POR COBRAR</h1>
+			</div>
+			<div class="list-group-item row order-row-title headTitle" style="padding-bottom: 1px; padding-top: 2.5px; margin-left: 0px;">
+				<h2 class="col-xs-4 client-name" style="padding: 0px; margin: 0px; padding-left: 0px;">CLIENTE</h2>
+				<h2 class="col-xs-2 client-name" style="padding: 0px; margin: 0px; padding-left: 50px;">HORA</h2>
+				<h2 class="col-xs-2 client-name" style="padding: 0px; margin: 0px; padding-left: 40px;">ANOTÓ</h2>
+				<h2 class="col-xs-1 client-name" style="padding: 0px; margin: 0px; padding-left: 25px;">METODO</h2>
+				<h2 class="col-xs-1 client-name" style="padding: 0px; margin: 0px; padding-left: 45px;">PRODS</h2>
+				<h2 class="col-xs-1 client-name" style="padding: 0px; margin: 0px; padding-left: 50px;">TOTAL</h2>
+			</div>
+				<ul id="dynamic-list-thirds" class="list-group" style="display:block; padding-top: 1px;"> </ul>
+		</div>
+	</div>
+	
+	<script>
+
+		window.onload = () => {
+  			document.body.style.zoom = "83%"; // or 1.5
+			initializeDragScroll();
+		};
+
+		//hearForCallClient();
+		
+		checkConnection();
+		idleTimer();
+		seedWeeklyFulfilledDemoDataIfEmpty();
+		
+		checkDayChange();
+		window.setInterval(checkDayChange, 5*60*1000);
+
+		$("#inputScanner").on('keyup', function (e) {
+			if (e.keyCode == 13 && $("#inputScanner").val() != "")
+				manageScannerInput();
+		});
+
+		function hearForCallClient() {
+            firebase.database().ref('service/0isReady').on('value', function (snapshot) {
+                if(snapshot.val()) {
+                    firebase.database().ref('service/0isReady').set(false);
+                    speak(0);
+                }
+            });
+            firebase.database().ref('service/1isReady').on('value', function (snapshot) {
+                if(snapshot.val()) {
+                    firebase.database().ref('service/1isReady').set(false);
+                    speak(1);
+                }
+            });
+            firebase.database().ref('service/2isReady').on('value', function (snapshot) {
+                if(snapshot.val()) {
+                    firebase.database().ref('service/2isReady').set(false);
+                    speak(2);
+                }
+            });
+            firebase.database().ref('service/3isReady').on('value', function (snapshot) {
+                if(snapshot.val()) {
+                    firebase.database().ref('service/3isReady').set(false);
+                    speak(3);
+                }
+            });
+            firebase.database().ref('service/4isReady').on('value', function (snapshot) {
+                if(snapshot.val()) {
+                    firebase.database().ref('service/4isReady').set(false);
+                    speak(4);
+                }
+            });
+            firebase.database().ref('service/5isReady').on('value', function (snapshot) {
+                if(snapshot.val()) {
+                    firebase.database().ref('service/5isReady').set(false);
+                    speak(5);
+                }
+            });
+            firebase.database().ref('service/6isReady').on('value', function (snapshot) {
+                if(snapshot.val()) {
+                    firebase.database().ref('service/6isReady').set(false);
+                    speak(6);
+                }
+            });
+        }
+
+		function getRandomInt(max) {
+            return Math.floor(Math.random() * max);
+        }
+
+		function speak(computer) {
+			var msg = new SpeechSynthesisUtterance();
+			msg.rate = 1;
+
+            var hours = (new Date()).getHours();
+            var ampm = hours >= 12 ? 'pm' : 'am';
+            
+            var randomInt = getRandomInt(4);
+            if(randomInt == 1)
+			    msg.text = "buen día, pase el siguiente a la " + computer;
+            else
+                msg.text = "pase el siguiente a la " + computer;
+
+            //msg.voice = speechSynthesis.getVoices()[speechSynthesis.getVoices().findIndex(item => item.name === 'Google español de Estados Unidos')];
+			console.log(speechSynthesis.getVoices());
+            msg.voice = speechSynthesis.getVoices()[66];
+			window.speechSynthesis.speak(msg);
+
+		}
+
+		function idleTimer() {
+			var idleTime = 0;
+			$(document).ready(function () {
+				var idleInterval = setInterval(timerIncrement, 5000);
+				$(this).mousemove(function (e) {
+					idleTime = 0;
+				});
+			});
+
+			function timerIncrement() {
+				idleTime = idleTime + 1;
+				if (idleTime > 5) {
+					scrollbPressed("dynamic-list-firsts", "up");
+					scrollbPressed("dynamic-list-seconds", "up");
+				}
+			}
+		}
+
+		function showThirdABC(letter) {
+			if(letter != "0") {
+				currentLetter = letter;
+				$("#dynamic-list-thirds").children().each(function( index ) {
+					if($(this).children().eq(1).children().eq(1).text().charAt(0) == letter)
+						$(this).css("display", "block");
+					else
+						$(this).css("display", "none");
+				});
+			} else {
+				$("#dynamic-list-thirds").children().each(function( index ) {
+					$(this).css("display", "block");
+				});
+			}
+		}
+
+		function scrollbPressed(elementid, direction) {
+			var element = document.getElementById(elementid);
+			var step = 10;
+			var speed = 5;
+			var distance = 200;
+
+			if(elementid == "dynamic-list-thirds") {
+				distance = 1050;
+				speed = 6;
+			} else if(elementid == "dynamic-list-notes") {
+				step = 8;
+				speed = 12;
+				distance = 140;
+			}
+
+			var scrollAmount = 0;
+			var slideTimer = setInterval(function() {
+				var currentStep = Math.min(step, distance - scrollAmount);
+
+				if(currentStep <= 0) {
+					window.clearInterval(slideTimer);
+					return;
+				}
+
+				if(elementid == "dynamic-list-notes") {
+					if(direction == 'down')
+						element.scrollTop = element.scrollTop + currentStep;
+					else
+						element.scrollTop = Math.max(0, element.scrollTop - currentStep);
+				} else {
+					if(direction == 'down')
+						element.scrollBy(0, currentStep);
+					else 
+						element.scrollBy(0, -currentStep);
+				}
+
+				if(elementid == "dynamic-list-notes")
+					forceListRepaint(element);
+
+				scrollAmount += currentStep;
+				if(scrollAmount >= distance){
+					window.clearInterval(slideTimer);
+				}
+				}, speed);
+		}
+
+		function forceListRepaint(element) {
+			if(!element)
+				return;
+
+			element.style.transform = 'translateZ(0)';
+			element.offsetHeight;
+		}
+
+		function initializeDragScroll() {
+			enableDragScroll('dynamic-list-firsts');
+			enableDragScroll('dynamic-list-seconds');
+			enableDragScroll('dynamic-list-thirds');
+		}
+
+		function enableDragScroll(elementId) {
+			var element = document.getElementById(elementId);
+			if(!element || element.dataset.dragScrollBound === "true")
+				return;
+
+			var isDragging = false;
+			var startY = 0;
+			var startScrollTop = 0;
+			var movedDistance = 0;
+			var autoScrollInterval = null;
+			var autoScrollDirection = 0;
+			var localAutoScrollStep = autoScrollStep;
+			var localZoneRatio = autoScrollZoneRatio;
+
+			if(elementId == "dynamic-list-thirds")
+				localAutoScrollStep = 32;
+
+			element.dataset.dragScrollBound = "true";
+
+			function getClientY(event) {
+				if(event.touches && event.touches.length)
+					return event.touches[0].clientY;
+				if(event.changedTouches && event.changedTouches.length)
+					return event.changedTouches[0].clientY;
+				return event.clientY;
+			}
+
+			function startDrag(event) {
+				isDragging = true;
+				startY = getClientY(event);
+				startScrollTop = element.scrollTop;
+				movedDistance = 0;
+				element.classList.add('drag-scroll-active');
+			}
+
+			function moveDrag(event) {
+				if(!isDragging)
+					return;
+
+				var currentY = getClientY(event);
+				var deltaY = currentY - startY;
+				movedDistance = Math.max(movedDistance, Math.abs(deltaY));
+				element.scrollTop = startScrollTop - deltaY;
+
+				if(event.cancelable)
+					event.preventDefault();
+			}
+
+			function endDrag(event) {
+				if(!isDragging)
+					return;
+
+				isDragging = false;
+				element.classList.remove('drag-scroll-active');
+
+				if(movedDistance > 6 && event && event.preventDefault)
+					event.preventDefault();
+			}
+
+			function stopAutoScroll() {
+				autoScrollDirection = 0;
+				if(autoScrollInterval) {
+					clearInterval(autoScrollInterval);
+					autoScrollInterval = null;
+				}
+			}
+
+			function startAutoScroll(direction) {
+				if(autoScrollDirection === direction && autoScrollInterval)
+					return;
+
+				stopAutoScroll();
+				autoScrollDirection = direction;
+				autoScrollInterval = setInterval(function() {
+					element.scrollTop += localAutoScrollStep * autoScrollDirection;
+				}, autoScrollIntervalMs);
+			}
+
+			function updateAutoScroll(event) {
+				if(isDragging)
+					return;
+
+				var rect = element.getBoundingClientRect();
+				var clientY = getClientY(event);
+				var visibleTop = Math.max(rect.top, 0);
+				var visibleBottom = Math.min(rect.bottom, window.innerHeight || document.documentElement.clientHeight);
+				var visibleHeight = Math.max(0, visibleBottom - visibleTop);
+
+				if(visibleHeight <= 0) {
+					stopAutoScroll();
+					return;
+				}
+
+				var zoneSize = visibleHeight * localZoneRatio;
+				var topZoneLimit = visibleTop + zoneSize;
+				var bottomZoneLimit = visibleBottom - zoneSize;
+
+				topZoneLimit = Math.max(visibleTop, Math.min(visibleBottom, topZoneLimit));
+				bottomZoneLimit = Math.max(visibleTop, Math.min(visibleBottom, bottomZoneLimit));
+
+				if(clientY >= visibleTop && clientY <= topZoneLimit)
+					startAutoScroll(-1);
+				else if(clientY <= visibleBottom && clientY >= bottomZoneLimit)
+					startAutoScroll(1);
+				else
+					stopAutoScroll();
+			}
+
+			element.addEventListener('mousedown', startDrag);
+			element.addEventListener('pointerdown', startDrag);
+			element.addEventListener('touchstart', startDrag, { passive: true });
+			window.addEventListener('mousemove', moveDrag, { passive: false });
+			window.addEventListener('pointermove', moveDrag, { passive: false });
+			window.addEventListener('touchmove', moveDrag, { passive: false });
+			window.addEventListener('mouseup', endDrag);
+			window.addEventListener('pointerup', endDrag);
+			window.addEventListener('pointercancel', endDrag);
+			window.addEventListener('mouseleave', endDrag);
+			window.addEventListener('touchend', endDrag);
+			window.addEventListener('touchcancel', endDrag);
+			element.addEventListener('mousemove', updateAutoScroll, { passive: true });
+			element.addEventListener('pointermove', updateAutoScroll, { passive: true });
+			element.addEventListener('touchmove', updateAutoScroll, { passive: true });
+			element.addEventListener('mouseleave', stopAutoScroll);
+			element.addEventListener('pointerleave', stopAutoScroll);
+			element.addEventListener('pointerup', stopAutoScroll);
+			element.addEventListener('pointercancel', stopAutoScroll);
+			element.addEventListener('touchend', stopAutoScroll);
+			element.addEventListener('touchcancel', stopAutoScroll);
+		}
+
+		function updateWaitingTime(waitingTimes) {
+			var averageTime = getAverage(waitingTimes);
+			
+			if(averageTime == 0)
+				$("#waiting-times-label").text("");
+			else
+				$("#waiting-times-label").text("PROMEDIO: " + (averageTime / 1).toFixed(1) + "M");
+		}
+
+		function updateSWaitingTime(sWaitingTimes10, spWaitingTimes10, sWaitingTimes30, spWaitingTimes30, sWaitingTimes50, spWaitingTimes50) {
+			console.log("actualizo");
+			var averageTime = ((parseFloat(getAverage(sWaitingTimes10)) + parseFloat(getAverage(sWaitingTimes30)) + parseFloat(getAverage(sWaitingTimes50))) / 3 ).toFixed(1);
+			var averageTimePP = ((parseFloat(getAverage(spWaitingTimes10)) + parseFloat(getAverage(spWaitingTimes30)) + parseFloat(getAverage(spWaitingTimes50))) / 3 ).toFixed(1);
+			
+			if(averageTime == 0)
+				$("#s-waiting-times-label").text("");
+			else
+				$("#s-waiting-times-label").text("PROMEDIO: " + parseFloat(averageTime).toFixed(1) + "N " + parseFloat(averageTimePP).toFixed(1) + "P");
+
+			firebase.database().ref('process/timing/tpp10').set(parseFloat(getAverage(spWaitingTimes10)).toFixed(2));
+			firebase.database().ref('process/timing/tpp30').set(parseFloat(getAverage(spWaitingTimes30)).toFixed(2));
+			firebase.database().ref('process/timing/tpp50').set(parseFloat(getAverage(spWaitingTimes50)).toFixed(2));
+			globalTPP = [parseFloat(getAverage(spWaitingTimes10)).toFixed(2), parseFloat(getAverage(spWaitingTimes30)).toFixed(2), parseFloat(getAverage(spWaitingTimes50)).toFixed(2)];
+		}
+
+		function getAverage(array) {
+			if(array.length == 0)
+				return 1;
+			
+			array.sort();
+			var tenP = Math.trunc(array.length * .1);
+
+			var sum = 0;
+			for (var i = tenP; i < array.length - tenP; i++)
+				sum += parseFloat(array[i]);
+
+			return parseFloat((sum / array.length).toFixed(2));
+		}
+
+		function updateCounter(id, counter) {
+			$("#" + id).text(counter);
+			if(id == "firsts-counter-label") {
+				if(counter >= 5){
+					$("#" + id).css("background-color", "rgba(216, 61, 52, 70%)");
+					$("#" + id).css("color", "white");
+					$("#" + id).css("border-style", "hidden");
+				} 
+				else if(counter >= 3 && counter <= 4){
+					$("#" + id).css("background-color", "rgba(255, 215, 0, 80%)");
+					$("#" + id).css("color", "white");
+					$("#" + id).css("border-style", "hidden");
+				} else if(counter >= 0 && counter <= 2){
+					$("#" + id).css("background-color", "#111111");
+					$("#" + id).css("color", "white");
+					$("#" + id).css("border-style", "solid");
+				}
+				
+				uploadWOrders();
+			}
+			if(id == "thirds-counter-label") {
+				if(counter.toString().length == 3)
+				$("#thirds-counter-label").css("width", "65px");
+				else
+				$("#thirds-counter-label").css("width", "50px");
+			}
+		}
+		
+		function uploadWOrders() {
+			var realCounter = 0;
+			$("#dynamic-list-firsts").children().each(function( index ) {
+				if($(this).children().eq(6).text() <= 20)
+					realCounter++;
+			});
+			firebase.database().ref('process/timing/worders').set(realCounter);
+			
+			var rawCouter = $("#firsts-counter-label").text();
+			firebase.database().ref('process/timing/rworders').set(rawCouter);
+		}
+
+        function focusOnBlur() {
+            setTimeout(function() { $("#inputScanner").focus(); }, 0);
+		}
+		
+		function isLetter(char) {
+			return (/[a-zA-Z]/).test(char)		
+		}
+
+		function applyEmployeeToOrder(employeeid, orderid) {
+			var semployeeName = getEmployeeNameByID(employeesSnapshot, employeeid);
+			if(semployeeName == undefined)
+				return false;
+
+			firebase.database().ref('process/firsts/' + orderid).once("value", function(snapshot) {
+				if(snapshot.val()) {
+					var localsnapshot = snapshot.val();
+					localsnapshot.semployee = semployeeName;
+					localsnapshot.shour = Date.now();
+					delete localsnapshot.weeklyFulfilledCounted;
+
+					firebase.database().ref('employees/' + semployeeName + "/hasOrder").set(true);
+
+					firebase.database().ref('process/seconds/' + orderid).set(localsnapshot).then(function () {
+						firebase.database().ref('process/firsts/' + orderid).remove();
+					});
+					return;
+				}
+
+				firebase.database().ref('process/seconds/' + orderid).once("value", function(secondSnapshot) {
+					if(secondSnapshot.val()) {
+						var secondOrder = secondSnapshot.val();
+						secondOrder.semployee = semployeeName;
+						if(!secondOrder.shour)
+							secondOrder.shour = Date.now();
+						delete secondOrder.weeklyFulfilledCounted;
+
+						firebase.database().ref('employees/' + semployeeName + "/hasOrder").set(true);
+						firebase.database().ref('process/seconds/' + orderid).set(secondOrder);
+					}
+				});
+			});
+
+			return true;
+		}
+
+        function manageScannerInput() {
+            var input = $("#inputScanner").val();
+			$("#inputScanner").val("");
+			
+			input = input.replace(/[^A-Z0-9]/g,'');
+			if(input == "")
+				return;
+
+			if(/^\d{1,3}$/.test(input)) {
+				pendingEmployeeId = input.padStart(3, '0');
+				return;
+			}
+			
+			if(isLetter(input.charAt(0))) {
+				if(pendingEmployeeId) {
+					applyEmployeeToOrder(pendingEmployeeId, input);
+					pendingEmployeeId = null;
+					return;
+				}
+
+				//sino hubo clave, busco en seconds, si existe seteo la hora para cambiar el color.
+				var orderid = input;
+				firebase.database().ref('process/seconds/' + orderid).once("value", function(snapshot) {
+					if(snapshot.val()) {
+						var localsnapshot = snapshot.val();
+						localsnapshot.thour = Date.now();
+						
+						firebase.database().ref('process/seconds/' + orderid).set(localsnapshot);
+						//firebase.database().ref('process/seconds/' + orderid).remove();
+					} else {
+						//sino está en seconds, busco en firsts y seteo seconds. borro en firsts
+						firebase.database().ref('process/firsts/' + orderid).once("value", function(snapshot) {
+							if(snapshot.val()) {
+								var localsnapshot = snapshot.val();
+								localsnapshot.semployee = "-";
+								localsnapshot.shour = Date.now();
+								delete localsnapshot.weeklyFulfilledCounted;
+								
+								firebase.database().ref('process/seconds/' + orderid).set(localsnapshot).then(function () {
+									firebase.database().ref('process/firsts/' + orderid).remove();
+								});
+							}
+						});
+					}
+				});	
+			} else {
+				if(isLetter(input.charAt(1)))
+					input = "00" + input;
+				if(isLetter(input.charAt(2)))
+					input = "0" + input;
+				if(isLetter(input.charAt(3))) {
+					var employeeid = input.slice(0, 3);
+					console.log("employeeid " + employeeid);
+
+					var orderid = input.slice(3, input.length);	
+					console.log("orderid " + orderid);
+
+					if(applyEmployeeToOrder(employeeid, orderid)) {
+						pendingEmployeeId = null;
+					} else if(employeeid == 99) {
+						//si está en firsts, seteo thirds. borro firsts
+						firebase.database().ref('process/firsts/' + orderid).once("value", function(snapshot) {
+							if(snapshot.val()) {
+								var localsnapshot = snapshot.val();
+								firebase.database().ref('process/thirds/' + orderid).set(localsnapshot).then(function () {
+									firebase.database().ref('process/firsts/' + orderid).remove();
+								});
+							} else {
+								//si está en seconds, seteo first s. borro seconds
+								firebase.database().ref('process/seconds/' + orderid).once("value", function(snapshot) {
+									if(snapshot.val()) {
+										var localsnapshot = snapshot.val();
+										delete localsnapshot.shour;
+										delete localsnapshot.thour;
+										delete localsnapshot.weeklyFulfilledCounted;
+										firebase.database().ref('process/firsts/' + orderid).set(localsnapshot).then(function () {
+											firebase.database().ref('process/seconds/' + orderid).remove();
+										});
+									} else {
+										//si está en thirds, seteo first s. borro thirds
+										firebase.database().ref('process/thirds/' + orderid).once("value", function(snapshot) {
+											if(snapshot.val()) {
+												var localsnapshot = snapshot.val();
+												localsnapshot.checked = false;
+												delete localsnapshot.shour;
+												delete localsnapshot.thour;
+												delete localsnapshot.weeklyFulfilledCounted;
+												firebase.database().ref('process/firsts/' + orderid).set(localsnapshot).then(function () {
+													firebase.database().ref('process/thirds/' + orderid).remove();
+												});
+											} else {
+												//si está en fourths, seteo first s. borro fourths
+												firebase.database().ref('process/fourths/' + orderid).once("value", function(snapshot) {
+													if(snapshot.val()) {
+														var localsnapshot = snapshot.val();
+														localsnapshot.checked = false;
+														delete localsnapshot.shour;
+														delete localsnapshot.thour;
+														delete localsnapshot.weeklyFulfilledCounted;
+														firebase.database().ref('process/firsts/' + orderid).set(localsnapshot).then(function () {
+															firebase.database().ref('process/fourths/' + orderid).remove();
+														});
+													} 
+												});	
+											}
+										});	
+									}
+								});
+							}
+						});
+					}
+				}
+			}
+        }
+
+		function formatFirstsListItem(order, id) {
+			var orderHour = new Date(order.hour);
+			var diffMinutes = Math.trunc((new Date() - orderHour) / 60000);
+			var backgroundColor = "#111111",
+                color = "white";
+			var blinkAnimation = "none";
+			
+			if(!order.ftotal)
+				order.total = order.total + "~";
+			
+			//aqui
+			if(order.ndiversity == "0") {
+				blinkAnimation = "pulseBackground 2.5s ease-in-out infinite";
+				order.nproducts = order.nproducts + " &#10003;"
+				//verde oscuro
+				backgroundColor = "rgba(0, 183, 74, 0.8)";
+                color = "white";
+			} else if(order.ndiversity == "1" && !order.haspanela) {
+				if((order.onlyafuera && order.nproducts <= 10) || (!order.onlyafuera && order.nproducts <= 2)) {
+					blinkAnimation = "pulseBackground 2.5s ease-in-out infinite";
+					order.nproducts = order.nproducts + " &#x21;"
+					backgroundColor = "#00B74AEE";
+                	color = "white";
+				}
+			}
+
+			var returnStatement = 
+				'<li class="list-group-item row order-row" style="background-color: ' + backgroundColor + '; color: ' + color + '; padding-right: 0px; animation: ' + blinkAnimation + ';">' +
+					'<h2 class="col-sm-3 client-name" style="padding: 0px; margin: 0px; padding-left: 3px;">' + order.name + '</h2>' +
+					'<h2 class="col-sm-2 client-name" style="padding: 0px; margin: 0px; padding-left: 10px;">$' + order.total + '</h2>' +
+					'<h2 class="col-sm-1 order-id" style="padding: 0px; margin: 0px; padding-left: 5px;">' + order.nproducts + '</h2>' +
+					'<h2 class="col-sm-1 client-name" style="padding: 0px; margin: 0px; padding-left: 10px;">' + order.femployee + '</h2>' +
+					'<h2 class="col-sm-3 client-name" style="padding: 0px; margin: 0px; padding-left: 10px;">#'+ order.ncomputer + " " + order.ordertype + '</h2>' +
+					'<h2 class="col-sm-1 order-id" style="padding: 0px; margin: 0px; padding-left: 0px;">' + orderHour.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true}) + '</h2>' +
+					'<div class="col-sm-1" style="padding: 0px; margin: 0px; padding-left: 5px;">' +  
+						'<h2 class="order-id elapsed-time" style="width: 30px; margin: 0px 0px; float: left; clear: both;">' + diffMinutes + '</h2>' + 						
+						'<div type="button" class="btn btn-sm" style="float: right; margin: 0px; height: 30px; padding-top: 2px;" onclick="sendToThirds(&quot;' + id + '&quot;)">' +
+							'<h4 class="glyphicon glyphicon-remove" style="margin-top: .75px;"></h4>' +
+						'</div>' +
+					'</div>' +
+				'</li>';
+			
+			return returnStatement;
+			//'<h2 class="col-sm-1 order-id" style="padding: 0px; margin: 0px; padding-left: 5px;">' + getEstimatedTime(order.nproducts) + '</h2>' +
+		}
+
+		function isDirectOrder(order) {
+			return order && typeof order.direct !== "undefined" && parseInt(order.direct, 10) <= 3;
+		}
+
+		function moveDirectOrderToThirds(orderid, orderData) {
+			if(!orderData)
+				return;
+
+			var directOrderData = Object.assign({}, orderData, {
+				checked: false,
+				isDirect: true
+			});
+
+			firebase.database().ref('process/thirds/' + orderid).set(directOrderData).then(function () {
+				firebase.database().ref('process/firsts/' + orderid).remove();
+			});
+		}
+
+		function sendToThirds(orderid) {
+			firebase.database().ref('process/firsts/' + orderid).once("value", function(snapshot) {
+				if(snapshot.val()) {
+					var localsnapshot = snapshot.val();
+					localsnapshot.checked = true;
+					firebase.database().ref('process/thirds/' + orderid).set(localsnapshot).then(function () {
+						firebase.database().ref('process/firsts/' + orderid).remove();
+					});
+				} else {
+					firebase.database().ref('process/seconds/' + orderid).once("value", function(snapshot) {
+						if(snapshot.val()) {
+							var localsnapshot = snapshot.val();
+							localsnapshot.checked = true;
+							firebase.database().ref('process/thirds/' + orderid).set(localsnapshot).then(function () {
+								firebase.database().ref('process/seconds/' + orderid).remove();
+							});
+						} 
+					});
+				}
+			});
+		}
+
+		function formatSecondsListItem(order, id) {
+			var orderHour = new Date(order.hour);
+			var diffMinutes = Math.trunc((new Date() - orderHour) / 60000);
+			var diffMinutesSeconds = Math.trunc((new Date() - new Date(order.shour)) / 60000);
+
+			var backgroundColor = "#111111",
+                color = "white";
+
+			if(!order.ftotal)
+				order.total = order.total + "~";
+
+			if(order.ordertype == "MOSTRADOR")
+				order.ordertype = "MOST.";
+			else if (order.ordertype == "TELEFONO")
+				order.ordertype = "TEL.";
+			else if (order.ordertype == "WHATSAPP")
+				order.ordertype = "WHA.";
+			
+			var returnStatement = 
+				'<li class="list-group-item row order-row" style="background-color: ' + backgroundColor + '; color: ' + color + '; padding-right: 0px;">' +
+					'<h2 class="col-xs-3 client-name" style="padding: 0px; margin: 0px; padding-left: 0px;">' + order.name + '</h2>' +
+					'<h2 class="col-xs-1 client-name" style="padding: 0px; margin: 0px; padding-left: 10px;">$' + order.total + '</h2>' +
+					'<h2 class="col-xs-1 order-id" style="padding: 0px; margin: 0px; padding-left: 5px;">' + order.nproducts + '</h2>' +
+					'<h2 class="col-xs-1 client-name" style="padding: 0px; margin: 0px; padding-left: 10px;">' + order.femployee + '</h2>' +
+					'<h2 class="col-xs-1 client-name" style="padding: 0px; margin: 0px; padding-left: 10px;">#' + order.ncomputer + " " + order.ordertype + '</h2>' +
+					'<h2 class="col-xs-1 order-id" style="padding: 0px; margin: 0px; padding-left: 5px;">' + orderHour.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true}) + '</h2>' +
+					'<h2 class="col-xs-1 order-id" style="padding: 0px; margin: 0px; padding-left: 5px;">' + (diffMinutes - diffMinutesSeconds) + '</h2>' +
+					'<h2 class="col-xs-1 client-name" style="padding: 0px; margin: 0px; padding-left: 10px;">' + order.semployee + '</h2>' +
+					'<h2 class="col-xs-1 order-id seconds-elapsed-time" style="padding: 0px; margin: 0px; padding-left: 5px;">' + diffMinutesSeconds + '</h2>' +
+					'<div class="col-xs-1" style="padding: 0px; margin: 0px; padding-left: 5px;">' +  
+						'<h2 class="order-id elapsed-time" style="width: 20px; margin: 0px 0px; float: left; clear: both;">' + diffMinutes + '</h2>' + 						
+						'<div type="button" class="btn btn-sm" style="float: right; margin: 0px; height: 30px; padding-top: 2px;" onclick="sendToThirds(&quot;' + id + '&quot;)">' +
+							'<h4 class="glyphicon glyphicon-remove" style="margin-top: .75px;"></h4>' +
+						'</div>' +
+					'</div>' +
+				'</li>';
+			return returnStatement;
+			//'<h2 class="col-xs-1 order-id" style="padding: 0px; margin: 0px; padding-left: 5px;">' + getEstimatedTime(order.nproducts) + '</h2>' +
+		}
+
+		function formatThirdsListItem(order, id) {
+			if(!order.ftotal)
+				order.total = order.total + "~";
+			
+			//rojo oscuro
+			var backgroundColor = "rgba(216, 61, 52, 88%)",
+				color = "white";
+
+			var directBadge = "";
+			if(isDirectOrder(order) || order.isDirect) {
+				backgroundColor = "rgba(0, 123, 167, 0.92)";
+				directBadge = '<span style="display: inline-block; margin-left: 8px; padding: 2px 7px; border: 1px solid rgba(255,255,255,0.65); border-radius: 10px; font-size: 15px; line-height: 18px;">DIR</span>';
+			}
+			
+			if(order.checked) {
+				backgroundColor = "#111111";
+				color = "white";
+			}
+
+			var iconVisibility = "none";
+			var tomorrowIcon = "glyphicon-cloud-upload";
+
+			if(order.iftomorrow)
+				iconVisibility = "block";
+
+			if(order.ifyesterday) {
+				iconVisibility = "block";
+				tomorrowIcon = "glyphicon-cloud-download";
+			}
+
+			if(order.ordertype == "MOSTRADOR")
+				order.ordertype = "MOST.";
+			else if (order.ordertype == "TELEFONO")
+				order.ordertype = "TEL.";
+			else if (order.ordertype == "WHATSAPP")
+				order.ordertype = "WHA.";
+
+			var date = new Date(parseInt(order.hour));
+			var dateString = date.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true});
+
+			var displayAttr = "none";
+			if(currentLetter == order.name.charAt(0) || currentLetter == "0")
+				displayAttr = "block";
+			
+			var returnStatement = 
+				'<li class="list-group-item row order-row" style="padding-right: 0px; padding-left: 0px; background-color: ' + backgroundColor + '; color: ' + color + '; display: ' + displayAttr + ';">' +
+					'<span type="button" class="btn btn-sm" style="float: left; margin: 0px; height: 30px; padding-top: 2px;" onclick="sendToFourths(&quot;' + id + '&quot;)">' +
+						'<h4 class="glyphicon glyphicon-remove" style="margin-top: .75px;"></h4>' +
+					'</span>' + 
+					'<div class="col-xs-4" style="padding: 0px; margin: 0px;">' + 
+						'<h3 class="glyphicon ' + tomorrowIcon + '" style="padding: 0px; margin: 0px; float: left; width:30px; display: ' + iconVisibility + '"></h3>' + 
+						'<h2 class="client-name" style="padding: 0px; margin: 0px; padding-left: 0px; float: left;">' + order.name + directBadge + '</h2>' + 
+					'</div>' +
+					'<div class="col-xs-2" style="padding: 0px; margin: 0px; padding-left: 0px;">' +  
+						'<h2 class="order-id elapsed-time" style="margin: 0px 0px; float: left; clear: both; padding-left: 15px;">' + dateString + '</h2>' +						
+					'</div>' +
+					'<div class="col-xs-2" style="padding: 0px; margin: 0px; padding-left: 0px;">' +  
+						'<h2 class="order-id elapsed-time" style="margin: 0px 0px; float: left; clear: both;">#' + order.ncomputer + ' ' + order.femployee + '</h2>' +						
+					'</div>' +
+					'<div class="col-xs-1" style="padding: 0px; margin: 0px; padding-left: 0px;">' +  
+						'<h2 class="order-id elapsed-time" style="margin: 0px 0px; float: left; clear: both;">' + order.ordertype + '</h2>' +						
+					'</div>' +
+					'<div class="col-xs-1" style="padding: 0px; margin: 0px; padding-left: 0px;">' +  
+						'<h2 class="order-id elapsed-time" style="margin: 0px 0px; float: left; clear: both;">' + order.nproducts + '</h2>' +						
+					'</div>' +
+					'<div class="col-xs-1" style="padding: 0px; margin: 0px;">' +  
+						'<h2 class="order-id elapsed-time" style="width: 90px; margin: 0px 0px; float: left; clear: both; left: -10px;">$' + order.total + '</h2>' +						
+					'</div>' +
+				'</li>';
+			return returnStatement;
+		}
+
+		//'<span type="button" class="btn btn-sm" style="float: right; margin: 0px; height: 30px;" onclick="getInfoFourths(&quot;' + order.ncomputer + '&quot; , &quot;' + order.hour + '&quot; , &quot;' + order.femployee + '&quot;)">' +
+		//	'<h4 class="glyphicon glyphicon-time" style="margin-top: .75px;"></h4>' +
+		//'</span>' +
+
+		function getInfoFourths(computer, orderHour, employee) {
+			var date = new Date(parseInt(orderHour));
+			var dateString = date.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true});
+			
+			alert("ANOTÓ " + employee + "\n" + dateString + "\n#C" + computer);
+		}
+
+		function sendToFourths(orderid) {
+			firebase.database().ref('process/thirds/' + orderid).once("value", function(snapshot) {
+				if(snapshot.val()) {
+					var localsnapshot = snapshot.val();
+					firebase.database().ref('process/fourths/' + orderid).set(localsnapshot).then(function () {
+						firebase.database().ref('process/thirds/' + orderid).remove();
+					});
+				}
+			});
+		}
+
+		function getEmployeeNameByID(object, value) {
+			if(!object)
+				return undefined;
+
+			return Object.keys(object).find(function(key) {
+				var employeeData = object[key];
+				if(employeeData == null)
+					return false;
+
+				if(typeof employeeData === "string")
+					return employeeData.slice(-3) === value;
+
+				if(typeof employeeData === "object")
+					return String(employeeData.id || "").padStart(3, '0').slice(-3) === value;
+
+				return false;
+			});
+		}
+
+		//UPDATE combining timer and color
+		function updateFElapsedTime(orderListItem) {
+			var etField = orderListItem.find(".elapsed-time");
+			
+			if(orderListItem.css("background-color") != "rgba(0, 183, 74, 0.8)") {
+				if(etField.text() > 4) {
+					orderListItem.css("background-color", "rgba(216, 61, 52, 70%)");
+					orderListItem.css("color", "white");						
+				} else if(etField.text() > 2 && etField.text() <= 4) {
+					orderListItem.css("background-color", "rgba(255, 215, 0, 80%)");
+					orderListItem.css("color", "#white");				
+				}
+			}
+				
+			var interval = setInterval(function() {
+				if(etField.css('display') != "block")
+					clearInterval(interval);
+				etField.text(parseInt(etField.text()) + 1);
+				
+				if(orderListItem.css("background-color") != "rgba(0, 183, 74, 0.8)") {
+					if(etField.text() > 4) {
+						orderListItem.css("background-color", "rgba(216, 61, 52, 70%)");
+						orderListItem.css("color", "white");						
+					} else if(etField.text() > 2 && etField.text() <= 4) {
+						orderListItem.css("background-color", "rgba(255, 215, 0, 80%)");
+						orderListItem.css("color", "#white");				
+					}
+				}
+			}, 60000);
+		}
+		
+		function updateSElapsedTime(orderListItem, nproducts) {
+			var etField = orderListItem.find(".seconds-elapsed-time");
+			var etSField = orderListItem.find(".elapsed-time");
+
+			var expectedTime = getExpectedTime(nproducts);
+			var oneThirdET = Math.floor(expectedTime * .34);
+
+			//("prods:" + nproducts + " et:" + expectedTime);
+			//("et 20%" + (Math.floor(expectedTime * .34)));
+
+			//coloreada
+			if(orderListItem.css("background-color") != "rgba(0, 183, 74, 0.8)") {
+				if(etField.text() > expectedTime) {
+					orderListItem.css("background-color", "rgba(216, 61, 52, 70%)");
+					orderListItem.css("color", "white");				
+				} else if(etField.text() > (expectedTime - oneThirdET) && etField.text() <= expectedTime) {
+					orderListItem.css("background-color", "rgba(255, 215, 0, 80%)");
+					orderListItem.css("color", "white");				
+				} else if(etField.text() >= 0 && etField.text() <= (expectedTime - oneThirdET)) {
+					orderListItem.css("background-color", "#111111");
+					orderListItem.css("color", "white");				
+				}
+			}
+				
+			var interval = setInterval(function() {
+				if(etField.css('display') != "block")
+					clearInterval(interval);
+				
+				if(orderListItem.css("background-color") != "rgba(0, 183, 74, 0.8)") {
+					etField.text(parseInt(etField.text()) + 1);
+					etSField.text(parseInt(etSField.text()) + 1);
+				
+					if(etField.text() > (expectedTime + oneThirdET)) {
+						orderListItem.css("background-color", "rgba(216, 61, 52, 70%)");
+						orderListItem.css("color", "white");				
+					} else if(etField.text() > expectedTime && etField.text() <= (expectedTime + oneThirdET)) {
+						orderListItem.css("background-color", "rgba(255, 140, 0, 75%)");
+						orderListItem.css("color", "white");				
+					} else if(etField.text() > (expectedTime - oneThirdET) && etField.text() <= expectedTime) {
+						orderListItem.css("background-color", "rgba(255, 215, 0, 80%)");
+						orderListItem.css("color", "white");				
+					} else if(etField.text() >= 0 && etField.text() <= (expectedTime - oneThirdET)) {
+						orderListItem.css("background-color", "#111111");
+						orderListItem.css("color", "white");				
+					}
+				}
+			}, 60000);
+		}
+
+		function getExpectedTime(nproducts) {
+            var time = 0;
+            if(nproducts <= 10)
+				time = nproducts * globalTPP[0];
+            else if(nproducts <= 30)
+                time = nproducts * globalTPP[1];
+            else
+                time = nproducts * globalTPP[2];
+
+            return Math.ceil(time);
+        }
+
+		function increaseElapsedTime(orderListItem, className) {
+			var etField = orderListItem.find("." + className);
+				
+			var interval = setInterval(function() {
+				if(etField.css('display') != "block")
+					clearInterval(interval);
+				etField.text(parseInt(etField.text()) + 1);
+			}, 60000);
+		}
+
+		function getEstimatedTime(nproducts) {
+			//FUTURE calculate estimated order time
+			return Math.trunc(nproducts / 2);
+		}
+		
+		function updateMaxTimeFirsts() {			
+			if($("#dynamic-list-firsts").children().first().children().eq(6).text())
+				$("#firsts-max-label").text("MÁXIMO: " + $("#dynamic-list-firsts").children().first().children().eq(6).text() + "M");
+			else
+				$("#firsts-max-label").text("");
+		}
+		
+		function updateMaxTimeSeconds() {			
+			if($("#dynamic-list-seconds").children().first().children().eq(8).text()) {
+				var employeeName = $("#dynamic-list-seconds").children().first().children().eq(7).text();
+				var elapsedTime = $("#dynamic-list-seconds").children().first().children().eq(8).text();
+				
+				$("#seconds-max-label").text("MÁXIMO: " + employeeName + " " + elapsedTime + "M");
+			}
+			else
+				$("#seconds-max-label").text("");
+		}
+
+		function formatFulfilledNotesListItem(employeeName, notesFulfilled, prodsFulfilled) {
+			return '' +
+				'<li class="list-group-item row order-row">' +
+					'<h2 class="col-xs-5 client-name" style="padding: 0px; margin: 0px;">' + employeeName + '</h2>' +
+					'<h2 class="col-xs-3 order-id" style="padding: 0px; margin: 0px; padding-left: 10px;">' + notesFulfilled + '</h2>' +
+					'<h2 class="col-xs-4 order-id" style="padding: 0px; margin: 0px; padding-left: 10px;">' + prodsFulfilled + '</h2>' +
+				'</li>';
+		}
+
+		function renderFulfilledNotesList(employees) {
+			var fulfilledEmployees = [];
+			var notesList = $('#dynamic-list-notes');
+
+			$.each(employees || {}, function(employeeName, employeeData) {
+				var notesFulfilled = parseInt(employeeData.notesFulfilledThisWeek, 10) || 0;
+				var prodsFulfilled = parseInt(employeeData.prodsFulfilledThisWeek, 10) || 0;
+
+				if(notesFulfilled > 0 || prodsFulfilled > 0) {
+					fulfilledEmployees.push({
+						name: employeeName,
+						notesFulfilled: notesFulfilled,
+						prodsFulfilled: prodsFulfilled
+					});
+				}
+			});
+
+			fulfilledEmployees.sort(function(a, b) {
+				if(b.prodsFulfilled !== a.prodsFulfilled)
+					return b.prodsFulfilled - a.prodsFulfilled;
+				if(b.notesFulfilled !== a.notesFulfilled)
+					return b.notesFulfilled - a.notesFulfilled;
+				return a.name.localeCompare(b.name);
+			});
+
+			notesList.empty();
+			for(var i = 0; i < fulfilledEmployees.length; i++) {
+				notesList.append(formatFulfilledNotesListItem(
+					fulfilledEmployees[i].name,
+					fulfilledEmployees[i].notesFulfilled,
+					fulfilledEmployees[i].prodsFulfilled
+				));
+			}
+
+			$('#notes-fulfilled-counter-label').text(fulfilledEmployees.length);
+		}
+
+		function seedWeeklyFulfilledDemoDataIfEmpty() {
+			var demoWeeklyStats = [
+				{ notes: 3, prods: 15 },
+				{ notes: 2, prods: 13 },
+				{ notes: 3, prods: 12 },
+				{ notes: 2, prods: 11 },
+				{ notes: 3, prods: 10 },
+				{ notes: 2, prods: 9 },
+				{ notes: 3, prods: 8 },
+				{ notes: 2, prods: 7 },
+				{ notes: 3, prods: 6 },
+				{ notes: 2, prods: 5 }
+			];
+
+			firebase.database().ref('employees').once("value", function(snapshot) {
+				if(!snapshot.val())
+					return;
+
+				var employees = snapshot.val();
+				var employeeNames = Object.keys(employees);
+				var hasWeeklyData = employeeNames.some(function(employeeName) {
+					var employeeData = employees[employeeName] || {};
+					return (parseInt(employeeData.notesFulfilledThisWeek, 10) || 0) > 0 ||
+						(parseInt(employeeData.prodsFulfilledThisWeek, 10) || 0) > 0;
+				});
+
+				if(hasWeeklyData)
+					return;
+
+				employeeNames.slice(0, 10).forEach(function(employeeName, index) {
+					firebase.database().ref('employees/' + employeeName + '/notesFulfilledThisWeek').set(demoWeeklyStats[index].notes);
+					firebase.database().ref('employees/' + employeeName + '/prodsFulfilledThisWeek').set(demoWeeklyStats[index].prods);
+				});
+			});
+		}
+
+		function insertThirdListItem(order, id) {
+			var ul = $('#dynamic-list-thirds');
+			var item = $(formatThirdsListItem(order, id));
+			var itemName = ((order.name || "") + "").toUpperCase();
+			var itemHour = parseInt(order.hour, 10) || 0;
+			var inserted = false;
+
+			item.data("hour", order.hour);
+			item.data("name", itemName);
+
+			ul.children('li').each(function() {
+				var currentItem = $(this);
+				var currentName = ((currentItem.data("name") || "") + "").toUpperCase();
+				var currentHour = parseInt(currentItem.data("hour"), 10) || 0;
+
+				if(itemName < currentName || (itemName === currentName && itemHour < currentHour)) {
+					currentItem.before(item);
+					inserted = true;
+					return false;
+				}
+			});
+
+			if(!inserted)
+				ul.append(item);
+		}
+		
+		function sortList(ulname){
+			var ul = document.getElementById(ulname);
+			var scrollTop = ul.scrollTop;
+			var scrollLeft = ul.scrollLeft;
+			var lis = [];
+			for(var i = ul.childNodes.length; i--;){
+				if(ul.childNodes[i].nodeName === 'LI')
+					lis.push(ul.childNodes[i]);
+			}
+
+			lis.sort(function(a, b){
+				if(ulname == "dynamic-list-firsts") {
+					return parseInt(b.childNodes[6].textContent , 10) - 
+						parseInt(a.childNodes[6].textContent , 10);
+				} else if(ulname == "dynamic-list-seconds") {
+					return parseInt(b.childNodes[6].textContent , 10) - 
+						parseInt(a.childNodes[6].textContent , 10);
+				} else if(ulname == "dynamic-list-thirds") {
+					return a.childNodes[1].textContent > 
+						b.childNodes[1].textContent;
+				}
+			});
+
+			for(var i = 0; i < lis.length; i++)
+				ul.appendChild(lis[i]);
+
+			ul.scrollTop = scrollTop;
+			ul.scrollLeft = scrollLeft;
+		}
+
+		//global employees loop
+		firebase.database().ref('employees').once("value", function(snapshot) { 
+			if(snapshot.val()) {
+				$.each(snapshot.val(), function(key, value) {
+					firebase.database().ref('employees/' + key + '/resting').set(false);
+					if(typeof value.notesFulfilledThisWeek === "undefined")
+						firebase.database().ref('employees/' + key + '/notesFulfilledThisWeek').set(0);
+					if(typeof value.prodsFulfilledThisWeek === "undefined")
+						firebase.database().ref('employees/' + key + '/prodsFulfilledThisWeek').set(0);
+				});
+			}
+		}); 
+		
+		function saveWReport() {
+			firebase.database().ref('employees').once("value", function(snapshot) { 
+				if(snapshot.val()) {
+					firebase.database().ref('employeesW').once("value", function(snapshotW) { 
+						$.each(snapshot.val(), function(key, value) {
+							if(typeof snapshotW.val()[key] == "undefined") {
+								createEmployee(key);
+							} else {
+								firebase.database().ref('employeesW/' + key + '/norders').set(snapshotW.val()[key].norders + value.norders);
+								firebase.database().ref('employeesW/' + key + '/nproducts').set(snapshotW.val()[key].nproducts + value.nproducts);
+								firebase.database().ref('employeesW/' + key + '/ttime').set(snapshotW.val()[key].ttime + value.ttime);
+								firebase.database().ref('employeesW/' + key + '/ttBeingLazy').set(snapshotW.val()[key].ttBeingLazy + value.ttBeingLazy);
+								firebase.database().ref('employeesW/' + key + '/nordersT').set(snapshotW.val()[key].nordersT + value.nordersT);
+								firebase.database().ref('employeesW/' + key + '/ttimeT').set(snapshotW.val()[key].ttimeT + value.ttimeT);
+							}
+						});
+					});
+				}
+			});
+		}
+
+		function deleteWReport() {
+			firebase.database().ref('employeesW').once("value", function(snapshot) { 
+				if(snapshot.val()) {
+					$.each(snapshot.val(), function(key, value) {
+						firebase.database().ref('employeesW/' + key + '/norders').set(0);
+						firebase.database().ref('employeesW/' + key + '/nproducts').set(0);
+						firebase.database().ref('employeesW/' + key + '/ttime').set(0);
+						firebase.database().ref('employeesW/' + key + '/lastFinished').set(0);
+						firebase.database().ref('employeesW/' + key + '/ttBeingLazy').set(0);
+						firebase.database().ref('employeesW/' + key + '/hasOrder').set(false);
+						firebase.database().ref('employeesW/' + key + '/resting').set(false);
+						firebase.database().ref('employeesW/' + key + '/nordersT').set(0);
+						firebase.database().ref('employeesW/' + key + '/lastFinishedT').set(0);
+						firebase.database().ref('employeesW/' + key + '/ttimeT').set(0);
+					});
+				}
+			});
+		}
+
+		function createEmployee(key) {
+			firebase.database().ref('employeesW/' + key + '/norders').set(0);
+			firebase.database().ref('employeesW/' + key + '/nproducts').set(0);
+			firebase.database().ref('employeesW/' + key + '/ttime').set(0);
+			firebase.database().ref('employeesW/' + key + '/lastFinished').set(0);
+			firebase.database().ref('employeesW/' + key + '/ttBeingLazy').set(0);
+			firebase.database().ref('employeesW/' + key + '/hasOrder').set(false);
+			firebase.database().ref('employeesW/' + key + '/resting').set(false);
+			firebase.database().ref('employeesW/' + key + '/nordersT').set(0);
+			firebase.database().ref('employeesW/' + key + '/lastFinishedT').set(0);
+			firebase.database().ref('employeesW/' + key + '/ttimeT').set(0);
+		}
+
+		function resetWeeklyFulfilledStats() {
+			firebase.database().ref('employees').once("value", function(snapshot) { 
+				if(snapshot.val()) {
+					$.each(snapshot.val(), function(key, value) {
+						firebase.database().ref('employees/' + key + '/notesFulfilledThisWeek').set(0);
+						firebase.database().ref('employees/' + key + '/prodsFulfilledThisWeek').set(0);
+					});
+				}
+			});
+		}
+
+		function checkWeeklyFulfilledReset(now) {
+			var isMonday = now.getDay() == 1;
+			var isAfterSixThirty = now.getHours() > 18 || (now.getHours() == 18 && now.getMinutes() >= 30);
+
+			if(!isMonday || !isAfterSixThirty)
+				return;
+
+			var resetDateKey = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+			firebase.database().ref('employeesMeta/weeklyFulfilledResetDate').transaction(function(currentValue) {
+				if(currentValue === resetDateKey)
+					return;
+				return resetDateKey;
+			}, function(error, committed) {
+				if(!error && committed)
+					resetWeeklyFulfilledStats();
+			});
+		}
+
+		function checkDayChange() {
+            var now = new Date();
+            var millisTill7pm = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 20, 0, 0) - now;
+            var millisTill7pmW = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 10, 0, 0) - now;
+
+			checkWeeklyFulfilledReset(now);
+			
+			if (millisTill7pmW < 0) {
+				saveWReport();
+			}
+
+			if (millisTill7pm < 0) {
+				firebase.database().ref('process/firsts').remove();
+				firebase.database().ref('process/seconds').remove();
+				firebase.database().ref('process/thirds').remove();
+				firebase.database().ref('process/fourths').remove();
+				firebase.database().ref('process/timing').remove();
+				firebase.database().ref('process/whatsapp').remove();
+
+				firebase.database().ref('employees').once("value", function(snapshot) { 
+					if(snapshot.val()) {
+						$.each(snapshot.val(), function(key, value) {
+							firebase.database().ref('employees/' + key + '/norders').set(0);
+							firebase.database().ref('employees/' + key + '/nproducts').set(0);
+							firebase.database().ref('employees/' + key + '/ttime').set(0);
+							firebase.database().ref('employees/' + key + '/lastFinished').set(0);
+							firebase.database().ref('employees/' + key + '/ttBeingLazy').set(0);
+							firebase.database().ref('employees/' + key + '/hasOrder').set(false);
+							firebase.database().ref('employees/' + key + '/resting').set(false);
+							firebase.database().ref('employees/' + key + '/nordersT').set(0);
+							firebase.database().ref('employees/' + key + '/lastFinishedT').set(0);
+							firebase.database().ref('employees/' + key + '/ttimeT').set(0);
+						});
+					}
+				});
+
+				firebase.database().ref('process/tomorrow/').once("value", function(snapshot) {
+					if(snapshot.val()) {
+						firebase.database().ref('process/yesterday/').set(snapshot.val()).then(function () {
+							firebase.database().ref('process/tomorrow/').remove();
+						});;
+					}
+				});
+			}
+        }
+
+		var justOrdered = false;
+		function checkConnection() {
+			var connectedRef = firebase.database().ref(".info/connected");
+			connectedRef.on("value", function(snap) {
+				if (snap.val() === true) {
+					document.getElementById("noConnectionAlert").style.display = "none";
+					if(!justOrdered) {
+						justOrdered = true;
+						setTimeout(function() {
+							sortList('dynamic-list-firsts');
+							sortList('dynamic-list-seconds');
+							
+							updateMaxTimeFirsts();
+							updateMaxTimeSeconds();
+							var interval = setInterval(function() {
+								updateMaxTimeFirsts();
+								updateMaxTimeSeconds();
+							}, 1000);	
+						}, 500);
+					}
+				} else 
+					document.getElementById("noConnectionAlert").style.display = "block";
+			});
+		}
+
+	</script>
+</body>
