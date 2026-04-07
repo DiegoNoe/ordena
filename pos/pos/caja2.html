@@ -1213,10 +1213,13 @@
             console.log("saveOrder: globalID");
             console.log(globalID);
             
-            if($("#inputEmployeeNameCaja").val() != undefined && $("#inputEmployeeNameCaja").val() != "")
-                firebase.database().ref("orders/code0/" + globalID + "/fulfiller").set($("#inputEmployeeNameCaja").val());
+            var fulfillerName = $("#inputEmployeeNameCaja").val();
+            if(fulfillerName != undefined && fulfillerName != "")
+                firebase.database().ref("orders/code0/" + globalID + "/fulfiller").set(fulfillerName);
             if($("#inputCasillero").val() != undefined && $("#inputCasillero").val() != "")
                 firebase.database().ref("orders/code0/" + globalID + "/locker").set($("#inputCasillero").val());
+
+            publishSavedOrderToProcessThirds(globalID, fulfillerName);
 
             const localGlobalID = globalID;
             setTimeout(() => {
@@ -1225,6 +1228,50 @@
             }, 100);
 
             eraseOrder();
+        }
+
+        function publishSavedOrderToProcessThirds(orderId, fulfiller) {
+            if(orderId == undefined || orderId == "")
+                return;
+
+            var processId = orderId.replace(/[^A-Z0-9]/g,'');
+            var processPaths = ['process/seconds/', 'process/firsts/', 'process/thirds/'];
+
+            function tryPath(index) {
+                if(index >= processPaths.length)
+                    return;
+
+                firebase.database().ref(processPaths[index] + processId).once('value', function(snapshot) {
+                    if(snapshot.val()) {
+                        var processOrder = snapshot.val();
+                        processOrder.checked = false;
+                        processOrder.semployee = fulfiller || processOrder.semployee || "";
+                        processOrder.thour = Date.now();
+                        if(!processOrder.shour)
+                            processOrder.shour = processOrder.hour || Date.now();
+
+                        firebase.database().ref('process/thirds/' + processId).set(processOrder).then(function() {
+                            if(processPaths[index] != 'process/thirds/')
+                                firebase.database().ref(processPaths[index] + processId).remove();
+                            firebase.database().ref('process/firsts/' + processId).remove();
+                            firebase.database().ref('process/seconds/' + processId).remove();
+                        });
+                        return;
+                    }
+
+                    tryPath(index + 1);
+                });
+            }
+
+            tryPath(0);
+        }
+
+        function removeOrderFromProcessThirds(orderId) {
+            if(orderId == undefined || orderId == "")
+                return;
+
+            var processId = orderId.replace(/[^A-Z0-9]/g,'');
+            firebase.database().ref('process/thirds/' + processId).remove();
         }
 
         function populateOrder(order, localID) {
@@ -1244,7 +1291,7 @@
             
             $("#inputName").val(order.name);
             globalTakenBy = order.takenby;
-            globalID = order.qr;
+            globalID = order.qr || localID;
 
             removeOrderProducts();
             updateName(order.name);
@@ -3209,6 +3256,9 @@
                 
                 if(globalID != "")
                     firebase.database().ref("orders/code0/" + globalID).remove();
+
+                removeOrderFromProcessThirds(globalID);
+                removeOrderFromProcessThirds(productsRefID);
                 
                 if(orderMethod == "EFECTIVO") {
                     uploadCompleteOrderWithCode(replaceAEIOUN($("#inputName").val().trim()), sOrderProducts, total, productsRefID, "CASH", globalCode1);
