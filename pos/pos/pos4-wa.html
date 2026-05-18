@@ -242,8 +242,10 @@
                                         <select id="stockSelect" class="form-control">
                                             <option value="siHay">SÍ HAY</option>
                                             <option value="noHay">NO HAY</option>
-                                            <option value="pedido">NO HAY/YA SE PIDIO</option>
+                                            <option value="pedido">NO HAY / YA SE PIDIÓ</option>
                                             <option value="recomendado">RECOMENDADO</option>
+                                            <option value="precioFalso">PRECIO FALSO</option>
+                                            <option value="precioEspecial">PRECIO ESPECIAL</option>
                                         </select>
                                     </div>
                                 </div>
@@ -730,17 +732,23 @@
             if(product.existencia == "siHay") {
                 color = "#EEEEEE";
                 backgroundColor = "#111111";
-            }
-            else if(product.existencia == "noHay") {
+            } else if(product.existencia == "noHay") {
                 color = "rgba(216, 61, 52, 95%)";
                 backgroundColor = "#111111";
-            }
-            else if(product.existencia == "pedido") {
+            } else if(product.existencia == "pedido") {
                 color = "rgba(253, 181, 13, 85%)";
                 backgroundColor = "#111111";
-            }
-            else if(product.existencia == "recomendado") {
+            } else if(product.existencia == "recomendado") {
                 color = "rgba(51, 204, 51, 80%)";
+                backgroundColor = "#111111";
+            } else if(searchResult[i].existencia == "precioFalso") {
+                color = "rgba(39, 142, 245, 95%)";
+                backgroundColor = "#111111";
+            } else if(searchResult[i].existencia == "precioEspecial") {
+                color = "rgba(227, 43, 213, 95%)";
+                backgroundColor = "#111111";
+            } else {
+                color = "rgba(216, 61, 52, 95%)";
                 backgroundColor = "#111111";
             }
 
@@ -1286,10 +1294,21 @@
                     buttonColor = "rgba(51, 204, 51, 80%)";
                     color = "rgba(253, 181, 13, 85%)";
                     backgroundColor = "#111111";
-                }
-                else if(searchResult[i].existencia == "recomendado") {
+                } else if(searchResult[i].existencia == "recomendado") {
                     buttonColor = "rgba(51, 204, 51, 80%)";
                     color = "rgba(51, 204, 51, 80%)";
+                    backgroundColor = "#111111";
+                } else if(searchResult[i].existencia == "precioFalso") {
+                    buttonColor = "rgba(39, 142, 245, 95%)";
+                    color = "rgba(39, 142, 245, 95%)";
+                    backgroundColor = "#111111";
+                } else if(searchResult[i].existencia == "precioEspecial") {
+                    buttonColor = "rgba(227, 43, 213, 95%)";
+                    color = "rgba(227, 43, 213, 95%)";
+                    backgroundColor = "#111111";
+                } else {
+                    buttonColor = "rgba(216, 61, 52, 95%)";
+                    color = "rgba(216, 61, 52, 95%)";
                     backgroundColor = "#111111";
                 }
 
@@ -1615,20 +1634,26 @@
             var color,
                 backgroundColor;
 
-            if(product.existencia == "siHay") {
+           if(product.existencia == "siHay") {
                 color = "#EEEEEE";
                 backgroundColor = "#111111";
-            }
-            else if(product.existencia == "noHay") {
+            } else if(product.existencia == "noHay") {
                 color = "rgba(216, 61, 52, 95%)";
                 backgroundColor = "#111111";
-            }
-            else if(product.existencia == "pedido") {
+            } else if(product.existencia == "pedido") {
                 color = "rgba(253, 181, 13, 85%)";
                 backgroundColor = "#111111";
-            }
-            else if(product.existencia == "recomendado") {
+            } else if(product.existencia == "recomendado") {
                 color = "rgba(51, 204, 51, 80%)";
+                backgroundColor = "#111111";
+            } else if(searchResult[i].existencia == "precioFalso") {
+                color = "rgba(39, 142, 245, 95%)";
+                backgroundColor = "#111111";
+            } else if(searchResult[i].existencia == "precioEspecial") {
+                color = "rgba(227, 43, 213, 95%)";
+                backgroundColor = "#111111";
+            } else {
+                color = "rgba(216, 61, 52, 95%)";
                 backgroundColor = "#111111";
             }
 
@@ -2489,9 +2514,17 @@
             } else if(product.existencia == "pedido") {
                 color = "rgba(253, 181, 13, 85%)";
                 backgroundColor = "#111111";
-            }
-            else if(product.existencia == "recomendado") {
+            } else if(product.existencia == "recomendado") {
                 color = "rgba(51, 204, 51, 80%)";
+                backgroundColor = "#111111";
+            } else if(searchResult[i].existencia == "precioFalso") {
+                color = "rgba(39, 142, 245, 95%)";
+                backgroundColor = "#111111";
+            } else if(searchResult[i].existencia == "precioEspecial") {
+                color = "rgba(227, 43, 213, 95%)";
+                backgroundColor = "#111111";
+            } else {
+                color = "rgba(216, 61, 52, 95%)";
                 backgroundColor = "#111111";
             }
             
@@ -2524,9 +2557,17 @@
             } else if(product.existencia == "pedido") {
                 color = "rgba(253, 181, 13, 85%)";
                 backgroundColor = "#111111";
-            }
-            else if(product.existencia == "recomendado") {
+            } else if(product.existencia == "recomendado") {
                 color = "rgba(51, 204, 51, 80%)";
+                backgroundColor = "#111111";
+            } else if(searchResult[i].existencia == "precioFalso") {
+                color = "rgba(39, 142, 245, 95%)";
+                backgroundColor = "#111111";
+            } else if(searchResult[i].existencia == "precioEspecial") {
+                color = "rgba(227, 43, 213, 95%)";
+                backgroundColor = "#111111";
+            } else {
+                color = "rgba(216, 61, 52, 95%)";
                 backgroundColor = "#111111";
             }
             
