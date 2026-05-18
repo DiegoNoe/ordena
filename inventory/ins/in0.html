@@ -632,10 +632,10 @@
             } else if(product.existencia == "recomendado") {
                 color = "rgba(51, 204, 51, 80%)";
                 backgroundColor = "#111111";
-            } else if(searchResult[i].existencia == "precioFalso") {
+            } else if(product.existencia == "precioFalso") {
                 color = "rgba(39, 142, 245, 95%)";
                 backgroundColor = "#111111";
-            } else if(searchResult[i].existencia == "precioEspecial") {
+            } else if(product.existencia == "precioEspecial") {
                 color = "rgba(227, 43, 213, 95%)";
                 backgroundColor = "#111111";
             } else {
@@ -751,7 +751,7 @@
                 updateNP(productCounter);
             });
 
-            saveCurrentOrder();
+            //saveCurrentOrder();
         }
 
         function addProductFromSavedOrderFree(id, product) {
@@ -780,10 +780,10 @@
             } else if(product.existencia == "recomendado") {
                 color = "rgba(51, 204, 51, 80%)";
                 backgroundColor = "#111111";
-            } else if(searchResult[i].existencia == "precioFalso") {
+            } else if(product.existencia == "precioFalso") {
                 color = "rgba(39, 142, 245, 95%)";
                 backgroundColor = "#111111";
-            } else if(searchResult[i].existencia == "precioEspecial") {
+            } else if(product.existencia == "precioEspecial") {
                 color = "rgba(227, 43, 213, 95%)";
                 backgroundColor = "#111111";
             } else {
@@ -919,10 +919,10 @@
             } else if(product.existencia == "recomendado") {
                 color = "rgba(51, 204, 51, 80%)";
                 backgroundColor = "#111111";
-            } else if(searchResult[i].existencia == "precioFalso") {
+            } else if(product.existencia == "precioFalso") {
                 color = "rgba(39, 142, 245, 95%)";
                 backgroundColor = "#111111";
-            } else if(searchResult[i].existencia == "precioEspecial") {
+            } else if(product.existencia == "precioEspecial") {
                 color = "rgba(227, 43, 213, 95%)";
                 backgroundColor = "#111111";
             } else {
@@ -1394,6 +1394,7 @@
         function getOrderProducts() {
             var verifiedOrder = true;
             var typesSequence = ["porPesarCamara", "yaPesadoCamara", "porPesarAfuera", "yaPesadoAfuera", "yaPesadoAfueraTrino", "aCremas", "aJamones", "aBodega", "aBodegaAbajo"];
+            var defaultXpCode = "01010101";
             
             var newOrder = [];
 
@@ -1402,7 +1403,8 @@
                 var orderTypeSection = [];
                 //iterates over order list items
                 $("#dynamic-list").children().each(function (index) {
-                    if (JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0].tipo == typesSequence[sequenceIndex]) {
+                    var productDB = JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0];
+                    if (productDB && productDB.tipo == typesSequence[sequenceIndex]) {
                         var productItem = $(this).children();
 
                         var orderTypeUnit = [];
@@ -1412,9 +1414,9 @@
                         orderTypeUnit.push(productItem.eq(2).text());
                         orderTypeUnit.push(productItem.eq(4).children().val());
                         orderTypeUnit.push(productItem.eq(5).children().val());
-                        orderTypeUnit.push(JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0].tipo);
-                        orderTypeUnit.push(JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0].xpcode);
-                        orderTypeUnit.push(JSON.search(defiantProducts, '//*[clave="' + $(this).data("id") + '"]')[0].costo);
+                        orderTypeUnit.push(productDB.tipo);
+                        orderTypeUnit.push(productDB.xpcode || defaultXpCode);
+                        orderTypeUnit.push(productDB.costo || "");
 
                         orderTypeSection.push(orderTypeUnit);
 
@@ -1809,6 +1811,11 @@
         function uploadCompleteOrder(name, products, total, id, orderMethod) {
             id = id.replace(".", "").replace(" ", "");
             total = total.replace(/\,/g,'');
+
+            for(var i = 0; i < products.length; i++)
+                products[i] = products[i].map(function(value) {
+                    return value === undefined ? "01010101" : value;
+                });
 
             var destination = "";
             if(orderMethod == "MOSTRADOR")
