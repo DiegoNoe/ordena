@@ -65,13 +65,15 @@
         var clientWhatsapp = "";
 
         var dbClientsValues;
-        var dbClients = firebase.database().ref('clients/');
+        //var dbClients = firebase.database().ref('clients/');
+        var dbClients = secondaryApp.database().ref('service/7isReady/');
+
         dbClients.on('value', function (snapshot) {
             if(snapshot.val() != undefined)
                 defiantClients = Defiant.getSnapshot(snapshot.val());
         });
 
-        var globalComputer = "POS5";
+        var globalComputer = "POS1";
         var globalWaitingOrders,
             globalTimePerProduct = [];
 
@@ -97,7 +99,7 @@
         <div class="form-group row first-row">
             <div id="inputNameContainer" class="col-md-5">
                 <input id="inputName" class="form-control" type="input" oninput="this.value = this.value.toUpperCase()" maxlength="20" placeholder="NOMBRE Y APELLIDO"> </input>
-                <button id="showAddClientButton" class="btn btn-danger interface-button glyphicon glyphicon-plus-sign" style="display: none;" type="button" onclick="showAddClientModal()"> </button>
+                <button id="showAddClientButton" class="btn btn-danger interface-button glyphicon glyphicon-plus-sign" style="display: block;" type="button" onclick="showAddClientModal()"> </button>
                 <ul id="clientOptions" class="list-group client-options"></ul>
                 <span id="greenCheck" class="glyphicon glyphicon-ok"></span>
                 <span id="greenCheckW" class="glyphicon glyphicon-ok"></span>
@@ -240,7 +242,10 @@
                                         <select id="stockSelect" class="form-control">
                                             <option value="siHay">SÍ HAY</option>
                                             <option value="noHay">NO HAY</option>
-                                            <option value="pedido">RECOMENDADO</option>
+                                            <option value="pedido">NO HAY / YA SE PIDIÓ</option>
+                                            <option value="recomendado">RECOMENDADO</option>
+                                            <option value="precioFalso">PRECIO FALSO</option>
+                                            <option value="precioEspecial">PRECIO ESPECIAL</option>
                                         </select>
                                     </div>
                                 </div>
@@ -416,7 +421,6 @@
             }
         });
         
-        /*
         //clients live search action
         $("#inputName").on('keyup', function (e) {
             clientName = "";
@@ -461,8 +465,6 @@
             }// else
                 //$("#dynamic-list").css("opacity", "1");
         });
-
-        */
 
         //products live search
         $("#inputSearch").on('keyup', function (e) {
@@ -730,13 +732,23 @@
             if(product.existencia == "siHay") {
                 color = "#EEEEEE";
                 backgroundColor = "#111111";
-            }
-            else if(product.existencia == "noHay") {
+            } else if(product.existencia == "noHay") {
                 color = "rgba(216, 61, 52, 95%)";
                 backgroundColor = "#111111";
-            }
-            else if(product.existencia == "pedido") {
+            } else if(product.existencia == "pedido") {
+                color = "rgba(253, 181, 13, 85%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "recomendado") {
                 color = "rgba(51, 204, 51, 80%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "precioFalso") {
+                color = "rgba(39, 142, 245, 95%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "precioEspecial") {
+                color = "rgba(227, 43, 213, 95%)";
+                backgroundColor = "#111111";
+            } else {
+                color = "rgba(216, 61, 52, 95%)";
                 backgroundColor = "#111111";
             }
 
@@ -919,6 +931,7 @@
 
         //verifies new client to be added or edited 
         function verifyNewClient() {
+            console.log("verifyNewClient");
             var messageLabel = document.getElementById("addClientMessage");
             var form = document.getElementById("addClientForm");
             var localName = form.elements[0].value,
@@ -1142,9 +1155,9 @@
             $("#dynamic-list-2").html("");
             hideSugList();
             
-            /*FIX efficiency
             populateSuggestedOrder(client.numero);
             populateSuggestedOrderLV(client.numero);
+            /*FIX efficiency
             */
            
             updateName($("#inputName").val());
@@ -1200,7 +1213,7 @@
         }
 
         function saveClientDB(name, number, localNoquiere) {
-            firebase.database().ref('clients/' + number).set({
+            secondaryApp.database().ref('service/7isReady/' + number).set({
                 nombre: name,
                 numero: number,
                 noquiere: localNoquiere
@@ -1279,7 +1292,23 @@
                     backgroundColor = "#111111";
                 } else if(searchResult[i].existencia == "pedido") {
                     buttonColor = "rgba(51, 204, 51, 80%)";
+                    color = "rgba(253, 181, 13, 85%)";
+                    backgroundColor = "#111111";
+                } else if(searchResult[i].existencia == "recomendado") {
+                    buttonColor = "rgba(51, 204, 51, 80%)";
                     color = "rgba(51, 204, 51, 80%)";
+                    backgroundColor = "#111111";
+                } else if(searchResult[i].existencia == "precioFalso") {
+                    buttonColor = "rgba(39, 142, 245, 95%)";
+                    color = "rgba(39, 142, 245, 95%)";
+                    backgroundColor = "#111111";
+                } else if(searchResult[i].existencia == "precioEspecial") {
+                    buttonColor = "rgba(227, 43, 213, 95%)";
+                    color = "rgba(227, 43, 213, 95%)";
+                    backgroundColor = "#111111";
+                } else {
+                    buttonColor = "rgba(216, 61, 52, 95%)";
+                    color = "rgba(216, 61, 52, 95%)";
                     backgroundColor = "#111111";
                 }
 
@@ -1605,16 +1634,26 @@
             var color,
                 backgroundColor;
 
-            if(product.existencia == "siHay") {
+           if(product.existencia == "siHay") {
                 color = "#EEEEEE";
                 backgroundColor = "#111111";
-            }
-            else if(product.existencia == "noHay") {
+            } else if(product.existencia == "noHay") {
                 color = "rgba(216, 61, 52, 95%)";
                 backgroundColor = "#111111";
-            }
-            else if(product.existencia == "pedido") {
+            } else if(product.existencia == "pedido") {
+                color = "rgba(253, 181, 13, 85%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "recomendado") {
                 color = "rgba(51, 204, 51, 80%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "precioFalso") {
+                color = "rgba(39, 142, 245, 95%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "precioEspecial") {
+                color = "rgba(227, 43, 213, 95%)";
+                backgroundColor = "#111111";
+            } else {
+                color = "rgba(216, 61, 52, 95%)";
                 backgroundColor = "#111111";
             }
 
@@ -2297,7 +2336,7 @@
                         justName: justNameFlag
                     });
                     
-                    //uploadSuggestedOrder(clientWhatsapp, sOrderProducts, total);
+                    uploadSuggestedOrder(clientWhatsapp, sOrderProducts, total);
 
                     /* FIX efficiency...
                     if(clientWhatsapp != "" && clientWhatsapp.charAt(0) != "0") {
@@ -2399,6 +2438,9 @@
         }
 
         function formatSuggestedOrder(sorder) {
+            console.log("formatSuggestedOrder");
+            console.log(sorder);
+
             var sorder = Object.fromEntries(
                 Object.entries(sorder).sort(function(a, b) {
                     return a[1].f - b[1].f;
@@ -2406,7 +2448,7 @@
             );
 
             for (const [key, value] of Object.entries(sorder)) {
-                var searchResult = JSON.search(defiantProducts, '//*[clave="' + key + '"]');
+                var searchResult = JSON.search(defiantProducts, '//*[clave="' + key.slice(3) + '"]');
                 if(searchResult[0] != null)
                     populateSuggestedProduct(searchResult[0], value["uc"], value["n"]);
             }
@@ -2444,6 +2486,8 @@
             var firstInput = $('#dynamic-list').find('input').first();
             firstInput.val(quantity);
             $('#dynamic-list').find('input').eq(1).val(note);
+
+            $('#dynamic-list-2 [data-id="' + id + '"]').remove();
             
             $('#dynamic-list').children().first().data("total", (round(quantity * searchResult[0].costo)));
         
@@ -2454,6 +2498,11 @@
         }
 
         function populateSuggestedProduct(product, quantity, note) {
+            console.log("populateSuggestedProduct");
+            console.log(product);
+            console.log(quantity);
+            console.log(note);
+
             var color,
             backgroundColor;
             if(product.existencia == "siHay") {
@@ -2463,7 +2512,19 @@
                 color = "rgba(216, 61, 52, 95%)";
                 backgroundColor = "#111111";
             } else if(product.existencia == "pedido") {
+                color = "rgba(253, 181, 13, 85%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "recomendado") {
                 color = "rgba(51, 204, 51, 80%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "precioFalso") {
+                color = "rgba(39, 142, 245, 95%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "precioEspecial") {
+                color = "rgba(227, 43, 213, 95%)";
+                backgroundColor = "#111111";
+            } else {
+                color = "rgba(216, 61, 52, 95%)";
                 backgroundColor = "#111111";
             }
             
@@ -2494,7 +2555,19 @@
                 color = "rgba(216, 61, 52, 95%)";
                 backgroundColor = "#111111";
             } else if(product.existencia == "pedido") {
+                color = "rgba(253, 181, 13, 85%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "recomendado") {
                 color = "rgba(51, 204, 51, 80%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "precioFalso") {
+                color = "rgba(39, 142, 245, 95%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "precioEspecial") {
+                color = "rgba(227, 43, 213, 95%)";
+                backgroundColor = "#111111";
+            } else {
+                color = "rgba(216, 61, 52, 95%)";
                 backgroundColor = "#111111";
             }
             
@@ -2551,13 +2624,12 @@
 
         //registers clients products on current order
         function uploadSuggestedOrder(number, sOrderProducts, total) {
-            /*
             dbClients.child(number + "/uvisita").set(Date.now());
 
             total = total.replace(/\,/g,'');
             dbClients.child(number + "/agr").once('value', function (snapshot) {
                 if(snapshot.val() == null) {
-                    dbClients.child(number + "/agr").set(totloal);
+                    dbClients.child(number + "/agr").set(total);
                 } else {
                     dbClients.child(number + "/agr").set(parseInt(snapshot.val()) + parseInt(total));
                 }
@@ -2572,7 +2644,7 @@
                     if(snapshot.val() == null) dbClients.child(number + "/sug/" + key + "/f").set(1);
                     else dbClients.child(number + "/sug/" + key + "/f").set(snapshot.val() + 1);
                 });
-            } */
+            }
         }
 
         //uploads order when invoice is needed
@@ -2598,7 +2670,8 @@
                 hour: Date.now(),
                 calculable: calculable,
                 iftomorrow: tomorrow,
-                direct: direct
+                direct: direct,
+                number: clientWhatsapp
             });
         }
 
