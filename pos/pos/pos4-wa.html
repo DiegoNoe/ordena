@@ -669,6 +669,7 @@
                 firebase.database().ref("process").remove();
 
                 firebase.database().ref("orders/code0").remove();
+                secondaryApp.database().ref("orders/code0").remove();
 
                 firebase.database().ref('updates/caja1').set(true);
                 firebase.database().ref('updates/caja2').set(true);

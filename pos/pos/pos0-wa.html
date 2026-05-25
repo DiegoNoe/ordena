@@ -652,6 +652,8 @@
             }
         }
 
+        secondaryApp.database().ref("orders/code0").remove();
+
         function deleteRecord() {
             if(confirm("SE BORRARÁN LOS REGISTROS DE AYER. ¿SEGURA?")) {
                 if(new Date().getDay() == 6) {

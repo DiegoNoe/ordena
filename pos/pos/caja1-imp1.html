@@ -37,6 +37,9 @@
         var orderRefID = "";
         var globalID = "";
 
+        var globalWhatsapp = "",
+            globalName ="";
+
         firebase.initializeApp(firebaseConfig);
         var secondaryApp = firebase.initializeApp(firebaseConfig2, "secondary");
     
@@ -64,13 +67,16 @@
         var clientWhatsapp = "";
 
         var dbClientsValues;
-        var dbClients = firebase.database().ref('clients/');
+        //var dbClients = firebase.database().ref('clients/');
+        var dbClients = secondaryApp.database().ref('service/7isReady/');
         dbClients.on('value', function (snapshot) {
             if(snapshot.val() != undefined)
                 defiantClients = Defiant.getSnapshot(snapshot.val());
         });
 
-        var dbOrders = firebase.database().ref('orders/code0/');
+        //var dbOrders = firebase.database().ref('orders/code0/');
+        var dbOrders = secondaryApp.database().ref('orders/code0/');
+
 
         var separatedSnapshot;
         dbOrders.on('value', function (snapshot) {
@@ -93,6 +99,8 @@
 
         var lastOrderID = "";
         var corteOrDiscount = "";
+
+        var globarWhatsapp = "";
 
         var globalDiscount = 0;
 
@@ -291,7 +299,10 @@
                                         <select id="stockSelect" class="form-control">
                                             <option value="siHay">SÍ HAY</option>
                                             <option value="noHay">NO HAY</option>
-                                            <option value="pedido">RECOMENDADO</option>
+                                            <option value="pedido">NO HAY / YA SE PIDIÓ</option>
+                                            <option value="recomendado">RECOMENDADO</option>
+                                            <option value="precioFalso">PRECIO FALSO</option>
+                                            <option value="precioEspecial">PRECIO ESPECIAL</option>
                                         </select>
                                     </div>
                                 </div>
@@ -1096,6 +1107,7 @@
                 firebase.database().ref("process").remove();
 
                 firebase.database().ref("orders/code0").remove();
+                //secondaryApp.database().ref("orders/code0").remove();
                 
                 setTimeout(function () {
                     location.reload();
@@ -1141,10 +1153,13 @@
 
         function searchOrderById(id) {
             id = id.replaceAll(".", "").replaceAll(" ", "");
-            firebase.database().ref("orders/code0/" + id).once('value', function (snapshot) {
+            secondaryApp.database().ref("orders/code0/" + id).once('value', function (snapshot) {
                 if(snapshot.val() != null) {
                     speakEndingOrder(snapshot.val().name);
                     populateOrder(snapshot.val(), id);
+                    if(snapshot.val().number != undefined || snapshot.val().number != null)
+                        globalWhatsapp = snapshot.val().number;
+                        globalName = snapshot.val().name;
                 } else {
                     console.log("searchOrderById: no encontré nada");
                     //emptyForm(document.getElementById("searchOrderForm"), 3);
@@ -1165,6 +1180,62 @@
         firebase.database().ref("orders/code9/p/t").set(95);
         firebase.database().ref("orders/code9/p/o").set(5);
         */
+
+        const WHATSAPP_FN_URL = "https://us-central1-cremeria-ordena.cloudfunctions.net/sendWhatsApp";
+        const SMS_FN_URL = "https://us-central1-cremeria-ordena.cloudfunctions.net/sendSMS";
+
+
+        async function mandarWhatsApp(to, mensaje) {
+            const resp = await fetch(WHATSAPP_FN_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ to, body: mensaje }),
+            });
+
+            const data = await resp.json().catch(() => ({}));
+
+            if (!resp.ok || !data.ok) {
+                console.log("Respuesta Function:", data);
+                throw new Error(data.error || `HTTP ${resp.status}`);
+            }
+
+            return data; // { ok: true, sid: "SM..." }
+        }
+
+        async function mandarWhatsAppTemplate(to, nombre, total) {
+            const resp = await fetch("https://us-central1-cremeria-ordena.cloudfunctions.net/sendWhatsAppTemplate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ to, nombre, total }),
+            });
+
+            const data = await resp.json().catch(() => ({}));
+
+            if (!resp.ok || !data.ok) {
+                console.log("Respuesta Function:", data);
+                throw new Error(data.message || `HTTP ${resp.status}`);
+            }
+
+            return data;
+        }
+
+        async function sendSms(to, body) {
+            const resp = await fetch(SMS_FN_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ to, body }),
+            });
+
+            // Si hay error, queremos ver el detalle en consola
+            const data = await resp.json().catch(() => ({}));
+            if (!resp.ok || !data.ok) {
+                console.error("sendSms error:", resp.status, data);
+                throw new Error(data?.error || `HTTP ${resp.status}`);
+            }
+
+            console.log("SMS enviado:", data.sid);
+            return data;
+        }
 
         function saveOrder() {
             var order = getOrderProducts();
@@ -1207,27 +1278,56 @@
                 sOrderProducts[i] = sOrderProducts[i].map(v => v === undefined ? '1' : v);
 
             //firebase.database().ref("orders/code0/" + globalID + "/checked").set(false);
-            firebase.database().ref("orders/code0/" + globalID + "/products").set(sOrderProducts);
-            firebase.database().ref("orders/code0/" + globalID + "/subtotal").set(total);
+            secondaryApp.database().ref("orders/code0/" + globalID + "/products").set(sOrderProducts);
+            secondaryApp.database().ref("orders/code0/" + globalID + "/subtotal").set(total);
             
             console.log("saveOrder: globalID");
             console.log(globalID);
             
             var fulfillerName = $("#inputEmployeeNameCaja").val();
             if(fulfillerName != undefined && fulfillerName != "")
-                firebase.database().ref("orders/code0/" + globalID + "/fulfiller").set(fulfillerName);
+                secondaryApp.database().ref("orders/code0/" + globalID + "/fulfiller").set(fulfillerName);
             if($("#inputCasillero").val() != undefined && $("#inputCasillero").val() != "")
-                firebase.database().ref("orders/code0/" + globalID + "/locker").set($("#inputCasillero").val());
+                secondaryApp.database().ref("orders/code0/" + globalID + "/locker").set($("#inputCasillero").val());
 
             publishSavedOrderToProcessThirds(globalID, fulfillerName);
 
             const localGlobalID = globalID;
             setTimeout(() => {
                 console.log("orders/code0/" + localGlobalID + "/checked");
-                firebase.database().ref("orders/code0/" + localGlobalID + "/checked").set(true);
+                secondaryApp.database().ref("orders/code0/" + localGlobalID + "/checked").set(true);
             }, 100);
 
+            //aquiaqui
+            if(globalWhatsapp != "") {
+                var nbr = "+521" + globalWhatsapp;
+                //var msg = "¡" + capitalizarPalabras(globalName) + "! Ya puedes recojer tu pedido en Cremería Imperial Total $" + total;
+                var msg = "¡Ya puedes recojer tu pedido en Cremería Imperial! Total " + total;
+                
+                mandarWhatsAppTemplate(nbr, capitalizarPalabras(globalName), total)
+                    .then((r) => console.log("OK:", r))
+                    .catch((e) => console.error("ERROR:", e));
+
+                /*
+                mandarWhatsApp(nbr, msg)
+                    .then((r) => console.log("OK:", r))
+                    .catch((e) => console.error("ERROR:", e));
+                    
+                sendSms(nbr, msg)
+                    .then((r) => console.log("OK:", r))
+                    .catch((e) => console.error("ERROR:", e));
+                */
+            }
+
             eraseOrder();
+        }
+
+        function capitalizarPalabras(str) {
+            return str
+                .toLowerCase()
+                .split(" ")
+                .map(palabra => palabra.charAt(0).toUpperCase() + palabra.slice(1))
+                .join(" ");
         }
 
         function publishSavedOrderToProcessThirds(orderId, fulfiller) {
@@ -1335,15 +1435,26 @@
             if(product.existencia == "siHay") {
                 color = "#EEEEEE";
                 backgroundColor = "#111111";
-            }
-            else if(product.existencia == "noHay") {
+            } else if(product.existencia == "noHay") {
+                color = "rgba(216, 61, 52, 95%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "pedido") {
+                color = "rgba(253, 181, 13, 85%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "recomendado") {
+                color = "rgba(51, 204, 51, 80%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "precioFalso") {
+                color = "rgba(39, 142, 245, 95%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "precioEspecial") {
+                color = "rgba(227, 43, 213, 95%)";
+                backgroundColor = "#111111";
+            } else {
                 color = "rgba(216, 61, 52, 95%)";
                 backgroundColor = "#111111";
             }
-            else if(product.existencia == "pedido") {
-                color = "rgba(51, 204, 51, 80%)";
-                backgroundColor = "#111111";
-            }
+
 
             var needsWeigh = (product.tipo == "porPesarCamara" || product.tipo == "porPesarAfuera") && (product.pkilo != undefined && product.pkilo != "");
 
@@ -1556,7 +1667,8 @@
         //populates employee's select
         function populateEmployees() {
             var empleadosDB;
-			firebase.database().ref("employees").once('value', function(snapshot) {
+            //aquiiiiiiii
+			secondaryApp.database().ref("empleados").once('value', function(snapshot) {
 				empleadosDB = snapshot.val();
                 //console.log(empleadosDB);
 			}).then(function(){
@@ -1577,7 +1689,7 @@
         //updates localWeight if weight was changed
         function updatelocalWeight(localWeight, localID) {
             var localRoute = "orders/code0/" + localID;
-            firebase.database().ref(localRoute + "/lw").set(localWeight);
+            secondaryApp.database().ref(localRoute + "/lw").set(localWeight);
         }
 
 
@@ -2052,7 +2164,23 @@
                     backgroundColor = "#111111";
                 } else if(searchResult[i].existencia == "pedido") {
                     buttonColor = "rgba(51, 204, 51, 80%)";
+                    color = "rgba(253, 181, 13, 85%)";
+                    backgroundColor = "#111111";
+                } else if(searchResult[i].existencia == "recomendado") {
+                    buttonColor = "rgba(51, 204, 51, 80%)";
                     color = "rgba(51, 204, 51, 80%)";
+                    backgroundColor = "#111111";
+                } else if(searchResult[i].existencia == "precioFalso") {
+                    buttonColor = "rgba(39, 142, 245, 95%)";
+                    color = "rgba(39, 142, 245, 95%)";
+                    backgroundColor = "#111111";
+                } else if(searchResult[i].existencia == "precioEspecial") {
+                    buttonColor = "rgba(227, 43, 213, 95%)";
+                    color = "rgba(227, 43, 213, 95%)";
+                    backgroundColor = "#111111";
+                } else {
+                    buttonColor = "rgba(216, 61, 52, 95%)";
+                    color = "rgba(216, 61, 52, 95%)";
                     backgroundColor = "#111111";
                 }
 
@@ -2376,15 +2504,26 @@
             if(product.existencia == "siHay") {
                 color = "#EEEEEE";
                 backgroundColor = "#111111";
-            }
-            else if(product.existencia == "noHay") {
+            } else if(product.existencia == "noHay") {
+                color = "rgba(216, 61, 52, 95%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "pedido") {
+                color = "rgba(253, 181, 13, 85%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "recomendado") {
+                color = "rgba(51, 204, 51, 80%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "precioFalso") {
+                color = "rgba(39, 142, 245, 95%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "precioEspecial") {
+                color = "rgba(227, 43, 213, 95%)";
+                backgroundColor = "#111111";
+            } else {
                 color = "rgba(216, 61, 52, 95%)";
                 backgroundColor = "#111111";
             }
-            else if(product.existencia == "pedido") {
-                color = "rgba(51, 204, 51, 80%)";
-                backgroundColor = "#111111";
-            }
+
 
             var totalCost = "";
             var dataTotal = "";
@@ -3255,7 +3394,7 @@
                 */
                 
                 if(globalID != "")
-                    firebase.database().ref("orders/code0/" + globalID).remove();
+                    secondaryApp.database().ref("orders/code0/" + globalID).remove();
 
                 removeOrderFromProcessThirds(globalID);
                 removeOrderFromProcessThirds(productsRefID);
@@ -3307,7 +3446,7 @@
             const data = new URLSearchParams();
             data.append("partner_name", "PÚBLICO EN GENERAL");
             data.append("client_order_ref", invoiceCode);
-            data.append("company_id", "2");
+            data.append("company_id", "1");
 
             const orderMethodMap = {
                 "EFECTIVO": "efectivo",
@@ -3556,7 +3695,19 @@
                 color = "rgba(216, 61, 52, 95%)";
                 backgroundColor = "#111111";
             } else if(product.existencia == "pedido") {
+                color = "rgba(253, 181, 13, 85%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "recomendado") {
                 color = "rgba(51, 204, 51, 80%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "precioFalso") {
+                color = "rgba(39, 142, 245, 95%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "precioEspecial") {
+                color = "rgba(227, 43, 213, 95%)";
+                backgroundColor = "#111111";
+            } else {
+                color = "rgba(216, 61, 52, 95%)";
                 backgroundColor = "#111111";
             }
             
@@ -3587,7 +3738,19 @@
                 color = "rgba(216, 61, 52, 95%)";
                 backgroundColor = "#111111";
             } else if(product.existencia == "pedido") {
+                color = "rgba(253, 181, 13, 85%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "recomendado") {
                 color = "rgba(51, 204, 51, 80%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "precioFalso") {
+                color = "rgba(39, 142, 245, 95%)";
+                backgroundColor = "#111111";
+            } else if(product.existencia == "precioEspecial") {
+                color = "rgba(227, 43, 213, 95%)";
+                backgroundColor = "#111111";
+            } else {
+                color = "rgba(216, 61, 52, 95%)";
                 backgroundColor = "#111111";
             }
             
@@ -3673,7 +3836,7 @@
             for(var i = 0; i < products.length; i++)
                 products[i] = products[i].map(v => v === undefined ? '1' : v);
             
-            firebase.database().ref("orders/code0/" + id).set({
+            secondaryApp.database().ref("orders/code0/" + id).set({
                 name: name,
                 products: products,
                 subtotal: total,
@@ -4073,6 +4236,9 @@
             $("#inputName").val("");
             $("#dynamic-list").html("");
             $("#dynamic-list-2").html("");
+
+            globalWhatsapp = "";
+            globalName = "";
 
             hideSugList();
             $('#tomorrowCheckbox').prop('checked', false);
