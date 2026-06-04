@@ -1124,12 +1124,12 @@
         }
 
         function updateGlobalCodes() {
-            firebase.database().ref('extras/code1').on('value', function (snapshot) {
+            secondaryApp.database().ref('extras/code1').on('value', function (snapshot) {
                 if(snapshot.val() != undefined) {
                     globalCode1 = snapshot.val();
                 }
             });
-            firebase.database().ref('extras/code2').on('value', function (snapshot) {
+            secondaryApp.database().ref('extras/code2').on('value', function (snapshot) {
                 if(snapshot.val() != undefined) {
                     globalCode2 = snapshot.val();
                 }
@@ -3402,19 +3402,19 @@
                 if(orderMethod == "EFECTIVO") {
                     uploadCompleteOrderWithCode(replaceAEIOUN($("#inputName").val().trim()), sOrderProducts, total, productsRefID, "CASH", globalCode1);
                     globalCode1 = globalCode1 + 1;
-                    firebase.database().ref('extras/code1').set(globalCode1);
+                    secondaryApp.database().ref('extras/code1').set(globalCode1);
                 } else if(orderMethod == "T.DEBITO" || orderMethod == "T.CREDITO") {
                     uploadCompleteOrderWithCode(replaceAEIOUN($("#inputName").val().trim()), sOrderProducts, total, productsRefID, "CARD", globalCode2);
                     globalCode2 = globalCode2 + 1;
-                    firebase.database().ref('extras/code2').set(globalCode2);
+                    secondaryApp.database().ref('extras/code2').set(globalCode2);
                 } else if(orderMethod == "WHATSAPP") {
                     uploadCompleteOrderWithCode(replaceAEIOUN($("#inputName").val().trim()), sOrderProducts, total, productsRefID, "INVOICE", globalCode2);
                     globalCode2 = globalCode2 + 1;
-                    firebase.database().ref('extras/code2').set(globalCode2);
+                    secondaryApp.database().ref('extras/code2').set(globalCode2);
                 } else {
                     uploadCompleteOrderWithCode(replaceAEIOUN($("#inputName").val().trim()), sOrderProducts, total, productsRefID, orderMethod, globalCode2);
                     globalCode2 = globalCode2 + 1;
-                    firebase.database().ref('extras/code2').set(globalCode2);
+                    secondaryApp.database().ref('extras/code2').set(globalCode2);
                 }
 
                 uploadOrderToOdoo(replaceAEIOUN($("#inputName").val().trim()), order, orderMethod, invoiceCode)
@@ -3864,7 +3864,7 @@
             id = encryptCryptoJS(id);
             total = encryptCryptoJS(total);
 
-            firebase.database().ref("orders/code1-" + monthNumber + "/" + id).set({
+            secondaryApp.database().ref("orders/code1-" + monthNumber + "/" + id).set({
                 name: name,
                 code: code,
                 products: products,

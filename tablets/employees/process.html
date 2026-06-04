@@ -42,6 +42,7 @@
 			}
 
 			$('#dynamic-list-firsts').append(formatFirstsListItem(snapshot.val(), snapshot.key));
+			$('#dynamic-list-firsts').children().last().data("id", snapshot.key);
 			$('#dynamic-list-firsts').children().last().data("hour", snapshot.val().hour);
 			updateFElapsedTime($('#dynamic-list-firsts').children().last());
 			
@@ -50,7 +51,7 @@
 		});
 		databaseFirsts.on('child_removed', function (snapshot) {
 			var removedOrder = $('#dynamic-list-firsts').children().filter(function() {
-				return $(this).data("hour") == snapshot.val().hour;
+				return $(this).data("id") == snapshot.key || $(this).data("hour") == snapshot.val().hour;
 			});
 			removedOrder.remove();
 			
@@ -62,12 +63,13 @@
 		var databaseSeconds = firebase.database().ref('process/seconds/');
 		databaseSeconds.on('child_added', function (snapshot) {
 			$('#dynamic-list-seconds').append(formatSecondsListItem(snapshot.val(), snapshot.key));
+			$('#dynamic-list-seconds').children().last().data("id", snapshot.key);
 			$('#dynamic-list-seconds').children().last().data("hour", snapshot.val().hour);
 			updateSElapsedTime($('#dynamic-list-seconds').children().last(), snapshot.val().nproducts);
 
 			if(snapshot.val().thour > 0)  {
 				var finishedOrder = $('#dynamic-list-seconds').children().filter(function() {
-					return $(this).data("hour") == snapshot.val().hour;
+					return $(this).data("id") == snapshot.key || $(this).data("hour") == snapshot.val().hour;
 				});
 				finishedOrder.css("background-color", "#00B74AEE");
 				finishedOrder.css("color", "white");
@@ -80,14 +82,14 @@
 		databaseSeconds.on('child_changed', function (snapshot) {
 			if(snapshot.val().thour > 0)  {
 				var finishedOrder = $('#dynamic-list-seconds').children().filter(function() {
-					return $(this).data("hour") == snapshot.val().hour;
+					return $(this).data("id") == snapshot.key || $(this).data("hour") == snapshot.val().hour;
 				});
-				finishedOrder.css("background-color", "#rgba(0, 183, 74, 0.8)");
+				finishedOrder.css("background-color", "rgba(0, 183, 74, 0.8)");
 				finishedOrder.css("color", "white");
 
 				if(snapshot.val().semployee != "-" && snapshot.val().nproducts > 0) {
-					var orderWeeklyCountedRef = firebase.database().ref('process/seconds/' + snapshot.key + '/weeklyFulfilledCounted');
-					orderWeeklyCountedRef.transaction(function(currentValue) {
+					var orderFinishedCountedRef = firebase.database().ref('process/seconds/' + snapshot.key + '/finishStatsCounted');
+					orderFinishedCountedRef.transaction(function(currentValue) {
 						if(currentValue === true)
 							return;
 						return true;
@@ -100,8 +102,6 @@
 									employeeStats.ttime = (employeeStats.ttime || 0) + (snapshot.val().thour - snapshot.val().shour);
 									employeeStats.lastFinished = snapshot.val().thour;
 									employeeStats.hasOrder = false;
-									employeeStats.notesFulfilledThisWeek = (employeeStats.notesFulfilledThisWeek || 0) + 1;
-									employeeStats.prodsFulfilledThisWeek = (employeeStats.prodsFulfilledThisWeek || 0) + parseInt(snapshot.val().nproducts, 10);
 								}
 								return employeeStats;
 							});
@@ -113,7 +113,7 @@
 
 		databaseSeconds.on('child_removed', function (snapshot) {
 			var removedOrder = $('#dynamic-list-seconds').children().filter(function() {
-				return $(this).data("hour") == snapshot.val().hour;
+				return $(this).data("id") == snapshot.key || $(this).data("hour") == snapshot.val().hour;
 			});
 			removedOrder.remove();
 			
@@ -197,7 +197,7 @@
 
 		databaseThirds.on('child_removed', function (snapshot) {
 			var removedOrder = $('#dynamic-list-thirds').children().filter(function() {
-				return $(this).data("hour") == snapshot.val().hour;
+				return $(this).data("id") == snapshot.key || $(this).data("hour") == snapshot.val().hour;
 			});
 			removedOrder.remove();
 
@@ -215,7 +215,7 @@
 
 		databaseYesterday.on('child_removed', function (snapshot) {
 			var removedOrder = $('#dynamic-list-thirds').children().filter(function() {
-				return $(this).data("hour") == snapshot.val().hour;
+				return $(this).data("id") == snapshot.key || $(this).data("hour") == snapshot.val().hour;
 			});
 			removedOrder.remove();
 
@@ -505,7 +505,6 @@
 		
 		checkConnection();
 		idleTimer();
-		seedWeeklyFulfilledDemoDataIfEmpty();
 		
 		checkDayChange();
 		window.setInterval(checkDayChange, 5*60*1000);
@@ -896,36 +895,104 @@
 			return (/[a-zA-Z]/).test(char)		
 		}
 
+		function getLegacyOrderIds(orderid) {
+			var orderids = [orderid];
+
+			if(orderid.indexOf("NN") > -1)
+				orderids.push(orderid.replace(/NN/g, ""));
+
+			return orderids.filter(function(value, index, self) {
+				return value != "" && self.indexOf(value) === index;
+			});
+		}
+
+		function getOrderCandidateId(orderidKey, order) {
+			if(!orderidKey || !order)
+				return "";
+
+			var firstLetter = orderidKey.charAt(0);
+			var lastLetter = orderidKey.charAt(orderidKey.length - 1);
+			var total = order.total || "";
+
+			return (firstLetter + (order.name || "") + total + lastLetter).toUpperCase().replace(/[^A-Z0-9]/g,'');
+		}
+
+		function findOrderOnce(stage, orderid, onFound, onMissing) {
+			var orderids = getLegacyOrderIds(orderid);
+			var index = 0;
+
+			function findByOrderData() {
+				firebase.database().ref('process/' + stage).once("value", function(snapshot) {
+					var foundSnapshot = null;
+					var foundOrderid = null;
+
+					snapshot.forEach(function(childSnapshot) {
+						if(getOrderCandidateId(childSnapshot.key, childSnapshot.val()) == orderid) {
+							foundSnapshot = childSnapshot;
+							foundOrderid = childSnapshot.key;
+							return true;
+						}
+					});
+
+					if(foundSnapshot)
+						onFound(foundSnapshot, foundOrderid);
+					else if(onMissing)
+						onMissing();
+				});
+			}
+
+			function tryNext() {
+				if(index >= orderids.length) {
+					findByOrderData();
+					return;
+				}
+
+				var currentOrderid = orderids[index++];
+				firebase.database().ref('process/' + stage + '/' + currentOrderid).once("value", function(snapshot) {
+					if(snapshot.val())
+						onFound(snapshot, currentOrderid);
+					else
+						tryNext();
+				});
+			}
+
+			tryNext();
+		}
+
 		function applyEmployeeToOrder(employeeid, orderid) {
 			var semployeeName = getEmployeeNameByID(employeesSnapshot, employeeid);
 			if(semployeeName == undefined)
 				return false;
 
-			firebase.database().ref('process/firsts/' + orderid).once("value", function(snapshot) {
+			findOrderOnce('firsts', orderid, function(snapshot, foundOrderid) {
 				if(snapshot.val()) {
 					var localsnapshot = snapshot.val();
 					localsnapshot.semployee = semployeeName;
 					localsnapshot.shour = Date.now();
-					delete localsnapshot.weeklyFulfilledCounted;
 
 					firebase.database().ref('employees/' + semployeeName + "/hasOrder").set(true);
 
-					firebase.database().ref('process/seconds/' + orderid).set(localsnapshot).then(function () {
-						firebase.database().ref('process/firsts/' + orderid).remove();
+					countWeeklyFulfilledOnStart('firsts', foundOrderid, semployeeName, localsnapshot.nproducts, function() {
+						localsnapshot.weeklyFulfilledCounted = true;
+						firebase.database().ref('process/seconds/' + foundOrderid).set(localsnapshot).then(function () {
+							firebase.database().ref('process/firsts/' + foundOrderid).remove();
+						});
 					});
 					return;
 				}
-
-				firebase.database().ref('process/seconds/' + orderid).once("value", function(secondSnapshot) {
+			}, function() {
+				findOrderOnce('seconds', orderid, function(secondSnapshot, foundOrderid) {
 					if(secondSnapshot.val()) {
 						var secondOrder = secondSnapshot.val();
 						secondOrder.semployee = semployeeName;
 						if(!secondOrder.shour)
 							secondOrder.shour = Date.now();
-						delete secondOrder.weeklyFulfilledCounted;
 
 						firebase.database().ref('employees/' + semployeeName + "/hasOrder").set(true);
-						firebase.database().ref('process/seconds/' + orderid).set(secondOrder);
+						countWeeklyFulfilledOnStart('seconds', foundOrderid, semployeeName, secondOrder.nproducts, function() {
+							secondOrder.weeklyFulfilledCounted = true;
+							firebase.database().ref('process/seconds/' + foundOrderid).set(secondOrder);
+						});
 					}
 				});
 			});
@@ -937,7 +1004,7 @@
             var input = $("#inputScanner").val();
 			$("#inputScanner").val("");
 			
-			input = input.replace(/[^A-Z0-9]/g,'');
+			input = input.toUpperCase().replace(/[^A-Z0-9]/g,'');
 			if(input == "")
 				return;
 
@@ -953,97 +1020,78 @@
 					return;
 				}
 
-				//sino hubo clave, busco en seconds, si existe seteo la hora para cambiar el color.
 				var orderid = input;
-				firebase.database().ref('process/seconds/' + orderid).once("value", function(snapshot) {
-					if(snapshot.val()) {
+				findOrderOnce('seconds', orderid, function(snapshot, foundOrderid) {
+					var localsnapshot = snapshot.val();
+					localsnapshot.thour = Date.now();
+					firebase.database().ref('process/seconds/' + foundOrderid).set(localsnapshot);
+				}, function() {
+					findOrderOnce('firsts', orderid, function(snapshot, foundOrderid) {
 						var localsnapshot = snapshot.val();
-						localsnapshot.thour = Date.now();
+						localsnapshot.semployee = "-";
+						localsnapshot.shour = Date.now();
+						delete localsnapshot.weeklyFulfilledCounted;
 						
-						firebase.database().ref('process/seconds/' + orderid).set(localsnapshot);
-						//firebase.database().ref('process/seconds/' + orderid).remove();
-					} else {
-						//sino está en seconds, busco en firsts y seteo seconds. borro en firsts
-						firebase.database().ref('process/firsts/' + orderid).once("value", function(snapshot) {
-							if(snapshot.val()) {
+						firebase.database().ref('process/seconds/' + foundOrderid).set(localsnapshot).then(function () {
+							firebase.database().ref('process/firsts/' + foundOrderid).remove();
+						});
+					});
+				});
+				return;
+			}
+
+			if(isLetter(input.charAt(1)))
+				input = "00" + input;
+			if(isLetter(input.charAt(2)))
+				input = "0" + input;
+			if(isLetter(input.charAt(3))) {
+				var employeeid = input.slice(0, 3);
+				console.log("employeeid " + employeeid);
+
+				var orderid = input.slice(3, input.length);	
+				console.log("orderid " + orderid);
+
+				if(applyEmployeeToOrder(employeeid, orderid)) {
+					pendingEmployeeId = null;
+				} else if(employeeid == 99) {
+					findOrderOnce('firsts', orderid, function(snapshot, foundOrderid) {
+						var localsnapshot = snapshot.val();
+						firebase.database().ref('process/thirds/' + foundOrderid).set(localsnapshot).then(function () {
+							firebase.database().ref('process/firsts/' + foundOrderid).remove();
+						});
+					}, function() {
+						findOrderOnce('seconds', orderid, function(snapshot, foundOrderid) {
+							var localsnapshot = snapshot.val();
+							delete localsnapshot.shour;
+							delete localsnapshot.thour;
+							delete localsnapshot.weeklyFulfilledCounted;
+							firebase.database().ref('process/firsts/' + foundOrderid).set(localsnapshot).then(function () {
+								firebase.database().ref('process/seconds/' + foundOrderid).remove();
+							});
+						}, function() {
+							findOrderOnce('thirds', orderid, function(snapshot, foundOrderid) {
 								var localsnapshot = snapshot.val();
-								localsnapshot.semployee = "-";
-								localsnapshot.shour = Date.now();
+								localsnapshot.checked = false;
+								delete localsnapshot.shour;
+								delete localsnapshot.thour;
 								delete localsnapshot.weeklyFulfilledCounted;
-								
-								firebase.database().ref('process/seconds/' + orderid).set(localsnapshot).then(function () {
-									firebase.database().ref('process/firsts/' + orderid).remove();
+								firebase.database().ref('process/firsts/' + foundOrderid).set(localsnapshot).then(function () {
+									firebase.database().ref('process/thirds/' + foundOrderid).remove();
 								});
-							}
+							}, function() {
+								findOrderOnce('fourths', orderid, function(snapshot, foundOrderid) {
+									var localsnapshot = snapshot.val();
+									localsnapshot.checked = false;
+									delete localsnapshot.shour;
+									delete localsnapshot.thour;
+									delete localsnapshot.weeklyFulfilledCounted;
+									firebase.database().ref('process/firsts/' + foundOrderid).set(localsnapshot).then(function () {
+										firebase.database().ref('process/fourths/' + foundOrderid).remove();
+									});
+								});
+							});
 						});
-					}
-				});	
-			} else {
-				if(isLetter(input.charAt(1)))
-					input = "00" + input;
-				if(isLetter(input.charAt(2)))
-					input = "0" + input;
-				if(isLetter(input.charAt(3))) {
-					var employeeid = input.slice(0, 3);
-					console.log("employeeid " + employeeid);
-
-					var orderid = input.slice(3, input.length);	
-					console.log("orderid " + orderid);
-
-					if(applyEmployeeToOrder(employeeid, orderid)) {
-						pendingEmployeeId = null;
-					} else if(employeeid == 99) {
-						//si está en firsts, seteo thirds. borro firsts
-						firebase.database().ref('process/firsts/' + orderid).once("value", function(snapshot) {
-							if(snapshot.val()) {
-								var localsnapshot = snapshot.val();
-								firebase.database().ref('process/thirds/' + orderid).set(localsnapshot).then(function () {
-									firebase.database().ref('process/firsts/' + orderid).remove();
-								});
-							} else {
-								//si está en seconds, seteo first s. borro seconds
-								firebase.database().ref('process/seconds/' + orderid).once("value", function(snapshot) {
-									if(snapshot.val()) {
-										var localsnapshot = snapshot.val();
-										delete localsnapshot.shour;
-										delete localsnapshot.thour;
-										delete localsnapshot.weeklyFulfilledCounted;
-										firebase.database().ref('process/firsts/' + orderid).set(localsnapshot).then(function () {
-											firebase.database().ref('process/seconds/' + orderid).remove();
-										});
-									} else {
-										//si está en thirds, seteo first s. borro thirds
-										firebase.database().ref('process/thirds/' + orderid).once("value", function(snapshot) {
-											if(snapshot.val()) {
-												var localsnapshot = snapshot.val();
-												localsnapshot.checked = false;
-												delete localsnapshot.shour;
-												delete localsnapshot.thour;
-												delete localsnapshot.weeklyFulfilledCounted;
-												firebase.database().ref('process/firsts/' + orderid).set(localsnapshot).then(function () {
-													firebase.database().ref('process/thirds/' + orderid).remove();
-												});
-											} else {
-												//si está en fourths, seteo first s. borro fourths
-												firebase.database().ref('process/fourths/' + orderid).once("value", function(snapshot) {
-													if(snapshot.val()) {
-														var localsnapshot = snapshot.val();
-														localsnapshot.checked = false;
-														delete localsnapshot.shour;
-														delete localsnapshot.thour;
-														delete localsnapshot.weeklyFulfilledCounted;
-														firebase.database().ref('process/firsts/' + orderid).set(localsnapshot).then(function () {
-															firebase.database().ref('process/fourths/' + orderid).remove();
-														});
-													} 
-												});	
-											}
-										});	
-									}
-								});
-							}
-						});
-					}
+					});
 				}
 			}
         }
@@ -1287,6 +1335,33 @@
 			});
 		}
 
+		function countWeeklyFulfilledOnStart(stage, orderid, employeeName, nproducts, onDone) {
+			var productCount = parseInt(nproducts, 10) || 0;
+			if(!employeeName || employeeName == "-" || productCount <= 0) {
+				onDone();
+				return;
+			}
+
+			var orderWeeklyCountedRef = firebase.database().ref('process/' + stage + '/' + orderid + '/weeklyFulfilledCounted');
+			orderWeeklyCountedRef.transaction(function(currentValue) {
+				if(currentValue === true)
+					return;
+				return true;
+			}, function(error, committed) {
+				if(!error && committed) {
+					firebase.database().ref('employees/' + employeeName).transaction(function(employeeStats) {
+						if(employeeStats) {
+							employeeStats.notesFulfilledThisWeek = (employeeStats.notesFulfilledThisWeek || 0) + 1;
+							employeeStats.prodsFulfilledThisWeek = (employeeStats.prodsFulfilledThisWeek || 0) + productCount;
+						}
+						return employeeStats;
+					});
+				}
+
+				onDone();
+			});
+		}
+
 		//UPDATE combining timer and color
 		function updateFElapsedTime(orderListItem) {
 			var etField = orderListItem.find(".elapsed-time");
@@ -1501,6 +1576,7 @@
 			var itemHour = parseInt(order.hour, 10) || 0;
 			var inserted = false;
 
+			item.data("id", id);
 			item.data("hour", order.hour);
 			item.data("name", itemName);
 
@@ -1554,11 +1630,19 @@
 		firebase.database().ref('employees').once("value", function(snapshot) { 
 			if(snapshot.val()) {
 				$.each(snapshot.val(), function(key, value) {
+					var currentNotesFulfilled = parseInt(value.notesFulfilledThisWeek, 10) || 0;
+					var currentProdsFulfilled = parseInt(value.prodsFulfilledThisWeek, 10) || 0;
 					firebase.database().ref('employees/' + key + '/resting').set(false);
 					if(typeof value.notesFulfilledThisWeek === "undefined")
 						firebase.database().ref('employees/' + key + '/notesFulfilledThisWeek').set(0);
 					if(typeof value.prodsFulfilledThisWeek === "undefined")
 						firebase.database().ref('employees/' + key + '/prodsFulfilledThisWeek').set(0);
+					if(typeof value.lastWeek === "undefined") {
+						firebase.database().ref('employees/' + key + '/lastWeek').set({
+							notesFulfilled: currentNotesFulfilled,
+							prodsFulfilled: currentProdsFulfilled
+						});
+					}
 				});
 			}
 		}); 
@@ -1616,12 +1700,30 @@
 			firebase.database().ref('employeesW/' + key + '/ttimeT').set(0);
 		}
 
-		function resetWeeklyFulfilledStats() {
+		function resetWeeklyFulfilledStats(reportDateKey) {
 			firebase.database().ref('employees').once("value", function(snapshot) { 
 				if(snapshot.val()) {
+					var report = {
+						createdAt: Date.now(),
+						employees: {}
+					};
+
 					$.each(snapshot.val(), function(key, value) {
-						firebase.database().ref('employees/' + key + '/notesFulfilledThisWeek').set(0);
-						firebase.database().ref('employees/' + key + '/prodsFulfilledThisWeek').set(0);
+						report.employees[key] = {
+							notesFulfilled: parseInt(value.notesFulfilledThisWeek, 10) || 0,
+							prodsFulfilled: parseInt(value.prodsFulfilledThisWeek, 10) || 0
+						};
+					});
+
+					firebase.database().ref('employeesWeeklyFulfilledReports/' + reportDateKey).set(report).then(function () {
+						$.each(snapshot.val(), function(key, value) {
+							firebase.database().ref('employees/' + key + '/lastWeek').set({
+								notesFulfilled: parseInt(value.notesFulfilledThisWeek, 10) || 0,
+								prodsFulfilled: parseInt(value.prodsFulfilledThisWeek, 10) || 0
+							});
+							firebase.database().ref('employees/' + key + '/notesFulfilledThisWeek').set(0);
+							firebase.database().ref('employees/' + key + '/prodsFulfilledThisWeek').set(0);
+						});
 					});
 				}
 			});
@@ -1641,7 +1743,7 @@
 				return resetDateKey;
 			}, function(error, committed) {
 				if(!error && committed)
-					resetWeeklyFulfilledStats();
+					resetWeeklyFulfilledStats(resetDateKey);
 			});
 		}
 
