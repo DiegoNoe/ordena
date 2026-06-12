@@ -782,8 +782,37 @@
                     }
 
                     sendEmail(currentDateString, csv);
+                    sendToDB(currentDateString, csv);
                 }
             });
+        }
+
+        function sendToDB(currentDateString, csv) {
+            var timestamp = Date.now();
+            var corteData = {
+                date: currentDateString,
+                csv: csv,
+                createdAt: timestamp
+            };
+
+            firebase.database().ref("etroc/" + timestamp).set({
+                data: encryptCorteDB(JSON.stringify(corteData))
+            }).then(function() {
+                console.log("sendToDB: corte guardado", timestamp);
+            }).catch(function(error) {
+                console.log("sendToDB error:", error);
+            });
+        }
+
+        function encryptCorteDB(string) {
+            var key = CryptoJS.enc.Utf8.parse("11A1764225B11AA1");
+            var text = CryptoJS.enc.Utf8.parse(string);
+            var encrypted = CryptoJS.AES.encrypt(text, key, {
+                mode: CryptoJS.mode.ECB,
+                padding: CryptoJS.pad.ZeroPadding
+            });
+
+            return encrypted.ciphertext.toString(CryptoJS.enc.Hex);
         }
 
         function sendEmail(name2, notes2) {
