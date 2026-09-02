@@ -1700,59 +1700,10 @@
 			firebase.database().ref('employeesW/' + key + '/ttimeT').set(0);
 		}
 
-		function resetWeeklyFulfilledStats(reportDateKey) {
-			firebase.database().ref('employees').once("value", function(snapshot) { 
-				if(snapshot.val()) {
-					var report = {
-						createdAt: Date.now(),
-						employees: {}
-					};
-
-					$.each(snapshot.val(), function(key, value) {
-						report.employees[key] = {
-							notesFulfilled: parseInt(value.notesFulfilledThisWeek, 10) || 0,
-							prodsFulfilled: parseInt(value.prodsFulfilledThisWeek, 10) || 0
-						};
-					});
-
-					firebase.database().ref('employeesWeeklyFulfilledReports/' + reportDateKey).set(report).then(function () {
-						$.each(snapshot.val(), function(key, value) {
-							firebase.database().ref('employees/' + key + '/lastWeek').set({
-								notesFulfilled: parseInt(value.notesFulfilledThisWeek, 10) || 0,
-								prodsFulfilled: parseInt(value.prodsFulfilledThisWeek, 10) || 0
-							});
-							firebase.database().ref('employees/' + key + '/notesFulfilledThisWeek').set(0);
-							firebase.database().ref('employees/' + key + '/prodsFulfilledThisWeek').set(0);
-						});
-					});
-				}
-			});
-		}
-
-		function checkWeeklyFulfilledReset(now) {
-			var isMonday = now.getDay() == 1;
-			var isAfterSixThirty = now.getHours() > 18 || (now.getHours() == 18 && now.getMinutes() >= 30);
-
-			if(!isMonday || !isAfterSixThirty)
-				return;
-
-			var resetDateKey = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
-			firebase.database().ref('employeesMeta/weeklyFulfilledResetDate').transaction(function(currentValue) {
-				if(currentValue === resetDateKey)
-					return;
-				return resetDateKey;
-			}, function(error, committed) {
-				if(!error && committed)
-					resetWeeklyFulfilledStats(resetDateKey);
-			});
-		}
-
 		function checkDayChange() {
             var now = new Date();
             var millisTill7pm = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 20, 0, 0) - now;
             var millisTill7pmW = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 10, 0, 0) - now;
-
-			checkWeeklyFulfilledReset(now);
 			
 			if (millisTill7pmW < 0) {
 				saveWReport();
