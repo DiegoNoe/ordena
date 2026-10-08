@@ -1,0 +1,94 @@
+INVENTARIO DE ALDO — PRIMERA ETAPA, 1 OCTUBRE 2026
+
+VISTAS
+inventario.html: inventario por producto/sucursal, movimientos y pagos de compras.
+conteo.html: captura de cantidades físicas, responsable, motivo e historial.
+Abrir con ?demo=1 para datos ficticios locales; no carga Firebase en ese modo.
+El modo demo persiste en localStorage con clave aldo-inventario-demo-v1.
+Sin ?demo=1, lee el catálogo de Imperial y los registros de Firebase ORDENA.
+Los registros isDemo del servidor están ocultos por defecto; activar “Incluir
+registros demo” para ver las seis operaciones demo creadas previamente.
+
+DATOS
+Lee productos de cremeria-imperial/productos.
+Lee inventoryMovements en ORDENA, con corte 2026-10-01 00:00 America/Mexico_City.
+Escribe conteos en inventoryCounts/{branch}/{clave codificada}: current e history.
+Escribe revisiones de pagos en inventoryPayments/{branch}/{movementId}: current e history.
+No escribe inventory/stock, no modifica compras originales ni envía nada a Odoo.
+Los timestamps de conteos/pagos se resuelven en el servidor. Las transacciones
+rechazan una edición si otra persona cambió la revisión desde que se abrió.
+La confirmación visual se muestra solo después de confirmar el guardado.
+Responsable es nombre capturado; no es identidad autenticada. Las dos vistas
+no constituyen permisos de acceso. Conservan el mecanismo Firebase existente;
+los permisos reales para los nuevos nodos no se verificaron en estas pruebas.
+
+REGLAS
+Cada producto y sucursal tiene su propio conteo inicial y fecha.
+Saldo provisional = conteo + efectos de movimientos posteriores al conteo.
+Sin conteo se muestra “Sin conteo inicial”; no se asume cero.
+Movimientos con unidad incompatible impiden calcular ese saldo hasta revisarlos.
+No hay equivalencias entre cajas/piezas/kilos: segunda etapa.
+Los POS de ventas aún NO están integrados; la interfaz lo señala.
+No modifica cálculos ni PDFs de los programas anteriores de entradas/cajas.
+
+TRASLADOS
+Por indicación del usuario, tanto transfer_dispatch como transfer_receipt
+completan el traslado: resta en origen y suma en destino. No registrar ambos
+para el mismo envío. No hay deduplicación ni vínculo automático entre capturas.
+Cada registro se aplica una vez; no se cambia el total conjunto por traslado.
+El campo demoTransferId de datos antiguos no se usa para deduplicar.
+
+PAGOS
+Solo compras externas; traslados no entran en cuentas por pagar.
+Estado pendiente/pagada y vencimiento opcional manual; no ejecuta pagos.
+Sin fecha no se considera vencido. Hoy, vencido y futuro se calculan en horario
+de México. Las tarjetas respetan filtros generales, no el selector de estado.
+Crédito por proveedor, perfiles y pagos parciales quedan fuera de esta etapa.
+
+PUBLICACIÓN
+Servir esta carpeta dentro de inventory junto a ../js/firebase.js existente.
+No se publicaron archivos ni se escribieron conteos/pagos reales en estas pruebas.
+
+PRUEBAS (desde la raíz del proyecto)
+node ORDENA/inventory/aldo/tests/core.test.cjs
+node ORDENA/inventory/aldo/tests/browser-demo.test.cjs
+node ORDENA/inventory/aldo/tests/browser-storage.test.cjs
+Las pruebas de navegador requieren Puppeteer, bloquean red externa y usan un
+servidor local. Cubren demo móvil/escritorio y Firebase simulado (rutas, errores,
+conflictos de revisión, desconexión). No son pruebas del servidor de producción.
+
+ACTUALIZACIÓN LOCAL — 7 OCTUBRE 2026: SALIDAS
+Terminales confirmadas por el usuario:
+- ORDENA/pos/pos/caja1-wa.html y caja2-wa.html (Imperial 2).
+- NEW GIT/GIT 2/GIT/index1-black.html a index5-black.html (Imperial 1).
+No son los pos1-wa a pos5-wa de ORDENA. No se cambiaron estos últimos.
+
+Módulo nuevo a publicar junto con los HTML:
+- ORDENA/pos/js/inventory-sales.js
+- NEW GIT/GIT 2/GIT/js/inventory-sales.js (misma copia del módulo).
+Registrar venta añade un movimiento sale a inventoryMovements/{branch} en ORDENA.
+No cambia cobro, cálculo, PDF, Odoo ni los registros originales de los terminales.
+Guardar revisión en caja NO registra venta: el registro se hace en la rama que
+emite el ticket. Imperial 1 lo hace al emitir el pedido, NO confirma cobro ni peso
+final de surtido. Se conserva el total del PDF, el precio y la unidad de venta.
+Pesos de caja se registran en KILO; no se inventan equivalencias con piezas/cajas.
+Los pedidos “mañana” se registran sale_pending visibles pero sin descuento.
+No se activan automáticamente al día siguiente; falta enlazar entrega real.
+Por ello los saldos siguen provisionales, sobre todo Imperial 1.
+
+La misma referencia original de caja usa una clave determinista compartida entre
+CAJA1/CAJA2: primera escritura confirmada gana. En capturas nuevas sin referencia,
+se usa ID de captura que se conserva hasta limpiar; repetir generación en esa
+captura no añade otra salida. Reabrir un PDF ya emitido no vuelve a ejecutar el
+registro. Una nueva captura, aunque tenga mismo cliente/productos, es otra salida.
+El módulo conserva pendientes en localStorage e intenta enviarlos cada 30 segundos,
+al abrir página o recuperar red. No bloquea la operación original; muestra estado.
+Si la copia local no está disponible, conserva solo memoria y avisa; no cerrar
+hasta sincronizar. No se implementaron anulaciones ni devoluciones automáticas.
+La fecha efectiva se toma al emitir (reloj local ajustado por offset Firebase),
+no al reintentar: un pendiente antiguo no descuenta después de un conteo posterior.
+
+Esta actualización sustituye la indicación anterior “ventas no integradas” a nivel
+código. No se desplegó ni probó en producción; solo aparecen ventas nuevas que
+emitan terminales con estos archivos. No recupera ventas desde el 1 de octubre.
+Prueba adicional: node ORDENA/inventory/aldo/tests/sales.test.cjs

@@ -283,6 +283,11 @@
         }
 
         //loads orders and remains listening
+        // El PDF redondea primero a décimas y después al medio peso más cercano.
+        function roundPdfEstimate(amount) {
+            return Math.round((Math.round(amount * 10) / 10) * 2) / 2;
+        }
+
         function populateOrder()  {
             database.child("/order").on('value', function (snapshot) {
                 var total = 0;
@@ -304,13 +309,18 @@
                         var cost = "";
                     } else {
                         var quantityAndUnit = quantity + shortenedUnits[childSnapshot.child("unidad").val()];
-                        if (quantity < 0) 
-                            var cost = quantity * childSnapshot.child("precio").val() * (-1);
-                        else 
-                            var cost =  quantity * childSnapshot.child("precio").val();
+                        // Mismos ajustes de cantidad que generatePDF() de pos1-wa a pos5-wa.
+                        // Solo afectan el importe mostrado; no se modifica la cantidad en Firebase.
+                        var estimatedQuantity = quantity;
+                        var productKey = childSnapshot.child("clave").val();
+                        if(productKey === "CHN" || productKey === "CHN1")
+                            estimatedQuantity = quantity * 1.18;
+                        else if(productKey === "ADMS2")
+                            estimatedQuantity = quantity * 1.03;
+                        var cost = Math.abs(estimatedQuantity) * childSnapshot.child("precio").val();
 
                         total += cost;
-                        cost = "" + Math.round(cost * 10) / 10;
+                        cost = "" + roundPdfEstimate(cost);
 
                         if(tipo == "porPesarCamara" || tipo == "porPesarAfuera")
                             isExact = false;
@@ -361,7 +371,7 @@
 
                 
                 if(calculable) {
-                    total = Math.round(total * 10) / 10;
+                    total = roundPdfEstimate(total);
                     if ((total / 1000) >= 1)
                         total = total.toLocaleString('en-US');
 
@@ -379,36 +389,59 @@
         }
 
         function checkDoneOrder() {
-            database.child('/done').on('value', function (snapshot) {
-                if(snapshot.val()) {
-                    database.child('/wtime').on('value', function (snapshotWT) {
-                        if(snapshotWT.val()) {
-                            var totalMessage = $('#totalTitleLabel').text();
-                            var minutesMessage = snapshotWT.val();
-                           
-                            if(minutesMessage != "-")
-                                $("#thankyouMessage").html("GRACIAS<br>" + globalName + "<br><br><br><br>" + totalMessage + "<br><br><br>TIEMPO ESTIMADO:<br>" + minutesMessage + " MINUTOS");
-                            else
-                                $("#thankyouMessage").html("GRACIAS<br>" + globalName + "<br><br><br><br>" + totalMessage);
+            var cleanupTimer = null;
+            var watchCompletedOrder = null;
+            var cleanupVersion = 0;
 
-                            $("#thankyouMessage").show();
-                            database.child('/POS5').remove();
-                            
-                            setTimeout(function(){
-                                removeOrderProducts();
-                                $("#thankyouMessage").hide();
+            function cancelCleanup() {
+                cleanupVersion++;
+                clearTimeout(cleanupTimer);
+                cleanupTimer = null;
+                if(watchCompletedOrder) database.off('value', watchCompletedOrder);
+                watchCompletedOrder = null;
+                $("#thankyouMessage").hide();
+            }
+
+            database.child('/done').on('value', function(snapshot) {
+                cancelCleanup();
+                if(!snapshot.val()) return;
+                var version = cleanupVersion;
+                database.once('value', function(completedSnapshot) {
+                    var completed = completedSnapshot.val();
+                    if(version !== cleanupVersion || !completed || !completed.done || !completed.wtime) return;
+                    var signature = JSON.stringify(completed);
+                    var totalMessage = $('#totalTitleLabel').text();
+                    var minutesMessage = completed.wtime;
+                    if(minutesMessage != "-")
+                        $("#thankyouMessage").html("GRACIAS<br>" + globalName + "<br><br><br><br>" + totalMessage + "<br><br><br>TIEMPO ESTIMADO:<br>" + minutesMessage + " MINUTOS");
+                    else
+                        $("#thankyouMessage").html("GRACIAS<br>" + globalName + "<br><br><br><br>" + totalMessage);
+                    $("#thankyouMessage").show();
+
+                    // Un cambio de pedido cancela la limpieza de la vista anterior.
+                    watchCompletedOrder = function(currentSnapshot) {
+                        if(JSON.stringify(currentSnapshot.val()) !== signature) cancelCleanup();
+                    };
+                    database.on('value', watchCompletedOrder);
+                    if(version !== cleanupVersion) return;
+                    cleanupTimer = setTimeout(function() {
+                        if(version !== cleanupVersion) return;
+                        // La comparación atómica también protege frente a cambios aún no recibidos.
+                        database.transaction(function(current) {
+                            if(version === cleanupVersion && JSON.stringify(current) === signature) return null;
+                        }, function(error, committed) {
+                            if(error || !committed) return;
+                            database.once('value', function(currentSnapshot) {
+                                if(currentSnapshot.val() !== null) return;
+                                cancelCleanup();
                                 $("#thankyouMessage").html("GRACIAS POR SU VISITA");
                                 $("#welcomeMessage").show();
                                 globalName = "";
-                            }, 8000);
-                        }
-                    });
-                }
+                            });
+                        }, false);
+                    }, 8000);
+                });
             });
-        }
-
-        function removeOrderProducts() {
-            firebase.database().ref("liveviews/" + "POS5").remove();
         }
 
 

@@ -130,6 +130,7 @@
 
     </script>
 
+    <script src="../js/inventory-sales.js"></script>
 </head>
 
 <body>
@@ -1293,36 +1294,30 @@
 
                 product = JSON.search(defiantProducts, '//*[clave="' + order[i][0] + '"]');
 
-                if (order[i][1] < 0) productTotal = product[0].costo * order[i][1] * (-1);
-                else productTotal = product[0].costo * order[i][1];
+                productTotal = cajaProductTotal(order[i][1], order[i][10], product[0]);
                 total += productTotal;
             }
 
-            total = roundDecimals(Math.round(total * 10) / 10);
+            total = cajaFinalTotal(total);
             
             for(var i = 0; i < sOrderProducts.length; i++)
                 sOrderProducts[i] = sOrderProducts[i].map(v => v === undefined ? '1' : v);
 
-            //firebase.database().ref("orders/code0/" + globalID + "/checked").set(false);
-            firebase.database().ref("orders/code0/" + globalID + "/products").set(sOrderProducts);
-            firebase.database().ref("orders/code0/" + globalID + "/subtotal").set(total);
-            
-            console.log("saveOrder: globalID");
-            console.log(globalID);
-            
+            // Publica un solo estado completo para no anunciar subtotales anteriores.
+            var updates = {
+                products: sOrderProducts,
+                subtotal: total,
+                checked: true,
+                discount: Number(globalDiscount) || 0
+            };
             var fulfillerName = $("#inputEmployeeNameCaja").val();
             if(fulfillerName != undefined && fulfillerName != "")
-                firebase.database().ref("orders/code0/" + globalID + "/fulfiller").set(fulfillerName);
+                updates.fulfiller = fulfillerName;
             if($("#inputCasillero").val() != undefined && $("#inputCasillero").val() != "")
-                firebase.database().ref("orders/code0/" + globalID + "/locker").set($("#inputCasillero").val());
+                updates.locker = $("#inputCasillero").val();
+            firebase.database().ref("orders/code0/" + globalID).update(updates);
 
             publishSavedOrderToProcessThirds(globalID, fulfillerName);
-
-            const localGlobalID = globalID;
-            setTimeout(() => {
-                console.log("orders/code0/" + localGlobalID + "/checked");
-                firebase.database().ref("orders/code0/" + localGlobalID + "/checked").set(true);
-            }, 100);
 
             //aquiaqui
             if(globalWhatsapp != "") {
@@ -1402,6 +1397,12 @@
 
         function populateOrder(order, localID) {
             eraseOrder();
+            // Conserva el descuento confirmado si se vuelve a abrir el pedido.
+            globalDiscount = Number(order.discount) || 0;
+            if(globalDiscount) {
+                document.getElementById("discount-wrapper").style.display = "block";
+                document.getElementById("discount-div").value = globalDiscount;
+            }
 
             $("#quantityInput").val("");
             $("#inputSearch").val("");
@@ -1545,7 +1546,6 @@
 
             //add list element
             $('#dynamic-list').prepend(productListItem);
-            updateTotal();
 
             //deleteSuggestedProduct(product.clave);
             var outterQuantity = notesAndQuantity.uc;
@@ -1560,6 +1560,7 @@
                     weightQuantity.val(Number(localProductWeight).toFixed(2));
                 }
             }
+            updateTotal();
             
             //populate quantity and clean original (outter) input
             productCounter++;
@@ -2585,7 +2586,6 @@
 
             //add list element
             $('#dynamic-list').prepend(productListItem);
-            updateTotal();
 
             deleteSuggestedProduct(product.clave);
             
@@ -2593,6 +2593,7 @@
             var outterQuantity = $("#quantityInput").val();
             var inputQuantity = $('#dynamic-list').find('input').first();
             inputQuantity.val(outterQuantity);
+            updateTotal();
             $("#quantityInput").val("");
             
             updateWT();
@@ -2745,18 +2746,31 @@
             return 0;
         }
 
+        // Replica las reglas vigentes del PDF; generatePDF() permanece intacto.
+        function cajaProductTotal(quantity, weight, product) {
+            if(!weight)
+                return quantity < 0 ? product.costo * quantity * (-1) : product.costo * quantity;
+            return quantity < 0 ? product.pkilo * weight * (-1) : product.pkilo * weight;
+        }
+
+        function cajaFinalTotal(total) {
+            if(globalDiscount != "" && globalDiscount != 0)
+                total = total * (1 - globalDiscount / 100);
+            return roundDecimals(Math.round(total * 10) / 10);
+        }
+
         function updateTotal() {
             var total = 0;
-            $(".product-total").each(function(index) {
-                total = total + ($(this).data("total") * 1);
+            $(".product-total").each(function() {
+                var row = $(this);
+                var product = JSON.search(defiantProducts, '//*[clave="' + row.data("id") + '"]')[0];
+                var quantity = row.children().eq(0).children().val();
+                var weight = row.data("weighted") ? row.children().eq(3).children().val() : undefined;
+                total += cajaProductTotal(quantity, weight, product);
             });
-
-            if(globalDiscount != "" && globalDiscount != 0) {
-                var factor = globalDiscount / 100;
-                total = total * (1 - factor);
-            }
-
-            $("#totalTextField").text("$" + round(total));
+            total = cajaFinalTotal(total);
+            $("#totalTextField").text("$" + total);
+            firebase.database().ref("liveviews/" + globalComputer + '/total').set(total);
         }
         
         //updates de waiting time
@@ -3442,6 +3456,12 @@
                     firebase.database().ref('extras/code2').set(globalCode2);
                 }
 
+                // INVENTORY-SALES: aislado del cobro y del PDF.
+                if(window.InventorySales) window.InventorySales.record({branch: "imperial2", terminal: globalComputer,
+                    source: "caja_ticket", orderReference: globalID || "", documentReference: productsRefID,
+                    name: $("#inputName").val().trim(), rows: order, pdfTotal: total, paymentMethod: orderMethod,
+                    discount: globalDiscount, tomorrow: false,
+                    findProduct: function(code) { return JSON.search(defiantProducts, '//*[clave="' + code + '"]')[0]; }});
                 uploadOrderToOdoo(replaceAEIOUN($("#inputName").val().trim()), order, orderMethod, invoiceCode)
 
                 eraseOrder();
@@ -4258,6 +4278,7 @@
 
         //leaves the page ready for a new order
         function eraseOrder() {
+            if(window.InventorySales) window.InventorySales.resetDraft(); // INVENTORY-SALES
             $("#inputName").val("");
             $("#dynamic-list").html("");
             $("#dynamic-list-2").html("");

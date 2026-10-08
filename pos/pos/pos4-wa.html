@@ -776,11 +776,11 @@
 
             //add list element
             $('#dynamic-list').prepend(productListItem);
-            updateTotal();
 
             //deleteSuggestedProduct(product.clave);
             var inputQuantity = $('#dynamic-list').find('input').first();
             inputQuantity.val(notesAndQuantity.uc);
+            updateTotal();
             
             //populate quantity and clean original (outter) input
             productCounter++;
@@ -1684,7 +1684,6 @@
 
             //add list element
             $('#dynamic-list').prepend(productListItem);
-            updateTotal();
 
             //deleteSuggestedProduct(product.clave);
             
@@ -1692,6 +1691,7 @@
             var outterQuantity = $("#quantityInput").val();
             var inputQuantity = $('#dynamic-list').find('input').first();
             inputQuantity.val(outterQuantity);
+            updateTotal();
             $("#quantityInput").val("");
             
             updateWT();
@@ -1826,10 +1826,18 @@
         function updateTotal() {
             var total = 0;
             $(".product-total").each(function(index) {
-                total = total + ($(this).data("total") * 1);
+                var productKey = $(this).data("id");
+                var product = JSON.search(defiantProducts, '//*[clave="' + productKey + '"]')[0];
+                var quantity = Number($(this).children().eq(0).children().val());
+                // Replica el aproximado del PDF sin cambiar la cantidad capturada.
+                if(productKey === "CHN" || productKey === "CHN1")
+                    quantity *= 1.18;
+                else if(productKey === "ADMS2")
+                    quantity *= 1.03;
+                total += Math.abs(quantity) * product.costo;
             });
 
-            $("#totalTextField").text("$" + round(total));
+            $("#totalTextField").text("$" + roundDecimals(Math.round(total * 10) / 10));
         }
         
         //updates de waiting time

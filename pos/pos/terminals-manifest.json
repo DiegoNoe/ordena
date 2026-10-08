@@ -1,0 +1,95 @@
+{
+  "generatedAt": "2026-09-15T00:00:00Z",
+  "primaryDatabaseURL": "https://cremeria-ordena-default-rtdb.firebaseio.com",
+  "secondaryDatabaseURL": "https://cremeria-imperial.firebaseio.com",
+  "terminals": [
+    {
+      "terminalId": "POS0",
+      "file": "pos0-wa.html",
+      "path": "ORDENA/pos/pos/pos0-wa.html",
+      "sizeBytes": 150057,
+      "lastModified": "May 25 09:36",
+      "canonical": true
+    },
+    {
+      "terminalId": "POS0",
+      "file": "pos0.html",
+      "path": "ORDENA/pos/pos/pos0.html",
+      "sizeBytes": 146482,
+      "lastModified": "May 21 15:09",
+      "canonical": false
+    },
+    {
+      "terminalId": "POS1",
+      "file": "pos1-wa.html",
+      "path": "ORDENA/pos/pos/pos1-wa.html",
+      "sizeBytes": 150125,
+      "lastModified": "May 25 10:11",
+      "canonical": true
+    },
+    {
+      "terminalId": "POS2",
+      "file": "pos2-wa.html",
+      "path": "ORDENA/pos/pos/pos2-wa.html",
+      "sizeBytes": 150125,
+      "lastModified": "May 25 10:11",
+      "canonical": true
+    },
+    {
+      "terminalId": "POS3",
+      "file": "pos3-wa.html",
+      "path": "ORDENA/pos/pos/pos3-wa.html",
+      "sizeBytes": 150125,
+      "lastModified": "May 25 10:11",
+      "canonical": true
+    },
+    {
+      "terminalId": "POS4",
+      "file": "pos4-wa.html",
+      "path": "ORDENA/pos/pos/pos4-wa.html",
+      "sizeBytes": 150125,
+      "lastModified": "May 25 10:11",
+      "canonical": true
+    },
+    {
+      "terminalId": "POS5",
+      "file": "pos5-wa.html",
+      "path": "ORDENA/pos/pos/pos5-wa.html",
+      "sizeBytes": 150125,
+      "lastModified": "May 25 13:21",
+      "canonical": true
+    },
+    {
+      "terminalId": "CAJA1",
+      "file": "caja1-wa.html",
+      "path": "ORDENA/pos/pos/caja1-wa.html",
+      "sizeBytes": 206894,
+      "lastModified": "Jun 12 17:40",
+      "canonical": true
+    },
+    {
+      "terminalId": "CAJA1",
+      "file": "caja1-imp1.html",
+      "path": "ORDENA/pos/pos/caja1-imp1.html",
+      "sizeBytes": 206072,
+      "lastModified": "May 25 14:27",
+      "canonical": false
+    },
+    {
+      "terminalId": "CAJA2",
+      "file": "caja2-wa.html",
+      "path": "ORDENA/pos/pos/caja2-wa.html",
+      "sizeBytes": 206894,
+      "lastModified": "Jun 12 17:39",
+      "canonical": true
+    },
+    {
+      "terminalId": "CAJA2",
+      "file": "corte.html",
+      "path": "ORDENA/pos/pos/corte.html",
+      "sizeBytes": 202033,
+      "lastModified": "Jun 12 15:32",
+      "canonical": false
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+const assert=require('node:assert/strict');
+const C=require('../inventory-core.js');
+const t=C.START+3600000,product={code:'Q',description:'Queso',unit:'KILO'};
+const count=(branch,n,when=t)=>({current:{id:branch,code:'Q',unit:'KILO',quantity:n,recordedAt:when}});
+const counts={imperial1:{q:count('imperial1',20)},imperial2:{q:count('imperial2',10)}};
+const movement=(type,origin,destination,n,at=t+1000)=>({id:type,branch:'imperial1',type,origin,destination,recordedAt:at,pdfTotal:n*100,products:[{code:'Q',unit:'KILO',quantity:n,unitCost:100}]});
+for(const type of ['transfer_dispatch','transfer_receipt']){
+ const m=movement(type,'imperial1','imperial2',2.5);
+ assert.equal(C.balance(product,'imperial1',counts,[m]).quantity,17.5);
+ assert.equal(C.balance(product,'imperial2',counts,[m]).quantity,12.5);
+ assert.equal(C.balance(product,'imperial1',counts,[m]).quantity+C.balance(product,'imperial2',counts,[m]).quantity,30);
+}
+const dispatch=movement('transfer_dispatch','imperial1','imperial2',2.5),receipt=movement('transfer_receipt','imperial1','imperial2',2.5);
+assert.equal(C.balance(product,'imperial1',counts,[dispatch,receipt]).quantity,15,'Cada captura se aplica; no hay deduplicación implícita');
+assert.equal(C.balance(product,'imperial1',{},[dispatch]).quantity,null);
+assert.equal(C.balance(product,'imperial1',counts,[movement('purchase','supplier','imperial1',5,t-1)]).quantity,20);
+const laterCounts={...counts,imperial1:{q:count('imperial1',18,t+2000)}};
+assert.equal(C.balance(product,'imperial1',laterCounts,[dispatch]).quantity,18);
+assert.equal(C.balance(product,'imperial2',laterCounts,[dispatch]).quantity,12.5);
+const badUnit=structuredClone(dispatch);badUnit.products[0].unit='CAJA';
+assert.equal(C.balance(product,'imperial1',counts,[badUnit]).quantity,null);
+const many=Array.from({length:150},(_,i)=>movement('purchase','supplier','imperial1',.5,t+i+1));
+assert.equal(C.balance(product,'imperial1',counts,many).quantity,95);
+const root={imperial1:{old:movement('purchase','supplier','imperial1',1,C.START-1),demo:{...dispatch,isDemo:true},live:receipt}};
+assert.equal(C.movements(root,false).length,1);assert.equal(C.movements(root,true).length,2);
+const purchase={...movement('purchase','supplier','imperial1',10),name:'Proveedor',id:'A'};
+const payments=dueDate=>({imperial1:{A:{current:{status:'pending',dueDate}}}});
+for(const [due,result] of [['','undated'],['2026-10-01','overdue'],['2026-10-02','today'],['2026-10-09','future']])assert.equal(C.paymentState(purchase,payments(due),'2026-10-02').bucket,result);
+assert.equal(C.paymentState(purchase,{imperial1:{A:{current:{status:'paid',dueDate:'2026-10-01'}}}},'2026-10-02').bucket,'paid');
+assert.equal(C.day(C.START),'2026-10-01');assert.equal(C.day(C.START-1),'2026-09-30');
+const options={min:'999',max:'1001',branch:'imperial1',from:'2026-10-01',to:'2026-10-01',query:'proveedor'};
+assert.equal(C.filter([purchase],options).length,1);assert.equal(C.filter([purchase],{...options,branch:'imperial2'}).length,0);
+assert.equal(C.filter([dispatch],{min:'',max:'',branch:'imperial2'}).length,1);
+assert.equal(C.effect({...dispatch,origin:'imperial1',destination:'imperial1'},'imperial1'),0);
+console.log('OK: ambos botones de traslado, saldos por sucursal/fecha, unidades, 150 movimientos, demos, vencimientos y filtros.');

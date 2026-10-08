@@ -286,6 +286,21 @@
         }
 
         //loads orders and remains listening
+        var confirmedCajaTotal = null;
+        var fallbackOrderTotal = null;
+
+        function renderOrderTotal() {
+            var total = confirmedCajaTotal !== null ? confirmedCajaTotal : fallbackOrderTotal;
+            $('#totalTitleLabel').text(total === null ? "" : "TOTAL $" + Number(total).toLocaleString('en-US'));
+        }
+
+        function listenCajaTotal() {
+            database.child('/total').on('value', function(snapshot) {
+                confirmedCajaTotal = snapshot.val();
+                renderOrderTotal();
+            });
+        }
+
         function populateOrder()  {
             database.child("/order").on('value', function (snapshot) {
                 var total = 0;
@@ -363,60 +378,63 @@
                     $("#welcomeMessage").hide();
 
                 
-                if(calculable) {
-                    total = Math.round(total * 10) / 10;
-                    if ((total / 1000) >= 1)
-                        total = total.toLocaleString('en-US');
-
-                    if(isExact) {
-                        $('#totalTitleLabel').html("TOTAL $" + total);
-                    }
-                    else {
-                        $('#totalTitleLabel').html("TOTAL $" + total);
-                    }
-                } else {
-                    $('#totalTitleLabel').text("");
-                }
+                fallbackOrderTotal = calculable ? Math.round(total * 10) / 10 : null;
+                renderOrderTotal();
                 console.log($('#totalTitleLabel').text());
             });
         }
 
         function checkDoneOrder() {
-            database.child('/done').on('value', function (snapshot) {
-                if(snapshot.val()) {
-                    database.child('/wtime').on('value', function (snapshotWT) {
-                        if(snapshotWT.val()) {
-                            var totalMessage = $('#totalTitleLabel').text();
-                            var minutesMessage = snapshotWT.val();
-                           
-                            /*
-                            if(minutesMessage != "-")
-                                $("#thankyouMessage").html("GRACIAS<br>" + globalName + "<br><br><br><br>" + totalMessage + "<br><br><br>TIEMPO ESTIMADO:<br>" + minutesMessage + " MINUTOS");
-                            else
-                                $("#thankyouMessage").html("GRACIAS<br>" + globalName + "<br><br><br><br>" + totalMessage);
-                            */
+            var cleanupTimer = null;
+            var watchCompletedOrder = null;
+            var cleanupVersion = 0;
 
-                            $("#thankyouMessage").html("GRACIAS<br>" + globalName + "<br><br><br><br>" + "ENSEGUIDA TE NOMBRAMOS<br>PARA ENTREGARTE");
+            function cancelCleanup() {
+                cleanupVersion++;
+                clearTimeout(cleanupTimer);
+                cleanupTimer = null;
+                if(watchCompletedOrder) database.off('value', watchCompletedOrder);
+                watchCompletedOrder = null;
+                $("#thankyouMessage").hide();
+            }
 
+            database.child('/done').on('value', function(snapshot) {
+                cancelCleanup();
+                if(!snapshot.val()) return;
+                var version = cleanupVersion;
+                database.once('value', function(completedSnapshot) {
+                    var completed = completedSnapshot.val();
+                    if(version !== cleanupVersion || !completed || !completed.done || !completed.wtime) return;
+                    var signature = JSON.stringify(completed);
+                    var totalMessage = $('#totalTitleLabel').text();
+                    var minutesMessage = completed.wtime;
+                    $("#thankyouMessage").html("GRACIAS<br>" + globalName + "<br><br><br><br>ENSEGUIDA TE NOMBRAMOS<br>PARA ENTREGARTE");
+                    $("#thankyouMessage").show();
 
-                            $("#thankyouMessage").show();
-                            database.child('/CAJA1').remove();
-                            
-                            setTimeout(function(){
-                                removeOrderProducts();
-                                $("#thankyouMessage").hide();
+                    // Un cambio de pedido cancela la limpieza de la vista anterior.
+                    watchCompletedOrder = function(currentSnapshot) {
+                        if(JSON.stringify(currentSnapshot.val()) !== signature) cancelCleanup();
+                    };
+                    database.on('value', watchCompletedOrder);
+                    if(version !== cleanupVersion) return;
+                    cleanupTimer = setTimeout(function() {
+                        if(version !== cleanupVersion) return;
+                        // La comparación atómica también protege frente a cambios aún no recibidos.
+                        database.transaction(function(current) {
+                            if(version === cleanupVersion && JSON.stringify(current) === signature) return null;
+                        }, function(error, committed) {
+                            if(error || !committed) return;
+                            database.once('value', function(currentSnapshot) {
+                                if(currentSnapshot.val() !== null) return;
+                                cancelCleanup();
                                 $("#thankyouMessage").html("GRACIAS POR SU VISITA");
                                 $("#welcomeMessage").show();
                                 globalName = "";
-                            }, 8000);
-                        }
-                    });
-                }
+                            });
+                        }, false);
+                    }, 8000);
+                });
             });
-        }
-
-        function removeOrderProducts() {
-            firebase.database().ref("liveviews/" + "CAJA1").remove();
         }
 
 
@@ -443,6 +461,7 @@
         //MAIN
         populateName();
         populateOrder();
+        listenCajaTotal();
         populateSuggestedOrder();
         checkConnection();
         checkDoneOrder();

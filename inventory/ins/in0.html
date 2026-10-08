@@ -1484,6 +1484,8 @@
             
             //set PDF defaults
             var order = getOrderProducts();
+            // Conserva cantidades y costos capturados antes de las conversiones de inventario.
+            var capturedProducts = order.map(function(item) { return item.slice(); });
             var doc = new jsPDF({
                 orientation: 'p',
                 unit: 'mm',
@@ -1687,7 +1689,10 @@
 
 
             //uploads buying order
-            uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), order, total, productsRefID, orderMethod);
+            uploadCompleteOrder(replaceAEIOUN($("#inputName").val().trim()), capturedProducts, total, productsRefID, orderMethod).catch(function(error) {
+                console.error("No se pudo guardar el movimiento de inventario", error);
+                alert("NO SE CONFIRMÓ EL REGISTRO PARA ALDO. Conserva el PDF y reporta esta entrada. No vuelvas a generar la operación: podría duplicarse en inventario u Odoo.");
+            });
             uploadOrderToProvidres(order);
 
             var invoiceCode = generateCode(6);
@@ -1809,29 +1814,40 @@
 
         //uploads order when invoice is needed
         function uploadCompleteOrder(name, products, total, id, orderMethod) {
-            id = id.replace(".", "").replace(" ", "");
-            total = total.replace(/\,/g,'');
-
-            for(var i = 0; i < products.length; i++)
-                products[i] = products[i].map(function(value) {
-                    return value === undefined ? "01010101" : value;
-                });
-
-            var destination = "";
-            if(orderMethod == "MOSTRADOR")
-                destination = "outsideToO";
-            else if(orderMethod == "TELEFONO")
-                destination = "imperialToO";
-            else if(orderMethod == "WHATSAPP")
-                destination = "ordenaToI";
-
-            //NEAR FUTURE UPDATE divide the address by date
-            firebase.database().ref("purchases/" + destination + "/" + id).set({
-                nombre: name,
-                productos: products,
-                subtotal: total,
-                hour: Date.now(),
-                id: id
+            var branch = "imperial2";
+            var otherBranch = "imperial1";
+            var directions = {
+                MOSTRADOR: {type: "purchase", origin: "supplier", destination: branch},
+                TELEFONO: {type: "transfer_receipt", origin: otherBranch, destination: branch},
+                WHATSAPP: {type: "transfer_dispatch", origin: branch, destination: otherBranch}
+            };
+            var movement = directions[orderMethod];
+            if(!movement) return Promise.reject(new Error("Tipo de movimiento desconocido"));
+            var ref = firebase.database().ref("inventoryMovements/" + branch).push();
+            return ref.set({
+                schemaVersion: 1,
+                id: ref.key,
+                branch: branch,
+                terminal: "in0-ordena",
+                type: movement.type,
+                origin: movement.origin,
+                destination: movement.destination,
+                capturedAt: Date.now(),
+                recordedAt: firebase.database.ServerValue.TIMESTAMP,
+                name: name,
+                documentReference: id,
+                providerReference: globalID || "",
+                pdfTotal: Number(String(total).replace(/,/g, "")),
+                products: products.map(function(product) {
+                    return {
+                        code: product[0],
+                        quantity: Number(product[1]),
+                        unit: product[2],
+                        description: product[3],
+                        unitCost: Number(product[4]),
+                        notes: product[5] || ""
+                    };
+                })
             });
         }
 

@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" style="background-color: white;">
+<html lang="en" style="background-color: #000000;">
 <head>
 	<title>Empleados</title>
 
 	<meta charset="utf-8">
+	<meta name="theme-color" content="#000000">
     <meta name="viewport" content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="apple-touch-icon" href="apple-touch-icon.png">
+	<link rel="apple-touch-icon" href="apple-touch-icon-2.png">
 
 	<!-- local js resources -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -31,11 +32,8 @@
 
 		firebase.initializeApp(config);
 		var database = firebase.database().ref('employees/');
-		database.once('value', function (snapshot) {
-			loadEmployees();
-		});
-
 		var employeesSnapshot;
+		var employeeDetailsSnapshot;
 
 	</script>
 
@@ -47,7 +45,22 @@
             src: url(GillSansMTCondensedBold.ttf);
         }
 
+		body {
+			height: 100vh;
+			height: 100dvh;
+			display: flex;
+			flex-direction: column;
+		}
+
+		#noConnectionAlert {
+			flex-shrink: 0;
+		}
+
 		.container-fluid {
+			display: flex;
+			flex-direction: column;
+			flex: 1;
+			min-height: 0;
 			font-family: GillSansMTCondensedBold;
 			margin-left: 1%;
 			margin-right: 1%;
@@ -77,13 +90,21 @@
 			display: none;
 		}
 
+		.container-fluid > .row {
+			flex-shrink: 0;
+		}
+
 		#dynamic-list {
-			height: 640px;
+			flex: 1;
+			min-height: 0;
+			margin-bottom: 8px;
+			margin-bottom: max(8px, env(safe-area-inset-bottom));
 			overflow: hidden;
 			overflow-y: scroll;
 		}
 
-		#addNewEmployeeDBForm input{
+		#addNewEmployeeDBForm input,
+		#addNewEmployeeDBForm textarea{
 			font-size: 17px;
 		}
 
@@ -134,6 +155,32 @@
 			border: none;
 		}
 
+		#dynamic-list > .employee-row,
+		.employee-row.headTitle {
+			display: grid;
+			grid-template-columns: 32% 34px minmax(0, 1fr) 32px;
+			align-items: start;
+		}
+
+		#dynamic-list > .employee-row::before,
+		#dynamic-list > .employee-row::after,
+		.employee-row.headTitle::before,
+		.employee-row.headTitle::after {
+			display: none;
+		}
+
+		#dynamic-list > .employee-row > *,
+		.employee-row.headTitle > * {
+			width: auto !important;
+			min-width: 0;
+			margin-right: 0 !important;
+		}
+
+		.employee-row.headTitle > :nth-child(3) {
+			padding-left: 5px !important;
+			grid-column: 3 / 5;
+		}
+
 		.performance-select {
 			font-size: 24px;
 			height: 30px;
@@ -145,7 +192,16 @@
 			height: 30px;
 			padding: 0px;
 			padding-left: 5px;
-			line-height: 12px;
+			line-height: 1.2;
+		}
+
+		textarea.employee-comment {
+			min-height: 30px;
+			height: auto;
+			line-height: 1.2;
+			overflow: hidden;
+			overflow-wrap: anywhere;
+			resize: none;
 		}
 
 		select {
@@ -157,14 +213,113 @@
 			-webkit-appearance: none;
 		}
 
+
+		/* No reasigna el texto durante la escritura: conserva el teclado y el cursor de iPhone. */
+		input[autocapitalize="characters"],
+		textarea.employee-comment {
+			text-transform: uppercase;
+		}
+
+		/* Tema oscuro para la terminal y el formulario de empleados. */
+		:root {
+			color-scheme: dark;
+		}
+
+		body {
+			color: #f2f2f2;
+		}
+
+		.list-group-item,
+		.modal-content {
+			background-color: #111111;
+			color: #f2f2f2;
+			border-color: #383838;
+		}
+
+		.headTitle {
+			background-color: #000000;
+		}
+
+		.modal-header,
+		.modal-footer {
+			border-color: #383838;
+		}
+
+		.form-control,
+		select option {
+			background-color: #202020;
+			color: #f2f2f2;
+			border-color: #555555;
+		}
+
+		.form-control::placeholder {
+			color: #aaaaaa;
+			opacity: 1;
+		}
+
+		.form-control:focus {
+			border-color: #74b985;
+			box-shadow: 0 0 0 2px rgba(116, 185, 133, 0.25);
+		}
+
+		.btn-success {
+			background-color: #287a3e;
+			border-color: #398c50;
+			color: #ffffff;
+		}
+
+		.btn-success:hover,
+		.btn-success:focus {
+			background-color: #216633;
+			border-color: #74b985;
+		}
+
+		.btn-danger {
+			background-color: #b73737;
+			border-color: #cc5151;
+			color: #ffffff;
+		}
+
+		.btn-danger:hover,
+		.btn-danger:focus {
+			background-color: #982d2d;
+		}
+
+		.btn-secondary {
+			background-color: #333333;
+			border-color: #555555;
+			color: #f2f2f2;
+		}
+
+		.btn-secondary:hover,
+		.btn-secondary:focus {
+			background-color: #444444;
+			color: #ffffff;
+		}
+
+		.glyphicon-pencil {
+			color: #cccccc;
+		}
+
+		.glyphicon-pencil:hover,
+		.glyphicon-pencil:focus {
+			color: #ffffff;
+		}
+
+		.alert-danger {
+			background-color: #391c1c;
+			border-color: #804040;
+			color: #ffb3b3;
+		}
+
 	</style>
 </head>
 
-<body style="zoom: 100%; background-color: white; overflow: hidden;">
+<body style="zoom: 100%; background-color: #000000; overflow: hidden;">
 	<div class="alert alert-danger" style="display: none" id="noConnectionAlert" role="alert">
 		<strong>No hay conexión.</strong> Los cambios que hagas no se verán reflejados en la base de datos.
 	</div>
-	<div class="container-fluid" style="background-color: white;">
+	<div class="container-fluid" style="background-color: #000000;">
 		<div class="row"> 
 			<h1 id="employeesTitleLabel" class="modal-title col-xs-8" style="margin-bottom:1.5%; margin-top:.5px"> EMPLEADOS</h1>
 			<div class="col-xs-4">
@@ -194,30 +349,31 @@
 						<!-- form -->
 						<div class="form-group">
 							<!-- error message div -->
-							<label id="verificationMessage" style="color: red;" ></label>
+							<label id="verificationMessage" style="color: #ff9999;" ></label>
 							<div class="row" style="margin-bottom: 0px;">
 								<!-- name -->
 								<div class="col-xs-6">
 									<label for="nameInput">NOMBRE</label>
-									<input oninput="this.value = this.value.toUpperCase()" class="form-control" type="text" maxlength="9" placeholder="NOMBRE"
+									<input autocapitalize="characters" onblur="uppercasePreservingSelection(this)" class="form-control" type="text" maxlength="9" placeholder="NOMBRE"
 										required>
 								</div>
                                 <!-- pronunciation -->
                                 <div class="col-xs-6">
 									<label for="pronunciationInput">PRONUNCIACIÓN</label>
-									<input oninput="this.value = this.value.toUpperCase()" class="form-control" type="text" maxlength="9" placeholder="PRONUNCIACIÓN"
+									<input autocapitalize="characters" onblur="uppercasePreservingSelection(this)" class="form-control" type="text" maxlength="9" placeholder="PRONUNCIACIÓN"
 									required>
                                 </div>
 							</div>
 							<div class="row">
 								<div class="col-xs-3" style="padding-right: 7px;">
 									<label for="IDInput">CLAVE</label>
-									<input id="inputID" oninput="this.value = this.value.toUpperCase()"
+									<input id="inputID" autocapitalize="characters" onblur="uppercasePreservingSelection(this)"
 									class="form-control" type="number" placeholder="CLAVE" required>
 								</div>
                                 <div class="col-xs-3">
 									<label for="priceInput">ENTRADA</label>
 									<select class="form-control" style="margin-top: 0px;">
+										<option value="-1">4:00AM</option>
 										<option value="0" selected>4:30AM</option>
 										<option value="1">5:00AM</option>
 										<option value="2">5:30AM</option>
@@ -297,7 +453,7 @@
 							<div class="row">
 								<div class="col-xs-12"> 
 									<label for="commentsInput">COMENTARIOS</label>
-									<input oninput="this.value = this.value.toUpperCase()" class="form-control" type="text" placeholder="COMENTARIOS">
+									<textarea autocapitalize="characters" oninput="handleCommentInput(this)" onblur="uppercasePreservingSelection(this)" class="form-control employee-comment" rows="1" placeholder="COMENTARIOS" aria-label="Comentarios del empleado"></textarea>
 								</div>
 							</div>
 							<div class="row">
@@ -512,6 +668,7 @@
                                     <label for="priceInput">SA 1</label>
                                     <select class="form-control" id="break11">
 										<option value="NO" selected>NO TIENE</option>
+										<option value="820">8:20AM</option>
 										<option value="900">9:00AM</option>
 										<option value="950">9:50AM</option>
 										<option value="1040">10:40AM</option>
@@ -542,19 +699,19 @@
 							<div class="row">
 								<div class="col-xs-3"> 
 									<label for="first-break-time">LU-VI1</label>
-									<input oninput="this.value = this.value.toUpperCase()" class="form-control" type="text" placeholder="30">
+									<input autocapitalize="characters" onblur="uppercasePreservingSelection(this)" class="form-control" type="text" placeholder="30">
 								</div>
 								<div class="col-xs-3"> 
 									<label for="second-break-time">LU-VI2</label>
-									<input oninput="this.value = this.value.toUpperCase()" class="form-control" type="text" placeholder="30">
+									<input autocapitalize="characters" onblur="uppercasePreservingSelection(this)" class="form-control" type="text" placeholder="30">
 								</div>
 								<div class="col-xs-3"> 
 									<label for="second-break-time">SAB</label>
-									<input oninput="this.value = this.value.toUpperCase()" class="form-control" type="text" placeholder="40">
+									<input autocapitalize="characters" onblur="uppercasePreservingSelection(this)" class="form-control" type="text" placeholder="40">
 								</div>
 								<div class="col-xs-3"> 
 									<label for="second-break-time">DOM</label>
-									<input oninput="this.value = this.value.toUpperCase()" class="form-control" type="text" placeholder="30">
+									<input autocapitalize="characters" onblur="uppercasePreservingSelection(this)" class="form-control" type="text" placeholder="30">
 								</div>
 							</div>
 						</div>
@@ -574,20 +731,25 @@
 
 		checkConnection();
 
+		// Escucha los datos actuales después de crear el DOM; evita lecturas que lleguen fuera de orden.
+		database.on('value', function(snapshot) {
+			employeesSnapshot = snapshot.val() || {};
+			employeeDetailsSnapshot = employeesSnapshot;
+			loadEmployees();
+		});
+
+
 		function loadEmployees() {
-			database.once('value', function(snapshot) {
-				employeesSnapshot = snapshot.val();
-			}).then(function() {
-				var employeesNames = [];
-				var employeesPronunciation = [];
-				var employeesID = [];
-				$.each(employeesSnapshot, function(key, value) {
-					employeesNames.push(key);
-					employeesPronunciation.push(value.pronunciation);
-					employeesID.push(key);
-				});
-				populateEmployeesList(employeesNames, employeesPronunciation, employeesID);
+			if (!employeesSnapshot || !employeeDetailsSnapshot) return;
+			var employeesNames = [];
+			var employeesPronunciation = [];
+			var employeesID = [];
+			$.each(employeesSnapshot, function(key, value) {
+				employeesNames.push(key);
+				employeesPronunciation.push(value.pronunciation);
+				employeesID.push(key);
 			});
+			populateEmployeesList(employeesNames, employeesPronunciation, employeesID);
 		}
 
 		function generateReport() {
@@ -608,82 +770,30 @@
 			var tableXOffset = 10;
 			var tableYOffset = 7;
 			
-			var tableWidth = 216 - (2 * tableXOffset) + tableXOffset;
-			var tableHeight = 219.5 - (2 * tableYOffset) + tableYOffset;
-
 			var lineHeight = 7;
-			var columnWidth = (tableWidth - tableXOffset) / 9;
+			var slotCount = 29;
+			var totalRows = slotCount + 2;
+			var tableWidth = 216 - tableXOffset;
+			var tableBottom = tableYOffset + totalRows * lineHeight;
+			var columnWidth = (216 - 2 * tableXOffset) / 9;
 
-			doc.roundedRect(tableXOffset, tableYOffset, 216 - (2 * tableXOffset), (216) - (2 * tableYOffset) + 1, 1, 1, 'S');
+			doc.roundedRect(tableXOffset, tableYOffset, 216 - 2 * tableXOffset, totalRows * lineHeight, 1, 1, 'S');
+			for (var row = 1; row < totalRows; row++) {
+				doc.line(tableXOffset, tableYOffset + row * lineHeight, tableWidth, tableYOffset + row * lineHeight);
+			}
+			for (var column = 2; column < 9; column++) {
+				doc.line(tableXOffset + column * columnWidth, tableYOffset, tableXOffset + column * columnWidth, tableBottom);
+			}
 
-			//x axis
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 1), tableWidth, tableYOffset + (lineHeight * 1));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 2), tableWidth, tableYOffset + (lineHeight * 2));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 3), tableWidth, tableYOffset + (lineHeight * 3));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 4), tableWidth, tableYOffset + (lineHeight * 4));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 5), tableWidth, tableYOffset + (lineHeight * 5));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 6), tableWidth, tableYOffset + (lineHeight * 6));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 7), tableWidth, tableYOffset + (lineHeight * 7));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 8), tableWidth, tableYOffset + (lineHeight * 8));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 9), tableWidth, tableYOffset + (lineHeight * 9));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 10), tableWidth, tableYOffset + (lineHeight * 10));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 11), tableWidth, tableYOffset + (lineHeight * 11));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 12), tableWidth, tableYOffset + (lineHeight * 12));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 13), tableWidth, tableYOffset + (lineHeight * 13));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 14), tableWidth, tableYOffset + (lineHeight * 14));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 15), tableWidth, tableYOffset + (lineHeight * 15));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 16), tableWidth, tableYOffset + (lineHeight * 16));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 17), tableWidth, tableYOffset + (lineHeight * 17));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 18), tableWidth, tableYOffset + (lineHeight * 18));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 19), tableWidth, tableYOffset + (lineHeight * 19));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 20), tableWidth, tableYOffset + (lineHeight * 20));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 21), tableWidth, tableYOffset + (lineHeight * 21));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 22), tableWidth, tableYOffset + (lineHeight * 22));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 23), tableWidth, tableYOffset + (lineHeight * 23));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 24), tableWidth, tableYOffset + (lineHeight * 24));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 25), tableWidth, tableYOffset + (lineHeight * 25));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 26), tableWidth, tableYOffset + (lineHeight * 26));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 27), tableWidth, tableYOffset + (lineHeight * 27));
-			doc.line(tableXOffset, tableYOffset + (lineHeight * 28), tableWidth, tableYOffset + (lineHeight * 28));
-			
-			//y axis
-			doc.line(tableXOffset + (columnWidth * 2), tableYOffset, tableXOffset + (columnWidth * 2), tableHeight  - 2.5);
-			doc.line(tableXOffset + (columnWidth * 3), tableYOffset, tableXOffset + (columnWidth * 3), tableHeight  - 2.5);
-			doc.line(tableXOffset + (columnWidth * 4), tableYOffset, tableXOffset + (columnWidth * 4), tableHeight  - 2.5);
-			doc.line(tableXOffset + (columnWidth * 5), tableYOffset, tableXOffset + (columnWidth * 5), tableHeight  - 2.5);
-			doc.line(tableXOffset + (columnWidth * 6), tableYOffset, tableXOffset + (columnWidth * 6), tableHeight  - 2.5);
-			doc.line(tableXOffset + (columnWidth * 7), tableYOffset, tableXOffset + (columnWidth * 7), tableHeight  - 2.5);
-			doc.line(tableXOffset + (columnWidth * 8), tableYOffset, tableXOffset + (columnWidth * 8), tableHeight  - 2.5);
-
-			//first columns
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 2) - (lineHeight / 2) + 2, "4:30AM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 3) - (lineHeight / 2) + 2, "5:00AM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 4) - (lineHeight / 2) + 2, "5:30AM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 5) - (lineHeight / 2) + 2, "6:00AM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 6) - (lineHeight / 2) + 2, "6:30AM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 7) - (lineHeight / 2) + 2, "7:00AM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 8) - (lineHeight / 2) + 2, "7:30AM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 9) - (lineHeight / 2) + 2, "8:00AM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 10) - (lineHeight / 2) + 2, "8:30AM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 11) - (lineHeight / 2) + 2, "9:00AM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 12) - (lineHeight / 2) + 2, "9:30AM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 13) - (lineHeight / 2) + 2, "10:00AM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 14) - (lineHeight / 2) + 2, "10:30AM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 15) - (lineHeight / 2) + 2, "11:00AM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 16) - (lineHeight / 2) + 2, "11:30AM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 17) - (lineHeight / 2) + 2, "12:00PM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 18) - (lineHeight / 2) + 2, "12:30PM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 19) - (lineHeight / 2) + 2, "1:00PM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 20) - (lineHeight / 2) + 2, "1:30PM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 21) - (lineHeight / 2) + 2, "2:00PM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 22) - (lineHeight / 2) + 2, "2:30PM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 23) - (lineHeight / 2) + 2, "3:00PM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 24) - (lineHeight / 2) + 2, "3:30PM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 25) - (lineHeight / 2) + 2, "4:00PM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 26) - (lineHeight / 2) + 2, "4:30PM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 27) - (lineHeight / 2) + 2, "5:00PM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 28) - (lineHeight / 2) + 2, "5:30PM", "center");
-			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth) + .3, tableYOffset + (lineHeight * 29) - (lineHeight / 2) + 2, "TOTAL", "center");
+			// -1 = 4:00 AM; los códigos guardados 0..27 conservan sus horarios.
+			for (var slot = 0; slot < slotCount; slot++) {
+				var minutes = 240 + slot * 30;
+				var hour = Math.floor(minutes / 60);
+				var label = (hour % 12 || 12) + ":" + (minutes % 60 === 0 ? "00" : "30");
+				label += hour < 12 ? "AM" : "PM";
+				doc.text(tableXOffset + columnWidth, tableYOffset + lineHeight * (slot + 2) - lineHeight / 2 + 2, label, "center");
+			}
+			doc.text(tableXOffset + columnWidth + .3, tableYOffset + lineHeight * totalRows - lineHeight / 2 + 2, "TOTAL", "center");
 
 			//first row
 			doc.text(tableXOffset + (columnWidth * 2) - (columnWidth), tableYOffset + (lineHeight * 1) - (lineHeight / 2) + 2, "TRABAJADORES", "center");
@@ -702,19 +812,18 @@
 				var daysOfWeek = ["worksOnMonday", "worksOnTuesday", "worksOnWednesday", "worksOnThursday", "worksOnFriday", "worksOnSaturday", "worksOnSunday"];
 				
 				for (var i = 0; i < 7; i++) { 
-					var counterArrayEntry = new Array(27).fill(0);
-					var counterArrayExit = new Array(27).fill(0);
+					var counterArrayEntry = new Array(slotCount).fill(0);
+					var counterArrayExit = new Array(slotCount).fill(0);
 					for (var key in completeEmployees) {
 						if(completeEmployees[key][daysOfWeek[i]] == true) {
-							if(completeEmployees[key].entry != undefined) {
-								counterArrayEntry[completeEmployees[key].entry] = counterArrayEntry[completeEmployees[key].entry] + 1;
-							} else {
-								counterArrayEntry[3] = counterArrayEntry[3] + 1;
+							var employee = completeEmployees[key];
+							var entryCode = employee.entry == undefined ? 3 : Number(employee.entry);
+							var exitCode = employee.exit == undefined ? 27 : Number(employee.exit);
+							if(Number.isInteger(entryCode) && entryCode >= -1 && entryCode <= 27) {
+								counterArrayEntry[entryCode + 1]++;
 							}
-							if(completeEmployees[key].exit != undefined) {
-								counterArrayExit[completeEmployees[key].exit] = counterArrayExit[completeEmployees[key].exit] + 1;
-							} else {
-								counterArrayExit[27] = counterArrayExit[26] + 1;
+							if(Number.isInteger(exitCode) && exitCode >= 0 && exitCode <= 27) {
+								counterArrayExit[exitCode + 1]++;
 							}
 						}
 					}
@@ -729,7 +838,7 @@
 						doc.text(tableXOffset + (columnWidth * (3 + i)) - (columnWidth / 2), tableYOffset + (lineHeight * (2 + j)) - (lineHeight / 2) + 2, totalWorkers.toString(), "center");
 					}
 					
-					doc.text(tableXOffset + (columnWidth * (3 + i)) - (columnWidth / 2), tableYOffset + (lineHeight * (2 + 27)) - (lineHeight / 2) + 2, maxWorkers.toString(), "center");
+					doc.text(tableXOffset + (columnWidth * (3 + i)) - (columnWidth / 2), tableYOffset + (lineHeight * totalRows) - (lineHeight / 2) + 2, maxWorkers.toString(), "center");
 				}
 
 				doc.autoPrint();
@@ -741,129 +850,118 @@
 		}
 
 		function populateEmployeesList(names, pronunciations, id) {
-			$('#dynamic-list').empty();
 
-			var completeEmployees;
-			firebase.database().ref('employees').once('value', function(snapshot) {
-				completeEmployees = snapshot.val();
-			}).then(function() {
-				names.forEach(function (name, i){
-					if(completeEmployees[name] != undefined) {
+			var completeEmployees = employeeDetailsSnapshot;
+			names.forEach(function (name, i){
+				if(completeEmployees[name] != undefined) {
 
-						if(pronunciations[i] == undefined)
-							pronunciations[i] = name;
-					
-						var sigmaEmployee = false;
-						if(pronunciations[i].charAt(0) == 0) {
-							sigmaEmployee = true;
-							pronunciations[i] = pronunciations[i].substring(1, pronunciations[i].length);
-						}
-		
-						var localComments = "";
-						if(completeEmployees[name].comments != undefined)
-							localComments = completeEmployees[name].comments;
-
-						var obReglas = "",
-							atCliente = "",
-							arTrabajo = "",
-							rapidez = "",
-							unCompleto = "",
-							cePlatica = "",
-							sobresaliente = "";
-
-						if(completeEmployees[name].pObReglas != undefined && completeEmployees[name].pObReglas == true)
-							obReglas = "selected";
-						if(completeEmployees[name].pAtCliente != undefined && completeEmployees[name].pAtCliente == true)
-							atCliente = "selected";
-						if(completeEmployees[name].pArTrabajo != undefined && completeEmployees[name].pArTrabajo == true)
-							arTrabajo = "selected";
-						if(completeEmployees[name].pRapidez != undefined && completeEmployees[name].pRapidez == true)
-							rapidez = "selected";
-						if(completeEmployees[name].pUnCompleto != undefined && completeEmployees[name].pUnCompleto == true)
-							unCompleto = "selected";
-						if(completeEmployees[name].pCePlatica != undefined && completeEmployees[name].pCePlatica == true)
-							cePlatica = "selected";
-						if(completeEmployees[name].pSobresaliente != undefined && completeEmployees[name].pSobresaliente == true)
-							sobresaliente = "selected";
-						
-							performanceQuery = '<option value="0" ' + obReglas + '>RAPIDEZ</option>' +
-							'<option value="1" ' + atCliente + '>AMABLE</option>' +
-							'<option value="2" ' + arTrabajo + '>ORDEN</option>' +
-							'<option value="3" ' + rapidez + '>ENFOQUE</option>' +
-							'<option value="4" ' + unCompleto + '>CUIDADO</option>' +
-							'<option value="5" ' + cePlatica + '>PERMANENCIA</option>' +
-							'<option value="6" ' + sobresaliente + '>SOBRESALIENTE</option>';
-
-						var employeeListItem =
-							'<li class="list-group-item row employee-row">' +
-							'<h2 class="col-xs-4 employee-name" style="padding: 0px; margin: 0px; padding-left: 0px;">' + name + '</h2>' +
-							'<div class="col-xs-2" style="padding-left: 6px; padding-right: 6px; padding-top: 1px; padding-bottom: 0px; margin-right: 5px; width: 36px;">' +
-								'<select multiple class="form-control performance-select" id="' + name + 'Performance" onchange="savePerformance(&apos;' + name + '&apos;)" style="padding: 0px;">' +
-									performanceQuery + 
-								'</select>' +
-							'</div>' +									
-							'<input id="' + name + '" oninput="this.value = this.value.toUpperCase()" class="col-xs-5 form-control comments-box" type="text" style="width: 140px;" onkeydown="uploadComment(this)" onfocusout="uploadCommentFocusOut(this)" placeholder="COMENTARIOS" value="' + localComments + '">' +
-							'<button type="button" class="col-xs-1 btn glyphicon glyphicon-pencil" style="background-color:white; padding-top:2px; padding-bottom:0px;" onclick="editEmployeeModal(event)"' + 
-							'data-name="' + name + '" data-pronunciation="' + pronunciations[i] + '" data-sigma="' + sigmaEmployee + '" data-id="' + completeEmployees[name].id + '">' + '</button>' + 
-							'</li>';
-						
-						$('#dynamic-list').append(employeeListItem);
-						document.querySelector('select').multiple = true;
-						//$("#dynamic-list").on("click", "button", function(e) {$(this).remove();});
-						document.getElementById(name + 'Performance').multiple = true;
-
-						//savePerformance(name);
+					if(pronunciations[i] == undefined)
+						pronunciations[i] = name;
+				
+					var sigmaEmployee = false;
+					if(pronunciations[i].charAt(0) == 0) {
+						sigmaEmployee = true;
+						pronunciations[i] = pronunciations[i].substring(1, pronunciations[i].length);
 					}
-				});
-	
-				if($('#orderButton').text() == "A")
-					sortList(document.getElementById('dynamic-list'), "numerical");
+		
+					var localComments = "";
+					if(completeEmployees[name].comments != undefined)
+						localComments = completeEmployees[name].comments;
+
+					var obReglas = "",
+						atCliente = "",
+						arTrabajo = "",
+						rapidez = "",
+						unCompleto = "",
+						cePlatica = "",
+						sobresaliente = "";
+
+					if(completeEmployees[name].pObReglas != undefined && completeEmployees[name].pObReglas == true)
+						obReglas = "selected";
+					if(completeEmployees[name].pAtCliente != undefined && completeEmployees[name].pAtCliente == true)
+						atCliente = "selected";
+					if(completeEmployees[name].pArTrabajo != undefined && completeEmployees[name].pArTrabajo == true)
+						arTrabajo = "selected";
+					if(completeEmployees[name].pRapidez != undefined && completeEmployees[name].pRapidez == true)
+						rapidez = "selected";
+					if(completeEmployees[name].pUnCompleto != undefined && completeEmployees[name].pUnCompleto == true)
+						unCompleto = "selected";
+					if(completeEmployees[name].pCePlatica != undefined && completeEmployees[name].pCePlatica == true)
+						cePlatica = "selected";
+					if(completeEmployees[name].pSobresaliente != undefined && completeEmployees[name].pSobresaliente == true)
+						sobresaliente = "selected";
+					
+						performanceQuery = '<option value="0" title="SABES HACER DE TODO (ANOTAR, SURTIR Y ENTREGAR)" ' + obReglas + '>SABE HACER TODO</option>' +
+						'<option value="1" title="ANOTAS, SURTES Y ENTREGAS COMPLETO" ' + atCliente + '>NOTAS COMPLETAS</option>' +
+						'<option value="2" title="TE CAMBIAS AL AREA CON MAS NOTAS O FILA SIN QUE TE LO PIDAN" ' + arTrabajo + '>APOYA SIN PEDIRLO</option>' +
+						'<option value="3" title="CUANDO NO HAY NOTAS, LIMPIAS Y RECOGES SIN QUE TE LO PIDAN" ' + rapidez + '>RECOGE SIN PEDIRLO</option>' +
+						'<option value="4" title="LLENAS LOS REFRIGERADORES Y LOS MANTIENES LLENOS" ' + unCompleto + '>LLENA REFRIGERADORES</option>' +
+						'<option value="5" title="SALUDAS, RESPONDES CON EXCELENTE ACTITUD A CLIENTES Y NO DISCUTES" ' + cePlatica + '>TRATA BIEN CLIENTES</option>' +
+						'<option value="6" title="TRABAJAS EXCELENTE CUANDO NO HAY SUPERVISION" ' + sobresaliente + '>BIEN SIN SUPERVISION</option>';
+
+					var employeeListItem =
+						'<li class="list-group-item row employee-row">' +
+						'<h2 class="col-xs-4 employee-name" style="padding: 0px; margin: 0px; padding-left: 0px;">' + name + '</h2>' +
+						'<div class="col-xs-2" style="padding-left: 6px; padding-right: 6px; padding-top: 1px; padding-bottom: 0px; margin-right: 5px; width: 36px;">' +
+							'<select multiple class="form-control performance-select" id="' + name + 'Performance" onchange="savePerformance(&apos;' + name + '&apos;)" style="padding: 0px;">' +
+								performanceQuery + 
+							'</select>' +
+						'</div>' +									
+						'<textarea id="' + name + '" autocapitalize="characters" oninput="handleCommentInput(this)" onblur="uppercasePreservingSelection(this)" class="col-xs-5 form-control comments-box employee-comment" rows="1" style="width: 140px;" onfocusout="uploadCommentFocusOut(this)" placeholder="COMENTARIOS" aria-label="Comentarios del empleado"></textarea>' +
+						'<button type="button" class="col-xs-1 btn glyphicon glyphicon-pencil" style="background-color:transparent; padding-top:2px; padding-bottom:0px;" onclick="editEmployeeModal(event)"' + 
+						'data-name="' + name + '" data-pronunciation="' + pronunciations[i] + '" data-sigma="' + sigmaEmployee + '" data-id="' + completeEmployees[name].id + '">' + '</button>' + 
+						'</li>';
+					
+					var employeeRow = $(employeeListItem);
+					var commentBox = employeeRow.find('textarea.employee-comment')[0];
+					commentBox.value = localComments;
+					var existingComment = document.getElementById(name);
+					var existingRow = existingComment && existingComment.closest('#dynamic-list > li');
+					if(existingRow) {
+						// Conserva el selector nativo abierto y el comentario que se está escribiendo.
+						var existingSelect = document.getElementById(name + 'Performance');
+						if(document.activeElement !== existingSelect) {
+							var newOptions = employeeRow.find('select')[0].options;
+							for(var optionIndex = 0; optionIndex < newOptions.length; optionIndex++) {
+								existingSelect.options[optionIndex].selected = newOptions[optionIndex].selected;
+							}
+						}
+						if(document.activeElement !== existingComment) existingComment.value = localComments;
+						var editButton = existingRow.querySelector('button');
+						var newButton = employeeRow.find('button')[0];
+						['data-name', 'data-pronunciation', 'data-sigma', 'data-id'].forEach(function(attribute) {
+							editButton.setAttribute(attribute, newButton.getAttribute(attribute));
+						});
+						resizeCommentBox(existingComment);
+					} else {
+						$('#dynamic-list').append(employeeRow);
+						resizeCommentBox(commentBox);
+					}
+					//$("#dynamic-list").on("click", "button", function(e) {$(this).remove();});
+
+					//savePerformance(name);
+				}
 			});
+	
+			$('#dynamic-list > li').each(function() {
+				var name = this.querySelector('textarea').id;
+				if(names.indexOf(name) === -1 || !completeEmployees[name]) this.remove();
+			});
+
+			if($('#orderButton').text() == "A" && !document.getElementById('dynamic-list').contains(document.activeElement))
+				sortList(document.getElementById('dynamic-list'), "numerical");
 
 		}
 		
 		function savePerformance(name) {
-			var totalMigueBonus = 0;
-
 			var selectedValues = getSelectValues(document.getElementById(name + "Performance"));
-
-			if(selectedValues.includes("0")) {
-				firebase.database().ref('employees/' + name + '/pObReglas').set(true);					
-				totalMigueBonus = totalMigueBonus + 100;
-			} else firebase.database().ref('employees/' + name + '/pObReglas').set(false);					
-			
-			if(selectedValues.includes("1")) {
-				firebase.database().ref('employees/' + name + '/pAtCliente').set(true);
-				totalMigueBonus = totalMigueBonus + 100;
-			} else firebase.database().ref('employees/' + name + '/pAtCliente').set(false);
-
-			if(selectedValues.includes("2")) {
-				firebase.database().ref('employees/' + name + '/pArTrabajo').set(true);
-				totalMigueBonus = totalMigueBonus + 100;
-			} else firebase.database().ref('employees/' + name + '/pArTrabajo').set(false);	
-			
-			if(selectedValues.includes("3")) {
-				firebase.database().ref('employees/' + name + '/pRapidez').set(true);
-				totalMigueBonus = totalMigueBonus + 100;
-			} else firebase.database().ref('employees/' + name + '/pRapidez').set(false);	
-			
-			if(selectedValues.includes("4")) {
-				firebase.database().ref('employees/' + name + '/pUnCompleto').set(true);
-				totalMigueBonus = totalMigueBonus + 100;
-			} else firebase.database().ref('employees/' + name + '/pUnCompleto').set(false)
-
-			if(selectedValues.includes("5")) {
-				firebase.database().ref('employees/' + name + '/pCePlatica').set(true);
-				totalMigueBonus = totalMigueBonus + 100;
-			} else firebase.database().ref('employees/' + name + '/pCePlatica').set(false)
-			
-			if(selectedValues.includes("6")) {
-				firebase.database().ref('employees/' + name + '/pSobresaliente').set(true);
-				totalMigueBonus = totalMigueBonus + 150;
-			} else firebase.database().ref('employees/' + name + '/pSobresaliente').set(false);
-
-			firebase.database().ref('employees/' + name + '/totalMigueBonus').set(totalMigueBonus);
-			
+			var fields = ['pObReglas', 'pAtCliente', 'pArTrabajo', 'pRapidez', 'pUnCompleto', 'pCePlatica', 'pSobresaliente'];
+			var updates = {totalMigueBonus: 0};
+			fields.forEach(function(field, index) {
+				updates[field] = selectedValues.includes(String(index));
+				if(updates[field]) updates.totalMigueBonus += index === 6 ? 150 : 100;
+			});
+			return firebase.database().ref('employees/' + name).update(updates);
 		}
 
 		function getSelectValues(select) {
@@ -881,13 +979,51 @@
 			return result;
 		}
 
+		function resizeCommentBox(ele) {
+			if(!ele || ele.clientWidth === 0) return;
+			ele.style.height = "auto";
+			var borders = ele.offsetHeight - ele.clientHeight;
+			ele.style.height = (ele.scrollHeight + borders) + "px";
+		}
+
+		// Convierte a mayúsculas sin mover el cursor ni perder la selección.
+		function uppercasePreservingSelection(input) {
+			var value = input.value;
+			var uppercaseValue = value.toUpperCase();
+			if (value === uppercaseValue) return;
+
+			var start = input.selectionStart;
+			var end = input.selectionEnd;
+			var direction = input.selectionDirection;
+			input.value = uppercaseValue;
+			if (start !== null && end !== null) {
+				input.setSelectionRange(
+					value.slice(0, start).toUpperCase().length,
+					value.slice(0, end).toUpperCase().length,
+					direction
+				);
+			}
+		}
+
+		function handleCommentInput(ele) {
+			resizeCommentBox(ele);
+		}
+
+		function resizeCommentBoxes() {
+			document.querySelectorAll("textarea.employee-comment").forEach(resizeCommentBox);
+		}
+
+		$('#addEmployeeModal').on('shown.bs.modal', resizeCommentBoxes);
+		window.addEventListener('resize', resizeCommentBoxes);
+
 		function uploadComment(ele) {
 			if(event.key === 'Enter')
-				firebase.database().ref('employees/' + event.srcElement.id + '/comments').set(ele.value);
+				firebase.database().ref('employees/' + event.srcElement.id + '/comments').set(ele.value.toUpperCase());
 		}
 
 		function uploadCommentFocusOut(ele) {
-			firebase.database().ref('employees/' + event.srcElement.id + '/comments').set(ele.value);
+			uppercasePreservingSelection(ele);
+			firebase.database().ref('employees/' + ele.id + '/comments').set(ele.value.toUpperCase());
 		}
 
 
@@ -1057,6 +1193,7 @@
 
         //verifies input of modal form
         function verifyNewEmployee() {
+            document.querySelectorAll('#addNewEmployeeDBForm input[autocapitalize], #addNewEmployeeDBForm textarea').forEach(uppercasePreservingSelection);
             var messageLabel = document.getElementById("verificationMessage");
             var form = document.getElementById("addNewEmployeeDBForm");
 			var verified = true;
@@ -1121,10 +1258,9 @@
 			inputs[18] = form.elements[18].value;
 			inputs[19] = form.elements[19].value;
 			inputs[20] = form.elements[20].value;
-			inputs[21] = form.elements[21].value;
-			if(inputs[21] == null || inputs[21] == undefined) inputs[21] = "40";
-			inputs[22] = form.elements[22].value;
-			if(inputs[22] == null || inputs[22] == undefined) inputs[22] = "30";
+			// Respeta los minutos capturados; usa los predeterminados solo si el campo está vacío.
+			inputs[21] = form.elements[21].value.trim() || "40";
+			inputs[22] = form.elements[22].value.trim() || "30";
 
 			console.log("form.elements[21].value")
 			console.log(form.elements[20].value)
@@ -1278,7 +1414,6 @@
 					
 			firebase.database().ref('employees/' + inputs[0] + '/issigma').set(issigma).then(function () {
                 $('#addEmployeeModal').modal('toggle');
-                loadEmployees();
 			});	
 		}
 		
@@ -1287,7 +1422,6 @@
 			var name = document.getElementById("addNewEmployeeDBForm").elements[0].value;
 			firebase.database().ref('employees/' + name).remove();
 			database.child(name).remove();
-			loadEmployees();
 		}
 
 		//No connections alert
